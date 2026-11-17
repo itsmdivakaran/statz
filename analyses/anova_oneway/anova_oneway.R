@@ -24,6 +24,34 @@ codegen_anova_oneway <- function(o, meta, ctx) {
       tukey = paste0("posthoc <- TukeyHSD(fit, conf.level = ", cl, ")"),
       bonferroni = , holm = paste0("posthoc <- pairwise.t.test(", sn_ref("d", dv), ", ", sn_ref("d", g),
                                    ", p.adjust.method = ", sn_lit(o$posthoc), ", pool.sd = TRUE)"),
+      games_howell = c(
+        "# Games-Howell: pairwise Welch comparisons with a studentized-range p-value",
+        "games_howell <- function(y, g, conf.level = 0.95) {",
+        "  n <- tapply(y, g, length); m <- tapply(y, g, mean); v <- tapply(y, g, var)",
+        "  pairs <- t(combn(levels(g), 2))",
+        "  do.call(rbind, lapply(seq_len(nrow(pairs)), function(i) {",
+        "    a <- pairs[i, 1]; b <- pairs[i, 2]",
+        "    se <- sqrt(v[[a]] / n[[a]] + v[[b]] / n[[b]])",
+        "    df <- se^4 / ((v[[a]] / n[[a]])^2 / (n[[a]] - 1) + (v[[b]] / n[[b]])^2 / (n[[b]] - 1))",
+        "    diff <- m[[b]] - m[[a]]",
+        "    crit <- qtukey(conf.level, length(n), df) / sqrt(2)",
+        "    data.frame(comparison = paste(b, \"-\", a), diff = diff, lower = diff - crit * se, upper = diff + crit * se,",
+        "               p = ptukey(abs(diff) / se * sqrt(2), length(n), df, lower.tail = FALSE))",
+        "  }))",
+        "}",
+        paste0("posthoc <- games_howell(", sn_ref("d", dv), ", ", sn_ref("d", g), ", conf.level = ", cl, ")")),
+      dunn = c(
+        "# Dunn's test: pairwise z-tests on mean ranks, with tie correction",
+        "dunn_test <- function(y, g, method = \"holm\") {",
+        "  r <- rank(y); n <- tapply(y, g, length); mr <- tapply(r, g, mean); N <- length(y)",
+        "  ties <- table(y); tie_adj <- sum(ties^3 - ties) / (12 * (N - 1))",
+        "  pairs <- t(combn(levels(g), 2))",
+        "  z <- apply(pairs, 1, function(p) (mr[[p[1]]] - mr[[p[2]]]) /",
+        "    sqrt((N * (N + 1) / 12 - tie_adj) * (1 / n[[p[1]]] + 1 / n[[p[2]]])))",
+        "  p <- 2 * pnorm(abs(z), lower.tail = FALSE)",
+        "  data.frame(comparison = paste(pairs[, 1], \"-\", pairs[, 2]), z = z, p = p, p_adj = p.adjust(p, method))",
+        "}",
+        paste0("posthoc <- dunn_test(", sn_ref("d", dv), ", ", sn_ref("d", g), ")")),
       NULL),
     if ("normality" %in% o$assumptions) "normality <- shapiro.test(residuals(fit))",
     if ("levene" %in% o$assumptions) sn_levene_code("levene", "d", dv, g),
@@ -77,6 +105,19 @@ assemble_anova_oneway <- function(env, o, ctx) {
       data.frame(comparison = gsub("-", " − ", rownames(m), fixed = TRUE), diff = m[, "diff"],
                  ci = I(lapply(seq_len(nrow(m)), function(i) unname(m[i, c("lwr", "upr")]))),
                  p = m[, "p adj"], row.names = NULL))
+  } else if (o$posthoc == "games_howell") {
+    sn_table("posthoc", "Post-hoc Comparisons (Games-Howell)", list(
+      sn_col("comparison", "Comparison", "text"), sn_col("diff", "Mean difference"), sn_col("ci", pct, "ci"),
+      sn_col("p", "p (adjusted)", "pvalue")),
+      data.frame(comparison = gsub(" - ", " − ", ph$comparison, fixed = TRUE), diff = ph$diff,
+                 ci = I(lapply(seq_len(nrow(ph)), function(i) c(ph$lower[i], ph$upper[i]))), p = ph$p, row.names = NULL),
+      notes = "Does not assume equal variances or equal group sizes.")
+  } else if (o$posthoc == "dunn") {
+    sn_table("posthoc", "Post-hoc Comparisons (Dunn)", list(
+      sn_col("comparison", "Comparison", "text"), sn_col("z", "z"), sn_col("p", "p", "pvalue"),
+      sn_col("p_adj", "p (Holm)", "pvalue")),
+      data.frame(comparison = gsub(" - ", " − ", ph$comparison, fixed = TRUE), z = ph$z, p = ph$p, p_adj = ph$p_adj, row.names = NULL),
+      notes = "Pairwise comparisons of mean ranks; use after a Kruskal-Wallis test.")
   } else {
     pv <- ph$p.value
     idx <- which(!is.na(pv), arr.ind = TRUE)

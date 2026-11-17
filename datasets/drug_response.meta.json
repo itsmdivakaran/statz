@@ -1,0 +1,52 @@
+{
+  "title": "Drug response",
+  "description": "Response of 12 patients to each of three drugs (illustrative data).",
+  "variables": {
+    "subject": {
+      "label": "Patient",
+      "measure": "nominal"
+    },
+    "drug_a": {
+      "label": "Drug A",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "No response"
+        },
+        {
+          "value": 1,
+          "label": "Response"
+        }
+      ]
+    },
+    "drug_b": {
+      "label": "Drug B",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "No response"
+        },
+        {
+          "value": 1,
+          "label": "Response"
+        }
+      ]
+    },
+    "drug_c": {
+      "label": "Drug C",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "No response"
+        },
+        {
+          "value": 1,
+          "label": "Response"
+        }
+      ]
+    }
+  }
+}

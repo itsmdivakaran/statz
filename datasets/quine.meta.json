@@ -1,0 +1,22 @@
+{
+  "title": "School absences",
+  "description": "Days absent from school in a year for 146 children. Source: MASS::quine (Quine, 1975).",
+  "variables": {
+    "days": {
+      "label": "Days absent"
+    },
+    "ethnicity": {
+      "label": "Ethnic background"
+    },
+    "sex": {
+      "label": "Sex"
+    },
+    "age": {
+      "label": "Age group",
+      "measure": "ordinal"
+    },
+    "learner": {
+      "label": "Learner status"
+    }
+  }
+}

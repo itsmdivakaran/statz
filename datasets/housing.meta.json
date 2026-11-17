@@ -1,0 +1,33 @@
+{
+  "title": "Housing satisfaction",
+  "description": "Satisfaction of 1681 Copenhagen residents with their housing. Source: MASS::housing (Madsen, 1976).",
+  "variables": {
+    "satisfaction": {
+      "label": "Satisfaction",
+      "measure": "ordinal",
+      "value_labels": [
+        {
+          "value": 1,
+          "label": "Low"
+        },
+        {
+          "value": 2,
+          "label": "Medium"
+        },
+        {
+          "value": 3,
+          "label": "High"
+        }
+      ]
+    },
+    "influence": {
+      "label": "Perceived influence on management"
+    },
+    "type": {
+      "label": "Type of rental"
+    },
+    "contact": {
+      "label": "Contact with other residents"
+    }
+  }
+}

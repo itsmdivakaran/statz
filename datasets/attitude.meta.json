@@ -1,0 +1,27 @@
+{
+  "title": "Employee attitude survey",
+  "description": "Percent favourable responses to seven questions in 30 departments. Source: R datasets::attitude (Chatterjee & Price, 1977).",
+  "variables": {
+    "rating": {
+      "label": "Overall rating"
+    },
+    "complaints": {
+      "label": "Handling of complaints"
+    },
+    "privileges": {
+      "label": "No special privileges"
+    },
+    "learning": {
+      "label": "Opportunity to learn"
+    },
+    "raises": {
+      "label": "Raises based on performance"
+    },
+    "critical": {
+      "label": "Too critical"
+    },
+    "advance": {
+      "label": "Advancement"
+    }
+  }
+}

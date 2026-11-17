@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "anova_factorial",
+  "version": "1.0.0",
+  "title": "Factorial ANOVA / ANCOVA",
+  "description": "Several factors, interactions and covariates",
+  "menu": ["Tests", "ANOVA"],
+  "r": { "file": "anova_factorial.R", "fn": "codegen_anova_factorial", "packages": ["car", "emmeans", "ggnext"] },
+  "roles": [
+    { "id": "dv", "label": "Dependent variable", "min": 1, "max": 1, "measure": ["continuous"] },
+    { "id": "factors", "label": "Fixed factors", "min": 1, "max": null, "measure": ["nominal", "ordinal"], "levels": { "min": 2 } },
+    { "id": "covariates", "label": "Covariates", "min": 0, "max": null, "measure": ["continuous"] }
+  ],
+  "options": {
+    "interactions": { "type": "interactions", "label": "Interactions", "from": ["factors", "covariates"], "interact": ["factors"] },
+    "ss_type": { "type": "enum", "label": "Sum of squares", "values": ["2", "3"], "labels": ["Type II", "Type III"], "default": "3" },
+    "effect_size": { "type": "bool", "label": "Partial η²", "default": true },
+    "emm": { "type": "bool", "label": "Estimated marginal means", "default": true },
+    "posthoc": { "type": "enum", "label": "Post-hoc comparisons", "values": ["none", "tukey", "bonferroni", "holm"], "labels": ["None", "Tukey", "Bonferroni", "Holm"], "default": "tukey" },
+    "conf_level": { "type": "number", "label": "Confidence level", "min": 0.5, "max": 0.999, "step": 0.01, "default": 0.95 },
+    "assumptions": { "type": "enum", "label": "Assumption checks", "values": ["normality", "levene"], "labels": ["Normality of residuals (Shapiro-Wilk)", "Equal variances (Levene)"], "multiple": true, "default": ["normality", "levene"] },
+    "plot": { "type": "enum", "label": "Plots", "values": ["means", "residuals", "qq"], "labels": ["Means ± 95% CI", "Residuals vs fitted", "Q-Q plot of residuals"], "multiple": true, "default": ["means"] }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["dv", "factors", "covariates"] },
+    { "section": "Model", "items": ["interactions", "ss_type", "effect_size"] },
+    { "section": "Marginal means and post-hoc tests", "items": ["emm", "posthoc", "conf_level"] },
+    { "section": "Assumption checks", "items": ["assumptions"], "collapsed": true },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "continuous", "groups": "3+", "design": "factorial" },
+  "example": { "dataset": "toothgrowth", "options": { "dv": ["len"], "factors": ["supp", "dose"] } }
+}

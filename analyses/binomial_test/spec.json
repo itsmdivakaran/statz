@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "binomial_test",
+  "version": "1.0.0",
+  "title": "Binomial Test",
+  "description": "Test a proportion against a fixed value",
+  "menu": ["Tests", "Frequencies"],
+  "r": { "file": "binomial_test.R", "fn": "codegen_binomial_test", "packages": [] },
+  "roles": [
+    { "id": "vars", "label": "Variables", "min": 1, "max": null, "measure": ["nominal", "ordinal"] }
+  ],
+  "options": {
+    "p0": { "type": "number", "label": "Test value (proportion)", "min": 0.001, "max": 0.999, "step": 0.05, "default": 0.5 },
+    "alternative": { "type": "enum", "label": "Alternative hypothesis", "values": ["two.sided", "greater", "less"], "labels": ["≠ test value", "> test value", "< test value"], "default": "two.sided" },
+    "conf_level": { "type": "number", "label": "Confidence level", "min": 0.5, "max": 0.999, "step": 0.01, "default": 0.95 }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["vars"] },
+    { "section": "Options", "items": ["p0", "alternative", "conf_level"] }
+  ],
+  "guide": { "outcome": "nominal", "groups": "1", "design": "one-sample" },
+  "example": { "dataset": "infert", "options": { "vars": ["case"] } }
+}

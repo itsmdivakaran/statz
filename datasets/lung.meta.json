@@ -1,0 +1,47 @@
+{
+  "title": "Lung cancer survival",
+  "description": "Survival of 228 patients with advanced lung cancer. Source: survival::lung (Loprinzi et al., 1994).",
+  "variables": {
+    "time": {
+      "label": "Survival time (days)"
+    },
+    "status": {
+      "label": "Status",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "Censored"
+        },
+        {
+          "value": 1,
+          "label": "Died"
+        }
+      ]
+    },
+    "age": {
+      "label": "Age (years)"
+    },
+    "sex": {
+      "label": "Sex",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 1,
+          "label": "Male"
+        },
+        {
+          "value": 2,
+          "label": "Female"
+        }
+      ]
+    },
+    "ph_ecog": {
+      "label": "ECOG performance score",
+      "measure": "ordinal"
+    },
+    "wt_loss": {
+      "label": "Weight loss in last 6 months (lb)"
+    }
+  }
+}

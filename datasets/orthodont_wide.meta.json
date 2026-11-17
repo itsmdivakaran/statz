@@ -1,0 +1,24 @@
+{
+  "title": "Orthodontic growth (wide)",
+  "description": "Jaw distance (mm) at ages 8, 10, 12 and 14 for 27 children; one row per child. Source: nlme::Orthodont (Potthoff & Roy, 1964).",
+  "variables": {
+    "subject": {
+      "label": "Child"
+    },
+    "sex": {
+      "label": "Sex"
+    },
+    "age8": {
+      "label": "Distance at age 8 (mm)"
+    },
+    "age10": {
+      "label": "Distance at age 10 (mm)"
+    },
+    "age12": {
+      "label": "Distance at age 12 (mm)"
+    },
+    "age14": {
+      "label": "Distance at age 14 (mm)"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Judge ratings",
+  "description": "Ratings of 6 subjects by 4 judges. Source: Shrout & Fleiss (1979), Table 2.",
+  "variables": {
+    "subject": {
+      "label": "Subject",
+      "measure": "nominal"
+    },
+    "judge1": {
+      "label": "Judge 1"
+    },
+    "judge2": {
+      "label": "Judge 2"
+    },
+    "judge3": {
+      "label": "Judge 3"
+    },
+    "judge4": {
+      "label": "Judge 4"
+    }
+  }
+}

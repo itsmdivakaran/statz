@@ -1,0 +1,34 @@
+{
+  "title": "Approval ratings",
+  "description": "Approval of a president's performance by the same 1600 people in two surveys. Source: Agresti (1990).",
+  "variables": {
+    "first": {
+      "label": "First survey",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "Disapprove"
+        },
+        {
+          "value": 1,
+          "label": "Approve"
+        }
+      ]
+    },
+    "second": {
+      "label": "Second survey",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "Disapprove"
+        },
+        {
+          "value": 1,
+          "label": "Approve"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "mcnemar",
+  "version": "1.0.0",
+  "title": "McNemar Test",
+  "description": "Paired comparison of two binary measurements",
+  "menu": ["Tests", "Frequencies"],
+  "r": { "file": "mcnemar.R", "fn": "codegen_mcnemar", "packages": [] },
+  "roles": [
+    { "id": "x", "label": "First measurement", "min": 1, "max": 1, "measure": ["nominal", "ordinal"], "levels": { "exactly": 2 } },
+    { "id": "y", "label": "Second measurement", "min": 1, "max": 1, "measure": ["nominal", "ordinal"], "levels": { "exactly": 2 } }
+  ],
+  "options": {
+    "correct": { "type": "bool", "label": "Continuity correction", "default": true },
+    "exact": { "type": "bool", "label": "Exact test (binomial)", "default": true }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["x", "y"] },
+    { "section": "Tests", "items": ["correct", "exact"] }
+  ],
+  "guide": { "outcome": "nominal", "groups": "2", "design": "paired" },
+  "example": { "dataset": "approval", "options": { "x": ["first"], "y": ["second"] } }
+}

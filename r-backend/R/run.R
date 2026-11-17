@@ -35,7 +35,7 @@ sn_run_analysis <- function(sess, module, options, dataset = "data", instance = 
 sn_ctx <- function(sess, dataset) {
   list(
     data = dataset,
-    plot_engine = if (requireNamespace("ggnext", quietly = TRUE)) "ggnext" else "ggplot2",
+    plot_engine = sn_plot_engine(),
     plot = function(p, title, fallback_reason = NULL) sn_render_plot(sess, p, title, fallback_reason)
   )
 }
@@ -96,4 +96,11 @@ sn_session_script <- function(sess, format = c("R", "Rmd", "qmd")) {
                  if (format == "qmd") "format: html\n" else "output: html_document\n", "---")
   body <- vapply(chunks, function(ch) paste0("## ", ch$title, "\n\n```{r}\n", ch$code, "\n```"), "")
   paste(c(yaml, "", paste0("<!-- ", header, " -->"), "", body), collapse = "\n\n")
+}
+
+#' ggnext when installed; STATNEXT_PLOT_ENGINE=ggplot2 forces the fallback (used by tests).
+sn_plot_engine <- function() {
+  forced <- Sys.getenv("STATNEXT_PLOT_ENGINE", "")
+  if (forced %in% c("ggnext", "ggplot2")) return(forced)
+  if (requireNamespace("ggnext", quietly = TRUE)) "ggnext" else "ggplot2"
 }
