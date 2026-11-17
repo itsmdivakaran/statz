@@ -27,12 +27,25 @@ Point-and-click statistics desktop app. Every result is computed by a local R an
 | Bayesian | T-tests (one-sample, paired, independent), ANOVA (incl. repeated measures), correlation, contingency tables, linear regression, binomial test; Bayes factors with evidence labels, posterior estimates, prior/posterior, robustness and sequential plots (BayesFactor) |
 | Guide | "Which analysis should I use?": a few plain questions (or your own variables) pick the test, with alternatives and a Bayesian option, and open it ready to run |
 | Plugins | Add analyses in the same format as the built-in ones (spec.json + R file + help.md): install from a folder or .zip, update, remove, starter plugin to copy |
-| Workspace | Data, analysis and output panes can each be maximized or minimized; landing page with one-click worked examples and 28 example datasets |
+| Workspace | Toolbar (open, save, undo, redo, search), labelled ribbon of analysis menus, resizable data / analysis / output panes that can each be maximized or minimized, status bar; start page with one-click worked examples and 28 example datasets |
 | Output | APA tables, assumption checks, auto interpretation, plots (SVG/PNG/PDF/HTML/CSV); all results to Word (.docx), PDF or HTML |
 | R code | Per analysis, editable and re-runnable; whole session exports as `.R`, `.Rmd` or `.qmd` |
 | Projects | `.statnext` = zip of manifest, UI state and `data.rds` |
 
-![Kaplan-Meier survival](docs/screenshots/survival.png)
+## Screenshots (v0.4.1)
+
+| | |
+|---|---|
+| ![Start page](docs/screenshots/welcome.png) | ![Kaplan-Meier survival](docs/screenshots/survival.png) |
+| Start page: open data, worked examples, example datasets | Kaplan-Meier survival with log-rank test |
+| ![Bayesian t-test](docs/screenshots/bayesian.png) | ![Analysis guide](docs/screenshots/guide.png) |
+| Bayesian independent t-test | "Which test should I use?" guide |
+| ![Regression menu](docs/screenshots/regression-menu.png) | ![R code](docs/screenshots/code.png) |
+| Analysis ribbon and menus | Editable R code behind every result |
+| ![Recode](docs/screenshots/recode.png) | ![Dark theme](docs/screenshots/dark.png) |
+| Recode a variable (undoable) | Dark theme |
+
+Sample results export: [Word](docs/samples/sample-results.docx) · [PDF](docs/samples/sample-results.pdf)
 
 ## Layout
 
