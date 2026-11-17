@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "chisq_gof",
+  "version": "1.0.0",
+  "title": "Chi-Square Goodness of Fit",
+  "description": "Do observed counts match expected proportions?",
+  "menu": ["Tests", "Frequencies"],
+  "r": { "file": "chisq_gof.R", "fn": "codegen_chisq_gof", "packages": ["ggnext"] },
+  "roles": [
+    { "id": "var", "label": "Variable", "min": 1, "max": 1, "measure": ["nominal", "ordinal"], "levels": { "min": 2 } }
+  ],
+  "options": {
+    "expected": { "type": "text", "label": "Expected proportions (blank = equal)", "default": "", "placeholder": "e.g. 0.5, 0.3, 0.2" },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "bar"], "labels": ["None", "Bar chart"], "default": "bar" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["var"] },
+    { "section": "Options", "items": ["expected"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "nominal", "groups": "1", "design": "one-sample" },
+  "example": { "dataset": "mtcars", "options": { "var": ["cyl"] } }
+}

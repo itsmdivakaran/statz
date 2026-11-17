@@ -1,0 +1,12 @@
+{
+  "title": "Psychiatric diagnoses",
+  "description": "Diagnoses of 100 patients by two raters. Counts follow Cohen (1968).",
+  "variables": {
+    "rater1": {
+      "label": "Rater 1"
+    },
+    "rater2": {
+      "label": "Rater 2"
+    }
+  }
+}

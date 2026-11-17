@@ -1,0 +1,16 @@
+{
+  "title": "Tooth growth",
+  "description": "Odontoblast length in 60 guinea pigs by vitamin C dose and delivery method. Source: R datasets::ToothGrowth (Crampton, 1947).",
+  "variables": {
+    "len": {
+      "label": "Tooth length"
+    },
+    "supp": {
+      "label": "Supplement"
+    },
+    "dose": {
+      "label": "Dose (mg/day)",
+      "measure": "ordinal"
+    }
+  }
+}

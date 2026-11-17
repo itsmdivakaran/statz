@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "correlation",
+  "version": "1.0.0",
+  "title": "Correlation",
+  "description": "Pearson, Spearman, Kendall and partial correlations",
+  "menu": ["Regression", "Correlation"],
+  "r": { "file": "correlation.R", "fn": "codegen_correlation", "packages": ["ggnext"] },
+  "roles": [
+    { "id": "vars", "label": "Variables", "min": 2, "max": null, "measure": ["continuous", "ordinal"] },
+    { "id": "controls", "label": "Control for (partial correlation)", "min": 0, "max": null, "measure": ["continuous", "ordinal"] }
+  ],
+  "options": {
+    "method": { "type": "enum", "label": "Coefficient", "values": ["pearson", "spearman", "kendall"], "labels": ["Pearson r", "Spearman ρ", "Kendall τ"], "default": "pearson" },
+    "conf_level": { "type": "number", "label": "Confidence level", "min": 0.5, "max": 0.999, "step": 0.01, "default": 0.95 },
+    "matrix": { "type": "bool", "label": "Correlation matrix", "default": true },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "heatmap", "scatter"], "labels": ["None", "Correlation heatmap", "Scatter plot (first two variables)"], "default": "heatmap" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["vars", "controls"] },
+    { "section": "Options", "items": ["method", "conf_level", "matrix"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "continuous", "design": "association" },
+  "example": { "dataset": "mtcars", "options": { "vars": ["mpg", "hp", "wt", "qsec"] } }
+}

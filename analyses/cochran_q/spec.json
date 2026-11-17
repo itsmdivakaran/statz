@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "cochran_q",
+  "version": "1.0.0",
+  "title": "Cochran's Q Test",
+  "description": "Three or more related binary measurements",
+  "menu": ["Tests", "Frequencies"],
+  "r": { "file": "cochran_q.R", "fn": "codegen_cochran_q", "packages": [] },
+  "roles": [
+    { "id": "vars", "label": "Binary measurements", "min": 3, "max": null, "measure": ["nominal", "ordinal"], "levels": { "exactly": 2 } }
+  ],
+  "options": {
+    "posthoc": { "type": "enum", "label": "Pairwise comparisons", "values": ["none", "holm", "bonferroni"], "labels": ["None", "McNemar (Holm)", "McNemar (Bonferroni)"], "default": "holm" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["vars"] },
+    { "section": "Post-hoc tests", "items": ["posthoc"] }
+  ],
+  "guide": { "outcome": "nominal", "groups": "3+", "design": "paired" },
+  "example": { "dataset": "drug_response", "options": { "vars": ["drug_a", "drug_b", "drug_c"] } }
+}

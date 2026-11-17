@@ -1,0 +1,18 @@
+{
+  "title": "Orthodontic growth (long)",
+  "description": "Jaw distance (mm) at ages 8 to 14 for 27 children; one row per measurement. Source: nlme::Orthodont.",
+  "variables": {
+    "subject": {
+      "label": "Child"
+    },
+    "sex": {
+      "label": "Sex"
+    },
+    "age": {
+      "label": "Age (years)"
+    },
+    "distance": {
+      "label": "Distance (mm)"
+    }
+  }
+}

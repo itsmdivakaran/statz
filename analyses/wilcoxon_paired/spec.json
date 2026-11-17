@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "wilcoxon_paired",
+  "version": "1.0.0",
+  "title": "Wilcoxon Signed-Rank Test",
+  "description": "Non-parametric test for two related measurements",
+  "menu": ["Tests", "Non-parametric"],
+  "r": { "file": "wilcoxon_paired.R", "fn": "codegen_wilcoxon_paired", "packages": ["effectsize", "ggnext"] },
+  "roles": [
+    { "id": "x", "label": "Measurement 1", "min": 1, "max": 1, "measure": ["continuous", "ordinal"] },
+    { "id": "y", "label": "Measurement 2", "min": 1, "max": 1, "measure": ["continuous", "ordinal"] }
+  ],
+  "options": {
+    "test": { "type": "enum", "label": "Tests", "values": ["wilcoxon", "sign"], "labels": ["Wilcoxon signed-rank", "Sign test"], "multiple": true, "default": ["wilcoxon"] },
+    "alternative": { "type": "enum", "label": "Alternative hypothesis", "values": ["two.sided", "greater", "less"], "labels": ["Measurement 1 ≠ Measurement 2", "Measurement 1 > Measurement 2", "Measurement 1 < Measurement 2"], "default": "two.sided" },
+    "conf_level": { "type": "number", "label": "Confidence level", "min": 0.5, "max": 0.999, "step": 0.01, "default": 0.95 },
+    "effect_size": { "type": "bool", "label": "Rank-biserial correlation", "default": true },
+    "descriptives": { "type": "bool", "label": "Descriptives", "default": true },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "histogram", "box_jitter"], "labels": ["None", "Histogram of differences", "Box plot of both measurements"], "default": "box_jitter" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["x", "y"] },
+    { "section": "Tests", "items": ["test", "alternative", "conf_level"] },
+    { "section": "Additional statistics", "items": ["effect_size", "descriptives"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "ordinal", "groups": "2", "design": "paired" },
+  "example": { "dataset": "sleep_wide", "options": { "x": ["drug1"], "y": ["drug2"] } }
+}

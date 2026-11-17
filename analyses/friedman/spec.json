@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "friedman",
+  "version": "1.0.0",
+  "title": "Friedman Test",
+  "description": "Non-parametric test for three or more related measurements",
+  "menu": ["Tests", "Non-parametric"],
+  "r": { "file": "friedman.R", "fn": "codegen_friedman", "packages": ["ggnext"] },
+  "roles": [
+    { "id": "measures", "label": "Repeated measurements", "min": 3, "max": null, "measure": ["continuous", "ordinal"] }
+  ],
+  "options": {
+    "kendall_w": { "type": "bool", "label": "Kendall's W (effect size)", "default": true },
+    "posthoc": { "type": "enum", "label": "Pairwise comparisons", "values": ["none", "holm", "bonferroni"], "labels": ["None", "Wilcoxon signed-rank (Holm)", "Wilcoxon signed-rank (Bonferroni)"], "default": "holm" },
+    "descriptives": { "type": "bool", "label": "Descriptives", "default": true },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "box_jitter"], "labels": ["None", "Box plot + points"], "default": "box_jitter" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["measures"] },
+    { "section": "Tests", "items": ["kendall_w", "posthoc"] },
+    { "section": "Additional statistics", "items": ["descriptives"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "ordinal", "groups": "3+", "design": "paired" },
+  "example": { "dataset": "orthodont_wide", "options": { "measures": ["age8", "age10", "age12", "age14"] } }
+}

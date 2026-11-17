@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "anova_rm",
+  "version": "1.0.0",
+  "title": "Repeated Measures ANOVA",
+  "description": "Within-subject and mixed designs, with sphericity corrections",
+  "menu": ["Tests", "ANOVA"],
+  "r": { "file": "anova_rm.R", "fn": "codegen_anova_rm", "packages": ["car", "ggnext"] },
+  "roles": [
+    { "id": "measures", "label": "Repeated measurements", "min": 2, "max": null, "measure": ["continuous"] },
+    { "id": "between", "label": "Between-subject factors", "min": 0, "max": null, "measure": ["nominal", "ordinal"], "levels": { "min": 2 } }
+  ],
+  "options": {
+    "within_name": { "type": "text", "label": "Name of the within-subject factor", "default": "Time" },
+    "effect_size": { "type": "bool", "label": "Partial η²", "default": true },
+    "posthoc": { "type": "enum", "label": "Pairwise comparisons (within)", "values": ["none", "holm", "bonferroni"], "labels": ["None", "Paired t-tests (Holm)", "Paired t-tests (Bonferroni)"], "default": "holm" },
+    "descriptives": { "type": "bool", "label": "Descriptives", "default": true },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "means"], "labels": ["None", "Means ± 95% CI"], "default": "means" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["measures", "between"] },
+    { "section": "Model", "items": ["within_name", "effect_size"] },
+    { "section": "Post-hoc tests", "items": ["posthoc"] },
+    { "section": "Additional statistics", "items": ["descriptives"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "continuous", "groups": "3+", "design": "paired" },
+  "example": { "dataset": "orthodont_wide", "options": { "measures": ["age8", "age10", "age12", "age14"], "between": ["sex"], "within_name": "Age" } }
+}

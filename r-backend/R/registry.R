@@ -84,8 +84,27 @@ sn_validate <- function(spec, options, meta, data) {
         sn_abort(paste0(id, " must be between ", o$min, " and ", o$max, "."), SN_ERR$invalid_options)
     } else if (o$type == "bool") {
       val <- isTRUE(as.logical(val))
+    } else if (o$type == "text") {
+      val <- paste(as.character(unlist(val) %||% ""), collapse = "")
+    } else if (o$type == "interactions") {
+      val <- sn_validate_interactions(o, options[[id]], out)
     }
     out[[id]] <- val
   }
   out
+}
+
+#' Interaction terms ("a:b"). NULL means the spec default: every interaction among the
+#' `interact` roles, or none. Terms naming variables that are no longer assigned are dropped.
+sn_validate_interactions <- function(o, val, roles) {
+  from <- unlist(roles[unlist(o$from)], use.names = FALSE)
+  if (is.null(val)) {
+    iv <- unlist(roles[unlist(o$interact %||% list())], use.names = FALSE)
+    if (length(iv) < 2) return(character())
+    k <- min(length(iv), 3L)
+    return(unlist(lapply(2:k, function(n) utils::combn(iv, n, paste, collapse = ":")), use.names = FALSE))
+  }
+  val <- as.character(unlist(val))
+  ok <- vapply(strsplit(val, ":", fixed = TRUE), function(p) length(p) >= 2 && !anyDuplicated(p) && all(p %in% from), NA)
+  unique(val[ok])
 }

@@ -1,0 +1,15 @@
+{
+  "title": "Sleep deprivation study",
+  "description": "Average reaction time per day for 18 subjects under sleep restriction. Source: lme4::sleepstudy (Belenky et al., 2003).",
+  "variables": {
+    "reaction": {
+      "label": "Reaction time (ms)"
+    },
+    "days": {
+      "label": "Days of sleep deprivation"
+    },
+    "subject": {
+      "label": "Subject"
+    }
+  }
+}

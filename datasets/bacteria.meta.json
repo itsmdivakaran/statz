@@ -1,0 +1,29 @@
+{
+  "title": "Bacteria in children",
+  "description": "Presence of H. influenzae in 50 children with otitis media over repeated visits, by treatment. Source: MASS::bacteria.",
+  "variables": {
+    "id": {
+      "label": "Child"
+    },
+    "present": {
+      "label": "Bacteria present",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "No"
+        },
+        {
+          "value": 1,
+          "label": "Yes"
+        }
+      ]
+    },
+    "treatment": {
+      "label": "Treatment"
+    },
+    "week": {
+      "label": "Week of test"
+    }
+  }
+}
