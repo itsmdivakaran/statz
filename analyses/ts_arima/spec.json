@@ -1,0 +1,260 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "ts_arima",
+  "version": "1.0.0",
+  "title": "ARIMA Forecast",
+  "description": "Automatic or manual (seasonal) ARIMA models",
+  "menu": [
+    "Time Series",
+    "Forecasting"
+  ],
+  "r": {
+    "file": "ts_arima.R",
+    "fn": "codegen_ts_arima",
+    "packages": [
+      "forecast",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "series",
+      "label": "Series (values in time order)",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "time",
+      "label": "Time variable (optional, sorts the rows)",
+      "min": 0,
+      "max": 1,
+      "measure": []
+    }
+  ],
+  "options": {
+    "frequency": {
+      "type": "enum",
+      "label": "Seasonal period",
+      "values": [
+        "12",
+        "4",
+        "1",
+        "7",
+        "52"
+      ],
+      "labels": [
+        "Monthly (12)",
+        "Quarterly (4)",
+        "None / yearly (1)",
+        "Daily, weekly cycle (7)",
+        "Weekly (52)"
+      ],
+      "default": "12"
+    },
+    "start_year": {
+      "type": "number",
+      "label": "Start year",
+      "min": 1,
+      "max": 3000,
+      "step": 1,
+      "default": 1
+    },
+    "start_period": {
+      "type": "number",
+      "label": "Start period (month or quarter)",
+      "min": 1,
+      "max": 52,
+      "step": 1,
+      "default": 1
+    },
+    "transform": {
+      "type": "enum",
+      "label": "Transformation",
+      "values": [
+        "none",
+        "log"
+      ],
+      "labels": [
+        "None",
+        "Natural log (forecasts are back-transformed)"
+      ],
+      "default": "none"
+    },
+    "selection": {
+      "type": "enum",
+      "label": "Model selection",
+      "values": [
+        "auto",
+        "manual"
+      ],
+      "labels": [
+        "Automatic (lowest AICc)",
+        "Manual orders"
+      ],
+      "default": "auto"
+    },
+    "p": {
+      "type": "number",
+      "label": "AR order (p)",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    "d": {
+      "type": "number",
+      "label": "Differences (d)",
+      "min": 0,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    "q": {
+      "type": "number",
+      "label": "MA order (q)",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 1
+    },
+    "sp": {
+      "type": "number",
+      "label": "Seasonal AR (P)",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 0
+    },
+    "sd": {
+      "type": "number",
+      "label": "Seasonal differences (D)",
+      "min": 0,
+      "max": 2,
+      "step": 1,
+      "default": 0
+    },
+    "sq": {
+      "type": "number",
+      "label": "Seasonal MA (Q)",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 0
+    },
+    "drift": {
+      "type": "bool",
+      "label": "Include drift / constant",
+      "default": false
+    },
+    "horizon": {
+      "type": "number",
+      "label": "Periods to forecast",
+      "min": 1,
+      "max": 240,
+      "step": 1,
+      "default": 12
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Prediction interval level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "holdout": {
+      "type": "number",
+      "label": "Hold out the last periods to test (0 = none)",
+      "min": 0,
+      "max": 120,
+      "step": 1,
+      "default": 0
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plots",
+      "values": [
+        "forecast",
+        "residuals"
+      ],
+      "labels": [
+        "Forecast",
+        "Residual autocorrelation"
+      ],
+      "default": [
+        "forecast",
+        "residuals"
+      ],
+      "multiple": true
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "series",
+        "time"
+      ]
+    },
+    {
+      "section": "Time axis",
+      "items": [
+        "frequency",
+        "start_year",
+        "start_period"
+      ]
+    },
+    {
+      "section": "Model",
+      "items": [
+        "transform",
+        "selection",
+        "p",
+        "d",
+        "q",
+        "sp",
+        "sd",
+        "sq",
+        "drift"
+      ]
+    },
+    {
+      "section": "Forecast",
+      "items": [
+        "horizon",
+        "conf_level",
+        "holdout"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "continuous",
+    "design": "time-series"
+  },
+  "example": {
+    "dataset": "airpassengers",
+    "options": {
+      "series": [
+        "passengers"
+      ],
+      "time": [
+        "date"
+      ],
+      "frequency": "12",
+      "start_year": 1949,
+      "start_period": 1,
+      "transform": "log",
+      "holdout": 12
+    }
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "ts_explore",
+  "version": "1.0.0",
+  "title": "Time Series Explorer",
+  "description": "Trend, seasonality, autocorrelation and stationarity",
+  "menu": [
+    "Time Series",
+    "Explore"
+  ],
+  "r": {
+    "file": "ts_explore.R",
+    "fn": "codegen_ts_explore",
+    "packages": [
+      "tseries",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "series",
+      "label": "Series (values in time order)",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "time",
+      "label": "Time variable (optional, sorts the rows)",
+      "min": 0,
+      "max": 1,
+      "measure": []
+    }
+  ],
+  "options": {
+    "frequency": {
+      "type": "enum",
+      "label": "Seasonal period",
+      "values": [
+        "12",
+        "4",
+        "1",
+        "7",
+        "52"
+      ],
+      "labels": [
+        "Monthly (12)",
+        "Quarterly (4)",
+        "None / yearly (1)",
+        "Daily, weekly cycle (7)",
+        "Weekly (52)"
+      ],
+      "default": "12"
+    },
+    "start_year": {
+      "type": "number",
+      "label": "Start year",
+      "min": 1,
+      "max": 3000,
+      "step": 1,
+      "default": 1
+    },
+    "start_period": {
+      "type": "number",
+      "label": "Start period (month or quarter)",
+      "min": 1,
+      "max": 52,
+      "step": 1,
+      "default": 1
+    },
+    "transform": {
+      "type": "enum",
+      "label": "Transformation",
+      "values": [
+        "none",
+        "log"
+      ],
+      "labels": [
+        "None",
+        "Natural log"
+      ],
+      "default": "none"
+    },
+    "decompose": {
+      "type": "enum",
+      "label": "Decomposition",
+      "values": [
+        "stl",
+        "additive",
+        "multiplicative",
+        "none"
+      ],
+      "labels": [
+        "STL (loess)",
+        "Classical additive",
+        "Classical multiplicative",
+        "None"
+      ],
+      "default": "stl"
+    },
+    "lags": {
+      "type": "number",
+      "label": "Autocorrelation lags",
+      "min": 5,
+      "max": 200,
+      "step": 1,
+      "default": 24
+    },
+    "tests": {
+      "type": "bool",
+      "label": "Stationarity tests (ADF, KPSS)",
+      "default": true
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plots",
+      "values": [
+        "series",
+        "decomposition",
+        "acf",
+        "pacf"
+      ],
+      "labels": [
+        "Series",
+        "Decomposition",
+        "Autocorrelation (ACF)",
+        "Partial autocorrelation (PACF)"
+      ],
+      "default": [
+        "series",
+        "decomposition",
+        "acf",
+        "pacf"
+      ],
+      "multiple": true
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "series",
+        "time"
+      ]
+    },
+    {
+      "section": "Time axis",
+      "items": [
+        "frequency",
+        "start_year",
+        "start_period"
+      ]
+    },
+    {
+      "section": "Options",
+      "items": [
+        "transform",
+        "decompose",
+        "lags",
+        "tests",
+        "plot"
+      ]
+    }
+  ],
+  "guide": {
+    "outcome": "continuous",
+    "design": "time-series"
+  },
+  "example": {
+    "dataset": "airpassengers",
+    "options": {
+      "series": [
+        "passengers"
+      ],
+      "time": [
+        "date"
+      ],
+      "frequency": "12",
+      "start_year": 1949,
+      "start_period": 1
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "title": "Airline passengers 1949-1960",
+  "description": "Monthly totals of international airline passengers in thousands, January 1949 to December 1960. Source: R datasets::AirPassengers (Box & Jenkins, 1976).",
+  "variables": {
+    "date": {
+      "label": "Month"
+    },
+    "year": {
+      "label": "Year"
+    },
+    "month": {
+      "label": "Month of year"
+    },
+    "passengers": {
+      "label": "Passengers (thousands)"
+    }
+  }
+}
