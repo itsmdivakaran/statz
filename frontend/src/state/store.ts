@@ -57,7 +57,10 @@ const DEBOUNCE_MS = 300;
 export function defaultOptions(spec: ModuleSpec): Options {
   const o: Options = {};
   for (const r of spec.roles) o[r.id] = [];
-  for (const [k, v] of Object.entries(spec.options)) o[k] = Array.isArray(v.default) ? [...v.default] : v.default;
+  for (const [k, v] of Object.entries(spec.options)) {
+    if (v.type === "interactions") continue; // unset = backend default
+    o[k] = Array.isArray(v.default) ? [...v.default] : v.default;
+  }
   return o;
 }
 

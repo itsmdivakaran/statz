@@ -11,6 +11,7 @@
     "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
     "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
     "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "description": "One line shown under the title in menus and search." },
     "menu": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
     "r": {
       "type": "object",
@@ -80,6 +81,29 @@
               "type": { "const": "bool" },
               "label": { "type": "string" },
               "default": { "type": "boolean" }
+            }
+          },
+          {
+            "type": "object",
+            "required": ["type", "label", "default"],
+            "additionalProperties": false,
+            "properties": {
+              "type": { "const": "text" },
+              "label": { "type": "string" },
+              "placeholder": { "type": "string" },
+              "default": { "type": "string" }
+            }
+          },
+          {
+            "type": "object",
+            "description": "Interaction terms such as \"a:b\" among the variables in the `from` roles. Main effects are always in the model. When unset, every interaction among the `interact` roles is included.",
+            "required": ["type", "label", "from"],
+            "additionalProperties": false,
+            "properties": {
+              "type": { "const": "interactions" },
+              "label": { "type": "string" },
+              "from": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+              "interact": { "type": "array", "items": { "type": "string" } }
             }
           }
         ]
