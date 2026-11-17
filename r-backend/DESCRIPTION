@@ -1,0 +1,28 @@
+Package: statnextr
+Title: R Backend for the StatNext Desktop Statistics App
+Version: 0.1.0
+Authors@R: person("Mahesh", "Divakaran", email = "itsmdivakaran@users.noreply.github.com",
+    role = c("aut", "cre"))
+Description: JSON-RPC server, analysis module registry, code generation runner,
+    data import and result formatting used by the StatNext desktop application.
+    Every analysis is generated as plain R code, evaluated, and returned with that
+    code so results are fully reproducible outside the app.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.4.0)
+Imports:
+    jsonlite,
+    glue,
+    utils,
+    stats
+Suggests:
+    effectsize,
+    car,
+    ggnext,
+    ggplot2,
+    rsvg,
+    readxl,
+    haven,
+    arrow,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

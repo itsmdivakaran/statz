@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "anova_oneway",
+  "version": "1.0.0",
+  "title": "One-Way ANOVA",
+  "menu": ["Tests", "ANOVA"],
+  "r": { "file": "anova_oneway.R", "fn": "codegen_anova_oneway", "packages": ["effectsize", "car", "ggnext"] },
+  "roles": [
+    { "id": "dv", "label": "Dependent variable", "min": 1, "max": 1, "measure": ["continuous"] },
+    { "id": "group", "label": "Grouping variable", "min": 1, "max": 1, "measure": ["nominal", "ordinal"], "levels": { "min": 2 } }
+  ],
+  "options": {
+    "test": { "type": "enum", "label": "Tests", "values": ["fisher", "welch", "kruskal"], "labels": ["Classical (Fisher)", "Welch", "Kruskal-Wallis"], "multiple": true, "default": ["fisher", "welch"] },
+    "effect_size": { "type": "enum", "label": "Effect sizes", "values": ["eta_sq", "omega_sq"], "labels": ["η²", "ω²"], "multiple": true, "default": ["eta_sq", "omega_sq"] },
+    "conf_level": { "type": "number", "label": "Confidence level", "min": 0.5, "max": 0.999, "step": 0.01, "default": 0.95 },
+    "posthoc": { "type": "enum", "label": "Post-hoc tests", "values": ["none", "tukey", "bonferroni", "holm"], "labels": ["None", "Tukey HSD", "Bonferroni", "Holm"], "default": "tukey" },
+    "descriptives": { "type": "bool", "label": "Group descriptives", "default": true },
+    "assumptions": { "type": "enum", "label": "Assumption checks", "values": ["normality", "levene"], "labels": ["Normality of residuals (Shapiro-Wilk)", "Equal variances (Levene)"], "multiple": true, "default": ["normality", "levene"] },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "mean_ci", "box_jitter", "violin"], "labels": ["None", "Mean ± 95% CI", "Box plot + points", "Violin"], "default": "mean_ci" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["dv", "group"] },
+    { "section": "Tests", "items": ["test", "effect_size", "conf_level"] },
+    { "section": "Post-hoc tests", "items": ["posthoc"] },
+    { "section": "Additional statistics", "items": ["descriptives"] },
+    { "section": "Assumption checks", "items": ["assumptions"], "collapsed": true },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "continuous", "groups": "3+", "design": "independent" },
+  "example": { "dataset": "plantgrowth", "options": { "dv": ["weight"], "group": ["group"] } }
+}

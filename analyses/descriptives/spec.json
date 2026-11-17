@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "descriptives",
+  "version": "1.0.0",
+  "title": "Descriptive Statistics",
+  "menu": ["Descriptives"],
+  "r": { "file": "descriptives.R", "fn": "codegen_descriptives", "packages": ["ggnext"] },
+  "roles": [
+    { "id": "vars", "label": "Variables", "min": 1, "max": null, "measure": [] },
+    { "id": "split", "label": "Split by", "min": 0, "max": 1, "measure": ["nominal", "ordinal"] }
+  ],
+  "options": {
+    "stats": { "type": "enum", "label": "Statistics", "values": ["n", "missing", "mean", "sd", "se", "median", "iqr", "min", "max", "skewness", "kurtosis"], "labels": ["N", "Missing", "Mean", "SD", "SE of mean", "Median", "IQR", "Minimum", "Maximum", "Skewness", "Kurtosis"], "multiple": true, "default": ["n", "missing", "mean", "sd", "median", "min", "max"] },
+    "frequencies": { "type": "bool", "label": "Frequency tables (nominal/ordinal)", "default": true },
+    "normality": { "type": "bool", "label": "Shapiro-Wilk normality test", "default": false },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "histogram", "box_jitter", "qq"], "labels": ["None", "Histogram", "Box plot", "Q-Q plot"], "default": "none" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["vars", "split"] },
+    { "section": "Statistics", "items": ["stats", "frequencies", "normality"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "any", "groups": 0, "design": "describe" },
+  "example": { "dataset": "mtcars", "options": { "vars": ["mpg", "hp", "cyl"] } }
+}

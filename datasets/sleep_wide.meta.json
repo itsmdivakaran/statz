@@ -1,0 +1,9 @@
+{
+  "title": "Sleep (paired)",
+  "description": "Extra hours of sleep for 10 patients under two drugs (Student, 1908). Source: R datasets::sleep, wide format.",
+  "variables": {
+    "id": { "label": "Patient", "measure": "nominal" },
+    "drug1": { "label": "Extra sleep, drug 1 (h)" },
+    "drug2": { "label": "Extra sleep, drug 2 (h)" }
+  }
+}

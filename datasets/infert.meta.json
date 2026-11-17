@@ -1,0 +1,12 @@
+{
+  "title": "Infertility after abortion",
+  "description": "Matched case-control study of secondary infertility. Source: R datasets::infert (Trichopoulos et al., 1976).",
+  "variables": {
+    "education": { "label": "Years of education", "measure": "ordinal" },
+    "age": { "label": "Age (years)" },
+    "parity": { "label": "Parity", "measure": "ordinal" },
+    "induced": { "label": "Prior induced abortions", "measure": "ordinal", "value_labels": [{ "value": 0, "label": "0" }, { "value": 1, "label": "1" }, { "value": 2, "label": "2 or more" }] },
+    "case": { "label": "Case status", "measure": "nominal", "value_labels": [{ "value": 0, "label": "Control" }, { "value": 1, "label": "Case" }] },
+    "spontaneous": { "label": "Prior spontaneous abortions", "measure": "ordinal", "value_labels": [{ "value": 0, "label": "0" }, { "value": 1, "label": "1" }, { "value": 2, "label": "2 or more" }] }
+  }
+}

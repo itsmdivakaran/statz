@@ -1,0 +1,13 @@
+node_modules/
+dist/
+target/
+.vite/
+*.log
+.DS_Store
+.Rhistory
+.RData
+.Rproj.user/
+r-backend/tests/testthat/_snaps/
+frontend/test-results/
+frontend/playwright-report/
+src-tauri/gen/

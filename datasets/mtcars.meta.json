@@ -1,0 +1,14 @@
+{
+  "title": "Motor Trend cars (1974)",
+  "description": "Fuel consumption and 10 design aspects of 32 cars. Source: R datasets::mtcars.",
+  "variables": {
+    "mpg": { "label": "Miles per US gallon" },
+    "cyl": { "label": "Number of cylinders", "measure": "ordinal" },
+    "hp": { "label": "Gross horsepower" },
+    "wt": { "label": "Weight (1000 lbs)" },
+    "vs": { "label": "Engine", "measure": "nominal", "value_labels": [{ "value": 0, "label": "V-shaped" }, { "value": 1, "label": "Straight" }] },
+    "am": { "label": "Transmission", "measure": "nominal", "value_labels": [{ "value": 0, "label": "Automatic" }, { "value": 1, "label": "Manual" }] },
+    "gear": { "label": "Number of forward gears", "measure": "ordinal" },
+    "carb": { "label": "Number of carburetors", "measure": "ordinal" }
+  }
+}
