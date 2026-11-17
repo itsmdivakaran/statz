@@ -1,6 +1,7 @@
 name: Release installers
 
-# Builds .dmg (Apple Silicon + Intel), .msi, .AppImage and .deb on a version tag.
+# Builds .dmg (Apple Silicon + Intel), .msi, .AppImage and .deb on a version tag, or when run by hand.
+# The release is tagged v<version from tauri.conf.json>.
 # Builds are unsigned until signing secrets are added; the macOS steps pick them up
 # automatically (APPLE_CERTIFICATE, APPLE_CERTIFICATE_PASSWORD, APPLE_SIGNING_IDENTITY,
 # APPLE_ID, APPLE_PASSWORD, APPLE_TEAM_ID) for signing and notarization.
@@ -58,7 +59,9 @@ jobs:
         with:
           projectPath: src-tauri
           tauriScript: pnpm --dir ../frontend tauri
-          tagName: ${{ github.ref_name }}
-          releaseName: StatNext ${{ github.ref_name }}
-          releaseDraft: true
+          tagName: v__VERSION__
+          releaseName: StatNext v__VERSION__
+          releaseBody: Download the file for your system. On macOS, open the .dmg and drag StatNext to Applications. R 4.4 or later must be installed.
+          releaseDraft: false
+          prerelease: true
           args: ${{ matrix.args }}
