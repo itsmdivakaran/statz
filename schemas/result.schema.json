@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://statnext.app/schemas/result.schema.json",
+  "title": "StatNext analysis result",
+  "description": "Returned by analysis.run. `code` is the exact R code that produced the result.",
+  "type": "object",
+  "required": ["module", "module_version", "title", "status", "tables", "assumptions", "plots", "code", "warnings", "meta"],
+  "$defs": {
+    "column": {
+      "type": "object",
+      "required": ["id", "label", "type"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "type": { "enum": ["number", "int", "text", "pvalue", "ci"] },
+        "digits": { "type": "integer" }
+      }
+    },
+    "table": {
+      "type": "object",
+      "required": ["id", "title", "columns", "rows", "notes"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "columns": { "type": "array", "items": { "$ref": "#/$defs/column" } },
+        "rows": { "type": "array", "items": { "type": "object" } },
+        "notes": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+  "properties": {
+    "module": { "type": "string" },
+    "module_version": { "type": "string" },
+    "title": { "type": "string" },
+    "status": { "enum": ["ok", "warn"] },
+    "tables": { "type": "array", "items": { "$ref": "#/$defs/table" } },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "test", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "test": { "type": "string" },
+          "status": { "enum": ["ok", "warn", "fail"] },
+          "message": { "type": ["string", "null"] },
+          "table": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/table" }] }
+        }
+      }
+    },
+    "plots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "engine", "fallback", "svg"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "engine": { "enum": ["ggnext", "ggplot2"] },
+          "fallback": { "type": "boolean" },
+          "fallback_reason": { "type": ["string", "null"] },
+          "svg": { "type": "string" },
+          "html": { "type": ["string", "null"] },
+          "data_csv": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "interpretation": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "object", "required": ["auto_generated", "text"], "properties": { "auto_generated": { "const": true }, "text": { "type": "string" } } }
+      ]
+    },
+    "notes": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "code": { "type": "string", "minLength": 1 },
+    "console": { "type": "string" },
+    "meta": {
+      "type": "object",
+      "required": ["r_version", "packages", "dataset"],
+      "properties": { "r_version": { "type": "string" }, "packages": { "type": "object" }, "dataset": { "type": "string" } }
+    }
+  }
+}

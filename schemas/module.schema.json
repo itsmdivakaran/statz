@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://statnext.app/schemas/module.schema.json",
+  "title": "StatNext analysis module spec",
+  "description": "UI options and R binding for one analysis. Built-in modules and plugins use the same format: a folder with spec.json, the R codegen file and help.md.",
+  "type": "object",
+  "required": ["id", "version", "title", "menu", "r", "roles", "options", "layout"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "title": { "type": "string", "minLength": 1 },
+    "menu": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "r": {
+      "type": "object",
+      "required": ["file", "fn", "packages"],
+      "additionalProperties": false,
+      "properties": {
+        "file": { "type": "string", "pattern": "\\.R$" },
+        "fn": { "type": "string", "pattern": "^codegen_[a-z0-9_]+$" },
+        "packages": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "min", "max", "measure"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "label": { "type": "string" },
+          "min": { "type": "integer", "minimum": 0 },
+          "max": { "type": ["integer", "null"], "minimum": 1 },
+          "measure": { "type": "array", "items": { "enum": ["continuous", "nominal", "ordinal", "date"] } },
+          "levels": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": { "exactly": { "type": "integer", "minimum": 1 }, "min": { "type": "integer", "minimum": 1 } }
+          }
+        }
+      }
+    },
+    "options": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["type", "label", "values", "default"],
+            "additionalProperties": false,
+            "properties": {
+              "type": { "const": "enum" },
+              "label": { "type": "string" },
+              "values": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+              "labels": { "type": "array", "items": { "type": "string" } },
+              "multiple": { "type": "boolean" },
+              "default": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] }
+            }
+          },
+          {
+            "type": "object",
+            "required": ["type", "label", "default"],
+            "additionalProperties": false,
+            "properties": {
+              "type": { "const": "number" },
+              "label": { "type": "string" },
+              "min": { "type": "number" },
+              "max": { "type": "number" },
+              "step": { "type": "number" },
+              "default": { "type": "number" }
+            }
+          },
+          {
+            "type": "object",
+            "required": ["type", "label", "default"],
+            "additionalProperties": false,
+            "properties": {
+              "type": { "const": "bool" },
+              "label": { "type": "string" },
+              "default": { "type": "boolean" }
+            }
+          }
+        ]
+      }
+    },
+    "layout": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["section", "items"],
+        "additionalProperties": false,
+        "properties": {
+          "section": { "type": "string" },
+          "items": { "type": "array", "items": { "type": "string" } },
+          "collapsed": { "type": "boolean" }
+        }
+      }
+    },
+    "guide": { "type": "object" },
+    "example": {
+      "type": "object",
+      "required": ["dataset", "options"],
+      "properties": { "dataset": { "type": "string" }, "options": { "type": "object" } }
+    }
+  }
+}

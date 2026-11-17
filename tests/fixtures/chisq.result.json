@@ -1,0 +1,193 @@
+{
+  "tables": [
+    {
+      "id": "crosstab",
+      "title": "Contingency Table: spontaneous × case",
+      "columns": [
+        {
+          "id": "level",
+          "label": "spontaneous",
+          "type": "text"
+        },
+        {
+          "id": "stat",
+          "label": "",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "Control",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "c2",
+          "label": "Case",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "total",
+          "label": "Total",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "level": "0",
+          "stat": "Count",
+          "c1": 113,
+          "c2": 28,
+          "total": 141
+        },
+        {
+          "level": "",
+          "stat": "% within row",
+          "c1": 80.1418439716312,
+          "c2": 19.8581560283688,
+          "total": 100
+        },
+        {
+          "level": "1",
+          "stat": "Count",
+          "c1": 40,
+          "c2": 31,
+          "total": 71
+        },
+        {
+          "level": "",
+          "stat": "% within row",
+          "c1": 56.3380281690141,
+          "c2": 43.6619718309859,
+          "total": 100
+        },
+        {
+          "level": "2 or more",
+          "stat": "Count",
+          "c1": 12,
+          "c2": 24,
+          "total": 36
+        },
+        {
+          "level": "",
+          "stat": "% within row",
+          "c1": 33.3333333333333,
+          "c2": 66.6666666666667,
+          "total": 100
+        }
+      ],
+      "notes": [
+        "Columns: case. N = 248."
+      ]
+    },
+    {
+      "id": "tests",
+      "title": "Tests of Association",
+      "columns": [
+        {
+          "id": "test",
+          "label": "Test",
+          "type": "text"
+        },
+        {
+          "id": "stat",
+          "label": "Value",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "test": "Pearson χ²",
+          "stat": 32.8617248445476,
+          "df": 2,
+          "p": 7.3142048091399e-08
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "effect",
+      "title": "Effect Size",
+      "columns": [
+        {
+          "id": "measure",
+          "label": "Measure",
+          "type": "text"
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "measure": "Cramér's V",
+          "value": 0.364015047791073,
+          "ci": [0.232634047540517, 0.483664974552262]
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "expected",
+      "test": "Expected cell counts",
+      "status": "ok",
+      "message": "0% of cells have expected counts below 5 (minimum 12.05).",
+      "table": null
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot2",
+      "title": "spontaneous by case",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot2.svg",
+      "html": "plot2.html",
+      "data_csv": "plot2.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A chi-square test of independence showed a significant association between spontaneous and case, χ²(2, N = 248) = 32.86, p < .001, Cramér's V = 0.36."
+  },
+  "notes": [],
+  "module": "chisq",
+  "module_version": "1.0.0",
+  "title": "Chi-Square Test of Association",
+  "status": "ok",
+  "code": "library(effectsize)\nlibrary(ggnext)\n# Chi-square test: spontaneous by case\nd <- subset(data, !is.na(spontaneous) & !is.na(case))\nd$spontaneous <- factor(d$spontaneous, levels = c(0, 1, 2), labels = c(\"0\", \"1\", \"2 or more\"))\nd$case <- factor(d$case, levels = c(0, 1), labels = c(\"Control\", \"Case\"))\ntab <- table(spontaneous = d$spontaneous, case = d$case)\nchi <- chisq.test(tab, correct = FALSE)\ncv <- cramers_v(tab, adjust = FALSE, ci = 0.95, alternative = \"two.sided\")\np <- ggnext(d, aes(spontaneous, color = case)) +\n  geom_bar(position = \"dodge\") +\n  labs(title = \"spontaneous by case\", x = \"Prior spontaneous abortions\", y = \"Count\") +\n  theme_classic()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "effectsize": "0.8.6",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}
