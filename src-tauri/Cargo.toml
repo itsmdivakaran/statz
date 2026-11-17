@@ -1,6 +1,6 @@
 [package]
 name = "statnext"
-version = "0.1.0"
+version = "0.2.0"
 description = "StatNext: point-and-click statistics with an R backend"
 authors = ["Mahesh Divakaran"]
 license = "MIT"

@@ -47,20 +47,34 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
-      - uses: tauri-apps/tauri-action@v0
+      # Signing is optional. Passing empty certificate variables makes the macOS bundler fail,
+      # so they are exported only when the secrets exist; otherwise the app is ad-hoc signed.
+      - name: Apple signing secrets (optional)
+        if: runner.os == 'macOS'
+        shell: bash
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
           APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          if [ -n "$APPLE_CERTIFICATE" ]; then
+            for v in APPLE_CERTIFICATE APPLE_CERTIFICATE_PASSWORD APPLE_SIGNING_IDENTITY APPLE_ID APPLE_PASSWORD APPLE_TEAM_ID; do
+              echo "$v=${!v}" >> "$GITHUB_ENV"
+            done
+          else
+            echo "No signing certificate: building an ad-hoc signed app."
+          fi
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tauriScript: pnpm tauri
           tagName: v__VERSION__
           releaseName: StatNext v__VERSION__
-          releaseBody: Download the file for your system. On macOS, open the .dmg and drag StatNext to Applications. R 4.4 or later must be installed.
+          releaseBody: "Download the file for your system: .dmg for macOS (aarch64 = Apple Silicon, x64 = Intel), .msi or .exe for Windows, .AppImage or .deb for Linux. R 4.4 or later must be installed. The macOS build is not notarized yet: after the first launch is blocked, open System Settings > Privacy & Security and choose Open Anyway."
           releaseDraft: false
           prerelease: true
           args: ${{ matrix.args }}
