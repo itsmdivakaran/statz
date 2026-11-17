@@ -9,7 +9,7 @@ codegen_anova_rm <- function(o, meta, ctx) {
     sn_libs(c("car", if (o$plot != "none") ctx$plot_engine)),
     "",
     paste0("# Repeated measures ANOVA: ", paste(m, collapse = ", "), if (length(b)) paste0(" by ", paste(b, collapse = ", "))),
-    sn_prep_code("d", ctx$data, c(m, b), meta),
+    sn_prep_code("d", ctx$data, c(m, b), meta, factors = b),
     paste0("measures <- ", sn_lit(m)),
     if (o$descriptives) paste0("desc <- sapply(d[measures], function(v) c(n = length(v), mean = mean(v), sd = sd(v)))"),
     paste0("within <- data.frame(", w, " = factor(measures, levels = measures))"),

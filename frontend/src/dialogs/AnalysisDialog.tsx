@@ -193,6 +193,24 @@ function InteractionsControl({ spec, value, options, onChange }: { spec: Extract
   );
 }
 
+function SubsetControl({ spec, value, options, onChange }: { spec: Extract<OptionSpec, { type: "subset" }>; value: unknown; options: Options; onChange: (v: unknown) => void }) {
+  const from = spec.from.flatMap((r) => (options[r] as string[]) ?? []);
+  const cur = ((value as string[]) ?? []).filter((v) => from.includes(v));
+  return (
+    <fieldset className="text-sm">
+      <legend className="mb-1 text-xs text-muted">{spec.label}</legend>
+      {from.length === 0 && <p className="text-xs text-muted">Assign predictors first.</p>}
+      <div className="flex flex-wrap gap-1">
+        {from.map((v) => (
+          <button key={v} aria-pressed={cur.includes(v)}
+            className={`rounded-md border px-1.5 py-0.5 text-xs transition-colors ${cur.includes(v) ? "border-brand bg-brand text-white" : "border-line text-muted hover:text-ink"}`}
+            onClick={() => onChange(cur.includes(v) ? cur.filter((x) => x !== v) : [...cur, v])}>{v}</button>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
 function TextControl({ id, spec, value, onChange }: { id: string; spec: Extract<OptionSpec, { type: "text" }>; value: unknown; onChange: (v: unknown) => void }) {
   const [draft, setDraft] = useState<string | null>(null);
   const cur = draft ?? ((value as string) ?? "");
@@ -209,6 +227,7 @@ function TextControl({ id, spec, value, onChange }: { id: string; spec: Extract<
 
 function OptionControl({ id, spec, value, options, onChange }: { id: string; spec: OptionSpec; value: unknown; options: Options; onChange: (v: unknown) => void }) {
   if (spec.type === "interactions") return <InteractionsControl spec={spec} value={value} options={options} onChange={onChange} />;
+  if (spec.type === "subset") return <SubsetControl spec={spec} value={value} options={options} onChange={onChange} />;
   if (spec.type === "text") return <TextControl id={id} spec={spec} value={value} onChange={onChange} />;
   if (spec.type === "bool") {
     return (
