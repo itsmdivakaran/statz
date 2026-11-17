@@ -100,6 +100,9 @@ jobs:
   windows-r:
     name: Windows - R backend and desktop worker
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     env:
       STATNEXT_ROOT: ${{ github.workspace }}
     steps:
