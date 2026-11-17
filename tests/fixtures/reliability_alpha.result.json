@@ -1,0 +1,169 @@
+{
+  "tables": [
+    {
+      "id": "reliability",
+      "title": "Scale Reliability",
+      "columns": [
+        {
+          "id": "alpha",
+          "label": "Cronbach's α",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "std",
+          "label": "Standardized α",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "mean_r",
+          "label": "Mean inter-item r",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "k",
+          "label": "Items",
+          "type": "int"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "alpha": 0.84314276956476,
+          "ci": [0.739375685643107, 0.915773072159982],
+          "std": 0.839083803029511,
+          "mean_r": 0.426906642649717,
+          "k": 7,
+          "n": 30
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "items",
+      "title": "Item Statistics",
+      "columns": [
+        {
+          "id": "item",
+          "label": "Item",
+          "type": "text"
+        },
+        {
+          "id": "mean",
+          "label": "Mean",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "sd",
+          "label": "SD",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "item_rest",
+          "label": "Item-rest r",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "alpha_if_dropped",
+          "label": "α if item dropped",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "item": "rating",
+          "mean": 64.6333333333333,
+          "sd": 12.1725619475859,
+          "item_rest": 0.671262057223664,
+          "alpha_if_dropped": 0.809760206308921
+        },
+        {
+          "item": "complaints",
+          "mean": 66.6,
+          "sd": 13.3147571746799,
+          "item_rest": 0.742109710222239,
+          "alpha_if_dropped": 0.79691745727414
+        },
+        {
+          "item": "privileges",
+          "mean": 53.1333333333333,
+          "sd": 12.2354299935244,
+          "item_rest": 0.560711111480256,
+          "alpha_if_dropped": 0.827847765938659
+        },
+        {
+          "item": "learning",
+          "mean": 56.3666666666667,
+          "sd": 11.7370128765529,
+          "item_rest": 0.714445498133676,
+          "alpha_if_dropped": 0.803030975022574
+        },
+        {
+          "item": "raises",
+          "mean": 64.6333333333333,
+          "sd": 10.3972255361983,
+          "item_rest": 0.7862755938344,
+          "alpha_if_dropped": 0.795386574198205
+        },
+        {
+          "item": "critical",
+          "mean": 74.7666666666667,
+          "sd": 9.89490754895157,
+          "item_rest": 0.265034339196676,
+          "alpha_if_dropped": 0.863872311446437
+        },
+        {
+          "item": "advance",
+          "mean": 42.9333333333333,
+          "sd": 10.2887060053424,
+          "item_rest": 0.460810549468496,
+          "alpha_if_dropped": 0.840464868265457
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "item_rest",
+      "test": "Item-rest correlations",
+      "status": "warn",
+      "message": "Weak item-rest correlation (below .30) for critical.",
+      "table": null
+    }
+  ],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "Internal consistency of the 7-item scale was good, Cronbach's α = 0.84, 95% CI [0.74, 0.92] (N = 30)."
+  },
+  "notes": [],
+  "module": "reliability_alpha",
+  "module_version": "1.0.0",
+  "title": "Scale Reliability (Cronbach's α)",
+  "status": "ok",
+  "code": "# Scale reliability for 7 items\nitems <- data[complete.cases(data[, c(\"rating\", \"complaints\", \"privileges\", \"learning\", \"raises\", \"critical\", \"advance\")]), c(\"rating\", \"complaints\", \"privileges\", \"learning\", \"raises\", \"critical\", \"advance\")]\nitems[] <- lapply(items, as.numeric)\nk <- ncol(items); n <- nrow(items)\ntotal <- rowSums(items)\nalpha <- k / (k - 1) * (1 - sum(apply(items, 2, var)) / var(total))\nr <- cor(items)\nmean_r <- mean(r[lower.tri(r)])\nalpha_std <- k * mean_r / (1 + (k - 1) * mean_r)\n# Feldt confidence interval\nalpha_ci <- 1 - (1 - alpha) * qf(c(0.975, 0.025), n - 1, (n - 1) * (k - 1))\nalpha_without <- function(x) ncol(x) / (ncol(x) - 1) * (1 - sum(apply(x, 2, var)) / var(rowSums(x)))\nitem_stats <- data.frame(\n  item = names(items), mean = colMeans(items), sd = apply(items, 2, sd),\n  item_rest = sapply(seq_len(k), function(i) cor(items[[i]], total - items[[i]])),\n  alpha_if_dropped = if (k > 2) sapply(seq_len(k), function(i) alpha_without(items[-i])) else NA)",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {},
+    "dataset": "data"
+  }
+}

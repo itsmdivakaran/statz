@@ -13,7 +13,14 @@ export interface Analysis {
 
 type Command =
   | { kind: "options"; instance: string; before: Options; after: Options }
-  | { kind: "cell"; row: number; column: string; before: unknown; after: unknown };
+  | { kind: "cell"; row: number; column: string; before: unknown; after: unknown }
+  | { kind: "transform"; ops: TransformOp[] };
+
+export type TransformMode = "compute" | "recode" | "filter";
+export type TransformOp =
+  | { op: "compute"; name: string; expr: string; label?: string }
+  | { op: "recode"; column: string; into: string; label?: string; unmatched: "keep" | "missing"; rules: { from: string[]; to: string }[] }
+  | { op: "filter"; expr: string };
 
 export type Status = "starting" | "setup" | "ready" | "no-r" | "error";
 
@@ -31,6 +38,10 @@ interface State {
   undoStack: Command[];
   redoStack: Command[];
   theme: "light" | "dark";
+  transformMode: TransformMode | null;
+  openTransform(mode: TransformMode): void;
+  closeTransform(): void;
+  transform(ops: TransformOp[], record?: boolean): Promise<void>;
   init(): Promise<void>;
   loadExample(name: string): Promise<void>;
   importFile(path: string): Promise<void>;
@@ -87,8 +98,14 @@ export const useStore = create<State>((set, get) => {
     if (c.kind === "options") {
       get().setOptions(c.instance, dir === "undo" ? c.before : c.after, false);
       set({ selected: c.instance });
-    } else {
+    } else if (c.kind === "cell") {
       await get().editCell(c.row, c.column, dir === "undo" ? c.before : c.after, null, false);
+    } else if (dir === "redo") {
+      await get().transform(c.ops, false);
+    } else {
+      const data = await call<DataInfo>("data.undo");
+      set((s) => ({ data, dataVersion: s.dataVersion + 1 }));
+      rerunAll();
     }
   };
 
@@ -106,6 +123,16 @@ export const useStore = create<State>((set, get) => {
     undoStack: [],
     redoStack: [],
     theme: prefersDark ? "dark" : "light",
+    transformMode: null,
+    openTransform(mode) { set({ transformMode: mode }); },
+    closeTransform() { set({ transformMode: null }); },
+
+    async transform(ops, record = true) {
+      const data = await call<DataInfo>("data.patch", { ops });
+      if (record) set((s) => ({ undoStack: [...s.undoStack, { kind: "transform", ops }], redoStack: [] }));
+      set((s) => ({ data, dataVersion: s.dataVersion + 1 }));
+      rerunAll();
+    },
 
     async init() {
       const off = await onEvent<{ pct: number; message: string }>("setup://progress", (p) =>

@@ -1,0 +1,449 @@
+{
+  "tables": [
+    {
+      "id": "anova",
+      "title": "ANOVA",
+      "columns": [
+        {
+          "id": "source",
+          "label": "Source",
+          "type": "text"
+        },
+        {
+          "id": "ss",
+          "label": "Sum of squares",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "ms",
+          "label": "Mean square",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "F",
+          "label": "F",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "eta",
+          "label": "η²p",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "source": "supp",
+          "ss": 205.35,
+          "df": 1,
+          "ms": 205.35,
+          "F": 15.5719794524973,
+          "p": 0.000231182809773424,
+          "eta": 0.223825447759893
+        },
+        {
+          "source": "dose",
+          "ss": 2426.43433333333,
+          "df": 2,
+          "ms": 1213.21716666667,
+          "F": 91.999964892867,
+          "p": 4.04629119599228e-18,
+          "eta": 0.773109176760619
+        },
+        {
+          "source": "supp:dose",
+          "ss": 108.319,
+          "df": 2,
+          "ms": 54.1595,
+          "F": 4.10699109402252,
+          "p": 0.021860268964791,
+          "eta": 0.132027912362495
+        },
+        {
+          "source": "Residuals",
+          "ss": 712.106,
+          "df": 54,
+          "ms": 13.1871481481482,
+          "F": null,
+          "p": null,
+          "eta": null
+        }
+      ],
+      "notes": [
+        "Type III sums of squares."
+      ]
+    },
+    {
+      "id": "emm_1",
+      "title": "Estimated Marginal Means: supp",
+      "columns": [
+        {
+          "id": "level",
+          "label": "supp",
+          "type": "text"
+        },
+        {
+          "id": "mean",
+          "label": "Mean",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "level": "OJ",
+          "mean": 20.6633333333333,
+          "se": 0.66300196450559,
+          "df": 54,
+          "ci": [19.3340944266681, 21.9925722399986]
+        },
+        {
+          "level": "VC",
+          "mean": 16.9633333333333,
+          "se": 0.66300196450559,
+          "df": 54,
+          "ci": [15.6340944266681, 18.2925722399986]
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "posthoc_1",
+      "title": "Post-hoc Comparisons: supp (Tukey)",
+      "columns": [
+        {
+          "id": "comparison",
+          "label": "Comparison",
+          "type": "text"
+        },
+        {
+          "id": "diff",
+          "label": "Mean difference",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "t",
+          "label": "t",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p (adjusted)",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "comparison": "OJ − VC",
+          "diff": 3.7,
+          "se": 0.937626370083811,
+          "df": 54,
+          "t": 3.94613474839586,
+          "p": 0.000231182809773424
+        }
+      ],
+      "notes": [
+        "Based on estimated marginal means, averaged over the other terms."
+      ]
+    },
+    {
+      "id": "emm_2",
+      "title": "Estimated Marginal Means: dose",
+      "columns": [
+        {
+          "id": "level",
+          "label": "dose",
+          "type": "text"
+        },
+        {
+          "id": "mean",
+          "label": "Mean",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "level": "0.5",
+          "mean": 10.605,
+          "se": 0.81200825575077,
+          "df": 54,
+          "ci": [8.97702146620757, 12.2329785337924]
+        },
+        {
+          "level": "1",
+          "mean": 19.735,
+          "se": 0.81200825575077,
+          "df": 54,
+          "ci": [18.1070214662076, 21.3629785337924]
+        },
+        {
+          "level": "2",
+          "mean": 26.1,
+          "se": 0.81200825575077,
+          "df": 54,
+          "ci": [24.4720214662076, 27.7279785337924]
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "posthoc_2",
+      "title": "Post-hoc Comparisons: dose (Tukey)",
+      "columns": [
+        {
+          "id": "comparison",
+          "label": "Comparison",
+          "type": "text"
+        },
+        {
+          "id": "diff",
+          "label": "Mean difference",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "t",
+          "label": "t",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p (adjusted)",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "comparison": "dose0.5 − dose1",
+          "diff": -9.13,
+          "se": 1.14835308804166,
+          "df": 54,
+          "t": -7.9505163482164,
+          "p": 3.55306561949931e-10
+        },
+        {
+          "comparison": "dose0.5 − dose2",
+          "diff": -15.495,
+          "se": 1.14835308804166,
+          "df": 54,
+          "t": -13.4932366720277,
+          "p": 4.38427072424474e-13
+        },
+        {
+          "comparison": "dose1 − dose2",
+          "diff": -6.365,
+          "se": 1.14835308804166,
+          "df": 54,
+          "t": -5.54272032381132,
+          "p": 2.70757230502738e-06
+        }
+      ],
+      "notes": [
+        "Based on estimated marginal means, averaged over the other terms."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "normality",
+      "test": "Shapiro-Wilk",
+      "status": "ok",
+      "message": "No evidence against normality.",
+      "table": {
+        "id": "normality",
+        "title": "Test of Normality (Shapiro-Wilk)",
+        "columns": [
+          {
+            "id": "var",
+            "label": "Variable",
+            "type": "text"
+          },
+          {
+            "id": "group",
+            "label": "Group",
+            "type": "text"
+          },
+          {
+            "id": "W",
+            "label": "W",
+            "type": "number",
+            "digits": 3
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "var": "Residuals",
+            "group": "All",
+            "W": 0.984988430406403,
+            "p": 0.669424198312721,
+            "_row": "All"
+          }
+        ],
+        "notes": []
+      }
+    },
+    {
+      "id": "levene",
+      "test": "Levene (median-centred)",
+      "status": "ok",
+      "message": "No evidence that group variances differ.",
+      "table": {
+        "id": "levene",
+        "title": "Test of Equality of Variances (Levene)",
+        "columns": [
+          {
+            "id": "var",
+            "label": "Variable",
+            "type": "text"
+          },
+          {
+            "id": "F",
+            "label": "F",
+            "type": "number",
+            "digits": 2
+          },
+          {
+            "id": "df1",
+            "label": "df1",
+            "type": "int"
+          },
+          {
+            "id": "df2",
+            "label": "df2",
+            "type": "int"
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "var": "len",
+            "F": 1.70857823314489,
+            "df1": 5,
+            "df2": 54,
+            "p": 0.148360585928705
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot1",
+      "title": "Mean len",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot1.svg",
+      "html": "plot1.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The effect of supp was significant, F(1, 54) = 15.57, p < .001, η²p = 0.22. The effect of dose was significant, F(2, 54) = 92.00, p < .001, η²p = 0.77. The effect of supp:dose was significant, F(2, 54) = 4.11, p = .022, η²p = 0.13."
+  },
+  "notes": [],
+  "module": "anova_factorial",
+  "module_version": "1.0.0",
+  "title": "Factorial ANOVA / ANCOVA",
+  "status": "ok",
+  "code": "library(car)\nlibrary(emmeans)\nlibrary(ggnext)\n# ANOVA: len by supp, dose\nd <- data[complete.cases(data[, c(\"len\", \"supp\", \"dose\"), drop = FALSE]), , drop = FALSE]\nd$supp <- droplevels(factor(d$supp))\nd$dose <- droplevels(factor(d$dose))\nfit <- lm(len ~ supp + dose + supp:dose, data = d,\n  contrasts = list(supp = contr.sum, dose = contr.sum))\nanova_table <- as.data.frame(Anova(fit, type = 3))\nanova_table <- anova_table[rownames(anova_table) != \"(Intercept)\", ]\nss_resid <- anova_table[\"Residuals\", \"Sum Sq\"]\nanova_table$eta_p <- anova_table$`Sum Sq` / (anova_table$`Sum Sq` + ss_resid)\nanova_table[\"Residuals\", \"eta_p\"] <- NA\nemm_1 <- emmeans(fit, ~ supp, level = 0.95)\nposthoc_1 <- pairs(emm_1, adjust = \"tukey\")\nemm_2 <- emmeans(fit, ~ dose, level = 0.95)\nposthoc_2 <- pairs(emm_2, adjust = \"tukey\")\nnormality <- shapiro.test(residuals(fit))\nlevene <- leveneTest(len ~ supp * dose, data = d, center = median)\n# Cell means with t-based confidence intervals\ncells <- aggregate(len ~ supp + dose, data = d, FUN = function(v)\n  c(mean = mean(v), half = qt(1 - (1 - 0.95) / 2, length(v) - 1) * sd(v) / sqrt(length(v))))\ncells <- data.frame(cells[c(\"supp\", \"dose\")], mean = cells[[3]][, \"mean\"],\n  lower = cells[[3]][, \"mean\"] - cells[[3]][, \"half\"],\n  upper = cells[[3]][, \"mean\"] + cells[[3]][, \"half\"])\np_means <- ggnext(cells, aes(supp, mean, color = dose, group = dose)) +\n  geom_line() +\n  geom_point() +\n  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.1) +\n  labs(title = \"Mean len\", x = \"Supplement\", y = \"Tooth length\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "car": "3.1.2",
+      "emmeans": "1.10.0",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

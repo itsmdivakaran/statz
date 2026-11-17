@@ -241,13 +241,13 @@
   ],
   "plots": [
     {
-      "id": "plot3",
+      "id": "plot15",
       "title": "mpg by am",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot3.svg",
-      "html": "plot3.html",
+      "svg": "plot15.svg",
+      "html": "plot15.html",
       "data_csv": null
     }
   ],

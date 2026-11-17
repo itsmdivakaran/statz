@@ -1,0 +1,242 @@
+{
+  "tables": [
+    {
+      "id": "fit",
+      "title": "Model Fit",
+      "columns": [
+        {
+          "id": "chi",
+          "label": "χ² (LR)",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "dev",
+          "label": "Residual deviance",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "dfr",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "disp",
+          "label": "Dispersion (Pearson χ²/df)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "aic",
+          "label": "AIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "theta",
+          "label": "θ",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "chi": 25.1159444078514,
+          "df": 6,
+          "p": 0.000324980776908719,
+          "dev": 167.951800409335,
+          "dfr": 139,
+          "disp": 0.991194508178391,
+          "aic": 1109.15101828998,
+          "theta": 1.27489264581101,
+          "n": 146
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "coefficients",
+      "title": "Coefficients",
+      "columns": [
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "B",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "exp",
+          "label": "Rate ratio",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "exp_ci",
+          "label": "Rate ratio 95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "term": "(Intercept)",
+          "est": 2.89458001692052,
+          "se": 0.228424615405201,
+          "stat": 12.6719268489775,
+          "p": 8.46101870702208e-37,
+          "ci": [2.44687599754392, 3.34228403629713],
+          "exp": null,
+          "exp_ci": [null, null]
+        },
+        {
+          "term": "ethnicityN",
+          "est": -0.569371703399029,
+          "se": 0.153333359557819,
+          "stat": -3.71329308273802,
+          "p": 0.000204579737718389,
+          "ci": [-0.869899565760884, -0.268843841037174],
+          "exp": 0.565880868056271,
+          "exp_ci": [0.418993628440775, 0.76426259278399]
+        },
+        {
+          "term": "sexM",
+          "est": 0.0823202641037287,
+          "se": 0.159915014888409,
+          "stat": 0.514775077006828,
+          "p": 0.606710203226937,
+          "ci": [-0.231107405664739, 0.395747933872196],
+          "exp": 1.08580349803468,
+          "exp_ci": [0.79365421849838, 1.48549482742621]
+        },
+        {
+          "term": "ageF1",
+          "est": -0.448428148590178,
+          "se": 0.23974659324811,
+          "stat": -1.87042552936761,
+          "p": 0.0614247495390366,
+          "ci": [-0.918322836772647, 0.0214665395922909],
+          "exp": 0.63863119644303,
+          "exp_ci": [0.399187983371519, 1.02169860331361]
+        },
+        {
+          "term": "ageF2",
+          "est": 0.0880801397149139,
+          "se": 0.236193029025747,
+          "stat": 0.372915915758514,
+          "p": 0.70921102604147,
+          "ci": [-0.374849690574974, 0.551009970004802],
+          "exp": 1.09207563715166,
+          "exp_ci": [0.68739259261162, 1.73500443571704]
+        },
+        {
+          "term": "ageF3",
+          "est": 0.356900947762783,
+          "se": 0.248324363205946,
+          "stat": 1.43723693944114,
+          "p": 0.150650680203101,
+          "ci": [-0.129805860604714, 0.843607756130281],
+          "exp": 1.42889432766406,
+          "exp_ci": [0.878265920385349, 2.3247389568921]
+        },
+        {
+          "term": "learnerSL",
+          "est": 0.292109142827854,
+          "se": 0.186474710610887,
+          "stat": 1.56648127711748,
+          "p": 0.117235988403836,
+          "ci": [-0.0733745739970132, 0.657592859652721],
+          "exp": 1.33924917910552,
+          "exp_ci": [0.929252690933259, 1.93014061862278]
+        }
+      ],
+      "notes": [
+        "Wald confidence intervals."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "dispersion",
+      "test": "Overdispersion",
+      "status": "ok",
+      "message": "Dispersion = 0.99; this model allows for overdispersion.",
+      "table": null
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot9",
+      "title": "Residuals vs fitted",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot9.svg",
+      "html": "plot9.html",
+      "data_csv": "plot9.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The model fit significantly better than the null model, χ²(6) = 25.12, p < .001. Significant predictors (rate ratio): ethnicityN (0.57)."
+  },
+  "notes": [],
+  "module": "reg_count",
+  "module_version": "1.0.0",
+  "title": "Count Regression",
+  "status": "ok",
+  "code": "library(MASS)\nlibrary(ggnext)\n# Negative binomial regression: days on ethnicity, sex, age, learner\nd <- data[complete.cases(data[, c(\"days\", \"ethnicity\", \"sex\", \"age\", \"learner\"), drop = FALSE]), , drop = FALSE]\nd$ethnicity <- droplevels(factor(d$ethnicity))\nd$sex <- droplevels(factor(d$sex))\nd$age <- droplevels(factor(d$age))\nd$learner <- droplevels(factor(d$learner))\nfit <- glm.nb(days ~ ethnicity + sex + age + learner, data = d)\ncoefs <- cbind(coef(summary(fit)), confint.default(fit, level = 0.95))\ndispersion <- sum(residuals(fit, type = \"pearson\")^2) / df.residual(fit)\nnull <- update(fit, . ~ 1)\nlr_chi <- as.numeric(2 * (logLik(fit) - logLik(null))); lr_df <- attr(logLik(fit), \"df\") - attr(logLik(null), \"df\")\nresid_df <- data.frame(fitted = fitted(fit), resid = residuals(fit, type = \"deviance\"))\np_resid <- ggnext(resid_df, aes(fitted, resid)) +\n  geom_residual() +\n  labs(title = \"Residuals vs fitted\", x = \"Fitted values\", y = \"Residuals\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "MASS": "7.3.60.0.1",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

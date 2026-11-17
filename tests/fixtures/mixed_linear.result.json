@@ -1,0 +1,319 @@
+{
+  "tables": [
+    {
+      "id": "fit",
+      "title": "Model Fit",
+      "columns": [
+        {
+          "id": "r2m",
+          "label": "R² marginal",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "r2c",
+          "label": "R² conditional",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "icc",
+          "label": "ICC",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "aic",
+          "label": "AIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "bic",
+          "label": "BIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "ll",
+          "label": "Log-likelihood",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "g",
+          "label": "Groups",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "r2m": 0.278651058161875,
+          "r2c": 0.799219922782924,
+          "icc": 0.721660259588857,
+          "aic": 1755.62827195995,
+          "bic": 1774.78601306529,
+          "ll": -871.814135979976,
+          "n": 180,
+          "g": 18
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "coefficients",
+      "title": "Fixed Effects",
+      "columns": [
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "B",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "stat",
+          "label": "t",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "term": "(Intercept)",
+          "est": 251.405104848485,
+          "se": 6.82459669495491,
+          "df": 16.9997262884927,
+          "stat": 36.8380896462844,
+          "p": 1.17155811120826e-17,
+          "ci": [238.029141117362, 264.781068579608]
+        },
+        {
+          "term": "days",
+          "est": 10.467285959596,
+          "se": 1.54578964390598,
+          "df": 16.9999837255917,
+          "stat": 6.77148148899918,
+          "p": 3.26382446992738e-06,
+          "ci": [7.43759392986527, 13.4969779893267]
+        }
+      ],
+      "notes": [
+        "Satterthwaite degrees of freedom; Wald confidence intervals."
+      ]
+    },
+    {
+      "id": "tests",
+      "title": "Tests of Fixed Effects (Type III)",
+      "columns": [
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "F",
+          "label": "F",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df1",
+          "label": "df1",
+          "type": "int"
+        },
+        {
+          "id": "df2",
+          "label": "df2",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "term": "days",
+          "F": 45.8529615558586,
+          "df1": 1,
+          "df2": 16.9999837255917,
+          "p": 3.26382446992738e-06
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "random",
+      "title": "Random Effects",
+      "columns": [
+        {
+          "id": "group",
+          "label": "Group",
+          "type": "text"
+        },
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "var",
+          "label": "Variance",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "sd",
+          "label": "SD",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "cor",
+          "label": "Correlation",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "group": "subject",
+          "term": "(Intercept)",
+          "var": 612.100158024769,
+          "sd": 24.7406579949841,
+          "cor": null
+        },
+        {
+          "group": "subject",
+          "term": "days",
+          "var": 35.0717144509388,
+          "sd": 5.92213765889808,
+          "cor": null
+        },
+        {
+          "group": "subject",
+          "term": "(Intercept) ~ days",
+          "var": null,
+          "sd": null,
+          "cor": 0.0655512382381282
+        },
+        {
+          "group": "Residual",
+          "term": "",
+          "var": 654.940008259961,
+          "sd": 25.5917957216753,
+          "cor": null
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "singular",
+      "test": "Singular fit",
+      "status": "ok",
+      "message": "The random-effects structure is estimable (no singular fit).",
+      "table": null
+    },
+    {
+      "id": "normality",
+      "test": "Normality of residuals (Shapiro-Wilk)",
+      "status": "warn",
+      "message": "Residuals depart from normality; check the Q-Q plot.",
+      "table": {
+        "id": "normality",
+        "title": "Normality of residuals (Shapiro-Wilk)",
+        "columns": [
+          {
+            "id": "stat",
+            "label": "W",
+            "type": "number",
+            "digits": 3
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "stat": 0.901460271787718,
+            "p": 1.40752151255474e-09
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot8",
+      "title": "Residuals vs fitted",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot8.svg",
+      "html": "plot8.html",
+      "data_csv": "plot8.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A linear mixed model with a random intercept and random slope for days for subject was fitted by REML (180 observations, 18 groups). Significant fixed effects: days. Fixed effects explained 27.9% of the variance; fixed and random effects together 79.9%."
+  },
+  "notes": [],
+  "module": "mixed_linear",
+  "module_version": "1.0.0",
+  "title": "Linear Mixed Model",
+  "status": "ok",
+  "code": "library(lmerTest)\nlibrary(ggnext)\n# Linear mixed model: reaction with observations grouped by subject\nd <- data[complete.cases(data[, c(\"reaction\", \"days\", \"subject\"), drop = FALSE]), , drop = FALSE]\nd$subject <- droplevels(factor(d$subject))\nfit <- lmer(reaction ~ days + (1 + days | subject), data = d, REML = TRUE)\ncoefs <- cbind(coef(summary(fit)), confint(fit, parm = \"beta_\", method = \"Wald\", level = 0.95))\nterm_tests <- as.data.frame(anova(fit))  # Type III, Satterthwaite df\nrandom_effects <- as.data.frame(VarCorr(fit))\nr2 <- performance::r2_nakagawa(fit)\nicc <- performance::icc(fit)\nsingular <- isSingular(fit)\nnormality <- shapiro.test(residuals(fit))\nresid_df <- data.frame(fitted = fitted(fit), resid = residuals(fit))\np_resid <- ggnext(resid_df, aes(fitted, resid)) +\n  geom_residual() +\n  labs(title = \"Residuals vs fitted\", x = \"Fitted values\", y = \"Residuals\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "lme4": "1.1.35.1",
+      "lmerTest": "3.1.3",
+      "performance": "0.10.8",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "tables": [
+    {
+      "id": "descriptives",
+      "title": "Descriptives",
+      "columns": [
+        {
+          "id": "var",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "median",
+          "label": "Median",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "q1",
+          "label": "25th percentile",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "q3",
+          "label": "75th percentile",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "var": "age8",
+          "n": 27,
+          "median": 22,
+          "q1": 21,
+          "q3": 23.25
+        },
+        {
+          "var": "age10",
+          "n": 27,
+          "median": 23,
+          "q1": 21.5,
+          "q3": 24.5
+        },
+        {
+          "var": "age12",
+          "n": 27,
+          "median": 24,
+          "q1": 23,
+          "q3": 26
+        },
+        {
+          "var": "age14",
+          "n": 27,
+          "median": 26,
+          "q1": 25,
+          "q3": 27.75
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "friedman",
+      "title": "Friedman Test",
+      "columns": [
+        {
+          "id": "stat",
+          "label": "χ²",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "w",
+          "label": "Kendall's W",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "stat": 64.574144486692,
+          "df": 3,
+          "p": 6.18654118791587e-14,
+          "w": 0.797211660329531
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "posthoc",
+      "title": "Pairwise Wilcoxon Signed-Rank Tests (Holm)",
+      "columns": [
+        {
+          "id": "comparison",
+          "label": "Comparison",
+          "type": "text"
+        },
+        {
+          "id": "p",
+          "label": "p (adjusted)",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "comparison": "age10 − age8",
+          "p": 0.0129353247192753
+        },
+        {
+          "comparison": "age12 − age8",
+          "p": 3.39594682090475e-05
+        },
+        {
+          "comparison": "age14 − age8",
+          "p": 3.39594682090475e-05
+        },
+        {
+          "comparison": "age12 − age10",
+          "p": 0.000655799234720121
+        },
+        {
+          "comparison": "age14 − age10",
+          "p": 3.39594682090475e-05
+        },
+        {
+          "comparison": "age14 − age12",
+          "p": 0.000607963526514951
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [],
+  "plots": [
+    {
+      "id": "plot7",
+      "title": "Repeated measurements",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot7.svg",
+      "html": "plot7.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A Friedman test showed a significant difference across the 4 measurements, χ²(3) = 64.57, p < .001, Kendall's W = 0.80."
+  },
+  "notes": [],
+  "module": "friedman",
+  "module_version": "1.0.0",
+  "title": "Friedman Test",
+  "status": "ok",
+  "code": "library(ggnext)\n# Friedman test: age8, age10, age12, age14\nd <- data[complete.cases(data[, c(\"age8\", \"age10\", \"age12\", \"age14\")]), c(\"age8\", \"age10\", \"age12\", \"age14\")]\ndesc <- sapply(d, function(v) c(n = length(v), median = median(v), q1 = unname(quantile(v, 0.25)), q3 = unname(quantile(v, 0.75))))\nfriedman <- friedman.test(as.matrix(d))\nkendall_w <- unname(friedman$statistic) / (nrow(d) * (ncol(d) - 1))\nlong <- data.frame(condition = factor(rep(names(d), each = nrow(d)), levels = names(d)), value = unlist(d, use.names = FALSE))\nposthoc <- pairwise.wilcox.test(long$value, long$condition, paired = TRUE,\n  p.adjust.method = \"holm\", exact = FALSE)\np <- ggnext(long, aes(condition, value)) +\n  geom_boxplot() +\n  geom_jitter(width = 0.15, alpha = 0.7) +\n  labs(title = \"Repeated measurements\", x = \"Measurement\", y = \"Value\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

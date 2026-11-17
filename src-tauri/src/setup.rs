@@ -12,6 +12,8 @@ pub const CRAN_SNAPSHOT: &str = "https://packagemanager.posit.co/cran/2026-11-01
 
 pub const R_PACKAGES: &[&str] = &[
     "jsonlite", "glue", "effectsize", "car", "rsvg", "readxl", "haven", "S7", "ggnext",
+    // Phase 2: models, survival, reliability, report export
+    "MASS", "nnet", "survival", "lme4", "lmerTest", "emmeans", "performance", "psych", "zip", "qpdf",
 ];
 
 /// R script run once by Rscript. Prints "PROGRESS <pct> <message>" lines.

@@ -1,0 +1,122 @@
+{
+  "tables": [
+    {
+      "id": "crosstab",
+      "title": "first × second",
+      "columns": [
+        {
+          "id": "row",
+          "label": "first",
+          "type": "text"
+        },
+        {
+          "id": "a",
+          "label": "Disapprove",
+          "type": "int"
+        },
+        {
+          "id": "b",
+          "label": "Approve",
+          "type": "int"
+        },
+        {
+          "id": "total",
+          "label": "Total",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "row": "Disapprove",
+          "a": 570,
+          "b": 86,
+          "total": 656
+        },
+        {
+          "row": "Approve",
+          "a": 150,
+          "b": 794,
+          "total": 944
+        },
+        {
+          "row": "Total",
+          "a": 720,
+          "b": 880,
+          "total": 1600
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "mcnemar",
+      "title": "McNemar Test",
+      "columns": [
+        {
+          "id": "test",
+          "label": "Test",
+          "type": "text"
+        },
+        {
+          "id": "stat",
+          "label": "Statistic",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "test": "McNemar χ² (continuity corrected)",
+          "stat": 16.8177966101695,
+          "df": 1,
+          "p": 4.11456228134594e-05
+        },
+        {
+          "test": "Exact binomial",
+          "stat": null,
+          "df": null,
+          "p": 3.71593613957143e-05
+        }
+      ],
+      "notes": [
+        "Discordant pairs: 86 changed from Disapprove to Approve, 150 from Approve to Disapprove."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "discordant",
+      "test": "Discordant pairs",
+      "status": "ok",
+      "message": "Enough discordant pairs for the chi-square approximation.",
+      "table": null
+    }
+  ],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The proportions for first and second differed significantly, McNemar χ²(1) = 16.82, p < .001."
+  },
+  "notes": [],
+  "module": "mcnemar",
+  "module_version": "1.0.0",
+  "title": "McNemar Test",
+  "status": "ok",
+  "code": "# McNemar test: first vs second\nd <- data[complete.cases(data[, c(\"first\", \"second\"), drop = FALSE]), , drop = FALSE]\nd$first <- factor(d$first, levels = c(0, 1), labels = c(\"Disapprove\", \"Approve\"))\nd$second <- factor(d$second, levels = c(0, 1), labels = c(\"Disapprove\", \"Approve\"))\nlv <- union(levels(d$first), levels(d$second))\ntab <- table(factor(d$first, levels = lv), factor(d$second, levels = lv), dnn = c(\"first\", \"second\"))\nmcnemar <- mcnemar.test(tab, correct = TRUE)\nexact <- binom.test(tab[1, 2], tab[1, 2] + tab[2, 1], p = 0.5)",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {},
+    "dataset": "data"
+  }
+}

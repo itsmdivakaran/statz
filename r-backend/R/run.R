@@ -27,7 +27,8 @@ sn_run_analysis <- function(sess, module, options, dataset = "data", instance = 
   res$meta <- list(r_version = paste(R.version$major, R.version$minor, sep = "."),
                    packages = sn_pkg_versions(pkgs), dataset = dataset)
   if (!is.null(instance))
-    sess$analyses[[instance]] <- list(title = mod$spec$title, code = gen$code)
+    sess$analyses[[instance]] <- list(title = mod$spec$title, code = gen$code,
+                                      result = res[c("tables", "assumptions", "plots", "interpretation")])
   res
 }
 
@@ -46,6 +47,10 @@ sn_eval <- function(code, objects = list()) {
   env <- new.env(parent = globalenv())
   for (nm in names(objects)) assign(nm, objects[[nm]], envir = env)
   warns <- character()
+  # ggnext and ggplot2 both export aes(), geom_*(): whichever the code loads must come first on the search path.
+  for (pair in list(c("ggnext", "ggplot2"), c("ggplot2", "ggnext")))
+    if (grepl(paste0("library(", pair[1], ")"), code, fixed = TRUE) && paste0("package:", pair[2]) %in% search())
+      try(detach(paste0("package:", pair[2]), character.only = TRUE), silent = TRUE)
   exprs <- parse(text = code, keep.source = FALSE)
   console <- utils::capture.output(
     withCallingHandlers(
@@ -74,7 +79,9 @@ sn_run_code <- function(sess, code, dataset = "data") {
 }
 
 sn_pkg_versions <- function(pkgs) {
+  pkgs <- as.character(pkgs)
   pkgs <- pkgs[vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
+  if (!length(pkgs)) return(structure(list(), names = character()))   # serialises as {} rather than []
   stats::setNames(lapply(pkgs, function(p) as.character(utils::packageVersion(p))), pkgs)
 }
 

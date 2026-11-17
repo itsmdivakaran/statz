@@ -1,0 +1,138 @@
+{
+  "tables": [
+    {
+      "id": "counts",
+      "title": "Observed and Expected Counts",
+      "columns": [
+        {
+          "id": "level",
+          "label": "cyl",
+          "type": "text"
+        },
+        {
+          "id": "obs",
+          "label": "Observed",
+          "type": "int"
+        },
+        {
+          "id": "exp",
+          "label": "Expected",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "prop",
+          "label": "Observed proportion",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "resid",
+          "label": "Std. residual",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "level": "4",
+          "obs": 11,
+          "exp": 10.6666666666667,
+          "prop": 0.34375,
+          "resid": 0.125
+        },
+        {
+          "level": "6",
+          "obs": 7,
+          "exp": 10.6666666666667,
+          "prop": 0.21875,
+          "resid": -1.375
+        },
+        {
+          "level": "8",
+          "obs": 14,
+          "exp": 10.6666666666667,
+          "prop": 0.4375,
+          "resid": 1.25
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "gof",
+      "title": "Goodness of Fit",
+      "columns": [
+        {
+          "id": "stat",
+          "label": "χ²",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "stat": 2.3125,
+          "df": 2,
+          "n": 32,
+          "p": 0.314663961018459
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "expected",
+      "test": "Expected counts",
+      "status": "ok",
+      "message": "All expected counts are at least 5.",
+      "table": null
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot5",
+      "title": "cyl",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot5.svg",
+      "html": "plot5.html",
+      "data_csv": "plot5.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The observed distribution of cyl did not differ significantly from the expected distribution, χ²(2, N = 32) = 2.31, p = .315."
+  },
+  "notes": [],
+  "module": "chisq_gof",
+  "module_version": "1.0.0",
+  "title": "Chi-Square Goodness of Fit",
+  "status": "ok",
+  "code": "library(ggnext)\n# Chi-square goodness of fit: cyl\nd <- subset(data, !is.na(cyl))\nd$cyl <- droplevels(factor(d$cyl))\ncounts <- table(d$cyl)\ngof <- chisq.test(counts)\np <- ggnext(d, aes(cyl)) +\n  geom_bar() +\n  labs(title = \"cyl\", x = \"Number of cylinders\", y = \"Count\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

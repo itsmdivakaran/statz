@@ -171,14 +171,14 @@
   ],
   "plots": [
     {
-      "id": "plot4",
+      "id": "plot16",
       "title": "mpg",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot4.svg",
-      "html": "plot4.html",
-      "data_csv": "plot4.csv"
+      "svg": "plot16.svg",
+      "html": "plot16.html",
+      "data_csv": "plot16.csv"
     }
   ],
   "interpretation": {

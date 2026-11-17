@@ -11,14 +11,14 @@ const MENUS: { name: string; Icon: LucideIcon }[] = [
   { name: "Data", Icon: Database },
   { name: "Descriptives", Icon: Sigma },
   { name: "Tests", Icon: TestTubes },
-  { name: "Plots", Icon: BarChart3 },
+  { name: "Regression", Icon: TrendingUp },
+  { name: "Survival", Icon: HeartPulse },
 ];
 const UPCOMING: { name: string; Icon: LucideIcon; phase: string; hint: string }[] = [
-  { name: "Regression", Icon: TrendingUp, phase: "Phase 2", hint: "Linear, logistic, mixed models" },
-  { name: "Survival", Icon: HeartPulse, phase: "Phase 2", hint: "Kaplan-Meier, Cox regression" },
   { name: "ML", Icon: BrainCircuit, phase: "Phase 3", hint: "Trees, forests, boosting, SHAP" },
   { name: "Clinical", Icon: Stethoscope, phase: "Phase 3", hint: "CDISC, diagnostic accuracy, meta-analysis" },
   { name: "Multivariate", Icon: Network, phase: "Phase 3", hint: "PCA, factor analysis, clustering" },
+  { name: "Bayesian", Icon: BarChart3, phase: "Phase 4", hint: "Bayesian tests and models" },
   { name: "Guide", Icon: Compass, phase: "Phase 4", hint: "Which test should I use?" },
 ];
 
@@ -36,7 +36,7 @@ function useDropdown() {
 }
 
 const TAB = "flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-surface2 hover:text-ink aria-expanded:bg-brand/10 aria-expanded:text-brand";
-const POP = "absolute left-0 z-30 mt-1.5 w-80 origin-top-left animate-pop rounded-xl border border-line bg-surface p-1.5 shadow-pop";
+const POP = "absolute left-0 z-30 mt-1.5 max-h-[calc(100vh-5rem)] w-80 origin-top-left animate-pop overflow-y-auto rounded-xl border border-line bg-surface p-1.5 shadow-pop";
 
 function Menu({ name, Icon, items, empty }: { name: string; Icon: LucideIcon; items: Command[]; empty?: string }) {
   const { open, setOpen, ref } = useDropdown();
@@ -105,8 +105,7 @@ function MoreMenu() {
 export function Ribbon({ onSearch }: { onSearch: () => void }) {
   const { theme, toggleTheme, hello, data } = useStore();
   const commands = useCommands();
-  const itemsFor = (menu: string) =>
-    commands.filter((c) => c.menu === (menu === "Plots" ? "Descriptives" : menu));
+  const itemsFor = (menu: string) => commands.filter((c) => c.menu === menu);
   const isMac = typeof navigator !== "undefined" && /Mac/.test(navigator.platform);
 
   return (

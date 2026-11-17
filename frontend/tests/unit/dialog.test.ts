@@ -3,6 +3,7 @@ import { accepts } from "../../src/dialogs/AnalysisDialog";
 import { defaultOptions, rolesFilled } from "../../src/state/store";
 import type { ModuleSpec, VariableMeta } from "../../src/types";
 import spec from "../../../analyses/ttest_ind/spec.json";
+import mixed from "../../../analyses/mixed_linear/spec.json";
 
 const s = spec as unknown as ModuleSpec;
 const v = (name: string, measure: VariableMeta["measure"]): VariableMeta =>
@@ -26,5 +27,12 @@ describe("dialog rules", () => {
   it("runs only when required roles are filled", () => {
     expect(rolesFilled(s, { dv: ["mpg"], group: [] })).toBe(false);
     expect(rolesFilled(s, { dv: ["mpg"], group: ["am"] })).toBe(true);
+  });
+
+  it("leaves interaction terms unset and starts subsets empty", () => {
+    const o = defaultOptions(mixed as unknown as ModuleSpec);
+    expect("interactions" in o).toBe(false);
+    expect(o.random_slopes).toEqual([]);
+    expect(o.method).toBe("REML");
   });
 });

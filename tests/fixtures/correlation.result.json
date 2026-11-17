@@ -1,0 +1,205 @@
+{
+  "tables": [
+    {
+      "id": "matrix",
+      "title": "Correlation Matrix (r)",
+      "columns": [
+        {
+          "id": "var",
+          "label": "",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "mpg",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c2",
+          "label": "hp",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c3",
+          "label": "wt",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c4",
+          "label": "qsec",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "var": "mpg",
+          "c1": 1,
+          "c2": -0.776168371826586,
+          "c3": -0.867659376517228,
+          "c4": 0.418684033921778
+        },
+        {
+          "var": "hp",
+          "c1": -0.776168371826586,
+          "c2": 1,
+          "c3": 0.658747887344759,
+          "c4": -0.708223388861953
+        },
+        {
+          "var": "wt",
+          "c1": -0.867659376517228,
+          "c2": 0.658747887344759,
+          "c3": 1,
+          "c4": -0.174715878713405
+        },
+        {
+          "var": "qsec",
+          "c1": 0.418684033921778,
+          "c2": -0.708223388861953,
+          "c3": -0.174715878713405,
+          "c4": 1
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "pairs",
+      "title": "Pairwise Correlations",
+      "columns": [
+        {
+          "id": "var1",
+          "label": "Variable 1",
+          "type": "text"
+        },
+        {
+          "id": "var2",
+          "label": "Variable 2",
+          "type": "text"
+        },
+        {
+          "id": "r",
+          "label": "r",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "t",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "var1": "mpg",
+          "var2": "hp",
+          "r": -0.776168371826586,
+          "ci": [-0.885268613495523, -0.586099412685315],
+          "stat": -6.74238854270679,
+          "df": 30,
+          "p": 1.78783525412106e-07
+        },
+        {
+          "var1": "mpg",
+          "var2": "wt",
+          "r": -0.867659376517228,
+          "ci": [-0.933826413284994, -0.744087196460113],
+          "stat": -9.55904414697211,
+          "df": 30,
+          "p": 1.29395870135052e-10
+        },
+        {
+          "var1": "mpg",
+          "var2": "qsec",
+          "r": 0.418684033921778,
+          "ci": [0.0819548679090098, 0.669618639209138],
+          "stat": 2.52521325924085,
+          "df": 30,
+          "p": 0.0170819884965196
+        },
+        {
+          "var1": "hp",
+          "var2": "wt",
+          "r": 0.658747887344759,
+          "ci": [0.402511342666438, 0.819257296305059],
+          "stat": 4.79569988406785,
+          "df": 30,
+          "p": 4.14582744107534e-05
+        },
+        {
+          "var1": "hp",
+          "var2": "qsec",
+          "r": -0.708223388861953,
+          "ci": [-0.847599843858302, -0.477433050356304],
+          "stat": -5.49456509105697,
+          "df": 30,
+          "p": 5.76625345581476e-06
+        },
+        {
+          "var1": "wt",
+          "var2": "qsec",
+          "r": -0.174715878713405,
+          "ci": [-0.493353577924842, 0.18526486677376],
+          "stat": -0.971907290633974,
+          "df": 30,
+          "p": 0.338868284134916
+        }
+      ],
+      "notes": [
+        "N = 32 complete cases."
+      ]
+    }
+  ],
+  "assumptions": [],
+  "plots": [
+    {
+      "id": "plot6",
+      "title": "Correlation matrix",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot6.svg",
+      "html": "plot6.html",
+      "data_csv": "plot6.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "5 of 6 Pearson correlations were significant at the .05 level. The strongest was between mpg and wt, r = −0.87, p < .001."
+  },
+  "notes": [],
+  "module": "correlation",
+  "module_version": "1.0.0",
+  "title": "Correlation",
+  "status": "ok",
+  "code": "library(ggnext)\n# Pearson correlation: mpg, hp, wt, qsec\nvars <- c(\"mpg\", \"hp\", \"wt\", \"qsec\")\nd <- data[complete.cases(data[, vars]), ]\nx <- d[vars]\ncor_matrix <- cor(x, method = \"pearson\")\npair_idx <- t(combn(vars, 2))\ncor_pairs <- do.call(rbind, lapply(seq_len(nrow(pair_idx)), function(i) {\n  ct <- cor.test(x[[pair_idx[i, 1]]], x[[pair_idx[i, 2]]], method = \"pearson\", conf.level = 0.95, exact = FALSE)\n  ci <- if (is.null(ct$conf.int)) c(NA, NA) else ct$conf.int\n  data.frame(var1 = pair_idx[i, 1], var2 = pair_idx[i, 2], r = unname(ct$estimate), statistic = unname(ct$statistic),\n             df = if (is.null(ct$parameter)) NA else unname(ct$parameter), p = ct$p.value, lower = ci[1], upper = ci[2])\n}))\np <- ggnext() +\n  geom_cor(x, vars = vars) +\n  labs(title = \"Correlation matrix\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

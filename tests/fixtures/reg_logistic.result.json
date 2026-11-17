@@ -1,0 +1,357 @@
+{
+  "tables": [
+    {
+      "id": "fit",
+      "title": "Model Fit",
+      "columns": [
+        {
+          "id": "chi",
+          "label": "χ² (LR)",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "mcf",
+          "label": "McFadden R²",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "nag",
+          "label": "Nagelkerke R²",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "auc",
+          "label": "AUC",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "aic",
+          "label": "AIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "chi": 55.2683325908834,
+          "df": 6,
+          "p": 4.09168804472422e-10,
+          "mcf": 0.174805131462428,
+          "nag": 0.277251847033184,
+          "auc": 0.771157356699525,
+          "aic": 274.902778225521,
+          "n": 248
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "coefficients",
+      "title": "Coefficients",
+      "columns": [
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "B",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "exp",
+          "label": "Odds ratio",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "exp_ci",
+          "label": "Odds ratio 95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "term": "(Intercept)",
+          "est": -2.80978212286509,
+          "se": 1.04246152696854,
+          "stat": -2.69533412042159,
+          "p": 0.00703180802842528,
+          "ci": [-4.85296917099206, -0.766595074738126],
+          "exp": null,
+          "exp_ci": [null, null]
+        },
+        {
+          "term": "age",
+          "est": 0.0526630548814412,
+          "se": 0.0304867008611709,
+          "stat": 1.7274107526838,
+          "p": 0.0840939208723372,
+          "ci": [-0.00708978081390006, 0.112415890576782],
+          "exp": 1.05407442004661,
+          "exp_ci": [0.99293529239259, 1.11897813634898]
+        },
+        {
+          "term": "parity",
+          "est": -0.712681175036057,
+          "se": 0.182951967279274,
+          "stat": -3.89545510570081,
+          "p": 9.80145163654305e-05,
+          "ci": [-1.07126044180418, -0.354101908267929],
+          "exp": 0.490327778875047,
+          "exp_ci": [0.342576447500857, 0.701803444137634]
+        },
+        {
+          "term": "spontaneous1",
+          "est": 1.8986248618651,
+          "se": 0.391155284046719,
+          "stat": 4.85389035838344,
+          "p": 1.21062686427297e-06,
+          "ci": [1.131974592771, 2.6652751309592],
+          "exp": 6.67670673249867,
+          "exp_ci": [3.1017752000536, 14.3719031575927]
+        },
+        {
+          "term": "spontaneous2 or more",
+          "est": 3.86454799066454,
+          "se": 0.623707784607034,
+          "stat": 6.19608747243614,
+          "p": 5.78839659773926e-10,
+          "ci": [2.64210319595749, 5.08699278537159],
+          "exp": 47.6817149806689,
+          "exp_ci": [14.0427071358879, 161.902254422684]
+        },
+        {
+          "term": "induced1",
+          "est": 1.13907522187988,
+          "se": 0.403290794612754,
+          "stat": 2.82445133163437,
+          "p": 0.00473616404445559,
+          "ci": [0.348639789142339, 1.92951065461741],
+          "exp": 3.12387813483221,
+          "exp_ci": [1.41713862967154, 6.88613971629904]
+        },
+        {
+          "term": "induced2 or more",
+          "est": 2.40630654157485,
+          "se": 0.595315313906955,
+          "stat": 4.04207062268005,
+          "p": 5.2981269382375e-05,
+          "ci": [1.23950996687206, 3.57310311627764],
+          "exp": 11.0929141717758,
+          "exp_ci": [3.45392051452233, 35.6269764474883]
+        }
+      ],
+      "notes": [
+        "Outcome modelled: case = Case (reference: Control).",
+        "Wald confidence intervals."
+      ]
+    },
+    {
+      "id": "classification",
+      "title": "Classification Table (cut-off 0.5)",
+      "columns": [
+        {
+          "id": "obs",
+          "label": "Observed",
+          "type": "text"
+        },
+        {
+          "id": "p0",
+          "label": "Predicted Control",
+          "type": "int"
+        },
+        {
+          "id": "p1",
+          "label": "Predicted Case",
+          "type": "int"
+        },
+        {
+          "id": "pc",
+          "label": "% correct",
+          "type": "number",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "obs": "Control",
+          "p0": 144,
+          "p1": 21,
+          "pc": 87.2727272727273,
+          "_row": "Control"
+        },
+        {
+          "obs": "Case",
+          "p0": 42,
+          "p1": 41,
+          "pc": 49.3975903614458,
+          "_row": "Case"
+        }
+      ],
+      "notes": [
+        "Overall accuracy 74.6%; sensitivity 49.4%, specificity 87.3%."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "vif",
+      "test": "Multicollinearity (VIF)",
+      "status": "ok",
+      "message": "No variance inflation factor exceeds 5.",
+      "table": {
+        "id": "vif",
+        "title": "Variance Inflation Factors",
+        "columns": [
+          {
+            "id": "term",
+            "label": "Term",
+            "type": "text"
+          },
+          {
+            "id": "vif",
+            "label": "VIF",
+            "type": "number",
+            "digits": 2
+          }
+        ],
+        "rows": [
+          {
+            "term": "age",
+            "vif": 1.11644425693375
+          },
+          {
+            "term": "parity",
+            "vif": 2.12911735278593
+          },
+          {
+            "term": "spontaneous",
+            "vif": 1.4839361612737
+          },
+          {
+            "term": "induced",
+            "vif": 1.44155890451327
+          }
+        ],
+        "notes": [
+          "For factors, the value is GVIF^(1/(2·df)) squared, comparable to a VIF."
+        ]
+      }
+    },
+    {
+      "id": "hl",
+      "test": "Calibration (Hosmer-Lemeshow)",
+      "status": "ok",
+      "message": "Predicted and observed risks agree.",
+      "table": {
+        "id": "hl",
+        "title": "Calibration (Hosmer-Lemeshow)",
+        "columns": [
+          {
+            "id": "stat",
+            "label": "χ²",
+            "type": "number",
+            "digits": 3
+          },
+          {
+            "id": "df",
+            "label": "df",
+            "type": "number",
+            "digits": 2
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "stat": 11.0673851253731,
+            "df": 8,
+            "p": 0.197910223201557
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot12",
+      "title": "ROC curve",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot12.svg",
+      "html": "plot12.html",
+      "data_csv": "plot12.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The model fit significantly better than the null model, χ²(6) = 55.27, p < .001, Nagelkerke R² = 0.28, AUC = 0.77. Significant predictors (odds ratio): parity (0.49), spontaneous1 (6.68), spontaneous2 or more (47.68), induced1 (3.12), induced2 or more (11.09)."
+  },
+  "notes": [],
+  "module": "reg_logistic",
+  "module_version": "1.0.0",
+  "title": "Logistic Regression",
+  "status": "ok",
+  "code": "library(car)\nlibrary(ggnext)\n# Logistic regression: case on age, parity, spontaneous, induced\nd <- data[complete.cases(data[, c(\"case\", \"age\", \"parity\", \"spontaneous\", \"induced\"), drop = FALSE]), , drop = FALSE]\nd$case <- factor(d$case, levels = c(0, 1), labels = c(\"Control\", \"Case\"))\nd$spontaneous <- factor(d$spontaneous, levels = c(0, 1, 2), labels = c(\"0\", \"1\", \"2 or more\"))\nd$induced <- factor(d$induced, levels = c(0, 1, 2), labels = c(\"0\", \"1\", \"2 or more\"))\n# Models the probability of the second category: levels(d$case)[2]\nfit <- glm(case ~ age + parity + spontaneous + induced, data = d, family = binomial)\ncoefs <- cbind(coef(summary(fit)), confint.default(fit, level = 0.95))\nn <- nobs(fit)\nlr_chi <- fit$null.deviance - fit$deviance; lr_df <- fit$df.null - fit$df.residual\nr2_mcfadden <- 1 - fit$deviance / fit$null.deviance\nr2_nagelkerke <- (1 - exp((fit$deviance - fit$null.deviance) / n)) / (1 - exp(-fit$null.deviance / n))\npred <- fitted(fit); y <- as.integer(fit$y)\nauc <- (mean(rank(pred)[y == 1]) - (sum(y == 1) + 1) / 2) / sum(y == 0)\nclass_table <- table(Observed = d$case, Predicted = factor(pred >= 0.5, c(FALSE, TRUE), levels(d$case)))\nvif_values <- vif(fit)\n# Hosmer-Lemeshow test with 10 groups of predicted risk\nhl_group <- cut(pred, breaks = unique(quantile(pred, 0:10 / 10)), include.lowest = TRUE)\nhl_obs <- tapply(y, hl_group, sum); hl_exp <- tapply(pred, hl_group, sum); hl_n <- tapply(y, hl_group, length)\nhl_stat <- sum((hl_obs - hl_exp)^2 / (hl_exp * (1 - hl_exp / hl_n)))\nhl_df <- length(hl_obs) - 2; hl_p <- pchisq(hl_stat, hl_df, lower.tail = FALSE)\nroc_df <- data.frame(truth = d$case, score = pred)\np_roc <- ggnext(roc_df, aes(truth = truth, score = score)) +\n  geom_roc() +\n  labs(title = \"ROC curve\", x = \"1 − Specificity\", y = \"Sensitivity\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "car": "3.1.2",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

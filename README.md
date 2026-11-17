@@ -9,15 +9,22 @@ Point-and-click statistics desktop app. Every result is computed by a local R an
 
 ![Independent t-test](docs/screenshots/main.png)
 
-## Phase 1 status
+## What is in it (Phases 1 and 2)
 
 | Area | Contents |
 |---|---|
-| Data | CSV/TSV, Excel, SPSS, Stata, SAS, Parquet; virtual grid; variable view (labels, measure, value labels, missing codes); undo/redo |
-| Analyses | Descriptives, one-sample / paired / independent t-test, one-way ANOVA (Fisher, Welch, Kruskal-Wallis, post hoc), chi-square / Fisher |
-| Output | APA tables, assumption checks, auto interpretation, plots (SVG/PNG/PDF/HTML/CSV export) |
+| Data | CSV/TSV, Excel, SPSS, Stata, SAS, Parquet; virtual grid; variable view (labels, measure, value labels, missing codes); compute, recode and filter with undo/redo |
+| Descriptives | Descriptives, frequencies, normality; reliability: Cronbach's α, ICC, Cohen's kappa |
+| T-tests, ANOVA | One-sample, paired, independent; one-way (Fisher, Welch, Kruskal-Wallis; Tukey, Games-Howell, Dunn), factorial, ANCOVA, repeated measures, mixed |
+| Non-parametric | Wilcoxon signed-rank, sign test, Friedman |
+| Frequencies | Chi-square / Fisher, goodness of fit, binomial, McNemar, Cochran's Q |
+| Regression | Correlation (Pearson, Spearman, Kendall, partial); linear, logistic, ordinal, multinomial, Poisson / negative binomial; linear and generalized mixed models |
+| Survival | Kaplan-Meier with log-rank test, Cox regression with proportional-hazards check |
+| Output | APA tables, assumption checks, auto interpretation, plots (SVG/PNG/PDF/HTML/CSV); all results to Word (.docx), PDF or HTML |
 | R code | Per analysis, editable and re-runnable; whole session exports as `.R`, `.Rmd` or `.qmd` |
 | Projects | `.statnext` = zip of manifest, UI state and `data.rds` |
+
+![Kaplan-Meier survival](docs/screenshots/survival.png)
 
 ## Layout
 
@@ -39,7 +46,7 @@ Requires R ≥ 4.4, Node 22 + pnpm, Rust stable.
 
 ```sh
 R CMD INSTALL r-backend
-Rscript -e 'install.packages(c("jsonlite","glue","effectsize","car","ggnext","ggplot2","rsvg","readxl","haven","arrow"))'
+Rscript scripts/install-r-packages.R
 cd frontend && pnpm install
 
 pnpm bridge & pnpm dev          # UI in a browser at :5173, real R via the dev bridge
@@ -52,8 +59,9 @@ Tests:
 STATNEXT_ROOT=$PWD Rscript -e 'testthat::test_dir("r-backend/tests/testthat")'
 cd frontend && pnpm typecheck && pnpm test && pnpm e2e --trace off
 STATNEXT_TEST_R=1 cargo test --manifest-path src-tauri/Cargo.toml
+Rscript scripts/make-fixtures.R   # regenerate tests/fixtures after changing a module
 ```
 
-Installers: push a `v*` tag; `.github/workflows/release.yml` builds `.dmg`, `.msi`, `.AppImage`, `.deb` (unsigned until Apple signing secrets are set).
+Installers: run the "Release installers" workflow (or push a `v*` tag); `.github/workflows/release.yml` builds `.dmg`, `.msi`, `.AppImage`, `.deb` (unsigned until Apple signing secrets are set).
 
 On first launch the app installs missing R packages into a private library from a date-pinned Posit Package Manager snapshot, so results are reproducible across machines.

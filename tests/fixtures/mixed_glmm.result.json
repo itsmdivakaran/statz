@@ -1,0 +1,212 @@
+{
+  "tables": [
+    {
+      "id": "fit",
+      "title": "Model Fit",
+      "columns": [
+        {
+          "id": "aic",
+          "label": "AIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "bic",
+          "label": "BIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "ll",
+          "label": "Log-likelihood",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "g",
+          "label": "Groups",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "aic": 207.770834384314,
+          "bic": 224.738972116075,
+          "ll": -98.8854171921568,
+          "n": 220,
+          "g": 50
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "coefficients",
+      "title": "Fixed Effects",
+      "columns": [
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "B",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "exp",
+          "label": "Odds ratio",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "exp_ci",
+          "label": "Odds ratio 95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "term": "(Intercept)",
+          "est": 1.82378191695352,
+          "se": 0.553375131457059,
+          "stat": 3.29574245982364,
+          "p": 0.000981619577707766,
+          "ci": [0.739186589357564, 2.90837724454947],
+          "exp": null,
+          "exp_ci": [null, null]
+        },
+        {
+          "term": "week",
+          "est": -0.143689105466269,
+          "se": 0.0509932540259953,
+          "stat": -2.81780616300775,
+          "p": 0.00483529909760615,
+          "ci": [-0.243634046811722, -0.0437441641208163],
+          "exp": 0.866156989677606,
+          "exp_ci": [0.78377440653001, 0.95719881195004]
+        },
+        {
+          "term": "treatmentdrug+",
+          "est": 0.524697153663844,
+          "se": 0.652303244831579,
+          "stat": 0.80437612080148,
+          "p": 0.421179787778275,
+          "ci": [-0.753793713204664, 1.80318802053235],
+          "exp": 1.68994697662359,
+          "exp_ci": [0.470577924429062, 6.06896464015864]
+        },
+        {
+          "term": "treatmentplacebo",
+          "est": 1.32013550803605,
+          "se": 0.642399075903598,
+          "stat": 2.05500841697063,
+          "p": 0.0398781917433384,
+          "ci": [0.061056455563187, 2.57921456050892],
+          "exp": 3.74392867531051,
+          "exp_ci": [1.06295892243789, 13.1867766758704]
+        }
+      ],
+      "notes": [
+        "Outcome modelled: present = Yes (reference: No).",
+        "Wald confidence intervals; estimates are conditional on the random effects."
+      ]
+    },
+    {
+      "id": "random",
+      "title": "Random Effects",
+      "columns": [
+        {
+          "id": "group",
+          "label": "Group",
+          "type": "text"
+        },
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "var",
+          "label": "Variance",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "sd",
+          "label": "SD",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "group": "id",
+          "term": "(Intercept)",
+          "var": 1.3144239360529,
+          "sd": 1.14648329078661
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "singular",
+      "test": "Singular fit",
+      "status": "ok",
+      "message": "The random-effects structure is estimable (no singular fit).",
+      "table": null
+    }
+  ],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A logistic mixed model with a random intercept for id was fitted (220 observations, 50 groups). Significant fixed effects: week, treatmentplacebo."
+  },
+  "notes": [],
+  "module": "mixed_glmm",
+  "module_version": "1.0.0",
+  "title": "Generalized Linear Mixed Model",
+  "status": "ok",
+  "code": "library(lme4)\n# Logistic mixed model: present with observations grouped by id\nd <- data[complete.cases(data[, c(\"present\", \"week\", \"treatment\", \"id\"), drop = FALSE]), , drop = FALSE]\nd$present <- factor(d$present, levels = c(0, 1), labels = c(\"No\", \"Yes\"))\nd$treatment <- droplevels(factor(d$treatment))\nd$id <- droplevels(factor(d$id))\n# Models the probability of the second category: levels(d$present)[2]\nfit <- glmer(present ~ week + treatment + (1 | id), data = d, family = binomial)\ncoefs <- cbind(coef(summary(fit)), confint(fit, parm = \"beta_\", method = \"Wald\", level = 0.95))\nrandom_effects <- as.data.frame(VarCorr(fit))\nsingular <- isSingular(fit)",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "lme4": "1.1.35.1"
+    },
+    "dataset": "data"
+  }
+}

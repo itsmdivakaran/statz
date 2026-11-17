@@ -1,0 +1,89 @@
+{
+  "tables": [
+    {
+      "id": "binomial",
+      "title": "Binomial Test",
+      "columns": [
+        {
+          "id": "var",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "level",
+          "label": "Level",
+          "type": "text"
+        },
+        {
+          "id": "count",
+          "label": "Count",
+          "type": "int"
+        },
+        {
+          "id": "total",
+          "label": "Total",
+          "type": "int"
+        },
+        {
+          "id": "prop",
+          "label": "Proportion",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "var": "case",
+          "level": "Control",
+          "count": 165,
+          "total": 248,
+          "prop": 0.665322580645161,
+          "ci": [0.602864306322587, 0.723773434955614],
+          "p": 2.11091926223175e-07
+        },
+        {
+          "var": "case",
+          "level": "Case",
+          "count": 83,
+          "total": 248,
+          "prop": 0.334677419354839,
+          "ci": [0.276226565044386, 0.397135693677413],
+          "p": 2.11091926223175e-07
+        }
+      ],
+      "notes": [
+        "Tested against a proportion of 0.5. Exact (Clopper-Pearson) confidence intervals."
+      ]
+    }
+  ],
+  "assumptions": [],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "For case, the proportion of 'Control' was 0.67 (165 of 248), which differed significantly from 0.5, p < .001."
+  },
+  "notes": [],
+  "module": "binomial_test",
+  "module_version": "1.0.0",
+  "title": "Binomial Test",
+  "status": "ok",
+  "code": "# Binomial test: case\nd <- data\nd$case <- factor(d$case, levels = c(0, 1), labels = c(\"Control\", \"Case\"))\ncounts <- table(d$case)\nbinom <- lapply(counts, function(k) binom.test(k, sum(counts), p = 0.5,\n  alternative = \"two.sided\", conf.level = 0.95))",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {},
+    "dataset": "data"
+  }
+}
