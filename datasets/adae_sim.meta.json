@@ -1,0 +1,22 @@
+{
+  "title": "Adverse events (simulated ADAE)",
+  "description": "Simulated adverse-event records in CDISC ADaM layout for the adsl_sim trial; one row per event. Arm sizes: Placebo 85, Drug 54 mg 85, Drug 81 mg 84. Not real patient data.",
+  "variables": {
+    "USUBJID": {
+      "label": "Unique subject identifier"
+    },
+    "TRT01P": {
+      "label": "Planned treatment"
+    },
+    "AEBODSYS": {
+      "label": "System organ class"
+    },
+    "AEDECOD": {
+      "label": "Preferred term"
+    },
+    "AESEV": {
+      "label": "Severity",
+      "measure": "ordinal"
+    }
+  }
+}

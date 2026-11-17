@@ -1,0 +1,21 @@
+{
+  "title": "US arrests by state (1973)",
+  "description": "Violent crime arrests per 100,000 residents in the 50 US states. Source: R datasets::USArrests (McNeil, 1977).",
+  "variables": {
+    "state": {
+      "label": "State"
+    },
+    "murder": {
+      "label": "Murder arrests per 100,000"
+    },
+    "assault": {
+      "label": "Assault arrests per 100,000"
+    },
+    "urban_pop": {
+      "label": "Urban population (%)"
+    },
+    "rape": {
+      "label": "Rape arrests per 100,000"
+    }
+  }
+}

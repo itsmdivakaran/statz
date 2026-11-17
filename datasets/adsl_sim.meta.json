@@ -1,0 +1,30 @@
+{
+  "title": "Clinical trial subjects (simulated ADSL)",
+  "description": "Simulated subject-level analysis dataset in CDISC ADaM layout: 254 subjects in three treatment arms. Not real patient data.",
+  "variables": {
+    "USUBJID": {
+      "label": "Unique subject identifier"
+    },
+    "TRT01P": {
+      "label": "Planned treatment"
+    },
+    "AGE": {
+      "label": "Age (years)"
+    },
+    "SEX": {
+      "label": "Sex"
+    },
+    "RACE": {
+      "label": "Race"
+    },
+    "BMIBL": {
+      "label": "Baseline BMI (kg/m²)"
+    },
+    "MMSETOT": {
+      "label": "Baseline MMSE total"
+    },
+    "DCSREAS": {
+      "label": "Reason for discontinuation"
+    }
+  }
+}

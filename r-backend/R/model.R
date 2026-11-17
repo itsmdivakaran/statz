@@ -190,3 +190,10 @@ sn_tbl_wide <- function(id, title, cols, values) {
   keep <- !vapply(values, function(v) is.null(v) || is.na(v), TRUE)
   sn_table(id, title, cols[keep], as.data.frame(values[keep], check.names = FALSE))
 }
+
+#' Dashed reference line: `dir` "h" (yintercept), "v" (xintercept) or "ab" (intercept, slope as "a, b").
+sn_ref_line <- function(engine, dir, at) {
+  fn <- c(h = "geom_hline(yintercept = ", v = "geom_vline(xintercept = ", ab = "geom_abline(")[[dir]]
+  if (dir == "ab") at <- paste0("intercept = ", at[1], ", slope = ", at[2])
+  paste0(fn, at, if (engine == "ggnext") ", dash = \"4 4\")" else ", linetype = 2)")
+}

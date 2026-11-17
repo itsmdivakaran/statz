@@ -1,0 +1,14 @@
+"study","year","events_vaccine","n_vaccine","events_control","n_control","latitude","allocation","log_rr","se"
+"Aronson, 1948",1948,4,123,11,139,44,"random",-0.8893,0.5706
+"Ferguson & Simes, 1949",1949,6,306,29,303,55,"random",-1.5854,0.4411
+"Rosenthal et al, 1960",1960,3,231,11,220,42,"random",-1.3481,0.6445
+"Hart & Sutherland, 1977",1977,62,13598,248,12867,52,"random",-1.4416,0.1415
+"Frimodt-Moller et al, 1973",1973,33,5069,47,5808,13,"alternate",-0.2175,0.2263
+"Stein & Aronson, 1953",1953,180,1541,372,1451,44,"alternate",-0.7861,0.0831
+"Vandiviere et al, 1973",1973,8,2545,10,629,19,"random",-1.6209,0.4722
+"TPT Madras, 1980",1980,505,88391,499,88391,13,"random",0.012,0.0629
+"Coetzee & Berjak, 1968",1968,29,7499,45,7277,27,"random",-0.4694,0.2376
+"Rosenthal et al, 1961",1961,17,1716,65,1665,42,"systematic",-1.3713,0.2702
+"Comstock et al, 1974",1974,186,50634,141,27338,18,"systematic",-0.3394,0.1114
+"Comstock & Webster, 1969",1969,5,2498,3,2341,33,"systematic",0.4459,0.7297
+"Comstock et al, 1976",1976,27,16913,29,17854,33,"systematic",-0.0173,0.2672

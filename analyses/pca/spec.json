@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "pca",
+  "version": "1.0.0",
+  "title": "Principal Component Analysis",
+  "description": "Reduce many variables to a few components",
+  "menu": ["Multivariate", "Dimension reduction"],
+  "r": { "file": "pca.R", "fn": "codegen_pca", "packages": ["ggnext"] },
+  "roles": [
+    { "id": "vars", "label": "Variables", "min": 2, "max": null, "measure": ["continuous", "ordinal"] },
+    { "id": "group", "label": "Colour scores by (optional)", "min": 0, "max": 1, "measure": ["nominal", "ordinal"] }
+  ],
+  "options": {
+    "standardize": { "type": "bool", "label": "Standardize variables (correlation matrix)", "default": true },
+    "retain": { "type": "enum", "label": "Components to keep", "values": ["kaiser", "fixed"], "labels": ["Eigenvalue above average (Kaiser)", "Fixed number"], "default": "kaiser" },
+    "n_components": { "type": "number", "label": "Number of components (when fixed)", "min": 1, "max": 50, "step": 1, "default": 2 },
+    "rotation": { "type": "enum", "label": "Rotation", "values": ["none", "varimax"], "labels": ["None", "Varimax"], "default": "none" },
+    "cut": { "type": "number", "label": "Hide loadings below", "min": 0, "max": 0.9, "step": 0.05, "default": 0 },
+    "factorability": { "type": "bool", "label": "KMO and Bartlett's test", "default": true },
+    "plot": { "type": "enum", "label": "Plots", "values": ["scree", "scores"], "labels": ["Scree plot", "Component scores (PC1 by PC2)"], "multiple": true, "default": ["scree", "scores"] }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["vars", "group"] },
+    { "section": "Options", "items": ["standardize", "retain", "n_components", "rotation", "cut", "factorability"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "continuous", "design": "dimension-reduction" },
+  "example": { "dataset": "usarrests", "options": { "vars": ["murder", "assault", "urban_pop", "rape"], "retain": "fixed", "n_components": 2 } }
+}

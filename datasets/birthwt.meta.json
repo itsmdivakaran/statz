@@ -1,0 +1,95 @@
+{
+  "title": "Risk factors for low birth weight",
+  "description": "189 births at Baystate Medical Center, 1986. Source: MASS::birthwt (Hosmer & Lemeshow, 1989).",
+  "variables": {
+    "low": {
+      "label": "Birth weight below 2.5 kg",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "No"
+        },
+        {
+          "value": 1,
+          "label": "Yes"
+        }
+      ]
+    },
+    "age": {
+      "label": "Mother's age (years)"
+    },
+    "mother_weight": {
+      "label": "Mother's weight (lb)"
+    },
+    "race": {
+      "label": "Mother's race",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 1,
+          "label": "White"
+        },
+        {
+          "value": 2,
+          "label": "Black"
+        },
+        {
+          "value": 3,
+          "label": "Other"
+        }
+      ]
+    },
+    "smoke": {
+      "label": "Smoked during pregnancy",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "No"
+        },
+        {
+          "value": 1,
+          "label": "Yes"
+        }
+      ]
+    },
+    "preterm": {
+      "label": "Previous premature labours"
+    },
+    "hypertension": {
+      "label": "History of hypertension",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "No"
+        },
+        {
+          "value": 1,
+          "label": "Yes"
+        }
+      ]
+    },
+    "uterine_irritability": {
+      "label": "Uterine irritability",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "No"
+        },
+        {
+          "value": 1,
+          "label": "Yes"
+        }
+      ]
+    },
+    "visits": {
+      "label": "Physician visits, first trimester"
+    },
+    "birth_weight": {
+      "label": "Birth weight (g)"
+    }
+  }
+}

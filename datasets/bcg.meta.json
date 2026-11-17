@@ -1,0 +1,36 @@
+{
+  "title": "BCG vaccine trials",
+  "description": "13 trials of the BCG vaccine against tuberculosis: cases and group sizes, with the log risk ratio and its standard error. Source: metadat::dat.bcg (Colditz et al., 1994).",
+  "variables": {
+    "study": {
+      "label": "Study"
+    },
+    "year": {
+      "label": "Publication year"
+    },
+    "events_vaccine": {
+      "label": "TB cases, vaccinated"
+    },
+    "n_vaccine": {
+      "label": "Vaccinated (n)"
+    },
+    "events_control": {
+      "label": "TB cases, control"
+    },
+    "n_control": {
+      "label": "Control (n)"
+    },
+    "latitude": {
+      "label": "Absolute latitude"
+    },
+    "allocation": {
+      "label": "Allocation method"
+    },
+    "log_rr": {
+      "label": "Log risk ratio"
+    },
+    "se": {
+      "label": "Standard error"
+    }
+  }
+}

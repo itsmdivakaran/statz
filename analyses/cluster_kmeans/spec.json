@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "cluster_kmeans",
+  "version": "1.0.0",
+  "title": "K-Means Clustering",
+  "description": "Group cases into k clusters of similar profiles",
+  "menu": ["Multivariate", "Clustering"],
+  "r": { "file": "cluster_kmeans.R", "fn": "codegen_cluster_kmeans", "packages": ["cluster", "ggnext"] },
+  "roles": [
+    { "id": "vars", "label": "Variables", "min": 2, "max": null, "measure": ["continuous", "ordinal"] }
+  ],
+  "options": {
+    "k": { "type": "number", "label": "Number of clusters", "min": 2, "max": 20, "step": 1, "default": 3 },
+    "standardize": { "type": "bool", "label": "Standardize variables", "default": true },
+    "nstart": { "type": "number", "label": "Random starts", "min": 1, "max": 200, "step": 1, "default": 25 },
+    "seed": { "type": "number", "label": "Random seed", "min": 1, "max": 999999, "step": 1, "default": 123 },
+    "plot": { "type": "enum", "label": "Plots", "values": ["clusters", "elbow"], "labels": ["Cluster plot", "Elbow plot (choose k)"], "multiple": true, "default": ["clusters", "elbow"] }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["vars"] },
+    { "section": "Options", "items": ["k", "standardize", "nstart", "seed"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "continuous", "design": "clustering" },
+  "example": { "dataset": "iris", "options": { "vars": ["sepal_length", "sepal_width", "petal_length", "petal_width"] } }
+}
