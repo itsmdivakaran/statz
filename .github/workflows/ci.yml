@@ -22,11 +22,10 @@ jobs:
         with:
           r-version: "4.4"
           use-public-rspm: true
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          working-directory: r-backend
-          extra-packages: any::ggnext any::S7 any::testthat
-          dependencies: '"all"'
+      - name: System libraries
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-dev libcurl4-openssl-dev libssl-dev libxml2-dev cmake
+      - name: Install R packages
+        run: Rscript scripts/install-r-packages.R
       - name: Install statnextr
         run: R CMD INSTALL r-backend
       - name: testthat (golden values)
@@ -49,7 +48,7 @@ jobs:
         working-directory: frontend
       - name: Rust integration tests against R
         run: |
-          sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
           pnpm --dir frontend build
           STATNEXT_TEST_R=1 cargo test --manifest-path src-tauri/Cargo.toml --test worker
 
