@@ -49,7 +49,14 @@ fn probe(rscript: &Path) -> Option<(RInstall, bool)> {
     if !rscript.is_file() {
         return None;
     }
-    let out = Command::new(rscript).arg("--version").output().ok()?;
+    let mut cmd = Command::new(rscript);
+    cmd.arg("--version");
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        cmd.creation_flags(CREATE_NO_WINDOW);
+    }
+    let out = cmd.output().ok()?;
     // Rscript prints its version to stderr on older R and stdout on newer R.
     let text = format!(
         "{}{}",
@@ -62,6 +69,10 @@ fn probe(rscript: &Path) -> Option<(RInstall, bool)> {
         version_ok(v),
     ))
 }
+
+/// Windows process flag: start a console program (Rscript) without opening a console window.
+#[cfg(windows)]
+pub const CREATE_NO_WINDOW: u32 = 0x0800_0000;
 
 fn rscript_name() -> &'static str {
     if cfg!(windows) {

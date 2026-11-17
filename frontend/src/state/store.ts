@@ -77,6 +77,7 @@ let inflight: string | null = null;
 const latestRun = new Map<string, number>();
 let runSeq = 0;
 const DEBOUNCE_MS = 300;
+const IS_WINDOWS = typeof navigator !== "undefined" && /Win/i.test(navigator.platform || navigator.userAgent);
 
 export function defaultOptions(spec: ModuleSpec): Options {
   const o: Options = {};
@@ -284,11 +285,14 @@ export const useStore = create<State>((set, get) => {
       // Live update: a newer run of the same analysis supersedes the one in flight.
       const token = ++runSeq;
       latestRun.set(instance, token);
-      if (inflight === instance) await cancel();
+      // Windows cannot interrupt R, so cancelling restarts the engine: there, let the older run
+      // finish and drop its result instead.
+      if (inflight === instance && !IS_WINDOWS) await cancel();
       inflight = instance;
       patchAnalysis(instance, { running: true });
       try {
         const result = await call<AnalysisResult>("analysis.run", { module: a.module, options: a.options, instance });
+        if (latestRun.get(instance) !== token) return; // superseded; the newer run reports
         patchAnalysis(instance, { result, error: undefined, running: false });
       } catch (e) {
         const err = e as RpcError;
@@ -297,6 +301,7 @@ export const useStore = create<State>((set, get) => {
           if (latestRun.get(instance) === token) schedule(instance);
           return;
         }
+        if (latestRun.get(instance) !== token) return;
         patchAnalysis(instance, {
           running: false,
           result: undefined,

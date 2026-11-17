@@ -20,10 +20,24 @@ pub const R_PACKAGES: &[&str] = &[
     "BayesFactor", "bayestestR",
 ];
 
+/// A path as R should see it: forward slashes, and without the Windows `\\?\` verbatim
+/// prefix (which R's file functions do not understand).
+pub fn r_path(p: &Path) -> String {
+    let s = p.display().to_string();
+    let s = if let Some(rest) = s.strip_prefix(r"\\?\UNC\") {
+        format!(r"\\{rest}")
+    } else if let Some(rest) = s.strip_prefix(r"\\?\") {
+        rest.to_string()
+    } else {
+        s
+    };
+    s.replace('\\', "/")
+}
+
 /// R script run once by Rscript. Prints "PROGRESS <pct> <message>" lines.
 pub fn bootstrap_script(lib: &Path, backend_src: &Path) -> String {
-    let lib = lib.display().to_string().replace('\\', "/");
-    let src = backend_src.display().to_string().replace('\\', "/");
+    let lib = r_path(lib);
+    let src = r_path(backend_src);
     let pkgs = R_PACKAGES.iter().map(|p| format!("\"{p}\"")).collect::<Vec<_>>().join(", ");
     format!(
         r#"
@@ -77,12 +91,12 @@ pub async fn run_bootstrap(
     mut on_progress: impl FnMut(u32, String),
 ) -> Result<(), String> {
     let script = bootstrap_script(lib, backend_src);
-    let mut child = Command::new(rscript)
-        .args(["--vanilla", "-e", &script])
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .map_err(|e| format!("Cannot start R: {e}"))?;
+    let mut cmd = Command::new(rscript);
+    cmd.args(["--vanilla", "-e", &script]).stdout(Stdio::piped()).stderr(Stdio::piped());
+    // No console window flashing up on Windows while packages install.
+    #[cfg(windows)]
+    cmd.creation_flags(crate::r_detect::CREATE_NO_WINDOW);
+    let mut child = cmd.spawn().map_err(|e| format!("Cannot start R: {e}"))?;
     let stdout = child.stdout.take().expect("piped");
     let stderr = child.stderr.take().expect("piped");
     let err_task = tokio::spawn(async move {
@@ -132,5 +146,12 @@ mod tests {
         let s = bootstrap_script(Path::new(r"C:\Users\a\lib"), Path::new("/app/r-backend"));
         assert!(s.contains(CRAN_SNAPSHOT));
         assert!(s.contains("C:/Users/a/lib"));
+    }
+
+    #[test]
+    fn r_path_drops_the_windows_verbatim_prefix() {
+        assert_eq!(r_path(Path::new(r"\\?\C:\Program Files\StatNext\r-backend")), "C:/Program Files/StatNext/r-backend");
+        assert_eq!(r_path(Path::new(r"\\?\UNC\server\share\lib")), "//server/share/lib");
+        assert_eq!(r_path(Path::new("/Applications/StatNext.app/r-backend")), "/Applications/StatNext.app/r-backend");
     }
 }

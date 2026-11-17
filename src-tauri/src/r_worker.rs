@@ -1,6 +1,7 @@
 //! One R process speaking newline-delimited JSON-RPC over stdin/stdout.
 
 use crate::rpc::{self, codes, Request, RpcError};
+use crate::setup::r_path;
 use serde_json::Value;
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -30,20 +31,20 @@ pub struct WorkerConfig {
 impl WorkerConfig {
     pub fn args(&self) -> Vec<String> {
         let sep = if cfg!(windows) { ";" } else { ":" };
-        let modules: Vec<String> = self.modules.iter().map(|p| p.display().to_string()).collect();
+        let modules: Vec<String> = self.modules.iter().map(|p| r_path(p)).collect();
         let mut a = vec![
             "--vanilla".into(),
             "-e".into(),
             "statnextr::sn_main()".into(),
             "--args".into(),
             format!("--modules={}", modules.join(sep)),
-            format!("--workdir={}", self.work_dir.display()),
+            format!("--workdir={}", r_path(&self.work_dir)),
         ];
         if let Some(d) = &self.datasets {
-            a.push(format!("--datasets={}", d.display()));
+            a.push(format!("--datasets={}", r_path(d)));
         }
         if let Some(d) = &self.plugins {
-            a.push(format!("--plugins={}", d.display()));
+            a.push(format!("--plugins={}", r_path(d)));
         }
         a
     }
@@ -73,13 +74,10 @@ impl Worker {
         }
         if let Some(lib) = &cfg.r_lib {
             std::fs::create_dir_all(lib)?;
-            cmd.env("R_LIBS_USER", lib);
+            cmd.env("R_LIBS_USER", r_path(lib));
         }
         #[cfg(windows)]
-        {
-            const CREATE_NO_WINDOW: u32 = 0x0800_0000;
-            cmd.creation_flags(CREATE_NO_WINDOW);
-        }
+        cmd.creation_flags(crate::r_detect::CREATE_NO_WINDOW);
         let mut child = cmd.spawn()?;
         let pid = child.id();
         let stdin = child.stdin.take().expect("piped stdin");
