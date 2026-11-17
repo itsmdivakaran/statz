@@ -1,0 +1,212 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "ml_boost",
+  "version": "1.0.0",
+  "title": "Gradient Boosting",
+  "description": "Boosted trees (GBM) with cross-validated stopping",
+  "menu": [
+    "Machine Learning",
+    "Classification and regression"
+  ],
+  "r": {
+    "file": "ml_boost.R",
+    "fn": "codegen_ml_boost",
+    "packages": [
+      "gbm",
+      "pROC",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "outcome",
+      "label": "Outcome (categorical or numeric)",
+      "min": 1,
+      "max": 1,
+      "measure": []
+    },
+    {
+      "id": "covariates",
+      "label": "Numeric predictors",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "continuous",
+        "ordinal"
+      ]
+    },
+    {
+      "id": "factors",
+      "label": "Categorical predictors",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ]
+    }
+  ],
+  "options": {
+    "task": {
+      "type": "enum",
+      "label": "Task",
+      "values": [
+        "auto",
+        "classification",
+        "regression"
+      ],
+      "labels": [
+        "Detect from the outcome",
+        "Classification",
+        "Regression"
+      ],
+      "default": "auto"
+    },
+    "n_trees": {
+      "type": "number",
+      "label": "Maximum number of trees",
+      "min": 50,
+      "max": 10000,
+      "step": 50,
+      "default": 500
+    },
+    "depth": {
+      "type": "number",
+      "label": "Tree depth",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2
+    },
+    "shrinkage": {
+      "type": "number",
+      "label": "Learning rate",
+      "min": 0.001,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.05
+    },
+    "min_obs": {
+      "type": "number",
+      "label": "Minimum cases per leaf",
+      "min": 1,
+      "max": 1000,
+      "step": 1,
+      "default": 10
+    },
+    "cv_folds": {
+      "type": "number",
+      "label": "Cross-validation folds",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 5
+    },
+    "test_size": {
+      "type": "number",
+      "label": "Test set (% of cases held out)",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "default": 25
+    },
+    "seed": {
+      "type": "number",
+      "label": "Random seed",
+      "min": 1,
+      "max": 999999,
+      "step": 1,
+      "default": 123
+    },
+    "importance": {
+      "type": "bool",
+      "label": "Variable importance",
+      "default": true
+    },
+    "shap": {
+      "type": "bool",
+      "label": "SHAP values (numeric or two-class outcome)",
+      "default": false
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plots",
+      "values": [
+        "performance",
+        "importance"
+      ],
+      "labels": [
+        "Performance (ROC, confusion matrix or observed vs predicted)",
+        "Variable importance"
+      ],
+      "default": [
+        "performance",
+        "importance"
+      ],
+      "multiple": true
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "outcome",
+        "covariates",
+        "factors"
+      ]
+    },
+    {
+      "section": "Model",
+      "items": [
+        "task",
+        "n_trees",
+        "depth",
+        "shrinkage",
+        "min_obs",
+        "cv_folds"
+      ]
+    },
+    {
+      "section": "Validation",
+      "items": [
+        "test_size",
+        "seed"
+      ]
+    },
+    {
+      "section": "Explain",
+      "items": [
+        "importance",
+        "shap"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "any",
+    "design": "prediction"
+  },
+  "example": {
+    "dataset": "pima",
+    "options": {
+      "outcome": [
+        "diabetes"
+      ],
+      "covariates": [
+        "pregnancies",
+        "glucose",
+        "blood_pressure",
+        "skin_fold",
+        "bmi",
+        "pedigree",
+        "age"
+      ]
+    }
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "ml_glmnet",
+  "version": "1.0.0",
+  "title": "Regularized Regression",
+  "description": "Lasso, ridge and elastic net with cross-validated penalty",
+  "menu": [
+    "Machine Learning",
+    "Classification and regression"
+  ],
+  "r": {
+    "file": "ml_glmnet.R",
+    "fn": "codegen_ml_glmnet",
+    "packages": [
+      "glmnet",
+      "pROC",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "outcome",
+      "label": "Outcome (categorical or numeric)",
+      "min": 1,
+      "max": 1,
+      "measure": []
+    },
+    {
+      "id": "covariates",
+      "label": "Numeric predictors",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "continuous",
+        "ordinal"
+      ]
+    },
+    {
+      "id": "factors",
+      "label": "Categorical predictors",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ]
+    }
+  ],
+  "options": {
+    "task": {
+      "type": "enum",
+      "label": "Task",
+      "values": [
+        "auto",
+        "classification",
+        "regression"
+      ],
+      "labels": [
+        "Detect from the outcome",
+        "Classification",
+        "Regression"
+      ],
+      "default": "auto"
+    },
+    "penalty": {
+      "type": "enum",
+      "label": "Penalty",
+      "values": [
+        "lasso",
+        "elastic",
+        "ridge"
+      ],
+      "labels": [
+        "Lasso (selects variables)",
+        "Elastic net (α = 0.5)",
+        "Ridge (shrinks all)"
+      ],
+      "default": "lasso"
+    },
+    "lambda": {
+      "type": "enum",
+      "label": "Penalty strength (λ)",
+      "values": [
+        "min",
+        "1se"
+      ],
+      "labels": [
+        "Lowest cross-validated error",
+        "Largest within 1 SE (simpler model)"
+      ],
+      "default": "min"
+    },
+    "folds": {
+      "type": "number",
+      "label": "Cross-validation folds",
+      "min": 3,
+      "max": 20,
+      "step": 1,
+      "default": 10
+    },
+    "cv_plot": {
+      "type": "bool",
+      "label": "Cross-validation curve",
+      "default": true
+    },
+    "test_size": {
+      "type": "number",
+      "label": "Test set (% of cases held out)",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "default": 25
+    },
+    "seed": {
+      "type": "number",
+      "label": "Random seed",
+      "min": 1,
+      "max": 999999,
+      "step": 1,
+      "default": 123
+    },
+    "importance": {
+      "type": "bool",
+      "label": "Variable importance",
+      "default": true
+    },
+    "shap": {
+      "type": "bool",
+      "label": "SHAP values (numeric or two-class outcome)",
+      "default": false
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plots",
+      "values": [
+        "performance",
+        "importance"
+      ],
+      "labels": [
+        "Performance (ROC, confusion matrix or observed vs predicted)",
+        "Variable importance"
+      ],
+      "default": [
+        "performance",
+        "importance"
+      ],
+      "multiple": true
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "outcome",
+        "covariates",
+        "factors"
+      ]
+    },
+    {
+      "section": "Model",
+      "items": [
+        "task",
+        "penalty",
+        "lambda",
+        "folds",
+        "cv_plot"
+      ]
+    },
+    {
+      "section": "Validation",
+      "items": [
+        "test_size",
+        "seed"
+      ]
+    },
+    {
+      "section": "Explain",
+      "items": [
+        "importance",
+        "shap"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "any",
+    "design": "prediction"
+  },
+  "example": {
+    "dataset": "birthwt",
+    "options": {
+      "outcome": [
+        "birth_weight"
+      ],
+      "covariates": [
+        "age",
+        "mother_weight",
+        "preterm",
+        "visits"
+      ],
+      "factors": [
+        "race",
+        "smoke",
+        "hypertension",
+        "uterine_irritability"
+      ]
+    }
+  }
+}

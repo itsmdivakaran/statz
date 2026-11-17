@@ -36,6 +36,8 @@ sn_run_analysis <- function(sess, module, options, dataset = "data", instance = 
 sn_ctx <- function(sess, dataset) {
   list(
     data = dataset,
+    # Number of distinct non-missing values of a variable, for codegen that depends on it (e.g. two-class outcomes).
+    n_distinct = function(var) length(unique(stats::na.omit(sn_dataset(sess, dataset)$data[[var]]))),
     plot_engine = sn_plot_engine(),
     plot = function(p, title, fallback_reason = NULL) sn_render_plot(sess, p, title, fallback_reason)
   )

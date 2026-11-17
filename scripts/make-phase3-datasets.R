@@ -50,6 +50,12 @@ w(bw, "birthwt", "Risk factors for low birth weight", "189 births at Baystate Me
       preterm = "Previous premature labours", hypertension = list(label = "History of hypertension", measure = "nominal", value_labels = yn),
       uterine_irritability = list(label = "Uterine irritability", measure = "nominal", value_labels = yn), visits = "Physician visits, first trimester", birth_weight = "Birth weight (g)"))
 
+pm <- rbind(MASS::Pima.tr, MASS::Pima.te)
+pm <- data.frame(diabetes = as.character(pm$type), pregnancies = pm$npreg, glucose = pm$glu, blood_pressure = pm$bp, skin_fold = pm$skin, bmi = pm$bmi, pedigree = pm$ped, age = pm$age)
+w(pm, "pima", "Diabetes in Pima women", "Diabetes status and clinical measurements for 532 women of Pima heritage aged 21 or older. Source: MASS::Pima.tr and Pima.te (Smith et al., 1988).",
+  lab(diabetes = "Diabetic (WHO criteria)", pregnancies = "Number of pregnancies", glucose = "Plasma glucose (mg/dl)", blood_pressure = "Diastolic blood pressure (mm Hg)",
+      skin_fold = "Triceps skin fold (mm)", bmi = "Body mass index (kg/m²)", pedigree = "Diabetes pedigree function", age = "Age (years)"))
+
 # Simulated CDISC ADaM-style data: subject-level (ADSL) and adverse events (ADAE).
 set.seed(20261117)
 N <- 254

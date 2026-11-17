@@ -197,3 +197,20 @@ sn_ref_line <- function(engine, dir, at) {
   if (dir == "ab") at <- paste0("intercept = ", at[1], ", slope = ", at[2])
   paste0(fn, at, if (engine == "ggnext") ", dash = \"4 4\")" else ", linetype = 2)")
 }
+
+#' ggnext keeps a fixed left margin, which clips long category labels on the y axis. These helpers draw the
+#' labels inside the panel instead. `df` has one row per label in column `col`; `lo`/`hi` are R expressions
+#' for the range of the plotted x values; `panel_px` is the approximate panel width.
+sn_ylabels_code <- function(df, col, lo, hi, log = FALSE, panel_px = 500) {
+  sn_code(
+    "# Names are drawn inside the panel, left of the data (ggnext clips long axis labels)",
+    paste0("label_pad <- min(0.5, (max(nchar(as.character(", df, "$", col, "))) * 7 + 12) / ", panel_px, ")"),
+    if (log) paste0(df, "$label_x <- ", lo, " / (", hi, " / ", lo, ")^(label_pad / (1 - label_pad))")
+    else paste0(df, "$label_x <- ", lo, " - (", hi, " - ", lo, ") * label_pad / (1 - label_pad)"))
+}
+sn_ylabels_layer <- function(col, data = NULL) {
+  paste0("geom_text(aes(x = label_x, y = ", col, ", label = ", col, ")", if (!is.null(data)) paste0(", data = ", data), ", anchor = \"start\")")
+}
+sn_ylabels_theme <- function(legend = TRUE) {
+  paste0("theme(axis_title_y = FALSE, axis_text_y = FALSE, ", if (!legend) "legend_position = \"none\", ", "base = theme_modern())")
+}
