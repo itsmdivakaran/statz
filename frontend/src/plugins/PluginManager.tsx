@@ -64,7 +64,7 @@ export function PluginManager() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/30 pt-[8vh] backdrop-blur-[2px]" onMouseDown={close}>
-      <div role="dialog" aria-label="Plugins" className="flex max-h-[84vh] w-[44rem] max-w-[96vw] animate-pop flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-pop" onMouseDown={(e) => e.stopPropagation()}>
+      <div role="dialog" aria-label="Plugins" className="flex max-h-[84vh] w-[44rem] max-w-[96vw] animate-pop flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-pop" onMouseDown={(e) => e.stopPropagation()}>
         <header className="flex items-center gap-2.5 border-b border-line px-4 py-3">
           <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand/10 text-brand"><Puzzle size={15} aria-hidden="true" /></span>
           <div>

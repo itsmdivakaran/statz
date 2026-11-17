@@ -1,25 +1,32 @@
 import {
-  Activity, BrainCircuit, Compass, Database, HeartPulse, LineChart, type LucideIcon, Moon, Network, Puzzle, Scale, Search,
-  Sigma, Stethoscope, Sun, TestTubes, TrendingUp,
+  BrainCircuit, Compass, Database, FolderOpen, HeartPulse, LineChart, type LucideIcon, Moon, Network, Puzzle, Redo2, Save, Scale, Search,
+  Sigma, Stethoscope, Sun, TestTubes, TrendingUp, Undo2,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useStore } from "../state/store";
+import { openDataFile, saveProject } from "./actions";
 import { type Command, useCommands } from "./commands";
 import { Wordmark } from "./Logo";
 
-const MENUS: { name: string; label?: string; Icon: LucideIcon }[] = [
-  { name: "Data", Icon: Database },
-  { name: "Descriptives", Icon: Sigma },
-  { name: "Tests", Icon: TestTubes },
-  { name: "Bayesian", Icon: Scale },
-  { name: "Regression", Icon: TrendingUp },
-  { name: "Multivariate", Icon: Network },
-  { name: "Machine Learning", label: "ML", Icon: BrainCircuit },
-  { name: "Time Series", Icon: LineChart },
-  { name: "Survival", Icon: HeartPulse },
-  { name: "Clinical", Icon: Stethoscope },
-  { name: "Plugins", Icon: Puzzle },
+/** Ribbon groups: data, core statistics, advanced methods, extensions. */
+const GROUPS: { name: string; label?: string; Icon: LucideIcon }[][] = [
+  [{ name: "Data", Icon: Database }],
+  [
+    { name: "Descriptives", Icon: Sigma },
+    { name: "Tests", Icon: TestTubes },
+    { name: "Bayesian", Icon: Scale },
+    { name: "Regression", Icon: TrendingUp },
+  ],
+  [
+    { name: "Multivariate", Icon: Network },
+    { name: "Machine Learning", label: "ML", Icon: BrainCircuit },
+    { name: "Time Series", Icon: LineChart },
+    { name: "Survival", Icon: HeartPulse },
+    { name: "Clinical", Icon: Stethoscope },
+  ],
+  [{ name: "Plugins", Icon: Puzzle }],
 ];
+const MENU_COUNT = GROUPS.flat().length;
 
 function useDropdown() {
   const [open, setOpen] = useState(false);
@@ -34,7 +41,7 @@ function useDropdown() {
   return { open, setOpen, ref };
 }
 
-const TAB = "flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-surface2 hover:text-ink aria-expanded:bg-brand/10 aria-expanded:text-brand";
+const TAB = "flex h-[50px] min-w-[64px] shrink-0 flex-col items-center justify-center gap-1 whitespace-nowrap rounded-md px-2 text-[11.5px] font-medium text-ink/75 transition-colors hover:bg-surface2 hover:text-ink aria-expanded:bg-brand/10 aria-expanded:text-brand";
 const POP = "absolute left-0 z-30 mt-1.5 max-h-[calc(100vh-5rem)] w-80 origin-top-left animate-pop overflow-y-auto rounded-xl border border-line bg-surface p-1.5 shadow-pop";
 
 function Menu({ name, label, Icon, items, empty, alignRight }: { name: string; label?: string; Icon: LucideIcon; items: Command[]; empty?: string; alignRight?: boolean }) {
@@ -43,7 +50,7 @@ function Menu({ name, label, Icon, items, empty, alignRight }: { name: string; l
   return (
     <div ref={ref} className="relative">
       <button className={TAB} aria-expanded={open} aria-haspopup="menu" aria-label={name} title={name} onClick={() => setOpen((o) => !o)}>
-        <Icon size={15} aria-hidden="true" /><span className="hidden min-[1380px]:inline">{label ?? name}</span>
+        <Icon size={18} strokeWidth={1.75} aria-hidden="true" /><span>{label ?? name}</span>
       </button>
       {open && (
         <div role="menu" className={alignRight ? `${POP} left-auto right-0 origin-top-right` : POP}>
@@ -75,41 +82,52 @@ function Menu({ name, label, Icon, items, empty, alignRight }: { name: string; l
   );
 }
 
+/** Top of the window: a toolbar (file actions, search, guide) above the analysis ribbon. */
 export function Ribbon({ onSearch }: { onSearch: () => void }) {
-  const { theme, toggleTheme, hello, data, setModal } = useStore();
+  const { theme, toggleTheme, data, setModal, undo, redo, undoStack, redoStack } = useStore();
   const commands = useCommands();
   const itemsFor = (menu: string) => commands.filter((c) => c.menu === menu);
   const isMac = typeof navigator !== "undefined" && /Mac/.test(navigator.platform);
+  const mod = isMac ? "⌘" : "Ctrl+";
+  let n = 0;
 
   return (
-    <header className="flex items-center gap-1 border-b border-line bg-surface px-3 py-1.5">
-      <span className="mr-3 shrink-0"><Wordmark /></span>
-      <nav className="flex min-w-0 items-center gap-0.5">
-        {MENUS.map((m, i) => (
-          <Menu key={m.name} name={m.name} label={m.label} Icon={m.Icon} items={itemsFor(m.name)} alignRight={i >= MENUS.length - 2}
-            empty={data ? "Nothing here yet." : "Open a data file first."} />
-        ))}
-      </nav>
-      <div className="ml-auto flex shrink-0 items-center gap-2 pl-2">
+    <header className="shrink-0 border-b border-line bg-surface">
+      <div className="flex h-11 items-center gap-1 border-b border-line/70 px-3">
+        <span className="mr-2 shrink-0"><Wordmark /></span>
+        <span className="vsep" />
+        <button className="tool-btn" onClick={() => void openDataFile()} title={`Open data file (${mod}O)`}><FolderOpen size={15} aria-hidden="true" /><span className="hidden lg:inline">Open</span></button>
+        <button className="tool-btn" disabled={!data} onClick={() => void saveProject()} title={`Save project (${mod}S)`}><Save size={15} aria-hidden="true" /><span className="hidden lg:inline">Save</span></button>
+        <span className="vsep" />
+        <button className="tool-btn" disabled={!undoStack.length} onClick={undo} aria-label="Undo" title={`Undo (${mod}Z)`}><Undo2 size={15} aria-hidden="true" /></button>
+        <button className="tool-btn" disabled={!redoStack.length} onClick={redo} aria-label="Redo" title={`Redo (${isMac ? "⇧⌘Z" : "Ctrl+Y"})`}><Redo2 size={15} aria-hidden="true" /></button>
+        <div className="mx-auto flex min-w-0 justify-center px-3">
+          <button onClick={onSearch} aria-label="Search commands" title={`Search analyses (${isMac ? "⌘K" : "Ctrl K"})`}
+            className="flex h-8 w-[min(26rem,36vw)] items-center gap-2 rounded-md border border-line bg-canvas px-2.5 text-[13px] text-muted transition-colors hover:border-brand/50">
+            <Search size={14} aria-hidden="true" /><span className="flex-1 truncate text-left">Search analyses, data and actions…</span>
+            <span className="kbd">{isMac ? "⌘K" : "Ctrl K"}</span>
+          </button>
+        </div>
         <button onClick={() => setModal("guide")} title="Which analysis should I use?" aria-label="Analysis guide"
-          className="flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-gradient-to-r from-brand to-accent px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-110">
-          <Compass size={15} aria-hidden="true" /><span className="hidden lg:inline">Guide</span>
+          className="flex h-8 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-brand/30 bg-brand/[0.07] px-2.5 text-[13px] font-semibold text-brand transition-colors hover:bg-brand/15">
+          <Compass size={15} aria-hidden="true" /><span className="hidden md:inline">Which test?</span>
         </button>
-        <button onClick={onSearch} aria-label="Search commands" title={`Search analyses (${isMac ? "⌘K" : "Ctrl K"})`}
-          className="flex items-center gap-2 whitespace-nowrap rounded-lg border border-line bg-surface2 px-2.5 py-1.5 text-sm text-muted transition-colors hover:border-brand/50 2xl:w-52">
-          <Search size={14} aria-hidden="true" /><span className="hidden flex-1 text-left 2xl:inline">Search analyses…</span>
-          <span className="kbd hidden 2xl:inline">{isMac ? "⌘K" : "Ctrl K"}</span>
-        </button>
-        {hello && (
-          <span title={hello.rscript} className="chip hidden whitespace-nowrap border border-line bg-surface2 py-1 text-muted 2xl:inline-flex">
-            <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ok opacity-50" /><span className="relative inline-flex h-2 w-2 rounded-full bg-ok" /></span>
-            R {hello.r_version}<span className="text-line">|</span><Activity size={11} aria-hidden="true" />{hello.plot_engine}
-          </span>
-        )}
-        <button className="btn-ghost px-1.5 py-1.5" onClick={toggleTheme} aria-label="Toggle theme" title="Toggle theme">
+        <button className="tool-btn ml-1 px-1.5" onClick={toggleTheme} aria-label="Toggle theme" title="Toggle theme">
           {theme === "dark" ? <Sun size={16} aria-hidden="true" /> : <Moon size={16} aria-hidden="true" />}
         </button>
       </div>
+      <nav aria-label="Analyses" className="flex items-center gap-0.5 px-2 py-1">
+        {GROUPS.map((g, gi) => (
+          <div key={gi} className="flex items-center gap-0.5">
+            {gi > 0 && <span className="mx-1.5 h-9 w-px bg-line" aria-hidden="true" />}
+            {g.map((m) => {
+              const i = n++;
+              return <Menu key={m.name} name={m.name} label={m.label} Icon={m.Icon} items={itemsFor(m.name)} alignRight={i >= MENU_COUNT - 2}
+                empty={data ? "Nothing here yet." : "Open a data file first."} />;
+            })}
+          </div>
+        ))}
+      </nav>
     </header>
   );
 }

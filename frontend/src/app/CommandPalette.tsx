@@ -20,7 +20,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
   const run = (i: number) => { const c = hits[i]; if (c && !c.disabled) { onClose(); c.run(); } };
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/30 pt-[14vh] backdrop-blur-[2px]" onMouseDown={onClose}>
-      <div role="dialog" aria-label="Command palette" className="w-[34rem] max-w-[92vw] animate-pop overflow-hidden rounded-2xl border border-line bg-surface shadow-pop" onMouseDown={(e) => e.stopPropagation()}>
+      <div role="dialog" aria-label="Command palette" className="w-[34rem] max-w-[92vw] animate-pop overflow-hidden rounded-xl border border-line bg-surface shadow-pop" onMouseDown={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-2.5 border-b border-line px-4 py-3">
           <Search size={16} className="text-muted" aria-hidden="true" />
           <input autoFocus value={q} placeholder="Search analyses, data and actions…" aria-label="Search commands"

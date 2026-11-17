@@ -1,5 +1,5 @@
 import {
-  AreaChart, ArrowRight, BrainCircuit, ClipboardList, Code2, Combine, FileDown, Compass, FolderOpen, HeartPulse, LineChart, type LucideIcon, Puzzle, Scale,
+  AreaChart, ArrowRight, BrainCircuit, ClipboardList, Code2, Combine, FileDown, Compass, FolderClosed, FolderOpen, HeartPulse, LineChart, type LucideIcon, Puzzle, Scale,
   Search, ShieldCheck, Table2, TrendingUp, Users,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -44,52 +44,69 @@ export function Welcome() {
   }, [examples, query]);
   const go = async (key: string, fn: () => Promise<void>) => { setBusy(key); try { await fn(); } finally { setBusy(null); } };
 
+  const ACTIONS: { label: string; text: string; Icon: LucideIcon; run: () => void; primary?: boolean }[] = [
+    { label: "Open data file", text: "CSV, Excel, SPSS, Stata, SAS or Parquet", Icon: FolderOpen, run: () => void openDataFile(), primary: true },
+    { label: "Open project", text: "Data, analyses and options (.statnext)", Icon: FolderClosed, run: () => void openProject() },
+    { label: "Which test should I use?", text: "Answer a few questions to get a recommendation", Icon: Compass, run: () => setModal("guide") },
+  ];
+
   return (
-    <div className="h-full overflow-auto">
-      <div className="pointer-events-none fixed inset-x-0 top-0 h-[28rem] bg-[radial-gradient(60rem_24rem_at_30%_-20%,rgb(var(--brand)/0.16),transparent),radial-gradient(40rem_20rem_at_90%_0%,rgb(var(--accent)/0.12),transparent)]" />
-      <div className="relative mx-auto grid w-full max-w-6xl gap-6 px-6 py-8 lg:grid-cols-[1fr_22rem]">
-        <div className="space-y-6">
-          <section className="flex items-center gap-5">
-            <Logo size={64} />
+    <div className="h-full overflow-auto bg-canvas">
+      <div className="mx-auto grid w-full max-w-[76rem] gap-6 px-6 py-7 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <div className="min-w-0 space-y-7">
+          <section className="flex items-center gap-4">
+            <Logo size={48} />
             <div className="min-w-0">
-              <h1 className="text-[28px] font-bold leading-tight tracking-tight">Welcome to Stat<span className="text-brand">Next</span></h1>
-              <p className="mt-1 text-[15px] text-muted">Point-and-click statistics, powered by R on your own machine.</p>
+              <h1 className="text-[22px] font-bold leading-tight tracking-tight">Welcome to Stat<span className="text-brand">Next</span></h1>
+              <p className="mt-0.5 text-[13.5px] text-muted">Point-and-click statistics with reproducible R code, running on your own computer.</p>
             </div>
           </section>
-          <section className="flex flex-wrap gap-2.5">
-            <button className="btn-primary" onClick={() => void openDataFile()}><FolderOpen size={16} aria-hidden="true" />Open data file</button>
-            <button className="btn px-3.5 py-2" onClick={() => void openProject()}>Open project</button>
-            <button className="btn px-3.5 py-2" onClick={() => setModal("guide")}><Compass size={15} className="text-brand" aria-hidden="true" />Which test should I use?</button>
-            <span className="self-center text-xs text-muted">CSV, Excel, SPSS, Stata, SAS and Parquet</span>
+
+          <section aria-label="Get started" className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {ACTIONS.map((x) => (
+              <button key={x.label} onClick={x.run} aria-label={x.label}
+                className={`group flex items-start gap-3 rounded-lg border p-3.5 text-left transition ${x.primary ? "border-brand bg-brand text-white shadow-sm hover:brightness-110" : "border-line bg-surface shadow-card hover:border-brand/50"}`}>
+                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md ${x.primary ? "bg-white/15" : "bg-brand/10 text-brand"}`}><x.Icon size={17} aria-hidden="true" /></span>
+                <span className="min-w-0">
+                  <span className="block text-[13.5px] font-semibold">{x.label}</span>
+                  <span className={`mt-0.5 block text-xs leading-snug ${x.primary ? "text-white/80" : "text-muted"}`}>{x.text}</span>
+                </span>
+              </button>
+            ))}
           </section>
 
           <section aria-labelledby="tours">
-            <h2 id="tours" className="panel-title mb-2">Start with a worked example</h2>
-            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 2xl:grid-cols-3">
+            <div className="mb-2.5 flex items-baseline gap-2">
+              <h2 id="tours" className="text-[14px] font-semibold tracking-tight">Start with a worked example</h2>
+              <span className="text-xs text-muted">Loads example data and runs the analysis</span>
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {tours.map(({ module, area, Icon, tone }) => {
                 const s = specs[module];
                 return (
                   <button key={module} disabled={busy !== null} onClick={() => void go(module, () => runExample(module))}
-                    className="card group flex items-start gap-3 p-3.5 text-left transition hover:-translate-y-px hover:border-brand/60 hover:shadow-pop disabled:opacity-60">
-                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${tone}`}><Icon size={17} aria-hidden="true" /></span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block text-[11px] font-semibold uppercase tracking-wider text-muted">{area}</span>
-                      <span className="block text-sm font-semibold leading-snug">{s.title}</span>
-                      <span className="mt-0.5 line-clamp-2 text-xs text-muted">{s.description}</span>
+                    className="group flex h-full flex-col rounded-lg border border-line bg-surface p-3.5 text-left shadow-card transition hover:border-brand/50 hover:shadow-pop disabled:opacity-60">
+                    <span className="flex w-full items-center gap-2">
+                      <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md ${tone}`}><Icon size={15} aria-hidden="true" /></span>
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">{area}</span>
+                      <ArrowRight size={14} className="ml-auto text-muted opacity-0 transition group-hover:translate-x-0.5 group-hover:text-brand group-hover:opacity-100" aria-hidden="true" />
                     </span>
-                    <ArrowRight size={15} className="mt-1 shrink-0 text-muted transition group-hover:translate-x-0.5 group-hover:text-brand" aria-hidden="true" />
+                    <span className="mt-2.5 block text-[13.5px] font-semibold leading-snug">{s.title}</span>
+                    <span className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-muted">{s.description}</span>
                   </button>
                 );
               })}
             </div>
           </section>
 
-          <section className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-cols-4">
+          <section aria-label="Features" className="grid grid-cols-1 gap-x-6 gap-y-4 border-t border-line pt-5 sm:grid-cols-2 xl:grid-cols-4">
             {FEATURES.map((f) => (
-              <div key={f.title} className="rounded-xl border border-line bg-surface/60 p-3.5">
-                <f.Icon size={18} className="mb-2 text-accent" aria-hidden="true" />
-                <div className="text-sm font-semibold">{f.title}</div>
-                <p className="mt-0.5 text-xs leading-relaxed text-muted">{f.text}</p>
+              <div key={f.title} className="flex gap-2.5">
+                <f.Icon size={16} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+                <div>
+                  <div className="text-[13px] font-semibold">{f.title}</div>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted">{f.text}</p>
+                </div>
               </div>
             ))}
           </section>
@@ -101,24 +118,24 @@ export function Welcome() {
           )}
         </div>
 
-        <aside aria-labelledby="datasets" className="card flex max-h-[calc(100vh-7rem)] min-h-80 flex-col overflow-hidden lg:sticky lg:top-8">
+        <aside aria-labelledby="datasets" className="flex max-h-[calc(100vh-9rem)] min-h-80 flex-col overflow-hidden rounded-lg border border-line bg-surface shadow-card lg:sticky lg:top-0">
           <div className="border-b border-line p-3">
-            <h2 id="datasets" className="panel-title mb-2">Example datasets ({examples.length})</h2>
-            <label className="flex items-center gap-2 rounded-lg border border-line bg-surface2 px-2.5 py-1.5 text-sm focus-within:border-brand/60">
+            <h2 id="datasets" className="mb-2 flex items-baseline text-[13.5px] font-semibold tracking-tight">Example datasets<span className="ml-auto text-xs font-normal text-muted">{examples.length}</span></h2>
+            <label className="flex items-center gap-2 rounded-md border border-line bg-canvas px-2.5 py-1.5 text-[13px] focus-within:border-brand/60">
               <Search size={14} className="text-muted" aria-hidden="true" />
               <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Filter datasets" aria-label="Filter datasets"
                 className="w-full bg-transparent outline-none placeholder:text-muted" />
             </label>
           </div>
-          <ul className="flex-1 overflow-auto p-1.5">
+          <ul className="flex-1 divide-y divide-line/70 overflow-auto">
             {shown.map((e) => (
               <li key={e.name}>
-                <button aria-label={e.title} disabled={busy !== null} onClick={() => void go(e.name, () => loadExample(e.name))}
-                  className="group flex w-full items-start gap-2.5 rounded-lg px-2.5 py-2 text-left transition-colors hover:bg-brand/10 disabled:opacity-60">
-                  <Table2 size={15} className="mt-0.5 shrink-0 text-muted group-hover:text-brand" aria-hidden="true" />
+                <button aria-label={e.title} disabled={busy !== null} onClick={() => void go(e.name, () => loadExample(e.name))} title={e.description}
+                  className="group flex w-full items-start gap-2.5 px-3 py-2 text-left transition-colors hover:bg-brand/5 disabled:opacity-60">
+                  <Table2 size={14} className="mt-0.5 shrink-0 text-muted group-hover:text-brand" aria-hidden="true" />
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-medium">{e.title}</span>
-                    <span className="line-clamp-2 text-xs text-muted">{e.description}</span>
+                    <span className="block truncate text-[13px] font-medium">{e.title}</span>
+                    <span className="block truncate text-xs text-muted">{e.description}</span>
                   </span>
                 </button>
               </li>

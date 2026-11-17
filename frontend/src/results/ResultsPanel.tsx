@@ -5,6 +5,7 @@ import { call, fileUrl } from "../rpc/client";
 import { type Analysis, useStore } from "../state/store";
 import type { Check, Plot, Table } from "../types";
 import { fmtCell, tableToTsv } from "./format";
+import { PaneHeader } from "../app/Pane";
 
 type Tab = "output" | "code" | "assumptions" | "interpretation";
 const TABS: [Tab, string][] = [["output", "Output"], ["code", "R Code"], ["assumptions", "Assumptions"], ["interpretation", "Interpretation"]];
@@ -28,7 +29,7 @@ function ExportMenu({ disabled }: { disabled: boolean }) {
   }, []);
   return (
     <div ref={ref} className="relative ml-auto">
-      <button className="btn" disabled={disabled} aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((o) => !o)}
+      <button className="btn py-[3px] text-[12.5px]" disabled={disabled} aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((o) => !o)}
         title={disabled ? "Run an analysis first" : "Export all results"}>
         <FileDown size={14} aria-hidden="true" />Export<ChevronDown size={12} aria-hidden="true" />
       </button>
@@ -49,19 +50,19 @@ function ExportMenu({ disabled }: { disabled: boolean }) {
 }
 
 export function ResultsPanel() {
-  const { analyses, selected, select, removeAnalysis } = useStore();
+  const { analyses, selected, select, removeAnalysis, specs } = useStore();
   const [tab, setTab] = useState<Tab>("output");
   return (
     <section className="flex h-full min-w-0 flex-col">
-      <div className="flex items-center gap-2 border-b border-line py-2 pl-2.5 pr-[70px]">
-        <div role="tablist" className="seg">
+      <PaneHeader id="results" Icon={FlaskConical} title="Results" compact>
+        <div role="tablist" className="seg" aria-label="Result view">
           {TABS.map(([id, label]) => (
             <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)}>{label}</button>
           ))}
         </div>
         <ExportMenu disabled={!analyses.some((a) => a.result)} />
-      </div>
-      <div className="flex-1 space-y-4 overflow-auto p-3">
+      </PaneHeader>
+      <div className="flex-1 space-y-3 overflow-auto bg-canvas/60 p-3">
         {analyses.length === 0 && (
           <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
             <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent"><FlaskConical size={20} aria-hidden="true" /></span>
@@ -69,17 +70,21 @@ export function ResultsPanel() {
             <p className="max-w-60 text-xs text-muted">Results update live as you assign variables and change options.</p>
           </div>
         )}
-        {analyses.map((a) => (
+        {analyses.map((a, i) => (
           <article key={a.instance} onClick={() => select(a.instance)} data-testid={`result-${a.module}`}
-            className={`mx-auto max-w-5xl rounded-xl border bg-surface p-4 transition-shadow ${selected === a.instance ? "border-brand/70 shadow-[0_0_0_3px_rgb(var(--brand)/0.12)]" : "border-line"}`}>
-            <header className="mb-3 flex items-center gap-2">
-              <h3 className="text-[15px] font-semibold tracking-tight">{a.result?.title ?? a.module}</h3>
+            className={`mx-auto max-w-5xl overflow-hidden rounded-lg border bg-surface shadow-card transition-shadow ${selected === a.instance ? "border-brand/50 ring-2 ring-brand/15" : "border-line"}`}>
+            <header className="flex items-center gap-2.5 border-b border-line px-4 py-2.5">
+              <span className={`flex h-5 min-w-5 items-center justify-center rounded px-1 text-[11px] font-semibold tabular-nums ${selected === a.instance ? "bg-brand text-white" : "bg-surface2 text-muted"}`}>{i + 1}</span>
+              <div className="min-w-0">
+                <h3 className="truncate text-[14px] font-semibold tracking-tight">{a.result?.title ?? specs[a.module]?.title ?? a.module}</h3>
+                {specs[a.module] && <p className="truncate text-[11px] text-muted">{specs[a.module].menu.join(" › ")}</p>}
+              </div>
               {a.running && <span className="chip bg-brand/10 text-brand" role="status"><Loader2 size={11} className="animate-spin" aria-hidden="true" />Running…</span>}
-              {a.result?.status === "warn" && <span className="chip bg-warn/15 text-warn"><AlertTriangle size={11} aria-hidden="true" />warnings</span>}
+              {a.result?.status === "warn" && <span className="chip bg-warn/15 text-warn"><AlertTriangle size={11} aria-hidden="true" />Warnings</span>}
               <button className="btn-ghost ml-auto px-1.5 hover:text-bad" aria-label="Remove analysis" title="Remove analysis"
                 onClick={(e) => { e.stopPropagation(); removeAnalysis(a.instance); }}><Trash2 size={14} aria-hidden="true" /></button>
             </header>
-            <div className={a.running ? "opacity-50 transition-opacity" : ""}>
+            <div className={`p-4 ${a.running ? "opacity-50 transition-opacity" : ""}`}>
               <AnalysisBody a={a} tab={tab} />
             </div>
           </article>
@@ -90,8 +95,14 @@ export function ResultsPanel() {
 }
 
 function AnalysisBody({ a, tab }: { a: Analysis; tab: Tab }) {
-  if (a.error && a.error.code !== -32003) {
-    return <div role="alert" className="text-sm text-bad">{a.error.message}{a.error.hint && <p className="text-muted">{a.error.hint}</p>}</div>;
+  if (a.error) {
+    const input = a.error.code === -32003;
+    return (
+      <div role={input ? undefined : "alert"} className={`flex gap-2 rounded-md border px-3 py-2 text-[13px] ${input ? "border-warn/30 bg-warn/5" : "border-bad/30 bg-bad/5"}`}>
+        <AlertTriangle size={15} className={`mt-px shrink-0 ${input ? "text-warn" : "text-bad"}`} aria-hidden="true" />
+        <div><p className={input ? "" : "text-bad"}>{a.error.message}</p>{a.error.hint && <p className="mt-0.5 text-xs text-muted">{a.error.hint}</p>}</div>
+      </div>
+    );
   }
   const r = a.result;
   if (!r) return <p className="text-sm text-muted">Assign variables to run this analysis.</p>;
@@ -117,8 +128,8 @@ function AnalysisBody({ a, tab }: { a: Analysis; tab: Tab }) {
 export function TableView({ t }: { t: Table }) {
   const copy = () => void navigator.clipboard?.writeText(tableToTsv(t.columns, t.rows));
   return (
-    <figure>
-      <figcaption className="mb-1 flex items-center text-sm font-medium italic">
+    <figure className="w-fit min-w-[min(100%,26rem)] max-w-full">
+      <figcaption className="mb-1 flex items-center gap-4 text-[13px] font-medium italic">
         {t.title}
         <button className="btn-ghost ml-auto px-1.5 py-0.5 text-xs font-normal not-italic" onClick={copy} title="Copy table"><ClipboardCopy size={12} aria-hidden="true" />Copy</button>
       </figcaption>

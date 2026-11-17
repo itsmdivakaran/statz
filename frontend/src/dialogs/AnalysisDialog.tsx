@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, ChevronDown, ChevronRight, MousePointerClick, Plus, RotateCcw, SlidersHorizontal, X } from "lucide-react";
 import { MeasureIcon } from "../app/MeasureIcon";
+import { PaneHeader } from "../app/Pane";
 import { useStore } from "../state/store";
 import type { ModuleSpec, OptionSpec, Options, RoleSpec, VariableMeta } from "../types";
 
@@ -14,20 +15,25 @@ export function AnalysisDialog() {
   const a = analyses.find((x) => x.instance === selected);
   if (!a || !data) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-center">
-        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand"><MousePointerClick size={20} aria-hidden="true" /></span>
-        <p className="text-sm font-medium">Choose an analysis</p>
-        <p className="max-w-56 text-xs text-muted">Pick one from the menu above, or press Ctrl/⌘ K to search.</p>
+      <div className="flex h-full flex-col">
+        <PaneHeader id="analysis" Icon={SlidersHorizontal} />
+        <div className="flex flex-1 flex-col items-center justify-center gap-2 p-6 text-center">
+          <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand"><MousePointerClick size={20} aria-hidden="true" /></span>
+          <p className="text-sm font-medium">Choose an analysis</p>
+          <p className="max-w-56 text-xs text-muted">Pick one from the ribbon above, or press Ctrl/⌘ K to search.</p>
+        </div>
       </div>
     );
   }
   const spec = specs[a.module];
   return (
     <div className="flex h-full flex-col overflow-hidden" data-testid="analysis-dialog">
-      <div className="border-b border-line py-2.5 pl-3 pr-[70px]">
-        <h2 className="flex items-center gap-2 font-semibold"><SlidersHorizontal size={15} className="text-brand" aria-hidden="true" />{spec.title}</h2>
+      <PaneHeader id="analysis" Icon={SlidersHorizontal} title={spec.title} />
+      <div className="border-b border-line bg-surface2/60 px-3 py-1.5 text-[11.5px] text-muted">
+        <span>{spec.menu.join(" › ")}</span>
+        {a.running && <span className="ml-2 text-brand">Updating…</span>}
         {a.error && a.error.code === -32003 && (
-          <p role="alert" className="mt-1 text-xs text-warn">{a.error.message}</p>
+          <p role="alert" className="mt-0.5 text-xs font-medium text-warn">{a.error.message}</p>
         )}
       </div>
       <div className="flex-1 overflow-auto p-3">
@@ -77,8 +83,8 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
           return (
             <div key={sec.section} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-3">
               <div>
-                <div className="panel-title mb-1">Variables</div>
-                <ul className="h-64 overflow-auto rounded-lg border border-line bg-surface2/50 p-1 text-sm" aria-label="Available variables">
+                <div className="mb-1 flex h-6 items-center text-[12px] font-semibold text-ink/80">Variables</div>
+                <ul className="h-64 overflow-auto rounded-lg border border-line bg-surface p-1 text-[13px]" aria-label="Available variables">
                   {free.map((v) => (
                     <li key={v.name} data-var={v.name} draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", v.name)}
                       onClick={() => setPicked(v.name)} title={v.label || v.name}
@@ -97,7 +103,7 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
                       <div className="mb-1 flex items-center gap-2">
                         <button className={`flex h-6 w-6 items-center justify-center rounded-md border transition-colors disabled:opacity-40 ${ok ? "border-brand bg-brand text-white" : "border-line bg-surface text-muted"}`} disabled={!ok} aria-label={`Add to ${role.label}`}
                           onClick={() => picked && addTo(role, picked)}><ArrowRight size={13} aria-hidden="true" /></button>
-                        <span className="panel-title">{role.label}</span>
+                        <span className="min-w-0 text-[12px] font-semibold leading-tight text-ink/80">{role.label}</span>
                         {role.measure.length > 0 && <span className="ml-auto flex gap-1 opacity-70">{role.measure.map((m) => <MeasureIcon key={m} measure={m} />)}</span>}
                       </div>
                       <ul data-role={role.id} aria-label={role.label}
@@ -131,11 +137,11 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
 function Section({ title, collapsed, children }: { title: string; collapsed?: boolean; children: React.ReactNode }) {
   const [open, setOpen] = useState(!collapsed);
   return (
-    <div className="rounded-lg border border-line">
-      <button className="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-sm font-semibold hover:bg-surface2" onClick={() => setOpen(!open)} aria-expanded={open}>
-        {title}<span className="text-muted">{open ? <ChevronDown size={15} aria-hidden="true" /> : <ChevronRight size={15} aria-hidden="true" />}</span>
+    <div className="overflow-hidden rounded-lg border border-line">
+      <button className="flex w-full items-center gap-2 bg-surface2/70 px-2.5 py-[7px] text-left text-[13px] font-semibold transition-colors hover:bg-surface2" onClick={() => setOpen(!open)} aria-expanded={open}>
+        <span className="text-muted">{open ? <ChevronDown size={14} aria-hidden="true" /> : <ChevronRight size={14} aria-hidden="true" />}</span>{title}
       </button>
-      {open && <div className="space-y-2.5 border-t border-line p-2.5">{children}</div>}
+      {open && <div className="space-y-2.5 border-t border-line p-3">{children}</div>}
     </div>
   );
 }

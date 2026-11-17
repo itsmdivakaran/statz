@@ -106,6 +106,18 @@ export const useStore = create<State>((set, get) => {
   };
 
   const rerunAll = () => get().analyses.forEach((a) => schedule(a.instance));
+  /** A different dataset was opened: drop assigned variables it does not have, and results computed on the old data. */
+  const adoptDataset = (data: DataInfo) => set((s) => {
+    const names = new Set(data.variables.map((v) => v.name));
+    const analyses = s.analyses.map((a) => {
+      const spec = s.specs[a.module];
+      if (!spec) return a;
+      const options = { ...a.options };
+      for (const r of spec.roles) options[r.id] = ((options[r.id] as string[] | undefined) ?? []).filter((n) => names.has(n));
+      return { ...a, options, result: undefined, error: undefined };
+    });
+    return { data, analyses, dataVersion: s.dataVersion + 1, undoStack: [], redoStack: [] };
+  });
 
   const applyCommand = async (c: Command, dir: "undo" | "redo") => {
     if (c.kind === "options") {
@@ -187,14 +199,12 @@ export const useStore = create<State>((set, get) => {
     },
 
     async loadExample(name) {
-      const data = await call<DataInfo>("data.example", { name });
-      set((s) => ({ data, dataVersion: s.dataVersion + 1, undoStack: [], redoStack: [] }));
+      adoptDataset(await call<DataInfo>("data.example", { name }));
       rerunAll();
     },
 
     async importFile(path) {
-      const data = await call<DataInfo>("data.import", { path });
-      set((s) => ({ data, dataVersion: s.dataVersion + 1, undoStack: [], redoStack: [] }));
+      adoptDataset(await call<DataInfo>("data.import", { path }));
       rerunAll();
     },
 
@@ -289,6 +299,7 @@ export const useStore = create<State>((set, get) => {
         }
         patchAnalysis(instance, {
           running: false,
+          result: undefined,
           error: { code: err.code, message: err.message, hint: err.data?.hint as string | undefined, role: err.data?.role as string | undefined },
         });
       } finally {

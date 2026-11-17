@@ -1,52 +1,92 @@
-import { FlaskConical, type LucideIcon, Maximize2, Minimize2, Minus, SlidersHorizontal, Table2 } from "lucide-react";
-import type { ReactNode } from "react";
+import { FlaskConical, type LucideIcon, SlidersHorizontal, Table2 } from "lucide-react";
+import { Fragment, type ReactNode, useEffect, useRef, useState } from "react";
 import { AnalysisDialog } from "../dialogs/AnalysisDialog";
 import { DataPanel } from "../grid/DataGrid";
 import { ResultsPanel } from "../results/ResultsPanel";
 import { type PaneId, useStore } from "../state/store";
+import { PANE_TITLE } from "./Pane";
 
-const PANES: { id: PaneId; title: string; Icon: LucideIcon; width: string; body: ReactNode }[] = [
-  { id: "data", title: "Data", Icon: Table2, width: "minmax(300px,1fr)", body: <DataPanel /> },
-  { id: "analysis", title: "Analysis", Icon: SlidersHorizontal, width: "minmax(320px,0.9fr)", body: <AnalysisDialog /> },
-  { id: "results", title: "Output", Icon: FlaskConical, width: "minmax(380px,1.3fr)", body: <ResultsPanel /> },
+const PANES: { id: PaneId; Icon: LucideIcon; body: ReactNode }[] = [
+  { id: "data", Icon: Table2, body: <DataPanel /> },
+  { id: "analysis", Icon: SlidersHorizontal, body: <AnalysisDialog /> },
+  { id: "results", Icon: FlaskConical, body: <ResultsPanel /> },
 ];
-const STRIP = "44px";
+const STRIP = 40;
+const MIN_W = 260;
+const KEY = "statnext.paneWidths.v1";
 
-/** The three working panes. Each can be collapsed to a strip or enlarged to fill the window. */
+function loadWidths(): Record<"data" | "analysis", number> {
+  try {
+    const w = JSON.parse(localStorage.getItem(KEY) ?? "null");
+    if (w && typeof w.data === "number" && typeof w.analysis === "number") return w;
+  } catch { /* storage unavailable */ }
+  return { data: 0.62, analysis: 0.58 };
+}
+
+/** The three working panes, side by side with draggable dividers. Each can be collapsed to a strip or fill the window. */
 export function Workspace() {
-  const { paneMax, paneMin, togglePaneMax, togglePaneMin } = useStore();
-  const columns = paneMax ? "1fr" : PANES.map((p) => (paneMin.includes(p.id) ? STRIP : p.width)).join(" ");
+  const { paneMax, paneMin, togglePaneMin } = useStore();
+  const [w, setW] = useState(loadWidths);
+  const box = useRef<HTMLElement>(null);
+  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify(w)); } catch { /* ignore */ } }, [w]);
+
+  const width = (id: PaneId) => (paneMin.includes(id) ? `${STRIP}px` : id === "results" ? "minmax(320px,1fr)" : `minmax(${MIN_W}px,${w[id]}fr)`);
+  const visible = PANES.filter((p) => !paneMax || p.id === paneMax);
+  const cols: string[] = [];
+  visible.forEach((p, i) => { if (i > 0) cols.push("1px"); cols.push(paneMax ? "1fr" : width(p.id)); });
+  // Dragging the divider between two panes trades width between them. Widths are stored as fractions of the Output pane (1fr).
+  const drag = (left: PaneId, right: PaneId) => (e: React.PointerEvent) => {
+    const el = box.current;
+    if (!el) return;
+    const px = (id: PaneId) => el.querySelector<HTMLElement>(`[data-pane="${id}"]`)?.offsetWidth ?? 0;
+    const w0 = { data: px("data"), analysis: px("analysis"), results: px("results") };
+    const start = e.clientX;
+    const move = (ev: PointerEvent) => {
+      const minR = right === "results" ? 320 : MIN_W;
+      const d = Math.max(MIN_W - w0[left], Math.min(ev.clientX - start, w0[right] - minR));
+      const nw = { ...w0, [left]: w0[left] + d, [right]: w0[right] - d };
+      setW((cur) => ({
+        data: paneMin.includes("data") ? cur.data : nw.data / nw.results,
+        analysis: paneMin.includes("analysis") ? cur.analysis : nw.analysis / nw.results,
+      }));
+    };
+    const up = () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); document.body.style.cursor = ""; };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    document.body.style.cursor = "col-resize";
+    e.preventDefault();
+  };
+
   return (
-    <main className="grid min-h-0 flex-1 gap-2.5 p-2.5" style={{ gridTemplateColumns: columns }}>
-      {PANES.map(({ id, title, Icon, body }) => {
+    <main ref={box} className="grid min-h-0 flex-1 bg-surface" style={{ gridTemplateColumns: cols.join(" ") }}>
+      {PANES.map(({ id, Icon, body }, i) => {
+        const title = PANE_TITLE[id];
         const min = paneMin.includes(id) && !paneMax;
         const max = paneMax === id;
         const hidden = paneMax !== null && !max;
+        const prev = PANES[i - 1]?.id;
+        const resizable = !!prev && !paneMin.includes(prev) && !min && !paneMax;
         return (
-          <section key={id} aria-label={`${title} pane`} data-pane={id} data-state={max ? "max" : min ? "min" : "normal"}
-            className={`card relative min-h-0 min-w-0 overflow-hidden ${hidden ? "hidden" : ""}`}>
-            {min && (
-              <button onClick={() => togglePaneMin(id)} aria-label={`Show ${title} pane`} title={`Show ${title}`}
-                className="flex h-full w-full flex-col items-center gap-2 py-3 text-muted transition-colors hover:bg-brand/5 hover:text-brand">
-                <Icon size={16} aria-hidden="true" />
-                <span className="text-xs font-semibold tracking-wide [writing-mode:vertical-rl]">{title}</span>
-              </button>
+          <Fragment key={id}>
+            {i > 0 && !hidden && !paneMax && (
+              resizable
+                ? <div role="separator" aria-orientation="vertical" aria-label={`Resize ${PANE_TITLE[prev!]} pane`} onPointerDown={drag(prev!, id)}
+                    className="relative z-10 cursor-col-resize bg-line after:absolute after:inset-y-0 after:-left-1 after:-right-1 after:content-[''] hover:bg-brand/60" />
+                : <div className="bg-line" aria-hidden="true" />
             )}
-            {/* Kept mounted while collapsed so scroll position, tabs and edits survive. */}
-            <div className={min ? "hidden" : "h-full"}>{body}</div>
-            {!min && (
-              <div className="absolute right-1.5 top-[7px] z-20 flex items-center rounded-lg bg-surface/90 backdrop-blur">
-                {!max && (
-                  <button className="pane-btn" onClick={() => togglePaneMin(id)} aria-label={`Minimize ${title} pane`} title="Minimize">
-                    <Minus size={14} aria-hidden="true" />
-                  </button>
-                )}
-                <button className="pane-btn" onClick={() => togglePaneMax(id)} aria-label={`${max ? "Restore" : "Maximize"} ${title} pane`} title={max ? "Restore" : "Maximize"}>
-                  {max ? <Minimize2 size={14} aria-hidden="true" /> : <Maximize2 size={13} aria-hidden="true" />}
+            <section aria-label={`${title} pane`} data-pane={id} data-state={max ? "max" : min ? "min" : "normal"}
+              className={`relative min-h-0 min-w-0 overflow-hidden ${min ? "bg-canvas" : "bg-surface"} ${hidden ? "hidden" : ""}`}>
+              {min && (
+                <button onClick={() => togglePaneMin(id)} aria-label={`Show ${title} pane`} title={`Show ${title}`}
+                  className="flex h-full w-full flex-col items-center gap-2 py-3 text-muted transition-colors hover:bg-brand/5 hover:text-brand">
+                  <Icon size={15} aria-hidden="true" />
+                  <span className="text-xs font-semibold tracking-wide [writing-mode:vertical-rl]">{title}</span>
                 </button>
-              </div>
-            )}
-          </section>
+              )}
+              {/* Kept mounted while collapsed so scroll position, tabs and edits survive. */}
+              <div className={min ? "hidden" : "h-full"}>{body}</div>
+            </section>
+          </Fragment>
         );
       })}
     </main>
