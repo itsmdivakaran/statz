@@ -1,0 +1,30 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "clin_table1",
+  "version": "1.0.0",
+  "title": "Baseline Characteristics (Table 1)",
+  "description": "Summary of subjects by group, with tests and standardized differences",
+  "menu": ["Clinical", "Clinical tables"],
+  "r": { "file": "clin_table1.R", "fn": "codegen_clin_table1", "packages": ["ggnext"] },
+  "roles": [
+    { "id": "vars", "label": "Continuous variables", "min": 0, "max": null, "measure": ["continuous", "ordinal"] },
+    { "id": "cat_vars", "label": "Categorical variables", "min": 0, "max": null, "measure": ["nominal", "ordinal"] },
+    { "id": "group", "label": "Group / treatment arm (optional)", "min": 0, "max": 1, "measure": ["nominal", "ordinal"], "levels": { "min": 2 } }
+  ],
+  "options": {
+    "cont_stat": { "type": "enum", "label": "Continuous variables as", "values": ["mean_sd", "median_iqr"], "labels": ["Mean (SD)", "Median [Q1, Q3]"], "default": "mean_sd" },
+    "digits": { "type": "number", "label": "Decimal places", "min": 0, "max": 4, "step": 1, "default": 1 },
+    "total": { "type": "bool", "label": "Overall column", "default": true },
+    "missing": { "type": "bool", "label": "Show missing values", "default": true },
+    "tests": { "type": "bool", "label": "p-values for group differences", "default": true },
+    "smd": { "type": "bool", "label": "Standardized mean differences (2 groups)", "default": false },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "balance"], "labels": ["None", "Balance plot of standardized differences (2 groups)"], "default": "none" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["vars", "cat_vars", "group"] },
+    { "section": "Options", "items": ["cont_stat", "digits", "total", "missing", "tests", "smd"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "any", "design": "descriptive" },
+  "example": { "dataset": "adsl_sim", "options": { "vars": ["AGE", "BMIBL", "MMSETOT"], "cat_vars": ["SEX", "RACE", "DCSREAS"], "group": ["TRT01P"] } }
+}
