@@ -1,0 +1,8 @@
+{
+  "title": "Plant growth",
+  "description": "Dried plant weight under a control and two treatment conditions (n = 10 each). Source: R datasets::PlantGrowth (Dobson, 1983).",
+  "variables": {
+    "weight": { "label": "Dried weight (g)" },
+    "group": { "label": "Condition" }
+  }
+}

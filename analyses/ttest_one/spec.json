@@ -1,0 +1,30 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "ttest_one",
+  "version": "1.0.0",
+  "title": "One Sample T-Test",
+  "menu": ["Tests", "T-Tests"],
+  "r": { "file": "ttest_one.R", "fn": "codegen_ttest_one", "packages": ["effectsize", "ggnext"] },
+  "roles": [
+    { "id": "dv", "label": "Dependent variables", "min": 1, "max": null, "measure": ["continuous"] }
+  ],
+  "options": {
+    "mu": { "type": "number", "label": "Test value", "min": -1e12, "max": 1e12, "step": 1, "default": 0 },
+    "test": { "type": "enum", "label": "Tests", "values": ["student", "wilcoxon"], "labels": ["Student", "Wilcoxon signed-rank"], "multiple": true, "default": ["student"] },
+    "alternative": { "type": "enum", "label": "Alternative hypothesis", "values": ["two.sided", "less", "greater"], "labels": ["≠ test value", "< test value", "> test value"], "default": "two.sided" },
+    "conf_level": { "type": "number", "label": "Confidence level", "min": 0.5, "max": 0.999, "step": 0.01, "default": 0.95 },
+    "effect_size": { "type": "enum", "label": "Effect size", "values": ["none", "cohens_d"], "labels": ["None", "Cohen's d"], "default": "cohens_d" },
+    "descriptives": { "type": "bool", "label": "Descriptives", "default": true },
+    "assumptions": { "type": "enum", "label": "Assumption checks", "values": ["normality"], "labels": ["Normality (Shapiro-Wilk)"], "multiple": true, "default": ["normality"] },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "histogram", "qq"], "labels": ["None", "Histogram", "Q-Q plot"], "default": "histogram" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["dv"] },
+    { "section": "Tests", "items": ["mu", "test", "alternative", "conf_level"] },
+    { "section": "Additional statistics", "items": ["effect_size", "descriptives"] },
+    { "section": "Assumption checks", "items": ["assumptions"], "collapsed": true },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "continuous", "groups": 1, "design": "one_sample" },
+  "example": { "dataset": "mtcars", "options": { "dv": ["mpg"], "mu": 20 } }
+}
