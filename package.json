@@ -1,0 +1,10 @@
+{
+  "name": "statnext",
+  "private": true,
+  "description": "Run the Tauri CLI from the repo root so it finds src-tauri/.",
+  "scripts": {
+    "tauri": "node frontend/node_modules/@tauri-apps/cli/tauri.js",
+    "dev": "node frontend/node_modules/@tauri-apps/cli/tauri.js dev",
+    "build": "node frontend/node_modules/@tauri-apps/cli/tauri.js build"
+  }
+}

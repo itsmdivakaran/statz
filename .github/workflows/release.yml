@@ -57,8 +57,7 @@ jobs:
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
-          projectPath: src-tauri
-          tauriScript: pnpm --dir ../frontend tauri
+          tauriScript: pnpm tauri
           tagName: v__VERSION__
           releaseName: StatNext v__VERSION__
           releaseBody: Download the file for your system. On macOS, open the .dmg and drag StatNext to Applications. R 4.4 or later must be installed.

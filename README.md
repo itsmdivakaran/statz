@@ -43,7 +43,7 @@ Rscript -e 'install.packages(c("jsonlite","glue","effectsize","car","ggnext","gg
 cd frontend && pnpm install
 
 pnpm bridge & pnpm dev          # UI in a browser at :5173, real R via the dev bridge
-pnpm tauri dev                  # desktop app
+cd .. && pnpm dev               # desktop app (run from the repo root)
 ```
 
 Tests:
