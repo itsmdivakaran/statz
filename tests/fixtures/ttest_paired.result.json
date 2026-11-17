@@ -185,14 +185,14 @@
   ],
   "plots": [
     {
-      "id": "plot59",
+      "id": "plot68",
       "title": "Difference: drug1 − drug2",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot59.svg",
-      "html": "plot59.html",
-      "data_csv": "plot59.csv"
+      "svg": "plot68.svg",
+      "html": "plot68.html",
+      "data_csv": "plot68.csv"
     }
   ],
   "interpretation": {

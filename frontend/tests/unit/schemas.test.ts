@@ -26,6 +26,12 @@ describe("module specs", () => {
     expect(placed.filter((i: string) => !known.has(i))).toEqual([]);
     expect([...known].filter((i) => !placed.includes(i))).toEqual([]);
   });
+
+  it("the starter plugin template is a valid module", () => {
+    const spec = read("r-backend/inst/plugin-template/spec.json");
+    expect(moduleSchema(spec)).toBe(true);
+    expect(moduleSchema.errors ?? []).toEqual([]);
+  });
 });
 
 describe("result fixtures", () => {

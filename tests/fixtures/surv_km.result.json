@@ -99,14 +99,14 @@
   ],
   "plots": [
     {
-      "id": "plot48",
+      "id": "plot57",
       "title": "Kaplan-Meier survival",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot48.svg",
-      "html": "plot48.html",
-      "data_csv": "plot48.csv"
+      "svg": "plot57.svg",
+      "html": "plot57.html",
+      "data_csv": "plot57.csv"
     }
   ],
   "interpretation": {

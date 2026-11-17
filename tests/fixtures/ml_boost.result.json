@@ -252,33 +252,33 @@
   ],
   "plots": [
     {
-      "id": "plot21",
+      "id": "plot30",
       "title": "ROC curve",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot21.svg",
-      "html": "plot21.html",
-      "data_csv": "plot21.csv"
+      "svg": "plot30.svg",
+      "html": "plot30.html",
+      "data_csv": "plot30.csv"
     },
     {
-      "id": "plot22",
+      "id": "plot31",
       "title": "Variable importance",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot22.svg",
-      "html": "plot22.html",
+      "svg": "plot31.svg",
+      "html": "plot31.html",
       "data_csv": null
     },
     {
-      "id": "plot23",
+      "id": "plot32",
       "title": "Cross-validation curve",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot23.svg",
-      "html": "plot23.html",
+      "svg": "plot32.svg",
+      "html": "plot32.html",
       "data_csv": null
     }
   ],

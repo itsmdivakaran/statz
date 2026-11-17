@@ -224,14 +224,14 @@
   ],
   "plots": [
     {
-      "id": "plot47",
+      "id": "plot56",
       "title": "Hazard ratios",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot47.svg",
-      "html": "plot47.html",
-      "data_csv": "plot47.csv"
+      "svg": "plot56.svg",
+      "html": "plot56.html",
+      "data_csv": "plot56.csv"
     }
   ],
   "interpretation": {

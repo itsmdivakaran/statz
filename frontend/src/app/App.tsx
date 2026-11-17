@@ -5,6 +5,8 @@ import { openDataFile, saveProject } from "./actions";
 import { CommandPalette } from "./CommandPalette";
 import { Ribbon } from "./Ribbon";
 import { TransformDialog } from "../transform/TransformDialog";
+import { GuideDialog } from "../guide/GuideDialog";
+import { PluginManager } from "../plugins/PluginManager";
 import { Welcome } from "./Welcome";
 import { Workspace } from "./Workspace";
 import { Startup } from "./Startup";
@@ -40,6 +42,8 @@ export function App() {
       <Ribbon onSearch={() => setPalette(true)} />
       {!data ? <main className="min-h-0 flex-1"><Welcome /></main> : <Workspace />}
       <TransformDialog />
+      <GuideDialog />
+      <PluginManager />
       <CommandPalette open={palette} onClose={() => setPalette(false)} />
     </div>
   );

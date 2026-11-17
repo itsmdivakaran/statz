@@ -356,43 +356,43 @@
   ],
   "plots": [
     {
-      "id": "plot53",
+      "id": "plot62",
       "title": "Time series",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot53.svg",
-      "html": "plot53.html",
-      "data_csv": "plot53.csv"
+      "svg": "plot62.svg",
+      "html": "plot62.html",
+      "data_csv": "plot62.csv"
     },
     {
-      "id": "plot54",
+      "id": "plot63",
       "title": "Decomposition",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot54.svg",
-      "html": "plot54.html",
-      "data_csv": "plot54.csv"
+      "svg": "plot63.svg",
+      "html": "plot63.html",
+      "data_csv": "plot63.csv"
     },
     {
-      "id": "plot55",
+      "id": "plot64",
       "title": "Autocorrelation (ACF)",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot55.svg",
-      "html": "plot55.html",
+      "svg": "plot64.svg",
+      "html": "plot64.html",
       "data_csv": null
     },
     {
-      "id": "plot56",
+      "id": "plot65",
       "title": "Partial autocorrelation (PACF)",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot56.svg",
-      "html": "plot56.html",
+      "svg": "plot65.svg",
+      "html": "plot65.html",
       "data_csv": null
     }
   ],

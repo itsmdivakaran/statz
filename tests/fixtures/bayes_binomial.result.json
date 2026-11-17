@@ -1,0 +1,114 @@
+{
+  "tables": [
+    {
+      "id": "bayes_binomial",
+      "title": "Bayesian Binomial Test",
+      "columns": [
+        {
+          "id": "var",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "level",
+          "label": "Level",
+          "type": "text"
+        },
+        {
+          "id": "count",
+          "label": "Count",
+          "type": "int"
+        },
+        {
+          "id": "total",
+          "label": "Total",
+          "type": "int"
+        },
+        {
+          "id": "prop",
+          "label": "Proportion",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "bf",
+          "label": "BF₁₀",
+          "type": "text"
+        },
+        {
+          "id": "err",
+          "label": "Error",
+          "type": "text"
+        },
+        {
+          "id": "evidence",
+          "label": "Evidence",
+          "type": "text"
+        },
+        {
+          "id": "med",
+          "label": "Median p",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "cri",
+          "label": "95% CrI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "var": "case",
+          "level": "Control",
+          "count": 165,
+          "total": 248,
+          "prop": 0.665322580645161,
+          "bf": "1.09 × 10⁵",
+          "err": "< 0.001%",
+          "evidence": "Extreme evidence for H₁",
+          "med": 0.660946027526263,
+          "cri": [0.602817105013391, 0.717307047576147]
+        },
+        {
+          "var": "case",
+          "level": "Case",
+          "count": 83,
+          "total": 248,
+          "prop": 0.334677419354839,
+          "bf": "1.09 × 10⁵",
+          "err": "< 0.001%",
+          "evidence": "Extreme evidence for H₁",
+          "med": 0.339183620113454,
+          "cri": [0.282837936386191, 0.399293666686979]
+        }
+      ],
+      "notes": [
+        "Tested against a proportion of 0.5. Prior: logistic on the log odds with scale r = 0.500.",
+        "Evidence labels follow Lee & Wagenmakers (2013)."
+      ]
+    }
+  ],
+  "assumptions": [],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "For case, the proportion of 'Control' was 0.67 (165 of 248). Against a test value of 0.5, the data are 1.09 × 10⁵ times more likely under H₁ (the proportion differs from 0.5) than under H₀ (it equals 0.5): BF₁₀ = 1.09 × 10⁵, extreme evidence for H₁. The posterior median proportion is 0.661, 95% credible interval [0.603, 0.717]."
+  },
+  "notes": [],
+  "module": "bayes_binomial",
+  "module_version": "1.0.0",
+  "title": "Bayesian Binomial Test",
+  "status": "ok",
+  "code": "library(BayesFactor)\n# Bayesian binomial test: case against p = 0.5\nd <- data\nd$case <- factor(d$case, levels = c(0, 1), labels = c(\"Control\", \"Case\"))\nrscale <- 0.5   # scale of the logistic prior on the log odds\ncounts <- table(d$case)\nbf <- lapply(counts, function(k) proportionBF(y = k, N = sum(counts), p = 0.5, rscale = rscale))\nset.seed(123)\npost <- lapply(bf, function(b) as.numeric(posterior(b, iterations = 10000, progress = FALSE)[, \"p\"]))",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "BayesFactor": "0.9.12.4.7"
+    },
+    "dataset": "data"
+  }
+}

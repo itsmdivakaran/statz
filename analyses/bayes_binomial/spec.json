@@ -1,0 +1,167 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "bayes_binomial",
+  "version": "1.0.0",
+  "title": "Bayesian Binomial Test",
+  "description": "Evidence for or against a proportion equal to a test value",
+  "menu": [
+    "Bayesian",
+    "Frequencies"
+  ],
+  "r": {
+    "file": "bayes_binomial.R",
+    "fn": "codegen_bayes_binomial",
+    "packages": [
+      "BayesFactor"
+    ]
+  },
+  "roles": [
+    {
+      "id": "vars",
+      "label": "Variables",
+      "min": 1,
+      "max": null,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ]
+    }
+  ],
+  "options": {
+    "p0": {
+      "type": "number",
+      "label": "Test value (proportion)",
+      "min": 0.001,
+      "max": 0.999,
+      "step": 0.05,
+      "default": 0.5
+    },
+    "alternative": {
+      "type": "enum",
+      "label": "Alternative hypothesis",
+      "values": [
+        "two.sided",
+        "greater",
+        "less"
+      ],
+      "labels": [
+        "≠ test value",
+        "> test value",
+        "< test value"
+      ],
+      "default": "two.sided"
+    },
+    "prior": {
+      "type": "enum",
+      "label": "Prior width",
+      "values": [
+        "medium",
+        "wide",
+        "ultrawide",
+        "custom"
+      ],
+      "labels": [
+        "Medium (r = 0.5)",
+        "Wide (r = 0.707)",
+        "Ultrawide (r = 1)",
+        "Custom"
+      ],
+      "default": "medium"
+    },
+    "prior_r": {
+      "type": "number",
+      "label": "Custom prior width r",
+      "min": 0.01,
+      "max": 5,
+      "step": 0.05,
+      "default": 0.5
+    },
+    "bf_type": {
+      "type": "enum",
+      "label": "Bayes factor",
+      "values": [
+        "bf10",
+        "bf01",
+        "log_bf10"
+      ],
+      "labels": [
+        "BF₁₀ (evidence for H₁)",
+        "BF₀₁ (evidence for H₀)",
+        "log(BF₁₀)"
+      ],
+      "default": "bf10"
+    },
+    "posterior": {
+      "type": "bool",
+      "label": "Posterior proportion and credible interval",
+      "default": true
+    },
+    "ci_level": {
+      "type": "number",
+      "label": "Credible interval",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "seed": {
+      "type": "number",
+      "label": "Random seed",
+      "min": 1,
+      "max": 999999,
+      "step": 1,
+      "default": 123
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "vars",
+        "p0"
+      ]
+    },
+    {
+      "section": "Hypothesis",
+      "items": [
+        "alternative"
+      ]
+    },
+    {
+      "section": "Prior",
+      "items": [
+        "prior",
+        "prior_r"
+      ]
+    },
+    {
+      "section": "Output",
+      "items": [
+        "bf_type",
+        "posterior",
+        "ci_level"
+      ]
+    },
+    {
+      "section": "Advanced",
+      "items": [
+        "seed"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "nominal",
+    "groups": "1",
+    "design": "one-sample",
+    "bayesian": true
+  },
+  "example": {
+    "dataset": "infert",
+    "options": {
+      "vars": [
+        "case"
+      ]
+    }
+  }
+}

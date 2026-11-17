@@ -362,23 +362,23 @@
   ],
   "plots": [
     {
-      "id": "plot51",
+      "id": "plot60",
       "title": "Forecast",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot51.svg",
-      "html": "plot51.html",
-      "data_csv": "plot51.csv"
+      "svg": "plot60.svg",
+      "html": "plot60.html",
+      "data_csv": "plot60.csv"
     },
     {
-      "id": "plot52",
+      "id": "plot61",
       "title": "Residual autocorrelation",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot52.svg",
-      "html": "plot52.html",
+      "svg": "plot61.svg",
+      "html": "plot61.html",
       "data_csv": null
     }
   ],

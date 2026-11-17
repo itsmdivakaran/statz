@@ -1,0 +1,184 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "bayes_contingency",
+  "version": "1.0.0",
+  "title": "Bayesian Contingency Table",
+  "description": "Evidence for or against an association between two categorical variables",
+  "menu": [
+    "Bayesian",
+    "Frequencies"
+  ],
+  "r": {
+    "file": "bayes_contingency.R",
+    "fn": "codegen_bayes_contingency",
+    "packages": [
+      "BayesFactor",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "rows",
+      "label": "Rows",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "min": 2
+      }
+    },
+    {
+      "id": "cols",
+      "label": "Columns",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "min": 2
+      }
+    }
+  ],
+  "options": {
+    "sampling": {
+      "type": "enum",
+      "label": "Sampling plan",
+      "values": [
+        "jointMulti",
+        "indepMulti_rows",
+        "indepMulti_cols",
+        "poisson"
+      ],
+      "labels": [
+        "Total fixed (joint multinomial)",
+        "Row totals fixed",
+        "Column totals fixed",
+        "Nothing fixed (Poisson)"
+      ],
+      "default": "jointMulti"
+    },
+    "prior_a": {
+      "type": "number",
+      "label": "Prior concentration",
+      "min": 0.1,
+      "max": 100,
+      "step": 0.5,
+      "default": 1
+    },
+    "bf_type": {
+      "type": "enum",
+      "label": "Bayes factor",
+      "values": [
+        "bf10",
+        "bf01",
+        "log_bf10"
+      ],
+      "labels": [
+        "BF₁₀ (evidence for H₁)",
+        "BF₀₁ (evidence for H₀)",
+        "log(BF₁₀)"
+      ],
+      "default": "bf10"
+    },
+    "expected": {
+      "type": "bool",
+      "label": "Expected counts",
+      "default": false
+    },
+    "posterior": {
+      "type": "bool",
+      "label": "Posterior log odds ratio (2×2 tables)",
+      "default": true
+    },
+    "ci_level": {
+      "type": "number",
+      "label": "Credible interval",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plot",
+      "values": [
+        "none",
+        "bar_dodge"
+      ],
+      "labels": [
+        "None",
+        "Grouped bar chart"
+      ],
+      "default": "bar_dodge"
+    },
+    "seed": {
+      "type": "number",
+      "label": "Random seed",
+      "min": 1,
+      "max": 999999,
+      "step": 1,
+      "default": 123
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "rows",
+        "cols"
+      ]
+    },
+    {
+      "section": "Model",
+      "items": [
+        "sampling",
+        "prior_a"
+      ]
+    },
+    {
+      "section": "Output",
+      "items": [
+        "bf_type",
+        "expected",
+        "posterior",
+        "ci_level"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    },
+    {
+      "section": "Advanced",
+      "items": [
+        "seed"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "categorical",
+    "groups": "2+",
+    "design": "independent",
+    "bayesian": true
+  },
+  "example": {
+    "dataset": "infert",
+    "options": {
+      "rows": [
+        "spontaneous"
+      ],
+      "cols": [
+        "case"
+      ]
+    }
+  }
+}

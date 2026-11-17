@@ -40,6 +40,11 @@ interface State {
   redoStack: Command[];
   theme: "light" | "dark";
   transformMode: TransformMode | null;
+  /** Open modal: the analysis guide or the plugin manager. */
+  modal: "guide" | "plugins" | null;
+  setModal(m: "guide" | "plugins" | null): void;
+  /** Re-read the analysis list (after installing or removing a plugin). */
+  reloadSpecs(): Promise<void>;
   /** Pane that fills the window, if any, and the panes collapsed to a strip. */
   paneMax: PaneId | null;
   paneMin: PaneId[];
@@ -132,6 +137,12 @@ export const useStore = create<State>((set, get) => {
     redoStack: [],
     theme: prefersDark ? "dark" : "light",
     transformMode: null,
+    modal: null,
+    setModal(modal) { set({ modal }); },
+    async reloadSpecs() {
+      const list = await call<ModuleSpec[]>("analysis.list");
+      set({ specs: Object.fromEntries(list.map((s) => [s.id, s])) });
+    },
     paneMax: null,
     paneMin: [],
     togglePaneMax(id) { set((s) => ({ paneMax: s.paneMax === id ? null : id, paneMin: s.paneMin.filter((p) => p !== id) })); },

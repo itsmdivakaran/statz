@@ -8,7 +8,7 @@ use std::sync::Arc;
 use tokio::sync::{Mutex, RwLock};
 
 /// Methods whose effects must be replayed into a fresh worker.
-const REPLAYED: &[&str] = &["data.import", "data.example", "data.patch", "data.load"];
+const REPLAYED: &[&str] = &["data.import", "data.example", "data.patch", "data.undo", "data.load"];
 
 /// Methods the frontend may call through the generic `rpc` command.
 pub const ALLOWED: &[&str] = &[
@@ -20,6 +20,8 @@ pub const ALLOWED: &[&str] = &[
     "data.info",
     "data.slice",
     "data.patch",
+    "data.undo",
+    "data.values",
     "data.save",
     "data.load",
     "analysis.list",
@@ -28,7 +30,14 @@ pub const ALLOWED: &[&str] = &[
     "analysis.remove",
     "code.run",
     "session.script",
+    "report.export",
     "plot.export",
+    "plugin.list",
+    "plugin.check",
+    "plugin.install",
+    "plugin.remove",
+    "plugin.reload",
+    "plugin.template",
 ];
 
 pub struct RBridge {
@@ -109,6 +118,31 @@ impl RBridge {
     pub async fn shutdown(&self) {
         if let Some(w) = self.worker.write().await.take() {
             w.kill().await;
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::ALLOWED;
+
+    /// Every RPC method the R server handles (except shutdown) must be callable from the app.
+    #[test]
+    fn allowlist_covers_server_methods() {
+        let src = include_str!("../../r-backend/R/server.R");
+        let start = src.find("switch(method,").expect("dispatch switch");
+        let body = &src[start..];
+        let end = body.find("sn_abort(paste0(\"Unknown method").expect("end of dispatch");
+        let methods: Vec<&str> = body[..end]
+            .lines()
+            .filter_map(|l| l.trim_start().split_once(" = ").map(|(m, _)| m))
+            .filter(|m| m.contains('.') && !m.contains(' ') && !m.contains('$'))
+            .collect();
+        assert!(methods.len() > 20, "parsed {methods:?}");
+        for m in methods {
+            if m != "system.shutdown" {
+                assert!(ALLOWED.contains(&m), "{m} is handled by R but not allowed in r_bridge::ALLOWED");
+            }
         }
     }
 }

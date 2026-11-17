@@ -1,0 +1,207 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "bayes_ttest_ind",
+  "version": "1.0.0",
+  "title": "Bayesian Independent Samples T-Test",
+  "description": "Evidence for or against a difference between two groups",
+  "menu": [
+    "Bayesian",
+    "T-Tests"
+  ],
+  "r": {
+    "file": "bayes_ttest_ind.R",
+    "fn": "codegen_bayes_ttest_ind",
+    "packages": [
+      "BayesFactor",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "dv",
+      "label": "Dependent variables",
+      "min": 1,
+      "max": null,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "group",
+      "label": "Grouping variable",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "exactly": 2
+      }
+    }
+  ],
+  "options": {
+    "alternative": {
+      "type": "enum",
+      "label": "Alternative hypothesis",
+      "values": [
+        "two.sided",
+        "greater",
+        "less"
+      ],
+      "labels": [
+        "Group 1 ≠ Group 2",
+        "Group 1 > Group 2",
+        "Group 1 < Group 2"
+      ],
+      "default": "two.sided"
+    },
+    "prior": {
+      "type": "enum",
+      "label": "Prior width",
+      "values": [
+        "medium",
+        "wide",
+        "ultrawide",
+        "custom"
+      ],
+      "labels": [
+        "Medium (r = 0.707)",
+        "Wide (r = 1)",
+        "Ultrawide (r = 1.414)",
+        "Custom"
+      ],
+      "default": "medium"
+    },
+    "prior_r": {
+      "type": "number",
+      "label": "Custom prior width r",
+      "min": 0.01,
+      "max": 5,
+      "step": 0.05,
+      "default": 0.707
+    },
+    "bf_type": {
+      "type": "enum",
+      "label": "Bayes factor",
+      "values": [
+        "bf10",
+        "bf01",
+        "log_bf10"
+      ],
+      "labels": [
+        "BF₁₀ (evidence for H₁)",
+        "BF₀₁ (evidence for H₀)",
+        "log(BF₁₀)"
+      ],
+      "default": "bf10"
+    },
+    "posterior": {
+      "type": "bool",
+      "label": "Posterior effect size and credible interval",
+      "default": true
+    },
+    "ci_level": {
+      "type": "number",
+      "label": "Credible interval",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "descriptives": {
+      "type": "bool",
+      "label": "Descriptives",
+      "default": true
+    },
+    "plots": {
+      "type": "enum",
+      "label": "Plots",
+      "values": [
+        "prior_posterior",
+        "robustness",
+        "sequential"
+      ],
+      "labels": [
+        "Prior and posterior",
+        "Bayes factor robustness check",
+        "Sequential analysis"
+      ],
+      "default": [
+        "prior_posterior",
+        "robustness"
+      ],
+      "multiple": true
+    },
+    "seed": {
+      "type": "number",
+      "label": "Random seed",
+      "min": 1,
+      "max": 999999,
+      "step": 1,
+      "default": 123
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "dv",
+        "group"
+      ]
+    },
+    {
+      "section": "Hypothesis",
+      "items": [
+        "alternative"
+      ]
+    },
+    {
+      "section": "Prior",
+      "items": [
+        "prior",
+        "prior_r"
+      ]
+    },
+    {
+      "section": "Output",
+      "items": [
+        "bf_type",
+        "posterior",
+        "ci_level",
+        "descriptives"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plots"
+      ],
+      "collapsed": true
+    },
+    {
+      "section": "Advanced",
+      "items": [
+        "seed"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "continuous",
+    "groups": 2,
+    "design": "independent",
+    "bayesian": true
+  },
+  "example": {
+    "dataset": "mtcars",
+    "options": {
+      "dv": [
+        "mpg"
+      ],
+      "group": [
+        "am"
+      ]
+    }
+  }
+}

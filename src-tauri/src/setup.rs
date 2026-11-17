@@ -16,6 +16,8 @@ pub const R_PACKAGES: &[&str] = &[
     "MASS", "nnet", "survival", "lme4", "lmerTest", "emmeans", "performance", "psych", "zip", "qpdf",
     // Phase 3: multivariate, diagnostic accuracy, meta-analysis, machine learning, time series
     "GPArotation", "cluster", "pROC", "metafor", "rpart", "ranger", "gbm", "glmnet", "e1071", "forecast", "tseries",
+    // Phase 4: Bayesian
+    "BayesFactor", "bayestestR",
 ];
 
 /// R script run once by Rscript. Prints "PROGRESS <pct> <message>" lines.
@@ -32,7 +34,7 @@ options(repos = c(CRAN = "{repo}"), timeout = 600)
 pkgs <- c({pkgs})
 todo <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
 for (i in seq_along(todo)) {{
-  cat(sprintf("PROGRESS %d Installing %s\n", round(90 * (i - 1) / length(todo)), todo[i]))
+  cat(sprintf("PROGRESS %d Installing %s (%d of %d)\n", round(90 * (i - 1) / length(todo)), todo[i], i, length(todo)))
   install.packages(todo[i], lib = lib, quiet = TRUE)
 }}
 cat("PROGRESS 92 Installing statnextr\n")

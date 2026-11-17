@@ -3,7 +3,8 @@
 pkgs <- c(
   "jsonlite", "glue", "effectsize", "car", "rsvg", "readxl", "haven", "arrow", "testthat", "S7", "ggplot2",
   "lme4", "lmerTest", "emmeans", "psych", "MASS", "nnet", "survival", "performance", "zip", "qpdf",
-  "GPArotation", "cluster", "pROC", "metafor", "rpart", "ranger", "gbm", "glmnet", "e1071", "forecast", "tseries"
+  "GPArotation", "cluster", "pROC", "metafor", "rpart", "ranger", "gbm", "glmnet", "e1071", "forecast", "tseries",
+  "BayesFactor", "bayestestR"
 )
 if (is.null(getOption("repos")) || identical(unname(getOption("repos")["CRAN"]), "@CRAN@"))
   options(repos = c(CRAN = "https://cloud.r-project.org"))

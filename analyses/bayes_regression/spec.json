@@ -1,0 +1,150 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "bayes_regression",
+  "version": "1.0.0",
+  "title": "Bayesian Linear Regression",
+  "description": "Compare every subset of predictors and average over models",
+  "menu": [
+    "Bayesian",
+    "Regression"
+  ],
+  "r": {
+    "file": "bayes_regression.R",
+    "fn": "codegen_bayes_regression",
+    "packages": [
+      "BayesFactor",
+      "bayestestR"
+    ]
+  },
+  "roles": [
+    {
+      "id": "outcome",
+      "label": "Dependent variable",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "covariates",
+      "label": "Predictors",
+      "min": 1,
+      "max": 12,
+      "measure": [
+        "continuous"
+      ]
+    }
+  ],
+  "options": {
+    "prior": {
+      "type": "enum",
+      "label": "Prior width",
+      "values": [
+        "medium",
+        "wide",
+        "ultrawide",
+        "custom"
+      ],
+      "labels": [
+        "Medium (r = 0.354)",
+        "Wide (r = 0.5)",
+        "Ultrawide (r = 0.707)",
+        "Custom"
+      ],
+      "default": "medium"
+    },
+    "prior_r": {
+      "type": "number",
+      "label": "Custom prior width r",
+      "min": 0.01,
+      "max": 5,
+      "step": 0.05,
+      "default": 0.354
+    },
+    "top": {
+      "type": "number",
+      "label": "Models to show",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 10
+    },
+    "inclusion": {
+      "type": "bool",
+      "label": "Predictors: inclusion Bayes factors",
+      "default": true
+    },
+    "estimates": {
+      "type": "bool",
+      "label": "Posterior coefficients (best model)",
+      "default": true
+    },
+    "ci_level": {
+      "type": "number",
+      "label": "Credible interval",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "seed": {
+      "type": "number",
+      "label": "Random seed",
+      "min": 1,
+      "max": 999999,
+      "step": 1,
+      "default": 123
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "outcome",
+        "covariates"
+      ]
+    },
+    {
+      "section": "Prior",
+      "items": [
+        "prior",
+        "prior_r"
+      ]
+    },
+    {
+      "section": "Output",
+      "items": [
+        "top",
+        "inclusion",
+        "estimates",
+        "ci_level"
+      ]
+    },
+    {
+      "section": "Advanced",
+      "items": [
+        "seed"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "continuous",
+    "design": "regression",
+    "bayesian": true
+  },
+  "example": {
+    "dataset": "mtcars",
+    "options": {
+      "outcome": [
+        "mpg"
+      ],
+      "covariates": [
+        "wt",
+        "hp",
+        "qsec"
+      ]
+    }
+  }
+}

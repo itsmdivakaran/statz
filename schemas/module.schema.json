@@ -12,6 +12,7 @@
     "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
     "title": { "type": "string", "minLength": 1 },
     "description": { "type": "string", "description": "One line shown under the title in menus and search." },
+    "author": { "type": "string", "description": "Plugin author (shown in the plugin manager)." },
     "menu": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
     "r": {
       "type": "object",

@@ -68,8 +68,9 @@ async fn backend_start(app: AppHandle, state: State<'_, AppState>) -> Result<Val
     }
     let cfg = WorkerConfig {
         rscript: r.rscript.clone(),
-        modules: vec![resource(&app, "analyses"), data_dir.join("plugins")],
+        modules: vec![resource(&app, "analyses")],
         datasets: Some(resource(&app, "datasets")),
+        plugins: Some(data_dir.join("plugins")),
         work_dir: data_dir.join("sessions").join(std::process::id().to_string()),
         r_lib: Some(lib),
     };
@@ -77,6 +78,11 @@ async fn backend_start(app: AppHandle, state: State<'_, AppState>) -> Result<Val
     let mut hello = state.bridge.call("system.hello", Value::Object(Default::default())).await?;
     hello["rscript"] = Value::from(r.rscript.display().to_string());
     Ok(hello)
+}
+
+#[tauri::command]
+fn open_cran(url: String) -> Result<(), RpcError> {
+    r_detect::open_cran(&url).map_err(err)
 }
 
 #[tauri::command]
@@ -131,7 +137,8 @@ pub fn run() {
             rpc,
             rpc_cancel,
             project_save,
-            project_load
+            project_load,
+            open_cran
         ])
         .build(tauri::generate_context!())
         .expect("error while building StatNext")

@@ -1,0 +1,122 @@
+{
+  "tables": [
+    {
+      "id": "bayes_cor",
+      "title": "Bayesian Pearson Correlations",
+      "columns": [
+        {
+          "id": "pair",
+          "label": "Pair",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "n",
+          "type": "int"
+        },
+        {
+          "id": "r",
+          "label": "Pearson r",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "bf",
+          "label": "BF₁₀",
+          "type": "text"
+        },
+        {
+          "id": "err",
+          "label": "Error",
+          "type": "text"
+        },
+        {
+          "id": "evidence",
+          "label": "Evidence",
+          "type": "text"
+        },
+        {
+          "id": "med",
+          "label": "Median ρ",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "cri",
+          "label": "95% CrI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "pair": "mpg – wt",
+          "n": 32,
+          "r": -0.867659376517228,
+          "bf": "1.33 × 10⁷",
+          "err": "< 0.001%",
+          "evidence": "Extreme evidence for H₁",
+          "med": -0.817420873399623,
+          "cri": [-0.904368215514908, -0.668036464351834]
+        },
+        {
+          "pair": "mpg – qsec",
+          "n": 32,
+          "r": 0.418684033921778,
+          "bf": "4.42",
+          "err": "< 0.001%",
+          "evidence": "Moderate evidence for H₁",
+          "med": 0.356919510909956,
+          "cri": [0.0452291820534573, 0.603447030401992]
+        },
+        {
+          "pair": "wt – qsec",
+          "n": 32,
+          "r": -0.174715878713405,
+          "bf": "0.576",
+          "err": "< 0.001%",
+          "evidence": "Anecdotal evidence for H₀",
+          "med": -0.148623522965709,
+          "cri": [-0.440517995965371, 0.178291042393281]
+        }
+      ],
+      "notes": [
+        "Prior: stretched beta on ρ with width 0.333.",
+        "Evidence labels follow Lee & Wagenmakers (2013)."
+      ]
+    }
+  ],
+  "assumptions": [],
+  "plots": [
+    {
+      "id": "plot6",
+      "title": "Scatter plot",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot6.svg",
+      "html": "plot6.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "Bayesian correlation tests (Ly, Verhagen & Wagenmakers, 2016):\n\nmpg and wt (r = −0.87, n = 32): BF₁₀ = 1.33 × 10⁷, extreme evidence for H₁.\n\nmpg and qsec (r = 0.42, n = 32): BF₁₀ = 4.42, moderate evidence for H₁.\n\nwt and qsec (r = −0.17, n = 32): BF₁₀ = 0.576, anecdotal evidence for H₀."
+  },
+  "notes": [],
+  "module": "bayes_cor",
+  "module_version": "1.0.0",
+  "title": "Bayesian Correlation",
+  "status": "ok",
+  "code": "library(BayesFactor)\nlibrary(ggnext)\nrscale <- 1 / 3   # width of the stretched beta prior on rho\n# mpg and wt\nd_1 <- data[complete.cases(data[, c(\"mpg\", \"wt\")]), c(\"mpg\", \"wt\")]\nbf_1 <- correlationBF(d_1$mpg, d_1$wt, rscale = rscale)\nset.seed(123)\nrho_1 <- as.numeric(posterior(bf_1, iterations = 10000, progress = FALSE)[, \"rho\"])\n\n# mpg and qsec\nd_2 <- data[complete.cases(data[, c(\"mpg\", \"qsec\")]), c(\"mpg\", \"qsec\")]\nbf_2 <- correlationBF(d_2$mpg, d_2$qsec, rscale = rscale)\nset.seed(123)\nrho_2 <- as.numeric(posterior(bf_2, iterations = 10000, progress = FALSE)[, \"rho\"])\n\n# wt and qsec\nd_3 <- data[complete.cases(data[, c(\"wt\", \"qsec\")]), c(\"wt\", \"qsec\")]\nbf_3 <- correlationBF(d_3$wt, d_3$qsec, rscale = rscale)\nset.seed(123)\nrho_3 <- as.numeric(posterior(bf_3, iterations = 10000, progress = FALSE)[, \"rho\"])\np <- ggnext(d_1, aes(mpg, wt)) +\n  geom_point(alpha = 0.8) +\n  geom_smooth(method = \"lm\") +\n  labs(title = \"mpg and wt\", x = \"Miles per US gallon\", y = \"Weight (1000 lbs)\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "BayesFactor": "0.9.12.4.7",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

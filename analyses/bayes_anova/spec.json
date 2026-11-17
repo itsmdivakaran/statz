@@ -1,0 +1,199 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "bayes_anova",
+  "version": "1.0.0",
+  "title": "Bayesian ANOVA",
+  "description": "Compare models with and without each factor; supports repeated measures",
+  "menu": [
+    "Bayesian",
+    "ANOVA"
+  ],
+  "r": {
+    "file": "bayes_anova.R",
+    "fn": "codegen_bayes_anova",
+    "packages": [
+      "BayesFactor",
+      "bayestestR",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "dv",
+      "label": "Dependent variable",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "factors",
+      "label": "Fixed factors",
+      "min": 1,
+      "max": 3,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "min": 2
+      }
+    },
+    {
+      "id": "subject",
+      "label": "Subject (repeated measures)",
+      "min": 0,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ]
+    }
+  ],
+  "options": {
+    "prior": {
+      "type": "enum",
+      "label": "Prior width",
+      "values": [
+        "medium",
+        "wide",
+        "ultrawide",
+        "custom"
+      ],
+      "labels": [
+        "Medium (r = 0.5)",
+        "Wide (r = 0.707)",
+        "Ultrawide (r = 1)",
+        "Custom"
+      ],
+      "default": "medium"
+    },
+    "prior_r": {
+      "type": "number",
+      "label": "Custom prior width r",
+      "min": 0.01,
+      "max": 5,
+      "step": 0.05,
+      "default": 0.5
+    },
+    "models": {
+      "type": "enum",
+      "label": "Models",
+      "values": [
+        "withmain",
+        "all"
+      ],
+      "labels": [
+        "Interactions only with their main effects",
+        "All models"
+      ],
+      "default": "withmain"
+    },
+    "inclusion": {
+      "type": "bool",
+      "label": "Effects: inclusion Bayes factors",
+      "default": true
+    },
+    "estimates": {
+      "type": "bool",
+      "label": "Posterior estimates (full model)",
+      "default": false
+    },
+    "ci_level": {
+      "type": "number",
+      "label": "Credible interval",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "descriptives": {
+      "type": "bool",
+      "label": "Descriptives",
+      "default": true
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plot",
+      "values": [
+        "none",
+        "mean_ci",
+        "box_jitter"
+      ],
+      "labels": [
+        "None",
+        "Mean ± 95% CI",
+        "Box plot + points"
+      ],
+      "default": "mean_ci"
+    },
+    "seed": {
+      "type": "number",
+      "label": "Random seed",
+      "min": 1,
+      "max": 999999,
+      "step": 1,
+      "default": 123
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "dv",
+        "factors",
+        "subject"
+      ]
+    },
+    {
+      "section": "Prior",
+      "items": [
+        "prior",
+        "prior_r"
+      ]
+    },
+    {
+      "section": "Output",
+      "items": [
+        "models",
+        "inclusion",
+        "estimates",
+        "ci_level",
+        "descriptives"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    },
+    {
+      "section": "Advanced",
+      "items": [
+        "seed"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "continuous",
+    "groups": "3+",
+    "design": "factorial",
+    "bayesian": true
+  },
+  "example": {
+    "dataset": "toothgrowth",
+    "options": {
+      "dv": [
+        "len"
+      ],
+      "factors": [
+        "supp",
+        "dose"
+      ]
+    }
+  }
+}

@@ -222,33 +222,33 @@
   ],
   "plots": [
     {
-      "id": "plot27",
+      "id": "plot36",
       "title": "Observed vs predicted",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot27.svg",
-      "html": "plot27.html",
+      "svg": "plot36.svg",
+      "html": "plot36.html",
       "data_csv": null
     },
     {
-      "id": "plot28",
+      "id": "plot37",
       "title": "Variable importance",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot28.svg",
-      "html": "plot28.html",
+      "svg": "plot37.svg",
+      "html": "plot37.html",
       "data_csv": null
     },
     {
-      "id": "plot29",
+      "id": "plot38",
       "title": "Cross-validation curve",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot29.svg",
-      "html": "plot29.html",
+      "svg": "plot38.svg",
+      "html": "plot38.html",
       "data_csv": null
     }
   ],

@@ -182,24 +182,24 @@
   ],
   "plots": [
     {
-      "id": "plot40",
+      "id": "plot49",
       "title": "Scree plot",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot40.svg",
-      "html": "plot40.html",
+      "svg": "plot49.svg",
+      "html": "plot49.html",
       "data_csv": null
     },
     {
-      "id": "plot41",
+      "id": "plot50",
       "title": "Component scores",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot41.svg",
-      "html": "plot41.html",
-      "data_csv": "plot41.csv"
+      "svg": "plot50.svg",
+      "html": "plot50.html",
+      "data_csv": "plot50.csv"
     }
   ],
   "interpretation": {

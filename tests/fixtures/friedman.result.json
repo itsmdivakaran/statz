@@ -149,13 +149,13 @@
   "assumptions": [],
   "plots": [
     {
-      "id": "plot13",
+      "id": "plot22",
       "title": "Repeated measurements",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot13.svg",
-      "html": "plot13.html",
+      "svg": "plot22.svg",
+      "html": "plot22.html",
       "data_csv": null
     }
   ],

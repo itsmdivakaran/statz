@@ -11,11 +11,10 @@ test("landing page: worked example opens data, analysis and result", async ({ pa
   await page.getByLabel("Filter datasets").fill("vaccine");
   await expect(page.getByRole("button", { name: "BCG vaccine trials" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Iris flowers" })).toHaveCount(0);
-  await page.getByRole("button", { name: /Principal Component Analysis/ }).click();
-  const result = page.getByTestId("result-pca");
-  await expect(result).toContainText("Variance Explained");
-  await expect(result).toContainText("62.0");
-  await expect(page.getByTestId("data-grid")).toContainText("Alabama");
+  await page.getByRole("button", { name: /ROC Curve Analysis/ }).click();
+  const result = page.getByTestId("result-roc");
+  await expect(result).toContainText("0.73");
+  await expect(page.locator('[data-pane="data"]')).toBeVisible();
 });
 
 test("panes can be minimized, restored and maximized", async ({ page }) => {

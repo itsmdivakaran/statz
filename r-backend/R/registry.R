@@ -2,7 +2,7 @@
 # A module is a folder with spec.json + an R file defining `codegen_<id>()`.
 # Built-ins and plugins share this format.
 
-sn_load_modules <- function(sess, dirs) {
+sn_load_modules <- function(sess, dirs, source = "builtin") {
   for (dir in dirs) {
     for (sub in list.dirs(dir, recursive = FALSE)) {
       spec_file <- file.path(sub, "spec.json")
@@ -11,7 +11,14 @@ sn_load_modules <- function(sess, dirs) {
         message("statnextr: skipping module ", basename(sub), ": ", conditionMessage(e))
         NULL
       })
-      if (!is.null(mod)) sess$modules[[mod$spec$id]] <- mod
+      if (is.null(mod)) next
+      if (source == "plugin" && !is.null(sess$modules[[mod$spec$id]])) {
+        message("statnextr: plugin ", mod$spec$id, " has the id of a built-in analysis; skipped")
+        next
+      }
+      mod$source <- source
+      mod$spec$source <- source
+      sess$modules[[mod$spec$id]] <- mod
     }
   }
   invisible(names(sess$modules))

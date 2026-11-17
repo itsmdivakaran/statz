@@ -9,7 +9,7 @@ Point-and-click statistics desktop app. Every result is computed by a local R an
 
 ![Independent t-test](docs/screenshots/main.png)
 
-## What is in it (Phases 1–3)
+## What is in it (Phases 1–4)
 
 | Area | Contents |
 |---|---|
@@ -24,6 +24,9 @@ Point-and-click statistics desktop app. Every result is computed by a local R an
 | Machine learning | Decision tree, random forest, gradient boosting, elastic net, SVM, naive Bayes, LDA; classification or regression, train/test split, confusion matrix, ROC/AUC, permutation importance, SHAP |
 | Time series | Explore (decomposition, ACF/PACF, stationarity tests), ARIMA and ETS forecasting with hold-out accuracy |
 | Clinical | Diagnostic accuracy (2×2, ROC with DeLong), meta-analysis (generic, binary, continuous; forest, funnel, Egger, trim-and-fill, leave-one-out, moderators), Table 1 and adverse-event tables |
+| Bayesian | T-tests (one-sample, paired, independent), ANOVA (incl. repeated measures), correlation, contingency tables, linear regression, binomial test; Bayes factors with evidence labels, posterior estimates, prior/posterior, robustness and sequential plots (BayesFactor) |
+| Guide | "Which analysis should I use?": a few plain questions (or your own variables) pick the test, with alternatives and a Bayesian option, and open it ready to run |
+| Plugins | Add analyses in the same format as the built-in ones (spec.json + R file + help.md): install from a folder or .zip, update, remove, starter plugin to copy |
 | Workspace | Data, analysis and output panes can each be maximized or minimized; landing page with one-click worked examples and 28 example datasets |
 | Output | APA tables, assumption checks, auto interpretation, plots (SVG/PNG/PDF/HTML/CSV); all results to Word (.docx), PDF or HTML |
 | R code | Per analysis, editable and re-runnable; whole session exports as `.R`, `.Rmd` or `.qmd` |
@@ -43,7 +46,7 @@ datasets/      example data + metadata
 tests/fixtures golden result JSON per module
 ```
 
-Adding an analysis = new folder in `analyses/`; no TypeScript or Rust changes.
+Adding an analysis = new folder in `analyses/`; no TypeScript or Rust changes. The same folder installed through **Plugins › Manage plugins** works as a plugin; **Create a starter plugin** writes a working example with a README (template in `r-backend/inst/plugin-template/`).
 
 ## Develop
 
@@ -67,6 +70,6 @@ STATNEXT_TEST_R=1 cargo test --manifest-path src-tauri/Cargo.toml
 Rscript scripts/make-fixtures.R   # regenerate tests/fixtures after changing a module
 ```
 
-Installers: run the "Release installers" workflow (or push a `v*` tag); `.github/workflows/release.yml` builds `.dmg`, `.msi`, `.AppImage`, `.deb` (unsigned until Apple signing secrets are set).
+Installers: run the "Release installers" workflow (or push a `v*` tag); `.github/workflows/release.yml` builds `.dmg`, Windows `setup.exe` and `.msi`, `.AppImage`, `.deb` (unsigned until Apple signing secrets are set).
 
 On first launch the app installs missing R packages into a private library from a date-pinned Posit Package Manager snapshot, so results are reproducible across machines.

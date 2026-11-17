@@ -168,23 +168,23 @@
   "assumptions": [],
   "plots": [
     {
-      "id": "plot9",
+      "id": "plot18",
       "title": "Cluster plot",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot9.svg",
-      "html": "plot9.html",
-      "data_csv": "plot9.csv"
+      "svg": "plot18.svg",
+      "html": "plot18.html",
+      "data_csv": "plot18.csv"
     },
     {
-      "id": "plot10",
+      "id": "plot19",
       "title": "Elbow plot",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot10.svg",
-      "html": "plot10.html",
+      "svg": "plot19.svg",
+      "html": "plot19.html",
       "data_csv": null
     }
   ],

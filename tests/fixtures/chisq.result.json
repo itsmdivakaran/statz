@@ -160,14 +160,14 @@
   ],
   "plots": [
     {
-      "id": "plot4",
+      "id": "plot13",
       "title": "spontaneous by case",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot4.svg",
-      "html": "plot4.html",
-      "data_csv": "plot4.csv"
+      "svg": "plot13.svg",
+      "html": "plot13.html",
+      "data_csv": "plot13.csv"
     }
   ],
   "interpretation": {

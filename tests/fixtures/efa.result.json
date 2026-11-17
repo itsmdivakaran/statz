@@ -585,13 +585,13 @@
   ],
   "plots": [
     {
-      "id": "plot12",
+      "id": "plot21",
       "title": "Scree plot",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot12.svg",
-      "html": "plot12.html",
+      "svg": "plot21.svg",
+      "html": "plot21.html",
       "data_csv": null
     }
   ],
