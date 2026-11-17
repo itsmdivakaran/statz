@@ -141,7 +141,8 @@ sn_data_slice <- function(sess, id = "data", offset = 0L, limit = 200L) {
   offset <- max(0L, as.integer(offset))
   idx <- seq_len(min(as.integer(limit), max(0L, n - offset))) + offset
   cols <- lapply(ds$data[idx, , drop = FALSE], function(x) {
-    if (is.factor(x)) as.character(x) else if (inherits(x, c("Date", "POSIXt"))) format(x) else x
+    x <- if (is.factor(x)) as.character(x) else if (inherits(x, c("Date", "POSIXt"))) format(x) else x
+    I(x)  # keep length-1 columns as JSON arrays
   })
   list(id = id, offset = offset, nrow = n, columns = cols)
 }
@@ -203,4 +204,22 @@ sn_coerce <- function(value, like) {
   }
   if (is.logical(like)) return(as.logical(value))
   as.character(value)
+}
+
+# Project persistence ----------------------------------------------------------
+# The shell zips this file with the UI state into a .statnext project.
+
+sn_data_save <- function(sess, path) {
+  saveRDS(list(version = 1L, datasets = sess$datasets, log = sess$log, analyses = sess$analyses),
+          path, compress = "xz")
+  list(path = normalizePath(path, winslash = "/"))
+}
+
+sn_data_load <- function(sess, path) {
+  st <- readRDS(path)
+  if (!identical(st$version, 1L)) sn_abort("Unsupported project file version.", SN_ERR$invalid_params)
+  sess$datasets <- st$datasets
+  sess$log <- st$log
+  sess$analyses <- st$analyses
+  lapply(names(sess$datasets), function(id) sn_data_info(sess, id))
 }
