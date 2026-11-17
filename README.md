@@ -9,7 +9,7 @@ Point-and-click statistics desktop app. Every result is computed by a local R an
 
 ![Independent t-test](docs/screenshots/main.png)
 
-## What is in it (Phases 1 and 2)
+## What is in it (Phases 1–3)
 
 | Area | Contents |
 |---|---|
@@ -20,6 +20,11 @@ Point-and-click statistics desktop app. Every result is computed by a local R an
 | Frequencies | Chi-square / Fisher, goodness of fit, binomial, McNemar, Cochran's Q |
 | Regression | Correlation (Pearson, Spearman, Kendall, partial); linear, logistic, ordinal, multinomial, Poisson / negative binomial; linear and generalized mixed models |
 | Survival | Kaplan-Meier with log-rank test, Cox regression with proportional-hazards check |
+| Multivariate | PCA, exploratory factor analysis (KMO, Bartlett, rotations), k-means and hierarchical clustering (silhouette) |
+| Machine learning | Decision tree, random forest, gradient boosting, elastic net, SVM, naive Bayes, LDA; classification or regression, train/test split, confusion matrix, ROC/AUC, permutation importance, SHAP |
+| Time series | Explore (decomposition, ACF/PACF, stationarity tests), ARIMA and ETS forecasting with hold-out accuracy |
+| Clinical | Diagnostic accuracy (2×2, ROC with DeLong), meta-analysis (generic, binary, continuous; forest, funnel, Egger, trim-and-fill, leave-one-out, moderators), Table 1 and adverse-event tables |
+| Workspace | Data, analysis and output panes can each be maximized or minimized; landing page with one-click worked examples and 28 example datasets |
 | Output | APA tables, assumption checks, auto interpretation, plots (SVG/PNG/PDF/HTML/CSV); all results to Word (.docx), PDF or HTML |
 | R code | Per analysis, editable and re-runnable; whole session exports as `.R`, `.Rmd` or `.qmd` |
 | Projects | `.statnext` = zip of manifest, UI state and `data.rds` |

@@ -1,6 +1,6 @@
-import { AlertTriangle, CheckCircle2, ClipboardCopy, FlaskConical, Loader2, Play, RotateCcw, Sparkles, Trash2 } from "lucide-react";
+import { AlertTriangle, CheckCircle2, ChevronDown, ClipboardCopy, FileDown, FileText, FlaskConical, Loader2, Play, RotateCcw, Sparkles, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { exportPlot } from "../app/actions";
+import { exportPlot, exportReport } from "../app/actions";
 import { call, fileUrl } from "../rpc/client";
 import { type Analysis, useStore } from "../state/store";
 import type { Check, Plot, Table } from "../types";
@@ -9,17 +9,57 @@ import { fmtCell, tableToTsv } from "./format";
 type Tab = "output" | "code" | "assumptions" | "interpretation";
 const TABS: [Tab, string][] = [["output", "Output"], ["code", "R Code"], ["assumptions", "Assumptions"], ["interpretation", "Interpretation"]];
 
+const EXPORTS: ["docx" | "pdf" | "html", string, string][] = [
+  ["docx", "Word document (.docx)", "Editable APA tables and plots"],
+  ["pdf", "PDF", "Ready to share or print"],
+  ["html", "Web page (.html)", "Opens in any browser"],
+];
+
+/** Export every result (tables, plots, interpretation) as one document. */
+function ExportMenu({ disabled }: { disabled: boolean }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const close = (e: MouseEvent) => !ref.current?.contains(e.target as Node) && setOpen(false);
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("mousedown", close);
+    document.addEventListener("keydown", esc);
+    return () => { document.removeEventListener("mousedown", close); document.removeEventListener("keydown", esc); };
+  }, []);
+  return (
+    <div ref={ref} className="relative ml-auto">
+      <button className="btn" disabled={disabled} aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((o) => !o)}
+        title={disabled ? "Run an analysis first" : "Export all results"}>
+        <FileDown size={14} aria-hidden="true" />Export<ChevronDown size={12} aria-hidden="true" />
+      </button>
+      {open && (
+        <div role="menu" className="absolute right-0 z-30 mt-1.5 w-64 animate-pop rounded-xl border border-line bg-surface p-1.5 shadow-pop">
+          <div className="panel-title px-2.5 pb-1 pt-1.5">Export results as</div>
+          {EXPORTS.map(([format, label, hint]) => (
+            <button key={format} role="menuitem" className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-left transition-colors hover:bg-brand/10"
+              onClick={() => { setOpen(false); void exportReport(format); }}>
+              <FileText size={15} className="shrink-0 text-muted" aria-hidden="true" />
+              <span><span className="block text-sm font-medium">{label}</span><span className="block text-xs text-muted">{hint}</span></span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function ResultsPanel() {
   const { analyses, selected, select, removeAnalysis } = useStore();
   const [tab, setTab] = useState<Tab>("output");
   return (
     <section className="flex h-full min-w-0 flex-col">
-      <div className="flex items-center border-b border-line px-2.5 py-2">
+      <div className="flex items-center gap-2 border-b border-line py-2 pl-2.5 pr-[70px]">
         <div role="tablist" className="seg">
           {TABS.map(([id, label]) => (
             <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)}>{label}</button>
           ))}
         </div>
+        <ExportMenu disabled={!analyses.some((a) => a.result)} />
       </div>
       <div className="flex-1 space-y-4 overflow-auto p-3">
         {analyses.length === 0 && (
@@ -31,7 +71,7 @@ export function ResultsPanel() {
         )}
         {analyses.map((a) => (
           <article key={a.instance} onClick={() => select(a.instance)} data-testid={`result-${a.module}`}
-            className={`rounded-xl border bg-surface p-4 transition-shadow ${selected === a.instance ? "border-brand/70 shadow-[0_0_0_3px_rgb(var(--brand)/0.12)]" : "border-line"}`}>
+            className={`mx-auto max-w-5xl rounded-xl border bg-surface p-4 transition-shadow ${selected === a.instance ? "border-brand/70 shadow-[0_0_0_3px_rgb(var(--brand)/0.12)]" : "border-line"}`}>
             <header className="mb-3 flex items-center gap-2">
               <h3 className="text-[15px] font-semibold tracking-tight">{a.result?.title ?? a.module}</h3>
               {a.running && <span className="chip bg-brand/10 text-brand" role="status"><Loader2 size={11} className="animate-spin" aria-hidden="true" />Running…</span>}

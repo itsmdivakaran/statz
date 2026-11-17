@@ -324,14 +324,14 @@
   ],
   "plots": [
     {
-      "id": "plot12",
+      "id": "plot45",
       "title": "ROC curve",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot12.svg",
-      "html": "plot12.html",
-      "data_csv": "plot12.csv"
+      "svg": "plot45.svg",
+      "html": "plot45.html",
+      "data_csv": "plot45.csv"
     }
   ],
   "interpretation": {

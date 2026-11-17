@@ -24,7 +24,7 @@ export function AnalysisDialog() {
   const spec = specs[a.module];
   return (
     <div className="flex h-full flex-col overflow-hidden" data-testid="analysis-dialog">
-      <div className="border-b border-line px-3 py-2.5">
+      <div className="border-b border-line py-2.5 pl-3 pr-[70px]">
         <h2 className="flex items-center gap-2 font-semibold"><SlidersHorizontal size={15} className="text-brand" aria-hidden="true" />{spec.title}</h2>
         {a.error && a.error.code === -32003 && (
           <p role="alert" className="mt-1 text-xs text-warn">{a.error.message}</p>

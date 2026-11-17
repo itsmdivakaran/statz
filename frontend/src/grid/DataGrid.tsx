@@ -24,7 +24,7 @@ export function DataPanel() {
   const data = useStore((s) => s.data);
   return (
     <section className="flex h-full min-w-0 flex-col">
-      <div className="flex items-center gap-2 border-b border-line px-2.5 py-2">
+      <div className="flex items-center gap-2 border-b border-line py-2 pl-2.5 pr-[70px]">
         <div className="seg" role="tablist">
           {(["data", "vars"] as const).map((t) => (
             <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}>

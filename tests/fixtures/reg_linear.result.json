@@ -313,23 +313,23 @@
   ],
   "plots": [
     {
-      "id": "plot10",
+      "id": "plot43",
       "title": "Residuals vs fitted",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot10.svg",
-      "html": "plot10.html",
-      "data_csv": "plot10.csv"
+      "svg": "plot43.svg",
+      "html": "plot43.html",
+      "data_csv": "plot43.csv"
     },
     {
-      "id": "plot11",
+      "id": "plot44",
       "title": "Q-Q plot of residuals",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot11.svg",
-      "html": "plot11.html",
+      "svg": "plot44.svg",
+      "html": "plot44.html",
       "data_csv": null
     }
   ],

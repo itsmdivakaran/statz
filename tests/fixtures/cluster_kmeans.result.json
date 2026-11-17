@@ -1,0 +1,211 @@
+{
+  "tables": [
+    {
+      "id": "sizes",
+      "title": "Cluster Sizes",
+      "columns": [
+        {
+          "id": "cluster",
+          "label": "Cluster",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "withinss",
+          "label": "Within-cluster SS",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "silhouette",
+          "label": "Mean silhouette",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "cluster": "1",
+          "n": 50,
+          "withinss": 47.3506211055712,
+          "silhouette": 0.636316174439295
+        },
+        {
+          "cluster": "2",
+          "n": 53,
+          "withinss": 44.0875445465443,
+          "silhouette": 0.393377210558143
+        },
+        {
+          "cluster": "3",
+          "n": 47,
+          "withinss": 47.450194065236,
+          "silhouette": 0.347392234026205
+        }
+      ],
+      "notes": [
+        "N = 150 complete cases. Average silhouette width = 0.460."
+      ]
+    },
+    {
+      "id": "centers",
+      "title": "Cluster Means",
+      "columns": [
+        {
+          "id": "name",
+          "label": "Cluster",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "sepal_length",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "c2",
+          "label": "sepal_width",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "c3",
+          "label": "petal_length",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "c4",
+          "label": "petal_width",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "name": "Cluster 1",
+          "c1": 5.006,
+          "c2": 3.428,
+          "c3": 1.462,
+          "c4": 0.246
+        },
+        {
+          "name": "Cluster 2",
+          "c1": 5.80188679245283,
+          "c2": 2.67358490566038,
+          "c3": 4.36981132075472,
+          "c4": 1.41320754716981
+        },
+        {
+          "name": "Cluster 3",
+          "c1": 6.78085106382979,
+          "c2": 3.09574468085106,
+          "c3": 5.51063829787234,
+          "c4": 1.97234042553191
+        }
+      ],
+      "notes": [
+        "Means are in the original units; clustering used standardized values."
+      ]
+    },
+    {
+      "id": "fit",
+      "title": "Cluster Solution",
+      "columns": [
+        {
+          "id": "k",
+          "label": "k",
+          "type": "int"
+        },
+        {
+          "id": "tot",
+          "label": "Total SS",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "within",
+          "label": "Within SS",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "between",
+          "label": "Between SS",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "ratio",
+          "label": "Between / total",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "sil",
+          "label": "Average silhouette",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "k": 3,
+          "tot": 596,
+          "within": 138.888359717351,
+          "between": 457.111640282649,
+          "ratio": 0.766965839400417,
+          "sil": 0.459948239205186
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [],
+  "plots": [
+    {
+      "id": "plot9",
+      "title": "Cluster plot",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot9.svg",
+      "html": "plot9.html",
+      "data_csv": "plot9.csv"
+    },
+    {
+      "id": "plot10",
+      "title": "Elbow plot",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot10.svg",
+      "html": "plot10.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "K-means clustering of 150 cases on 4 variables produced 3 clusters of sizes 50, 53, 47. The clusters accounted for 76.7% of the total variance, and the average silhouette width of 0.46 indicates a weak cluster structure."
+  },
+  "notes": [],
+  "module": "cluster_kmeans",
+  "module_version": "1.0.0",
+  "title": "K-Means Clustering",
+  "status": "ok",
+  "code": "library(ggnext)\n# K-means clustering with k = 3: sepal_length, sepal_width, petal_length, petal_width\nvars <- c(\"sepal_length\", \"sepal_width\", \"petal_length\", \"petal_width\")\nd <- data[complete.cases(data[, vars, drop = FALSE]), , drop = FALSE]\nx <- scale(d[vars])   # z-scores, so every variable counts equally\nset.seed(123)\nkm <- kmeans(x, centers = 3, nstart = 25, iter.max = 100)\ncluster <- factor(km$cluster)\nsizes <- data.frame(cluster = levels(cluster), n = as.vector(table(cluster)))\ncenters <- aggregate(d[vars], list(cluster = cluster), mean)\nsil <- cluster::silhouette(as.integer(cluster), dist(x))\nsilhouette_avg <- mean(sil[, \"sil_width\"])\nsizes$silhouette <- as.vector(tapply(sil[, \"sil_width\"], cluster, mean))\nsizes$withinss <- km$withinss\npc <- prcomp(x)\nplot_df <- data.frame(PC1 = pc$x[, 1], PC2 = pc$x[, 2], cluster = cluster)\npc_var <- round(100 * pc$sdev^2 / sum(pc$sdev^2), 1)\np_clusters <- ggnext(plot_df, aes(PC1, PC2, color = cluster)) +\n  geom_point(size = 3, alpha = 0.8) +\n  labs(title = \"Clusters on the first two principal components\") +\n  theme_modern()\np_clusters <- p_clusters + labs(x = paste0(\"PC1 (\", pc_var[1], \"%)\"), y = paste0(\"PC2 (\", pc_var[2], \"%)\"))\n# Total within-cluster sum of squares for k = 1 to 10\nk_max <- min(10, nrow(unique(x)) - 1)\nset.seed(123)\nelbow <- data.frame(k = seq_len(k_max), wss = sapply(seq_len(k_max), function(k) kmeans(x, k, nstart = 25, iter.max = 100)$tot.withinss))\np_elbow <- ggnext(elbow, aes(k, wss)) +\n  geom_line() +\n  geom_point(size = 3) +\n  geom_vline(xintercept = 3, dash = \"4 4\") +\n  labs(title = \"Elbow plot\", x = \"Number of clusters (k)\", y = \"Total within-cluster sum of squares\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "cluster": "2.1.6",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

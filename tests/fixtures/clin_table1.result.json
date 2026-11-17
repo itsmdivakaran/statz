@@ -1,0 +1,225 @@
+{
+  "tables": [
+    {
+      "id": "table1",
+      "title": "Baseline Characteristics",
+      "columns": [
+        {
+          "id": "characteristic",
+          "label": "Characteristic",
+          "type": "text"
+        },
+        {
+          "id": "g1",
+          "label": "Overall (N = 254)",
+          "type": "text"
+        },
+        {
+          "id": "g2",
+          "label": "Drug 54 mg (N = 85)",
+          "type": "text"
+        },
+        {
+          "id": "g3",
+          "label": "Drug 81 mg (N = 84)",
+          "type": "text"
+        },
+        {
+          "id": "g4",
+          "label": "Placebo (N = 85)",
+          "type": "text"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "test",
+          "label": "Test",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "characteristic": "N",
+          "g1": "254",
+          "g2": "85",
+          "g3": "84",
+          "g4": "85",
+          "p": null,
+          "test": ""
+        },
+        {
+          "characteristic": "Age (years), mean (SD)",
+          "g1": "75.3 (6.9)",
+          "g2": "75.7 (6.8)",
+          "g3": "75.8 (7.0)",
+          "g4": "74.3 (6.9)",
+          "p": 0.28878064876918,
+          "test": "ANOVA"
+        },
+        {
+          "characteristic": "Baseline BMI (kg/m²), mean (SD)",
+          "g1": "24.7 (4.1)",
+          "g2": "24.7 (4.4)",
+          "g3": "25.2 (4.1)",
+          "g4": "24.2 (3.6)",
+          "p": 0.222071906940837,
+          "test": "ANOVA"
+        },
+        {
+          "characteristic": "   Missing",
+          "g1": "3",
+          "g2": "2",
+          "g3": "0",
+          "g4": "1",
+          "p": null,
+          "test": ""
+        },
+        {
+          "characteristic": "Baseline MMSE total, mean (SD)",
+          "g1": "17.9 (3.8)",
+          "g2": "18.1 (4.0)",
+          "g3": "17.8 (3.7)",
+          "g4": "17.8 (3.9)",
+          "p": 0.829393177399171,
+          "test": "ANOVA"
+        },
+        {
+          "characteristic": "Sex, n (%)",
+          "g1": "",
+          "g2": "",
+          "g3": "",
+          "g4": "",
+          "p": 0.141779982611302,
+          "test": "Chi-square"
+        },
+        {
+          "characteristic": "   F",
+          "g1": "149 (58.7%)",
+          "g2": "54 (63.5%)",
+          "g3": "42 (50.0%)",
+          "g4": "53 (62.4%)",
+          "p": null,
+          "test": ""
+        },
+        {
+          "characteristic": "   M",
+          "g1": "105 (41.3%)",
+          "g2": "31 (36.5%)",
+          "g3": "42 (50.0%)",
+          "g4": "32 (37.6%)",
+          "p": null,
+          "test": ""
+        },
+        {
+          "characteristic": "Race, n (%)",
+          "g1": "",
+          "g2": "",
+          "g3": "",
+          "g4": "",
+          "p": 0.657434256574343,
+          "test": "Fisher exact"
+        },
+        {
+          "characteristic": "   ASIAN",
+          "g1": "5 (2.0%)",
+          "g2": "1 (1.2%)",
+          "g3": "1 (1.2%)",
+          "g4": "3 (3.5%)",
+          "p": null,
+          "test": ""
+        },
+        {
+          "characteristic": "   BLACK OR AFRICAN AMERICAN",
+          "g1": "25 (9.8%)",
+          "g2": "6 (7.1%)",
+          "g3": "10 (11.9%)",
+          "g4": "9 (10.6%)",
+          "p": null,
+          "test": ""
+        },
+        {
+          "characteristic": "   WHITE",
+          "g1": "224 (88.2%)",
+          "g2": "78 (91.8%)",
+          "g3": "73 (86.9%)",
+          "g4": "73 (85.9%)",
+          "p": null,
+          "test": ""
+        },
+        {
+          "characteristic": "Reason for discontinuation, n (%)",
+          "g1": "",
+          "g2": "",
+          "g3": "",
+          "g4": "",
+          "p": 0.0008999100089991,
+          "test": "Fisher exact"
+        },
+        {
+          "characteristic": "   Adverse Event",
+          "g1": "66 (26.0%)",
+          "g2": "23 (27.1%)",
+          "g3": "32 (38.1%)",
+          "g4": "11 (12.9%)",
+          "p": null,
+          "test": ""
+        },
+        {
+          "characteristic": "   Completed",
+          "g1": "164 (64.6%)",
+          "g2": "55 (64.7%)",
+          "g3": "40 (47.6%)",
+          "g4": "69 (81.2%)",
+          "p": null,
+          "test": ""
+        },
+        {
+          "characteristic": "   Lack of Efficacy",
+          "g1": "8 (3.1%)",
+          "g2": "2 (2.4%)",
+          "g3": "4 (4.8%)",
+          "g4": "2 (2.4%)",
+          "p": null,
+          "test": ""
+        },
+        {
+          "characteristic": "   Withdrew Consent",
+          "g1": "16 (6.3%)",
+          "g2": "5 (5.9%)",
+          "g3": "8 (9.5%)",
+          "g4": "3 (3.5%)",
+          "p": null,
+          "test": ""
+        }
+      ],
+      "notes": [
+        "Percentages are of the non-missing values in each column.",
+        "In a randomized trial, baseline p-values test the randomization, not the treatment; report them only if required."
+      ]
+    }
+  ],
+  "assumptions": [],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The table summarises 6 characteristics for 254 subjects in 3 groups (Drug 54 mg: 85, Drug 81 mg: 84, Placebo: 85). The groups differed at the .05 level on DCSREAS."
+  },
+  "notes": [],
+  "module": "clin_table1",
+  "module_version": "1.0.0",
+  "title": "Baseline Characteristics (Table 1)",
+  "status": "ok",
+  "code": "# Baseline characteristics by TRT01P\nvars <- c(\"AGE\", \"BMIBL\", \"MMSETOT\")\ncat_vars <- c(\"SEX\", \"RACE\", \"DCSREAS\")\nd <- data[!is.na(data$TRT01P), , drop = FALSE]\nd$TRT01P <- droplevels(factor(d$TRT01P))\ngroup <- droplevels(d$TRT01P)\nd$SEX <- droplevels(factor(d$SEX))\nd$RACE <- droplevels(factor(d$RACE))\nd$DCSREAS <- droplevels(factor(d$DCSREAS))\ngroups <- c(list(Overall = d), split(d, group))\nfmt_cont <- function(x) sprintf(\"%.1f (%.1f)\", mean(x, na.rm = TRUE), sd(x, na.rm = TRUE))\ncontinuous <- do.call(rbind, lapply(vars, function(v) sapply(groups, function(g) fmt_cont(g[[v]]))))\nrownames(continuous) <- vars\n# n (%) of the non-missing values for every category\nfmt_cat <- function(x) { n <- table(x); setNames(sprintf(\"%d (%.1f%%)\", as.integer(n), 100 * as.numeric(n) / sum(n)), names(n)) }\ncategorical <- lapply(cat_vars, function(v) sapply(groups, function(g) fmt_cat(g[[v]])))\nnames(categorical) <- cat_vars\nn_group <- sapply(groups, nrow)\nn_missing <- do.call(rbind, lapply(c(vars, cat_vars), function(v) sapply(groups, function(g) sum(is.na(g[[v]])))))\nrownames(n_missing) <- c(vars, cat_vars)\n# Tests of group differences\np_cont <- sapply(vars, function(v) oneway.test(d[[v]] ~ group, var.equal = TRUE)$p.value)   # one-way ANOVA\nset.seed(1)   # Fisher's test is simulated for tables larger than 2 x 2\ntest_cat <- function(x) {\n  tab <- table(x, group)\n  if (any(suppressWarnings(chisq.test(tab))$expected < 5))\n    c(p = fisher.test(tab, simulate.p.value = !all(dim(tab) == 2), B = 10000)$p.value, exact = 1)\n  else c(p = chisq.test(tab, correct = FALSE)$p.value, exact = 0)\n}\np_cat <- sapply(cat_vars, function(v) test_cat(d[[v]]))",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

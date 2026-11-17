@@ -23,6 +23,7 @@ export type TransformOp =
   | { op: "filter"; expr: string };
 
 export type Status = "starting" | "setup" | "ready" | "no-r" | "error";
+export type PaneId = "data" | "analysis" | "results";
 
 interface State {
   status: Status;
@@ -39,6 +40,13 @@ interface State {
   redoStack: Command[];
   theme: "light" | "dark";
   transformMode: TransformMode | null;
+  /** Pane that fills the window, if any, and the panes collapsed to a strip. */
+  paneMax: PaneId | null;
+  paneMin: PaneId[];
+  togglePaneMax(id: PaneId): void;
+  togglePaneMin(id: PaneId): void;
+  /** Load a module's example dataset and open the analysis with its example options. */
+  runExample(module: string): Promise<void>;
   openTransform(mode: TransformMode): void;
   closeTransform(): void;
   transform(ops: TransformOp[], record?: boolean): Promise<void>;
@@ -124,6 +132,22 @@ export const useStore = create<State>((set, get) => {
     redoStack: [],
     theme: prefersDark ? "dark" : "light",
     transformMode: null,
+    paneMax: null,
+    paneMin: [],
+    togglePaneMax(id) { set((s) => ({ paneMax: s.paneMax === id ? null : id, paneMin: s.paneMin.filter((p) => p !== id) })); },
+    togglePaneMin(id) {
+      set((s) => {
+        const min = s.paneMin.includes(id) ? s.paneMin.filter((p) => p !== id) : [...s.paneMin, id];
+        // Never collapse all three panes: keep the results visible.
+        return { paneMin: min.length === 3 ? min.filter((p) => p !== "results") : min, paneMax: s.paneMax === id ? null : s.paneMax };
+      });
+    },
+    async runExample(module) {
+      const spec = get().specs[module];
+      if (!spec?.example) return;
+      await get().loadExample(spec.example.dataset);
+      get().newAnalysis(module, spec.example.options as Options);
+    },
     openTransform(mode) { set({ transformMode: mode }); },
     closeTransform() { set({ transformMode: null }); },
 
@@ -169,6 +193,9 @@ export const useStore = create<State>((set, get) => {
       set((s) => ({
         analyses: [...s.analyses, { instance, module, options: { ...defaultOptions(spec), ...options }, running: false }],
         selected: instance,
+        // A new analysis needs its options and results in view.
+        paneMax: null,
+        paneMin: s.paneMin.filter((p) => p === "data"),
       }));
       schedule(instance);
       return instance;

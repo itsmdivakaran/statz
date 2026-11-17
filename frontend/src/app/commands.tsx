@@ -1,7 +1,8 @@
 import {
-  Activity, BarChart3, Binary, Boxes, Calculator, ChartNoAxesCombined, Database, Dices, FileCode2, FileDown, FileText, Filter, FolderOpen,
-  GitCompareArrows, Grid3x3, HeartPulse, Layers, Layers2, ListOrdered, type LucideIcon, Moon, Network, PieChart, Repeat, Replace, Save,
-  Scale, ScatterChart, Sigma, Split, Sun, Table2, Target, TestTubes, Timer, TrendingUp, Users, UsersRound,
+  Activity, AlarmClock, AreaChart, BarChart3, Binary, Boxes, BrainCircuit, Calculator, CalendarRange, ChartNoAxesCombined, CircleDot, ClipboardList, Combine, Database, Dices,
+  FileCode2, FileDown, FileText, Filter, FolderOpen, Gauge, GitBranch, GitCompareArrows, GitFork, Grid3x3, HeartPulse, Layers, Layers2, LineChart, ListOrdered, type LucideIcon,
+  Microscope, Moon, Network, PieChart, Radar, Repeat, Replace, Rocket, Save, Scale, ScatterChart, Shapes, ShieldAlert, Sigma, Split, Stethoscope, Sun, Table2, Target, TestTubes,
+  Timer, TreePine, Trees, TrendingUp, Users, UsersRound, Waypoints,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { call } from "../rpc/client";
@@ -29,20 +30,18 @@ const MODULE_ICON: Record<string, LucideIcon> = {
   reg_linear: TrendingUp, reg_logistic: Binary, reg_ordinal: ListOrdered, reg_multinomial: Network, reg_count: ChartNoAxesCombined,
   mixed_linear: UsersRound, mixed_glmm: UsersRound, surv_km: HeartPulse, surv_cox: Timer,
   reliability_alpha: Scale, reliability_icc: Scale, reliability_kappa: Scale,
+  pca: Shapes, efa: Waypoints, cluster_kmeans: CircleDot, cluster_hier: GitFork,
+  diag_2x2: Microscope, roc: AreaChart, meta_generic: Combine, meta_binary: Combine, meta_continuous: Combine,
+  clin_table1: ClipboardList, clin_ae: ShieldAlert,
+  ml_tree: TreePine, ml_forest: Trees, ml_boost: Rocket, ml_glmnet: Gauge, ml_svm: Radar, ml_nb: Dices, ml_lda: GitBranch,
+  ts_explore: LineChart, ts_arima: CalendarRange, ts_ets: AlarmClock,
 };
-const MODULE_HINT: Record<string, string> = {
-  descriptives: "Mean, SD, quantiles, frequencies, normality",
-  ttest_one: "Compare one mean with a fixed value",
-  ttest_ind: "Compare two independent groups",
-  ttest_paired: "Compare two related measurements",
-  anova_oneway: "Compare three or more groups, with post hoc tests",
-  chisq: "Association between two categorical variables",
-};
-const MENU_ICON: Record<string, LucideIcon> = { Tests: TestTubes, Regression: TrendingUp, Survival: Activity };
+const MENU_ICON: Record<string, LucideIcon> = { Tests: TestTubes, Regression: TrendingUp, Survival: Activity, Multivariate: Network, "Machine Learning": BrainCircuit, "Time Series": LineChart, Clinical: Stethoscope };
 
 /** Order of the group headings inside the analysis menus; unlisted groups (plugins) come last. */
 const GROUP_ORDER = ["Descriptives", "Reliability", "T-Tests", "ANOVA", "Non-parametric", "Frequencies", "Correlation", "Linear models",
-  "Generalized linear models", "Mixed models", "Survival analysis"];
+  "Generalized linear models", "Mixed models", "Survival analysis", "Dimension reduction", "Clustering", "Classification and regression", "Classification",
+  "Explore", "Forecasting", "Clinical tables", "Diagnostic accuracy", "Meta-analysis"];
 const groupRank = (s: { menu: string[] }) => { const i = GROUP_ORDER.indexOf(s.menu[1] ?? s.menu[0]); return i < 0 ? GROUP_ORDER.length : i; };
 
 const mod = typeof navigator !== "undefined" && /Mac/.test(navigator.platform) ? "⌘" : "Ctrl+";
@@ -68,7 +67,7 @@ export function useCommands(): Command[] {
     ...examples.map((e) => ({ id: `ex-${e.name}`, label: e.title, group: "Example data", menu: "Data", Icon: Table2, run: () => void loadExample(e.name) })),
     ...Object.values(specs).sort((a, b) => groupRank(a) - groupRank(b)).map((s) => ({
       id: `an-${s.id}`, label: s.title, group: s.menu[1] ?? s.menu[0], menu: s.menu[0],
-      hint: s.description ?? MODULE_HINT[s.id], Icon: MODULE_ICON[s.id] ?? MENU_ICON[s.menu[0]] ?? BarChart3,
+      hint: s.description, Icon: MODULE_ICON[s.id] ?? MENU_ICON[s.menu[0]] ?? BarChart3,
       disabled: !data, run: () => newAnalysis(s.id),
     })),
     { id: "theme", label: theme === "dark" ? "Switch to light theme" : "Switch to dark theme", group: "View", menu: "View", Icon: theme === "dark" ? Sun : Moon, run: toggleTheme },

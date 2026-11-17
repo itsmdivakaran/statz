@@ -46,6 +46,7 @@ input[type="checkbox"] { accent-color: rgb(var(--brand)); }
   .btn-primary { @apply inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-110; }
   .btn-ghost { @apply inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm text-muted transition-colors hover:bg-surface2 hover:text-ink; }
   .field { @apply rounded-lg border border-line bg-surface px-2 py-1 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20; }
+  .pane-btn { @apply flex h-7 w-7 items-center justify-center rounded-md text-muted transition-colors hover:bg-surface2 hover:text-ink; }
   .panel-title { @apply text-[11px] font-semibold uppercase tracking-wider text-muted; }
   .seg { @apply inline-flex rounded-lg bg-surface2 p-0.5; }
   .seg > button { @apply rounded-md px-2.5 py-1 text-sm font-medium text-muted transition-colors hover:text-ink; }

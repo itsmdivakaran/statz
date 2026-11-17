@@ -1,0 +1,619 @@
+{
+  "tables": [
+    {
+      "id": "loadings",
+      "title": "Factor Loadings",
+      "columns": [
+        {
+          "id": "name",
+          "label": "Item",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "MR2",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c2",
+          "label": "MR1",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c3",
+          "label": "MR3",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c4",
+          "label": "MR5",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c5",
+          "label": "MR4",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "x1",
+          "label": "Communality",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "x2",
+          "label": "Uniqueness",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "name": "N1",
+          "c1": 0.832438747080392,
+          "c2": null,
+          "c3": null,
+          "c4": null,
+          "c5": null,
+          "x1": 0.681396282519374,
+          "x2": 0.318603717480626
+        },
+        {
+          "name": "N2",
+          "c1": 0.779680949590731,
+          "c2": null,
+          "c3": null,
+          "c4": null,
+          "c5": null,
+          "x1": 0.608003717342512,
+          "x2": 0.391996282657488
+        },
+        {
+          "name": "N3",
+          "c1": 0.702852682115478,
+          "c2": null,
+          "c3": null,
+          "c4": null,
+          "c5": null,
+          "x1": 0.544475460452141,
+          "x2": 0.455524539547859
+        },
+        {
+          "name": "N5",
+          "c1": 0.483488039812705,
+          "c2": null,
+          "c3": null,
+          "c4": null,
+          "c5": null,
+          "x1": 0.349315422819234,
+          "x2": 0.650684577180766
+        },
+        {
+          "name": "N4",
+          "c1": 0.470806291135048,
+          "c2": 0.404862082602541,
+          "c3": null,
+          "c4": null,
+          "c5": null,
+          "x1": 0.505803506414583,
+          "x2": 0.494196493585417
+        },
+        {
+          "name": "E2",
+          "c1": null,
+          "c2": 0.667083888918074,
+          "c3": null,
+          "c4": null,
+          "c5": null,
+          "x1": 0.54550220919644,
+          "x2": 0.45449779080356
+        },
+        {
+          "name": "E4",
+          "c1": null,
+          "c2": -0.586722035118649,
+          "c3": null,
+          "c4": null,
+          "c5": null,
+          "x1": 0.541256580116941,
+          "x2": 0.458743419883059
+        },
+        {
+          "name": "E1",
+          "c1": null,
+          "c2": 0.554813822239044,
+          "c3": null,
+          "c4": null,
+          "c5": null,
+          "x1": 0.347808972823313,
+          "x2": 0.652191027176687
+        },
+        {
+          "name": "E5",
+          "c1": null,
+          "c2": -0.417743370446245,
+          "c3": null,
+          "c4": null,
+          "c5": null,
+          "x1": 0.407145946169552,
+          "x2": 0.592854053830448
+        },
+        {
+          "name": "E3",
+          "c1": null,
+          "c2": -0.407978950495825,
+          "c3": null,
+          "c4": null,
+          "c5": 0.302028033554964,
+          "x1": 0.441054692988193,
+          "x2": 0.558945307011807
+        },
+        {
+          "name": "C2",
+          "c1": null,
+          "c2": null,
+          "c3": 0.66941904515215,
+          "c4": null,
+          "c5": null,
+          "x1": 0.45387243454041,
+          "x2": 0.54612756545959
+        },
+        {
+          "name": "C4",
+          "c1": null,
+          "c2": null,
+          "c3": -0.643617686362981,
+          "c4": null,
+          "c5": null,
+          "x1": 0.476698970735085,
+          "x2": 0.523301029264915
+        },
+        {
+          "name": "C3",
+          "c1": null,
+          "c2": null,
+          "c3": 0.574382761050613,
+          "c4": null,
+          "c5": null,
+          "x1": 0.324288846317717,
+          "x2": 0.675711153682283
+        },
+        {
+          "name": "C5",
+          "c1": null,
+          "c2": null,
+          "c3": -0.562858577422664,
+          "c4": null,
+          "c5": null,
+          "x1": 0.435382680628734,
+          "x2": 0.564617319371266
+        },
+        {
+          "name": "C1",
+          "c1": null,
+          "c2": null,
+          "c3": 0.554938521158909,
+          "c4": null,
+          "c5": null,
+          "x1": 0.348394576237093,
+          "x2": 0.651605423762907
+        },
+        {
+          "name": "A3",
+          "c1": null,
+          "c2": null,
+          "c3": null,
+          "c4": 0.67847316999655,
+          "c5": null,
+          "x1": 0.539692743945658,
+          "x2": 0.460307256054342
+        },
+        {
+          "name": "A2",
+          "c1": null,
+          "c2": null,
+          "c3": null,
+          "c4": 0.655799324371483,
+          "c5": null,
+          "x1": 0.462803227456917,
+          "x2": 0.537196772543083
+        },
+        {
+          "name": "A5",
+          "c1": null,
+          "c2": null,
+          "c3": null,
+          "c4": 0.537244046895217,
+          "c5": null,
+          "x1": 0.470020400229352,
+          "x2": 0.529979599770648
+        },
+        {
+          "name": "A4",
+          "c1": null,
+          "c2": null,
+          "c3": null,
+          "c4": 0.448081670724714,
+          "c5": null,
+          "x1": 0.301904477217077,
+          "x2": 0.698095522782923
+        },
+        {
+          "name": "A1",
+          "c1": null,
+          "c2": null,
+          "c3": null,
+          "c4": -0.435023148994594,
+          "c5": null,
+          "x1": 0.203904928284429,
+          "x2": 0.796095071715571
+        },
+        {
+          "name": "O3",
+          "c1": null,
+          "c2": null,
+          "c3": null,
+          "c4": null,
+          "c5": 0.619113606796334,
+          "x1": 0.474643637278005,
+          "x2": 0.525356362721995
+        },
+        {
+          "name": "O5",
+          "c1": null,
+          "c2": null,
+          "c3": null,
+          "c4": null,
+          "c5": -0.540102915127932,
+          "x1": 0.296283383050148,
+          "x2": 0.703716616949852
+        },
+        {
+          "name": "O1",
+          "c1": null,
+          "c2": null,
+          "c3": null,
+          "c4": null,
+          "c5": 0.517750444593046,
+          "x1": 0.317338809206359,
+          "x2": 0.682661190793641
+        },
+        {
+          "name": "O2",
+          "c1": null,
+          "c2": null,
+          "c3": null,
+          "c4": null,
+          "c5": -0.472522756056858,
+          "x1": 0.267451339800343,
+          "x2": 0.732548660199657
+        },
+        {
+          "name": "O4",
+          "c1": null,
+          "c2": 0.334785068212516,
+          "c3": null,
+          "c4": null,
+          "c5": 0.363246229067409,
+          "x1": 0.246034781000548,
+          "x2": 0.753965218999452
+        }
+      ],
+      "notes": [
+        "N = 2436 complete cases. Extraction: minimum residual; rotation: oblimin.",
+        "Loadings below 0.30 in absolute value are hidden."
+      ]
+    },
+    {
+      "id": "variance",
+      "title": "Variance Explained",
+      "columns": [
+        {
+          "id": "factor",
+          "label": "Factor",
+          "type": "text"
+        },
+        {
+          "id": "ss",
+          "label": "SS loadings",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "prop",
+          "label": "% of variance",
+          "type": "number",
+          "digits": 1
+        },
+        {
+          "id": "cum",
+          "label": "Cumulative %",
+          "type": "number",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "factor": "MR2",
+          "ss": 2.57625779009946,
+          "prop": 10.3050311603978,
+          "cum": 10.3050311603978
+        },
+        {
+          "factor": "MR1",
+          "ss": 2.20733026231176,
+          "prop": 8.82932104924703,
+          "cum": 19.1343522096449
+        },
+        {
+          "factor": "MR3",
+          "ss": 2.0968864283232,
+          "prop": 8.38754571329281,
+          "cum": 27.5218979229377
+        },
+        {
+          "factor": "MR5",
+          "ss": 2.07277716085816,
+          "prop": 8.29110864343265,
+          "cum": 35.8130065663703
+        },
+        {
+          "factor": "MR4",
+          "ss": 1.63722638517758,
+          "prop": 6.54890554071031,
+          "cum": 42.3619121070806
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "factor_cor",
+      "title": "Factor Correlations",
+      "columns": [
+        {
+          "id": "name",
+          "label": "Factor",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "MR2",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c2",
+          "label": "MR1",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c3",
+          "label": "MR3",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c4",
+          "label": "MR5",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c5",
+          "label": "MR4",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "name": "MR2",
+          "c1": 1,
+          "c2": 0.216942972287588,
+          "c3": -0.190893391016404,
+          "c4": -0.0462195460925522,
+          "c5": -0.00148526471457731
+        },
+        {
+          "name": "MR1",
+          "c1": 0.216942972287588,
+          "c2": 1,
+          "c3": -0.236512377983926,
+          "c4": -0.329699645117196,
+          "c5": -0.166402086145874
+        },
+        {
+          "name": "MR3",
+          "c1": -0.190893391016404,
+          "c2": -0.236512377983926,
+          "c3": 1,
+          "c4": 0.202061388490011,
+          "c5": 0.19794236542043
+        },
+        {
+          "name": "MR5",
+          "c1": -0.0462195460925522,
+          "c2": -0.329699645117196,
+          "c3": 0.202061388490011,
+          "c4": 1,
+          "c5": 0.195534236753065
+        },
+        {
+          "name": "MR4",
+          "c1": -0.00148526471457731,
+          "c2": -0.166402086145874,
+          "c3": 0.19794236542043,
+          "c4": 0.195534236753065,
+          "c5": 1
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "fit",
+      "title": "Model Fit",
+      "columns": [
+        {
+          "id": "chi",
+          "label": "χ²",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "rmsea",
+          "label": "RMSEA",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "rmsea_ci",
+          "label": "RMSEA 90% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "tli",
+          "label": "TLI",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "rmsr",
+          "label": "RMSR",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "bic",
+          "label": "BIC",
+          "type": "number",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "chi": 1538.52088817746,
+          "df": 185,
+          "p": 8.56604103563799e-212,
+          "rmsea": 0.054801921446969,
+          "rmsea_ci": [0.0522992715888361, 0.0573646557823882],
+          "tli": 0.876837293590975,
+          "rmsr": 0.027828538319244,
+          "bic": 95.8700518439473
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "kmo",
+      "test": "Sampling adequacy (KMO)",
+      "status": "ok",
+      "message": "KMO = 0.85 (good). The correlations are compact enough for this analysis.",
+      "table": {
+        "id": "kmo",
+        "title": "Kaiser-Meyer-Olkin Measure",
+        "columns": [
+          {
+            "id": "kmo",
+            "label": "KMO",
+            "type": "number",
+            "digits": 3
+          }
+        ],
+        "rows": [
+          {
+            "kmo": 0.84864523094684
+          }
+        ],
+        "notes": []
+      }
+    },
+    {
+      "id": "bartlett",
+      "test": "Bartlett's test of sphericity",
+      "status": "ok",
+      "message": "The variables are correlated enough to be reduced.",
+      "table": {
+        "id": "bartlett",
+        "title": "Bartlett's Test of Sphericity",
+        "columns": [
+          {
+            "id": "chi",
+            "label": "χ²",
+            "type": "number",
+            "digits": 2
+          },
+          {
+            "id": "df",
+            "label": "df",
+            "type": "int"
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "chi": 18146.065577235,
+            "df": 300,
+            "p": 0
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot12",
+      "title": "Scree plot",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot12.svg",
+      "html": "plot12.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "An exploratory factor analysis of 25 items (N = 2436) extracted 5 factors, which together explained 42.4% of the variance. Model fit was acceptable (RMSEA = 0.055, TLI = 0.877)."
+  },
+  "notes": [],
+  "module": "efa",
+  "module_version": "1.0.0",
+  "title": "Exploratory Factor Analysis",
+  "status": "ok",
+  "code": "library(ggnext)\n# Exploratory factor analysis: 5 factors, minres extraction, oblimin rotation\nvars <- c(\"A1\", \"A2\", \"A3\", \"A4\", \"A5\", \"C1\", \"C2\", \"C3\", \"C4\", \"C5\", \"E1\", \"E2\", \"E3\", \"E4\", \"E5\", \"N1\", \"N2\", \"N3\", \"N4\", \"N5\", \"O1\", \"O2\", \"O3\", \"O4\", \"O5\")\nx <- data[complete.cases(data[, vars]), vars]\nefa <- psych::fa(x, nfactors = 5, fm = \"minres\", rotate = \"oblimin\")\nloadings <- unclass(efa$loadings)\ncommunality <- efa$communality\nvariance <- efa$Vaccounted\nfactor_cor <- efa$Phi   # NULL when the factors are uncorrelated\neigenvalues <- eigen(cor(x))$values\n# Sampling adequacy (KMO) and Bartlett's test of sphericity\nR <- cor(x)\nQ <- solve(R)\nA <- -Q / sqrt(outer(diag(Q), diag(Q)))   # anti-image (partial) correlations\noff <- row(R) != col(R)\nkmo <- sum(R[off]^2) / (sum(R[off]^2) + sum(A[off]^2))\nbartlett_chi <- -(nrow(x) - 1 - (2 * ncol(x) + 5) / 6) * log(det(R))\nbartlett_df <- ncol(x) * (ncol(x) - 1) / 2\nbartlett_p <- pchisq(bartlett_chi, bartlett_df, lower.tail = FALSE)\nscree <- data.frame(factor = seq_along(eigenvalues), eigenvalue = eigenvalues)\np_scree <- ggnext(scree, aes(factor, eigenvalue)) +\n  geom_line() +\n  geom_point(size = 3) +\n  geom_hline(yintercept = 1, dash = \"4 4\") +\n  labs(title = \"Scree plot\", x = \"Factor\", y = \"Eigenvalue\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "psych": "2.4.1",
+      "GPArotation": "2024.2.1",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

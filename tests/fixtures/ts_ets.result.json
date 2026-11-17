@@ -1,0 +1,405 @@
+{
+  "tables": [
+    {
+      "id": "model",
+      "title": "Model",
+      "columns": [
+        {
+          "id": "model",
+          "label": "Model",
+          "type": "text"
+        },
+        {
+          "id": "sigma2",
+          "label": "σ²",
+          "type": "number",
+          "digits": 5
+        },
+        {
+          "id": "loglik",
+          "label": "Log-likelihood",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "aic",
+          "label": "AIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "aicc",
+          "label": "AICc",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "bic",
+          "label": "BIC",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "model": "ETS(M,Ad,M)",
+          "sigma2": 0.00142592148822182,
+          "loglik": -604.228997145098,
+          "aic": 1244.4579942902,
+          "aicc": 1250.51109163533,
+          "bic": 1296.34842889675
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "parameters",
+      "title": "Smoothing Parameters",
+      "columns": [
+        {
+          "id": "par",
+          "label": "Parameter",
+          "type": "text"
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "type": "number",
+          "digits": 4
+        }
+      ],
+      "rows": [
+        {
+          "par": "Level smoothing (α)",
+          "value": 0.758016346592972
+        },
+        {
+          "par": "Trend smoothing (β)",
+          "value": 0.0212961086462371
+        },
+        {
+          "par": "Seasonal smoothing (γ)",
+          "value": 0.000105929671006823
+        },
+        {
+          "par": "Damping (φ)",
+          "value": 0.979999657772597
+        }
+      ],
+      "notes": [
+        "ETS(error, trend, season): A = additive, M = multiplicative, N = none, d = damped. Values near 1 react fast to recent data."
+      ]
+    },
+    {
+      "id": "accuracy",
+      "title": "Forecast Accuracy",
+      "columns": [
+        {
+          "id": "set",
+          "label": "Data",
+          "type": "text"
+        },
+        {
+          "id": "rmse",
+          "label": "RMSE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "mae",
+          "label": "MAE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "mape",
+          "label": "MAPE (%)",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "mase",
+          "label": "MASE",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "set": "Training",
+          "rmse": 9.3536856828821,
+          "mae": 6.98090926071283,
+          "mape": 2.76115594134849,
+          "mase": 0.229258103800093
+        },
+        {
+          "set": "Hold-out (last 12)",
+          "rmse": 27.3980396702912,
+          "mae": 22.8045023369216,
+          "mape": 4.655646776462,
+          "mase": 0.74891633290383
+        }
+      ],
+      "notes": [
+        "MASE below 1 means the model beats a naive forecast.",
+        "Hold-out accuracy is the honest measure: those observations were not used to fit the model."
+      ]
+    },
+    {
+      "id": "forecast",
+      "title": "Forecasts",
+      "columns": [
+        {
+          "id": "time",
+          "label": "Time",
+          "type": "text"
+        },
+        {
+          "id": "forecast",
+          "label": "Forecast",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "ci",
+          "label": "95% interval",
+          "type": "ci",
+          "digits": 2
+        },
+        {
+          "id": "actual",
+          "label": "Actual",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "time": "1960 Jan",
+          "forecast": 411.911475440977,
+          "ci": [381.42552150832, 442.397429373634],
+          "actual": 417
+        },
+        {
+          "time": "1960 Feb",
+          "forecast": 406.969371120823,
+          "ci": [368.834637030573, 445.104105211072],
+          "actual": 391
+        },
+        {
+          "time": "1960 Mar",
+          "forecast": 467.348583629514,
+          "ci": [415.650124880696, 519.047042378332],
+          "actual": 419
+        },
+        {
+          "time": "1960 Apr",
+          "forecast": 450.738594350166,
+          "ci": [393.99741316069, 507.479775539643],
+          "actual": 461
+        },
+        {
+          "time": "1960 May",
+          "forecast": 451.532721867544,
+          "ci": [388.301222964014, 514.764220771075],
+          "actual": 472
+        },
+        {
+          "time": "1960 Jun",
+          "forecast": 513.23144160943,
+          "ci": [434.509054318578, 591.953828900283],
+          "actual": 535
+        },
+        {
+          "time": "1960 Jul",
+          "forecast": 569.88679489854,
+          "ci": [475.215585523336, 664.558004273744],
+          "actual": 622
+        },
+        {
+          "time": "1960 Aug",
+          "forecast": 567.587346301825,
+          "ci": [466.341853288971, 668.832839314679],
+          "actual": 606
+        },
+        {
+          "time": "1960 Sep",
+          "forecast": 496.147144439637,
+          "ci": [401.757492775046, 590.536796104228],
+          "actual": 508
+        },
+        {
+          "time": "1960 Oct",
+          "forecast": 432.215253878683,
+          "ci": [344.99849136605, 519.432016391315],
+          "actual": 461
+        },
+        {
+          "time": "1960 Nov",
+          "forecast": 376.626282848221,
+          "ci": [296.380666475976, 456.871899220466],
+          "actual": 390
+        },
+        {
+          "time": "1960 Dec",
+          "forecast": 424.786871072254,
+          "ci": [329.588949597174, 519.984792547334],
+          "actual": 432
+        },
+        {
+          "time": "1961 Jan",
+          "forecast": 431.065860428078,
+          "ci": [329.78548004321, 532.346240812946],
+          "actual": null
+        },
+        {
+          "time": "1961 Feb",
+          "forecast": 425.435671459716,
+          "ci": [320.939157104216, 529.932185815216],
+          "actual": null
+        },
+        {
+          "time": "1961 Mar",
+          "forecast": 488.043238555895,
+          "ci": [363.037077878793, 613.049399232997],
+          "actual": null
+        },
+        {
+          "time": "1961 Apr",
+          "forecast": 470.218419604222,
+          "ci": [344.89783058426, 595.539008624184],
+          "actual": null
+        },
+        {
+          "time": "1961 May",
+          "forecast": 470.580105263174,
+          "ci": [340.337073382432, 600.823137143916],
+          "actual": null
+        },
+        {
+          "time": "1961 Jun",
+          "forecast": 534.365683659838,
+          "ci": [381.047607162659, 687.683760157018],
+          "actual": null
+        },
+        {
+          "time": "1961 Jul",
+          "forecast": 592.79704020609,
+          "ci": [416.759873431263, 768.834206980917],
+          "actual": null
+        },
+        {
+          "time": "1961 Aug",
+          "forecast": 589.865585312832,
+          "ci": [408.828358808831, 770.902811816832],
+          "actual": null
+        },
+        {
+          "time": "1961 Sep",
+          "forecast": 515.162474720695,
+          "ci": [351.968899678899, 678.356049762491],
+          "actual": null
+        },
+        {
+          "time": "1961 Oct",
+          "forecast": 448.391430058534,
+          "ci": [301.959729490686, 594.823130626381],
+          "actual": null
+        },
+        {
+          "time": "1961 Nov",
+          "forecast": 390.392194565998,
+          "ci": [259.107417912974, 521.676971219022],
+          "actual": null
+        },
+        {
+          "time": "1961 Dec",
+          "forecast": 439.951061421931,
+          "ci": [287.754063415299, 592.148059428564],
+          "actual": null
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "residuals",
+      "test": "Residual autocorrelation (Ljung-Box)",
+      "status": "warn",
+      "message": "The residuals are still autocorrelated; the model misses some structure in the series.",
+      "table": {
+        "id": "ljung_box",
+        "title": "Ljung-Box Test",
+        "columns": [
+          {
+            "id": "stat",
+            "label": "Q",
+            "type": "number",
+            "digits": 2
+          },
+          {
+            "id": "df",
+            "label": "df",
+            "type": "int"
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "stat": 12.8211642239472,
+            "df": 6,
+            "p": 0.0459654283757702
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot51",
+      "title": "Forecast",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot51.svg",
+      "html": "plot51.html",
+      "data_csv": "plot51.csv"
+    },
+    {
+      "id": "plot52",
+      "title": "Residual autocorrelation",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot52.svg",
+      "html": "plot52.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "ETS(M,Ad,M) was fitted to 132 observations of passengers (training MAPE = 2.8%; hold-out MAPE = 4.7%). The forecast for 1961 Dec is 440.0, 95% interval [287.8, 592.1]."
+  },
+  "notes": [],
+  "module": "ts_ets",
+  "module_version": "1.0.0",
+  "title": "Exponential Smoothing",
+  "status": "ok",
+  "code": "library(ggnext)\n# Exponential smoothing forecast of passengers\nd <- data[!is.na(data$passengers), , drop = FALSE]\nd <- d[order(d$date), , drop = FALSE]   # rows in time order\ny <- ts(d$passengers, frequency = 12, start = c(1949, 1))\ny_train <- head(y, length(y) - 12)\ny_test <- tail(y, 12)\nfit <- forecast::ets(y_train, model = \"ZZZ\", damped = NULL)   # Z = chosen automatically by AICc\nparameters <- fit$par[names(fit$par) %in% c(\"alpha\", \"beta\", \"gamma\", \"phi\")]\nfc <- forecast::forecast(fit, h = 24, level = 95)\nforecast_tbl <- data.frame(time = as.numeric(time(fc$mean)), forecast = as.numeric(fc$mean), lower = as.numeric(fc$lower), upper = as.numeric(fc$upper))\naccuracy_train <- forecast::accuracy(fit)\n# Accuracy on the last 12 observations, which the model did not see\naccuracy_test <- forecast::accuracy(fc, y_test)\n# Ljung-Box test: are the residuals free of autocorrelation?\nlb_lag <- min(24, 10, length(y_train) %/% 5)\nlb_lag <- max(lb_lag, length(parameters) + 1)\nljung_box <- Box.test(residuals(fit), lag = lb_lag, type = \"Ljung-Box\", fitdf = length(parameters))\nplot_df <- rbind(\n  data.frame(time = as.numeric(time(y)), value = as.numeric(y), lower = NA, upper = NA, part = \"Observed\"),\n  data.frame(time = forecast_tbl$time, value = forecast_tbl$forecast, lower = forecast_tbl$lower, upper = forecast_tbl$upper, part = \"Forecast\"))\np_forecast <- ggnext(plot_df, aes(time, value, ymin = lower, ymax = upper, group = part)) +\n  geom_forecast_band() +\n  labs(title = \"Forecast\", x = \"Time\", y = \"Passengers (thousands)\") +\n  theme_modern()\nresid_acf <- with(acf(residuals(fit), plot = FALSE), data.frame(lag = as.numeric(lag) * frequency(y), value = as.numeric(acf)))\nresid_acf <- resid_acf[resid_acf$lag > 0, ]\nresid_acf_limit <- qnorm(0.975) / sqrt(length(residuals(fit)))   # limits expected for white noise\np_residuals <- ggnext(resid_acf, aes(x = lag, y = 0, xend = lag, yend = value)) +\n  geom_segment() +\n  geom_hline(yintercept = resid_acf_limit, dash = \"4 4\") +\n  geom_hline(yintercept = -resid_acf_limit, dash = \"4 4\") +\n  labs(title = \"Residual autocorrelation\", x = \"Lag\", y = \"Autocorrelation\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "forecast": "8.21.1",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

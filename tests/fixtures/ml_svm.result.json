@@ -1,0 +1,290 @@
+{
+  "tables": [
+    {
+      "id": "performance",
+      "title": "Test-Set Performance",
+      "columns": [
+        {
+          "id": "metric",
+          "label": "Metric",
+          "type": "text"
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "metric": "Accuracy",
+          "value": 0.744360902255639,
+          "ci": [0.661503979483563, 0.816013968386801]
+        },
+        {
+          "metric": "Cohen's κ",
+          "value": 0.392204301075269,
+          "ci": [null, null]
+        },
+        {
+          "metric": "Balanced accuracy",
+          "value": 0.696102150537634,
+          "ci": [null, null]
+        },
+        {
+          "metric": "AUC",
+          "value": 0.81747311827957,
+          "ci": [0.73953245227687, 0.89541378428227]
+        },
+        {
+          "metric": "No-information rate",
+          "value": 0.699248120300752,
+          "ci": [null, null]
+        },
+        {
+          "metric": "Accuracy on training data",
+          "value": 0.829573934837093,
+          "ci": [null, null]
+        }
+      ],
+      "notes": [
+        "Trained on 399 cases, tested on 133 held-out cases (25%, seed 123).",
+        "The no-information rate is the accuracy of always predicting the largest class."
+      ]
+    },
+    {
+      "id": "confusion",
+      "title": "Confusion Matrix (Test Set)",
+      "columns": [
+        {
+          "id": "name",
+          "label": "",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "Actual No",
+          "type": "int"
+        },
+        {
+          "id": "c2",
+          "label": "Actual Yes",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "name": "Predicted No",
+          "c1": 76,
+          "c2": 17
+        },
+        {
+          "name": "Predicted Yes",
+          "c1": 17,
+          "c2": 23
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "by_class",
+      "title": "Performance by Class",
+      "columns": [
+        {
+          "id": "class",
+          "label": "Class",
+          "type": "text"
+        },
+        {
+          "id": "sensitivity",
+          "label": "Sensitivity (recall)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "specificity",
+          "label": "Specificity",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "precision",
+          "label": "Precision",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "f1",
+          "label": "F1",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "class": "No",
+          "sensitivity": 0.817204301075269,
+          "specificity": 0.575,
+          "precision": 0.817204301075269,
+          "f1": 0.817204301075269,
+          "_row": "No"
+        },
+        {
+          "class": "Yes",
+          "sensitivity": 0.575,
+          "specificity": 0.817204301075269,
+          "precision": 0.575,
+          "f1": 0.575,
+          "_row": "Yes"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "importance",
+      "title": "Variable Importance",
+      "columns": [
+        {
+          "id": "variable",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "importance",
+          "label": "Importance",
+          "type": "number",
+          "digits": 4
+        }
+      ],
+      "rows": [
+        {
+          "variable": "glucose",
+          "importance": 0.0729323308270677
+        },
+        {
+          "variable": "age",
+          "importance": 0.0127819548872181
+        },
+        {
+          "variable": "pregnancies",
+          "importance": -0.00375939849624056
+        },
+        {
+          "variable": "bmi",
+          "importance": -0.0142857142857143
+        },
+        {
+          "variable": "blood_pressure",
+          "importance": -0.0203007518796992
+        },
+        {
+          "variable": "pedigree",
+          "importance": -0.0240601503759398
+        },
+        {
+          "variable": "skin_fold",
+          "importance": -0.0263157894736842
+        }
+      ],
+      "notes": [
+        "Permutation importance: loss of test accuracy when the predictor is shuffled."
+      ]
+    },
+    {
+      "id": "model",
+      "title": "Model",
+      "columns": [
+        {
+          "id": "kernel",
+          "label": "Kernel",
+          "type": "text"
+        },
+        {
+          "id": "cost",
+          "label": "Cost",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "gamma",
+          "label": "γ",
+          "type": "number",
+          "digits": 4
+        },
+        {
+          "id": "sv",
+          "label": "Support vectors",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "kernel": "radial",
+          "cost": 1,
+          "gamma": 0.142857142857143,
+          "sv": 225
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "overfit",
+      "test": "Overfitting",
+      "status": "ok",
+      "message": "Training and test accuracy are close.",
+      "table": null
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot35",
+      "title": "ROC curve",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot35.svg",
+      "html": "plot35.html",
+      "data_csv": "plot35.csv"
+    },
+    {
+      "id": "plot36",
+      "title": "Variable importance",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot36.svg",
+      "html": "plot36.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A support vector machine predicting diabetes from 7 predictors classified 74.4% of 133 held-out cases correctly (95% CI [66.2, 81.6]; κ = 0.39), compared with 69.9% for always predicting the largest class. The AUC was 0.817. The most important predictor was glucose."
+  },
+  "notes": [],
+  "module": "ml_svm",
+  "module_version": "1.0.0",
+  "title": "Support Vector Machine",
+  "status": "ok",
+  "code": "library(ggnext)\n# Support vector machine (classification): diabetes ~ pregnancies + glucose + blood_pressure + skin_fold + bmi + pedigree + age\npredictors <- c(\"pregnancies\", \"glucose\", \"blood_pressure\", \"skin_fold\", \"bmi\", \"pedigree\", \"age\")\nd <- data[complete.cases(data[, c(\"diabetes\", predictors)]), c(\"diabetes\", predictors), drop = FALSE]\nd$diabetes <- droplevels(factor(d$diabetes))\nd$diabetes <- droplevels(d$diabetes)\n# Hold out 25% of the cases to test the model\nset.seed(123)\ntest_rows <- sample(nrow(d), round(0.25 * nrow(d)))\ntrain <- d[-test_rows, , drop = FALSE]\ntest <- d[test_rows, , drop = FALSE]\nset.seed(123)   # class probabilities are fitted by internal cross-validation\nfit <- e1071::svm(diabetes ~ ., data = train, kernel = \"radial\", cost = 1, probability = TRUE)\npredict_fn <- function(newdata) attr(predict(fit, newdata, probability = TRUE), \"probabilities\")[, levels(train$diabetes), drop = FALSE]\n# Performance on the held-out test set\nclasses <- levels(train$diabetes)\nprob <- predict_fn(test)\npred <- factor(colnames(prob)[apply(prob, 1, which.max)], levels = classes)\nconfusion <- table(Predicted = pred, Actual = test$diabetes)\nn_test <- sum(confusion)\naccuracy <- c(sum(diag(confusion)) / n_test, binom.test(sum(diag(confusion)), n_test)$conf.int)\nchance <- sum(rowSums(confusion) * colSums(confusion)) / n_test^2\nkappa <- (accuracy[1] - chance) / (1 - chance)\nno_information_rate <- max(colSums(confusion)) / n_test\nby_class <- data.frame(class = classes, sensitivity = diag(confusion) / colSums(confusion),\n                       specificity = (n_test - rowSums(confusion) - colSums(confusion) + diag(confusion)) / (n_test - colSums(confusion)),\n                       precision = diag(confusion) / rowSums(confusion))\nby_class$f1 <- 2 * by_class$precision * by_class$sensitivity / (by_class$precision + by_class$sensitivity)\ntrain_accuracy <- mean(colnames(prob)[apply(predict_fn(train), 1, which.max)] == train$diabetes)\nroc_obj <- pROC::roc(test$diabetes, prob[, classes[2]], levels = classes, direction = \"<\", quiet = TRUE)\nauc <- c(pROC::auc(roc_obj), pROC::ci.auc(roc_obj)[c(1, 3)])\n# Permutation importance: loss of test accuracy when one predictor is shuffled (mean of 10 shuffles)\nscore <- function(data) mean(colnames(prob)[apply(predict_fn(data), 1, which.max)] == data$diabetes)\nset.seed(123)\nimportance <- sapply(predictors, function(v) mean(replicate(10, {\n  shuffled <- test\n  shuffled[[v]] <- sample(shuffled[[v]])\n  score(test) - score(shuffled)\n})))\nimportance <- sort(importance, decreasing = TRUE)\nimportance_df <- data.frame(variable = names(importance), importance = as.numeric(importance))[seq_len(min(length(importance), 20)), ]\nimportance_df$variable <- factor(importance_df$variable, levels = rev(importance_df$variable))\n# Names are drawn inside the panel, left of the data (ggnext clips long axis labels)\nlabel_pad <- min(0.5, (max(nchar(as.character(importance_df$variable))) * 7 + 12) / 500)\nimportance_df$label_x <- min(0, importance_df$importance) - (max(importance_df$importance) - min(0, importance_df$importance)) * label_pad / (1 - label_pad)\np_importance <- ggnext(importance_df, aes(importance, variable)) +\n  geom_importance() +\n  geom_text(aes(x = label_x, y = variable, label = variable), anchor = \"start\") +\n  labs(title = \"Variable importance\", x = \"Importance\") +\n  theme(axis_title_y = FALSE, axis_text_y = FALSE, base = theme_modern())\nroc_df <- data.frame(truth = as.integer(test$diabetes == classes[2]), score = prob[, classes[2]])\np_performance <- ggnext(roc_df, aes(truth = truth, score = score)) +\n  geom_roc() +\n  labs(title = \"ROC curve (test set)\", x = \"1 − Specificity\", y = \"Sensitivity\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "e1071": "1.7.14",
+      "pROC": "1.18.5",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

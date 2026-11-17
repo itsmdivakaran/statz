@@ -1,0 +1,181 @@
+{
+  "tables": [
+    {
+      "id": "crosstab",
+      "title": "s100b_high × outcome",
+      "columns": [
+        {
+          "id": "row",
+          "label": "",
+          "type": "text"
+        },
+        {
+          "id": "pos",
+          "label": "Disease present (Poor)",
+          "type": "int"
+        },
+        {
+          "id": "neg",
+          "label": "Disease absent (Good)",
+          "type": "int"
+        },
+        {
+          "id": "total",
+          "label": "Total",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "row": "Test positive (Positive)",
+          "pos": 26,
+          "neg": 14,
+          "total": 40
+        },
+        {
+          "row": "Test negative (Negative)",
+          "pos": 15,
+          "neg": 58,
+          "total": 73
+        },
+        {
+          "row": "Total",
+          "pos": 41,
+          "neg": 72,
+          "total": 113
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "accuracy",
+      "title": "Accuracy Measures",
+      "columns": [
+        {
+          "id": "measure",
+          "label": "Measure",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "%",
+          "type": "number",
+          "digits": 1
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "measure": "Sensitivity",
+          "est": 63.4146341463415,
+          "ci": [46.9362548032833, 77.8772137938935]
+        },
+        {
+          "measure": "Specificity",
+          "est": 80.5555555555556,
+          "ci": [69.5331066701317, 88.941621332151]
+        },
+        {
+          "measure": "Positive predictive value",
+          "est": 65,
+          "ci": [48.3155546351009, 79.3717509129233]
+        },
+        {
+          "measure": "Negative predictive value",
+          "est": 79.4520547945205,
+          "ci": [68.3838400802959, 88.0186901664564]
+        },
+        {
+          "measure": "Accuracy",
+          "est": 74.3362831858407,
+          "ci": [65.2648285360584, 82.0906196555644]
+        },
+        {
+          "measure": "Prevalence",
+          "est": 36.283185840708,
+          "ci": [27.4459859876848, 45.858503707892]
+        }
+      ],
+      "notes": [
+        "Exact (Clopper-Pearson) confidence intervals.",
+        "Youden index = 0.440.",
+        "Predictive values and accuracy apply only at the prevalence in this sample."
+      ]
+    },
+    {
+      "id": "ratios",
+      "title": "Likelihood Ratios",
+      "columns": [
+        {
+          "id": "measure",
+          "label": "Measure",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "Estimate",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "measure": "Positive likelihood ratio",
+          "est": 3.26132404181185,
+          "ci": [1.93023632058178, 5.51032761755005]
+        },
+        {
+          "measure": "Negative likelihood ratio",
+          "est": 0.454163162321278,
+          "ci": [0.298804668769816, 0.690297708060779]
+        },
+        {
+          "measure": "Diagnostic odds ratio",
+          "est": 7.18095238095238,
+          "ci": [3.03013338037303, 17.0177581724662]
+        }
+      ],
+      "notes": [
+        "Confidence intervals by the log method."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "cells",
+      "test": "Cell counts",
+      "status": "ok",
+      "message": "All four cells of the 2 × 2 table are non-zero.",
+      "table": null
+    }
+  ],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "Against outcome, s100b_high had a sensitivity of 63.4% (95% CI [46.9, 77.9]) and a specificity of 80.6% [69.5, 88.9] in 113 subjects. The positive likelihood ratio was 3.26 and the negative likelihood ratio 0.45; a positive result is weak evidence for the disease."
+  },
+  "notes": [],
+  "module": "diag_2x2",
+  "module_version": "1.0.0",
+  "title": "Diagnostic Test Accuracy",
+  "status": "ok",
+  "code": "# Diagnostic accuracy of s100b_high against outcome\nd <- data[complete.cases(data[, c(\"s100b_high\", \"outcome\"), drop = FALSE]), , drop = FALSE]\nd$s100b_high <- factor(d$s100b_high, levels = c(0, 1), labels = c(\"Negative\", \"Positive\"))\nd$outcome <- droplevels(factor(d$outcome))\ntest_pos <- d$s100b_high == levels(d$s100b_high)[2]\ndisease <- d$outcome == levels(d$outcome)[2]\ntp <- sum(test_pos & disease); fp <- sum(test_pos & !disease)\nfn <- sum(!test_pos & disease); tn <- sum(!test_pos & !disease)\nn <- tp + fp + fn + tn\n# Proportions with exact (Clopper-Pearson) confidence intervals\nprop_ci <- function(x, n) c(estimate = x / n, lower = binom.test(x, n, conf.level = 0.95)$conf.int[1], upper = binom.test(x, n, conf.level = 0.95)$conf.int[2])\naccuracy <- rbind(\n  Sensitivity = prop_ci(tp, tp + fn),\n  Specificity = prop_ci(tn, tn + fp),\n  `Positive predictive value` = prop_ci(tp, tp + fp),\n  `Negative predictive value` = prop_ci(tn, tn + fn),\n  Accuracy = prop_ci(tp + tn, n),\n  Prevalence = prop_ci(tp + fn, n))\nsens <- tp / (tp + fn); spec <- tn / (tn + fp)\n# Likelihood ratios and diagnostic odds ratio with log-method confidence intervals\nz <- qnorm(1 - (1 - 0.95) / 2)\nratio_ci <- function(est, se) c(estimate = est, lower = exp(log(est) - z * se), upper = exp(log(est) + z * se))\nratios <- rbind(\n  `Positive likelihood ratio` = ratio_ci(sens / (1 - spec), sqrt(1 / tp - 1 / (tp + fn) + 1 / fp - 1 / (fp + tn))),\n  `Negative likelihood ratio` = ratio_ci((1 - sens) / spec, sqrt(1 / fn - 1 / (tp + fn) + 1 / tn - 1 / (fp + tn))),\n  `Diagnostic odds ratio` = ratio_ci((tp * tn) / (fp * fn), sqrt(1 / tp + 1 / fp + 1 / fn + 1 / tn)))\nyouden <- sens + spec - 1",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {},
+    "dataset": "data"
+  }
+}

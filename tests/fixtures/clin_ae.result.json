@@ -1,0 +1,307 @@
+{
+  "tables": [
+    {
+      "id": "overview",
+      "title": "Overview of Adverse Events",
+      "columns": [
+        {
+          "id": "event",
+          "label": "",
+          "type": "text"
+        },
+        {
+          "id": "a1",
+          "label": "Placebo (N = 85)",
+          "type": "text"
+        },
+        {
+          "id": "a2",
+          "label": "Drug 54 mg (N = 85)",
+          "type": "text"
+        },
+        {
+          "id": "a3",
+          "label": "Drug 81 mg (N = 84)",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "event": "Subjects with any adverse event",
+          "a1": "42 (49.4%)",
+          "a2": "55 (64.7%)",
+          "a3": "55 (65.5%)"
+        },
+        {
+          "event": "Number of events",
+          "a1": "69",
+          "a2": "98",
+          "a3": "105"
+        },
+        {
+          "event": "Worst severity",
+          "a1": "",
+          "a2": "",
+          "a3": ""
+        },
+        {
+          "event": "   MILD",
+          "a1": "21 (24.7%)",
+          "a2": "25 (29.4%)",
+          "a3": "25 (29.8%)"
+        },
+        {
+          "event": "   MODERATE",
+          "a1": "16 (18.8%)",
+          "a2": "25 (29.4%)",
+          "a3": "22 (26.2%)"
+        },
+        {
+          "event": "   SEVERE",
+          "a1": "5 (5.9%)",
+          "a2": "5 (5.9%)",
+          "a3": "8 (9.5%)"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "events",
+      "title": "Adverse Events by Arm",
+      "columns": [
+        {
+          "id": "event",
+          "label": "System organ class / event",
+          "type": "text"
+        },
+        {
+          "id": "a1",
+          "label": "Placebo (N = 85)",
+          "type": "text"
+        },
+        {
+          "id": "a2",
+          "label": "Drug 54 mg (N = 85)",
+          "type": "text"
+        },
+        {
+          "id": "a3",
+          "label": "Drug 81 mg (N = 84)",
+          "type": "text"
+        },
+        {
+          "id": "rd1e",
+          "label": "Drug 54 mg − Placebo (%)",
+          "type": "number",
+          "digits": 1
+        },
+        {
+          "id": "rd1",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 1
+        },
+        {
+          "id": "rd2e",
+          "label": "Drug 81 mg − Placebo (%)",
+          "type": "number",
+          "digits": 1
+        },
+        {
+          "id": "rd2",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "event": "General disorders and administration site conditions",
+          "a1": "10 (11.8%)",
+          "a2": "27 (31.8%)",
+          "a3": "35 (41.7%)",
+          "rd1e": null,
+          "rd1": [null, null],
+          "rd2e": null,
+          "rd2": [null, null]
+        },
+        {
+          "event": "   Application site pruritus",
+          "a1": "7 (8.2%)",
+          "a2": "19 (22.4%)",
+          "a3": "20 (23.8%)",
+          "rd1e": 14.1176470588235,
+          "rd1": [3.50665584321875, 24.7286382744283],
+          "rd2e": 15.5742296918768,
+          "rd2": [4.75234608110761, 26.3961133026459]
+        },
+        {
+          "event": "   Application site erythema",
+          "a1": "2 (2.4%)",
+          "a2": "11 (12.9%)",
+          "a3": "13 (15.5%)",
+          "rd1e": 10.5882352941176,
+          "rd1": [2.75875851700267, 18.4177120712326],
+          "rd2e": 13.1232492997199,
+          "rd2": [4.7443791724778, 21.502119426962]
+        },
+        {
+          "event": "   Fatigue",
+          "a1": "1 (1.2%)",
+          "a2": "3 (3.5%)",
+          "a3": "7 (8.3%)",
+          "rd1e": 2.35294117647059,
+          "rd1": [-2.19041382534994, 6.89629617829112],
+          "rd2e": 7.15686274509804,
+          "rd2": [0.817442614453662, 13.4962828757424]
+        },
+        {
+          "event": "Skin and subcutaneous tissue disorders",
+          "a1": "15 (17.6%)",
+          "a2": "24 (28.2%)",
+          "a3": "28 (33.3%)",
+          "rd1e": null,
+          "rd1": [null, null],
+          "rd2e": null,
+          "rd2": [null, null]
+        },
+        {
+          "event": "   Pruritus",
+          "a1": "10 (11.8%)",
+          "a2": "16 (18.8%)",
+          "a3": "18 (21.4%)",
+          "rd1e": 7.05882352941176,
+          "rd1": [-3.71015639512013, 17.8278034539437],
+          "rd2e": 9.66386554621849,
+          "rd2": [-1.46766518023049, 20.7953962726675]
+        },
+        {
+          "event": "   Rash",
+          "a1": "7 (8.2%)",
+          "a2": "9 (10.6%)",
+          "a3": "12 (14.3%)",
+          "rd1e": 2.35294117647059,
+          "rd1": [-6.41852631542542, 11.1244086683666],
+          "rd2e": 6.05042016806723,
+          "rd2": [-3.44437802960451, 15.545218365739]
+        },
+        {
+          "event": "Gastrointestinal disorders",
+          "a1": "14 (16.5%)",
+          "a2": "16 (18.8%)",
+          "a3": "7 (8.3%)",
+          "rd1e": null,
+          "rd1": [null, null],
+          "rd2e": null,
+          "rd2": [null, null]
+        },
+        {
+          "event": "   Diarrhoea",
+          "a1": "11 (12.9%)",
+          "a2": "9 (10.6%)",
+          "a3": "3 (3.6%)",
+          "rd1e": -2.35294117647059,
+          "rd1": [-12.0329467893393, 7.32706443639817],
+          "rd2e": -9.36974789915967,
+          "rd2": [-17.5347058727865, -1.2047899255328]
+        },
+        {
+          "event": "   Nausea",
+          "a1": "4 (4.7%)",
+          "a2": "7 (8.2%)",
+          "a3": "5 (6.0%)",
+          "rd1e": 3.52941176470588,
+          "rd1": [-3.84758051168022, 10.906404041092],
+          "rd2e": 1.24649859943978,
+          "rd2": [-5.52606924476824, 8.01906644364779]
+        },
+        {
+          "event": "Nervous system disorders",
+          "a1": "8 (9.4%)",
+          "a2": "5 (5.9%)",
+          "a3": "11 (13.1%)",
+          "rd1e": null,
+          "rd1": [null, null],
+          "rd2e": null,
+          "rd2": [null, null]
+        },
+        {
+          "event": "   Dizziness",
+          "a1": "3 (3.5%)",
+          "a2": "3 (3.5%)",
+          "a3": "8 (9.5%)",
+          "rd1e": 0,
+          "rd1": [-5.54756313930318, 5.54756313930318],
+          "rd2e": 5.99439775910364,
+          "rd2": [-1.40787807825027, 13.3966735964576]
+        },
+        {
+          "event": "   Headache",
+          "a1": "5 (5.9%)",
+          "a2": "2 (2.4%)",
+          "a3": "3 (3.6%)",
+          "rd1e": -3.52941176470588,
+          "rd1": [-9.47956181747977, 2.42073828806801],
+          "rd2e": -2.3109243697479,
+          "rd2": [-8.69607258715329, 4.07422384765749]
+        },
+        {
+          "event": "Infections and infestations",
+          "a1": "7 (8.2%)",
+          "a2": "5 (5.9%)",
+          "a3": "2 (2.4%)",
+          "rd1e": null,
+          "rd1": [null, null],
+          "rd2e": null,
+          "rd2": [null, null]
+        },
+        {
+          "event": "   Nasopharyngitis",
+          "a1": "7 (8.2%)",
+          "a2": "5 (5.9%)",
+          "a3": "2 (2.4%)",
+          "rd1e": -2.35294117647059,
+          "rd1": [-10.0454016017633, 5.33951924882208],
+          "rd2e": -5.85434173669468,
+          "rd2": [-12.5463137787183, 0.837630305328932]
+        }
+      ],
+      "notes": [
+        "n (%) = subjects with at least one such event; a subject is counted once per row.",
+        "Risk differences are in percentage points with Wald confidence intervals; they are descriptive, not adjusted for multiple comparisons."
+      ]
+    }
+  ],
+  "assumptions": [],
+  "plots": [
+    {
+      "id": "plot6",
+      "title": "Adverse event incidence",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot6.svg",
+      "html": "plot6.html",
+      "data_csv": "plot6.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "At least one adverse event occurred in 42 (49.4%) on Placebo, 55 (64.7%) on Drug 54 mg, 55 (65.5%) on Drug 81 mg. The most common event was Application site pruritus (Placebo: 8.2%; Drug 54 mg: 22.4%; Drug 81 mg: 23.8%)."
+  },
+  "notes": [],
+  "module": "clin_ae",
+  "module_version": "1.0.0",
+  "title": "Adverse Events Table",
+  "status": "ok",
+  "code": "library(ggnext)\n# Adverse events by TRT01P: subjects are counted once per event term\nae <- data[complete.cases(data[, c(\"USUBJID\", \"TRT01P\", \"AEDECOD\")]), , drop = FALSE]\narm_n <- c(85, 85, 84)   # subjects treated in each arm (the denominators)\nnames(arm_n) <- c(\"Placebo\", \"Drug 54 mg\", \"Drug 81 mg\")\narms <- names(arm_n)\ncount_subjects <- function(rows) sapply(arms, function(a) length(unique(rows[[\"USUBJID\"]][rows[[\"TRT01P\"]] == a])))\nany_event <- count_subjects(ae)\nn_events <- sapply(arms, function(a) sum(ae$TRT01P == a))\nby_term <- do.call(rbind, lapply(split(ae, ae$AEDECOD), count_subjects))\nby_soc <- do.call(rbind, lapply(split(ae, ae$AEBODSYS), count_subjects))\nterm_soc <- tapply(as.character(ae$AEBODSYS), ae$AEDECOD, function(s) s[1])\n# Each subject's worst severity\nsev_levels <- c(\"MILD\", \"MODERATE\", \"SEVERE\", \"LIFE THREATENING\", \"FATAL\")\nworst <- aggregate(match(as.character(ae$AESEV), sev_levels), list(subject = ae$USUBJID, arm = ae$TRT01P), max)\nby_severity <- do.call(rbind, lapply(seq_along(sev_levels), function(i) sapply(arms, function(a) sum(worst$x == i & worst$arm == a))))\nrownames(by_severity) <- sev_levels\npct_term <- 100 * sweep(by_term, 2, arm_n, \"/\")\n# Risk difference (percentage points) versus the first arm, Wald 95% CI\nz <- qnorm(1 - (1 - 0.95) / 2)\nrisk_diff <- lapply(arms[-1], function(a) {\n  p1 <- by_term[, a] / arm_n[a]; p0 <- by_term[, 1] / arm_n[1]\n  se <- sqrt(p1 * (1 - p1) / arm_n[a] + p0 * (1 - p0) / arm_n[1])\n  100 * cbind(estimate = p1 - p0, lower = p1 - p0 - z * se, upper = p1 - p0 + z * se)\n})\nnames(risk_diff) <- arms[-1]\ntop <- names(sort(rowSums(by_term), decreasing = TRUE))[seq_len(min(nrow(by_term), 15))]\nheat_df <- data.frame(arm = factor(rep(arms, each = length(top)), levels = arms), term = factor(rep(top, length(arms)), levels = rev(top)),\n                      pct = round(as.vector(pct_term[top, arms]), 1))\n# Short term codes on the axis (ggnext clips long axis labels); the table lists the full terms\nheat_df$term <- factor(abbreviate(as.character(heat_df$term), 9), levels = abbreviate(rev(top), 9))\np <- ggnext(heat_df, aes(arm, term, size = pct)) +\n  geom_ae_heatmap() +\n  labs(title = \"Adverse event incidence (%)\", x = \"TRT01P\", y = \"\") +\n  theme_modern()\np <- p + labs(color = \"% of subjects\")",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

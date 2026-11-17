@@ -1,0 +1,320 @@
+{
+  "tables": [
+    {
+      "id": "studies",
+      "title": "Individual Studies",
+      "columns": [
+        {
+          "id": "study",
+          "label": "Study",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "Risk ratio",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "weight",
+          "label": "Weight (%)",
+          "type": "number",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "study": "Aronson, 1948",
+          "est": 0.410938654841094,
+          "ci": [0.134301570832589, 1.25739838332279],
+          "weight": 5.05948307931551
+        },
+        {
+          "study": "Ferguson & Simes, 1949",
+          "est": 0.204868154158215,
+          "ci": [0.0862974496335646, 0.486352270738137],
+          "weight": 6.3646796321266
+        },
+        {
+          "study": "Rosenthal et al, 1960",
+          "est": 0.25974025974026,
+          "ci": [0.0734425906880758, 0.918608696913673],
+          "weight": 4.43602776309674
+        },
+        {
+          "study": "Hart & Sutherland, 1977",
+          "est": 0.236560523606413,
+          "ci": [0.179280894081421, 0.312140797911936],
+          "weight": 9.69874673569736
+        },
+        {
+          "study": "Frimodt-Moller et al, 1973",
+          "est": 0.804489533795327,
+          "ci": [0.516293127126651, 1.2535580583614],
+          "weight": 8.86845628682752
+        },
+        {
+          "study": "Stein & Aronson, 1953",
+          "est": 0.455611144836826,
+          "ci": [0.387132335327848, 0.536202988891976],
+          "weight": 10.0957381652943
+        },
+        {
+          "study": "Vandiviere et al, 1973",
+          "est": 0.197721021611002,
+          "ci": [0.0783565766814313, 0.498919223409139],
+          "weight": 6.02718170294241
+        },
+        {
+          "study": "TPT Madras, 1980",
+          "est": 1.01202404809619,
+          "ci": [0.894571977550142, 1.14489688882256],
+          "weight": 10.1894386345929
+        },
+        {
+          "study": "Coetzee & Berjak, 1968",
+          "est": 0.625366345142315,
+          "ci": [0.392576266000499, 0.996196406932455],
+          "weight": 8.74313313169806
+        },
+        {
+          "study": "Rosenthal et al, 1961",
+          "est": 0.253765465303927,
+          "ci": [0.149420943521767, 0.430976474001032],
+          "weight": 8.3676072473369
+        },
+        {
+          "study": "Comstock et al, 1974",
+          "est": 0.712226836059195,
+          "ci": [0.572513682986256, 0.886034833887225],
+          "weight": 9.9250266628389
+        },
+        {
+          "study": "Comstock & Webster, 1969",
+          "est": 1.56191619962637,
+          "ci": [0.373689111221834, 6.52837383106692],
+          "weight": 3.82162942284151
+        },
+        {
+          "study": "Comstock et al, 1976",
+          "est": 0.982835076874145,
+          "ci": [0.582137461533975, 1.65934139642692],
+          "weight": 8.40285153539128
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "pooled",
+      "title": "Pooled Effect",
+      "columns": [
+        {
+          "id": "model",
+          "label": "Model",
+          "type": "text"
+        },
+        {
+          "id": "k",
+          "label": "k",
+          "type": "int"
+        },
+        {
+          "id": "est",
+          "label": "Risk ratio",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE (log)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "pi",
+          "label": "95% prediction interval",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "model": "Random effects",
+          "k": 13,
+          "est": 0.489420936788213,
+          "se": 0.179781531780361,
+          "ci": [0.344074293400216, 0.69616608378248],
+          "pi": [0.154634293498826, 1.54902801925028],
+          "stat": -3.97444799412458,
+          "p": 7.05426734852055e-05
+        }
+      ],
+      "notes": [
+        "τ² estimated by restricted maximum likelihood.",
+        "Estimates and intervals are back-transformed from the log scale."
+      ]
+    },
+    {
+      "id": "heterogeneity",
+      "title": "Heterogeneity",
+      "columns": [
+        {
+          "id": "q",
+          "label": "Q",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "tau2",
+          "label": "τ²",
+          "type": "number",
+          "digits": 4
+        },
+        {
+          "id": "tau",
+          "label": "τ",
+          "type": "number",
+          "digits": 4
+        },
+        {
+          "id": "i2",
+          "label": "I² (%)",
+          "type": "number",
+          "digits": 1
+        },
+        {
+          "id": "h2",
+          "label": "H²",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "q": 152.233008082373,
+          "df": 12,
+          "p": 1.99676459084597e-26,
+          "tau2": 0.313243325980895,
+          "tau": 0.559681450452751,
+          "i2": 92.2213860749656,
+          "h2": 12.8557608031121
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "bias",
+      "title": "Small-Study Effects (Publication Bias)",
+      "columns": [
+        {
+          "id": "test",
+          "label": "Method",
+          "type": "text"
+        },
+        {
+          "id": "result",
+          "label": "Result",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "test": "Egger's regression test",
+          "result": "t(11) = −1.40, p = .189"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "k",
+      "test": "Number of studies",
+      "status": "ok",
+      "message": "13 studies were pooled.",
+      "table": null
+    },
+    {
+      "id": "egger",
+      "test": "Funnel plot asymmetry (Egger)",
+      "status": "ok",
+      "message": "No evidence of funnel plot asymmetry.",
+      "table": null
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot14",
+      "title": "Forest plot",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot14.svg",
+      "html": "plot14.html",
+      "data_csv": null
+    },
+    {
+      "id": "plot15",
+      "title": "Funnel plot",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot15.svg",
+      "html": "plot15.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A random-effects meta-analysis of 13 studies gave a pooled risk ratio of 0.49, 95% CI [0.34, 0.70], z = −3.97, p < .001. Heterogeneity was considerable (I² = 92.2%, Q(12) = 152.23, p < .001). The prediction interval for a new study is [0.15, 1.55]."
+  },
+  "notes": [],
+  "module": "meta_binary",
+  "module_version": "1.0.0",
+  "title": "Meta-Analysis (Binary Outcomes)",
+  "status": "ok",
+  "code": "library(ggnext)\n# Random-effects meta-analysis (risk ratio)\nd <- data[complete.cases(data[, c(\"study\", \"events_vaccine\", \"n_vaccine\", \"events_control\", \"n_control\"), drop = FALSE]), , drop = FALSE]\nd$study_label <- make.unique(as.character(d$study))\nes <- metafor::escalc(measure = \"RR\", ai = events_vaccine, n1i = n_vaccine, ci = events_control, n2i = n_control, data = d, slab = study_label)   # yi = log ratio, vi = its variance\nmeta <- metafor::rma(yi, vi, data = es, method = \"REML\", test = \"z\", level = 95)\nz <- qnorm(1 - (1 - 0.95) / 2)\nstudies <- data.frame(study = d$study_label, yi = as.numeric(es$yi), se = sqrt(es$vi), weight = as.numeric(weights(meta)))\nstudies$lower <- studies$yi - z * studies$se\nstudies$upper <- studies$yi + z * studies$se\npooled <- predict(meta)   # pooled estimate with confidence and prediction interval\n# Egger's regression test for funnel plot asymmetry\negger <- metafor::regtest(meta, model = \"lm\", predictor = \"sei\")\nforest_df <- data.frame(term = c(studies$study, \"Pooled\"), est = exp(c(studies$yi, pooled$pred)),\n                        lower = exp(c(studies$lower, pooled$ci.lb)), upper = exp(c(studies$upper, pooled$ci.ub)), weight = c(studies$weight, 100))\nforest_df$term <- factor(forest_df$term, levels = rev(forest_df$term))\n# Names are drawn inside the panel, left of the data (ggnext clips long axis labels)\nlabel_pad <- min(0.5, (max(nchar(as.character(forest_df$term))) * 7 + 12) / 500)\nforest_df$label_x <- min(forest_df$lower) / (max(forest_df$upper) / min(forest_df$lower))^(label_pad / (1 - label_pad))\np_forest <- ggnext(forest_df, aes(est, term, ymin = lower, ymax = upper, size = weight)) +\n  geom_forest(ref = 1) +\n  geom_text(aes(x = label_x, y = term, label = term), anchor = \"start\") +\n  scale_x_log10() +\n  labs(title = \"Forest plot\", x = \"Risk ratio (95% CI)\") +\n  theme(axis_title_y = FALSE, axis_text_y = FALSE, legend_position = \"none\", base = theme_modern())\nse_max <- max(studies$se) * 1.05\nfunnel_lines <- data.frame(x = pooled$pred, y = 0, xend = pooled$pred + c(-1, 1) * z * se_max, yend = se_max)\np_funnel <- ggnext(studies, aes(yi, se)) +\n  geom_segment(aes(x = x, y = y, xend = xend, yend = yend), data = funnel_lines) +\n  geom_vline(xintercept = pooled$pred, dash = \"4 4\") +\n  geom_point(size = 3) +\n  scale_y_reverse() +\n  labs(title = \"Funnel plot\", x = \"Log risk ratio\", y = \"Standard error\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "metafor": "4.4.0",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

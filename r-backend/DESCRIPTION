@@ -1,6 +1,6 @@
 Package: statnextr
 Title: R Backend for the StatNext Desktop Statistics App
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: person("Mahesh", "Divakaran", email = "itsmdivakaran@users.noreply.github.com",
     role = c("aut", "cre"))
 Description: JSON-RPC server, analysis module registry, code generation runner,
@@ -34,5 +34,16 @@ Suggests:
     psych,
     zip,
     qpdf,
+    GPArotation,
+    cluster,
+    pROC,
+    metafor,
+    rpart,
+    ranger,
+    gbm,
+    glmnet,
+    e1071,
+    forecast,
+    tseries,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

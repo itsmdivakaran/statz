@@ -1,0 +1,224 @@
+{
+  "tables": [
+    {
+      "id": "variance",
+      "title": "Variance Explained",
+      "columns": [
+        {
+          "id": "component",
+          "label": "Component",
+          "type": "text"
+        },
+        {
+          "id": "eigenvalue",
+          "label": "Eigenvalue",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "proportion",
+          "label": "% of variance",
+          "type": "number",
+          "digits": 1
+        },
+        {
+          "id": "cumulative",
+          "label": "Cumulative %",
+          "type": "number",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "component": "PC1",
+          "eigenvalue": 2.48024157914949,
+          "proportion": 62.0060394787373,
+          "cumulative": 62.0060394787373
+        },
+        {
+          "component": "PC2",
+          "eigenvalue": 0.989765152539841,
+          "proportion": 24.744128813496,
+          "cumulative": 86.7501682922334
+        },
+        {
+          "component": "PC3",
+          "eigenvalue": 0.35656318058083,
+          "proportion": 8.91407951452074,
+          "cumulative": 95.6642478067541
+        },
+        {
+          "component": "PC4",
+          "eigenvalue": 0.173430087729835,
+          "proportion": 4.33575219324588,
+          "cumulative": 100
+        }
+      ],
+      "notes": [
+        "N = 50 complete cases.",
+        "Based on the correlation matrix (standardized variables)."
+      ]
+    },
+    {
+      "id": "loadings",
+      "title": "Component Loadings",
+      "columns": [
+        {
+          "id": "name",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "PC1",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c2",
+          "label": "PC2",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "x1",
+          "label": "Communality",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "name": "murder",
+          "c1": -0.843976440337767,
+          "c2": -0.416035352869332,
+          "x1": 0.885381646682318
+        },
+        {
+          "name": "assault",
+          "c1": -0.918443236599746,
+          "c2": -0.187021128076393,
+          "x1": 0.878514881202783
+        },
+        {
+          "name": "urban_pop",
+          "c1": -0.438116764572039,
+          "c2": 0.868328186539346,
+          "x1": 0.945940138937781
+        },
+        {
+          "name": "rape",
+          "c1": -0.855839394424793,
+          "c2": 0.166460192890242,
+          "x1": 0.760170064866453
+        }
+      ],
+      "notes": [
+        "Loadings are correlations between each variable and the component."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "kmo",
+      "test": "Sampling adequacy (KMO)",
+      "status": "ok",
+      "message": "KMO = 0.65 (mediocre). The correlations are compact enough for this analysis.",
+      "table": {
+        "id": "kmo",
+        "title": "Kaiser-Meyer-Olkin Measure",
+        "columns": [
+          {
+            "id": "kmo",
+            "label": "KMO",
+            "type": "number",
+            "digits": 3
+          }
+        ],
+        "rows": [
+          {
+            "kmo": 0.65381500627402
+          }
+        ],
+        "notes": []
+      }
+    },
+    {
+      "id": "bartlett",
+      "test": "Bartlett's test of sphericity",
+      "status": "ok",
+      "message": "The variables are correlated enough to be reduced.",
+      "table": {
+        "id": "bartlett",
+        "title": "Bartlett's Test of Sphericity",
+        "columns": [
+          {
+            "id": "chi",
+            "label": "χ²",
+            "type": "number",
+            "digits": 2
+          },
+          {
+            "id": "df",
+            "label": "df",
+            "type": "int"
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "chi": 88.2881468659554,
+            "df": 6,
+            "p": 6.86842307335832e-17
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot40",
+      "title": "Scree plot",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot40.svg",
+      "html": "plot40.html",
+      "data_csv": null
+    },
+    {
+      "id": "plot41",
+      "title": "Component scores",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot41.svg",
+      "html": "plot41.html",
+      "data_csv": "plot41.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A principal component analysis of 4 variables (N = 50) retained 2 components, explaining 86.8% of the total variance. The first component explained 62.0%."
+  },
+  "notes": [],
+  "module": "pca",
+  "module_version": "1.0.0",
+  "title": "Principal Component Analysis",
+  "status": "ok",
+  "code": "library(ggnext)\n# Principal component analysis: murder, assault, urban_pop, rape\nvars <- c(\"murder\", \"assault\", \"urban_pop\", \"rape\")\nd <- data[complete.cases(data[, vars]), , drop = FALSE]\nx <- d[vars]\npca <- prcomp(x, center = TRUE, scale. = TRUE)\neigenvalues <- pca$sdev^2\nvariance <- data.frame(component = seq_along(eigenvalues), eigenvalue = eigenvalues,\n                       proportion = eigenvalues / sum(eigenvalues), cumulative = cumsum(eigenvalues) / sum(eigenvalues))\nn_comp <- 2\n# Loadings: correlations between the variables and the component scores\nloadings <- cor(x, pca$x[, seq_len(n_comp), drop = FALSE])\ncommunality <- rowSums(loadings^2)\n# Sampling adequacy (KMO) and Bartlett's test of sphericity\nR <- cor(x)\nQ <- solve(R)\nA <- -Q / sqrt(outer(diag(Q), diag(Q)))   # anti-image (partial) correlations\noff <- row(R) != col(R)\nkmo <- sum(R[off]^2) / (sum(R[off]^2) + sum(A[off]^2))\nbartlett_chi <- -(nrow(x) - 1 - (2 * ncol(x) + 5) / 6) * log(det(R))\nbartlett_df <- ncol(x) * (ncol(x) - 1) / 2\nbartlett_p <- pchisq(bartlett_chi, bartlett_df, lower.tail = FALSE)\np_scree <- ggnext(variance, aes(component, eigenvalue)) +\n  geom_line() +\n  geom_point(size = 3) +\n  geom_hline(yintercept = 1, dash = \"4 4\") +\n  labs(title = \"Scree plot\", x = \"Component\", y = \"Eigenvalue\") +\n  theme_modern()\nscores <- data.frame(PC1 = pca$x[, 1], PC2 = pca$x[, 2])\np_scores <- ggnext(scores, aes(PC1, PC2)) +\n  geom_point(size = 3, alpha = 0.8) +\n  labs(title = \"Component scores\") +\n  theme_modern()\np_scores <- p_scores + labs(x = sprintf(\"PC1 (%.1f%%)\", 100 * variance$proportion[1]), y = sprintf(\"PC2 (%.1f%%)\", 100 * variance$proportion[2]))",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}
