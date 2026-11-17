@@ -1,0 +1,195 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "ml_forest",
+  "version": "1.0.0",
+  "title": "Random Forest",
+  "description": "Many trees voting together",
+  "menu": [
+    "Machine Learning",
+    "Classification and regression"
+  ],
+  "r": {
+    "file": "ml_forest.R",
+    "fn": "codegen_ml_forest",
+    "packages": [
+      "ranger",
+      "pROC",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "outcome",
+      "label": "Outcome (categorical or numeric)",
+      "min": 1,
+      "max": 1,
+      "measure": []
+    },
+    {
+      "id": "covariates",
+      "label": "Numeric predictors",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "continuous",
+        "ordinal"
+      ]
+    },
+    {
+      "id": "factors",
+      "label": "Categorical predictors",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ]
+    }
+  ],
+  "options": {
+    "task": {
+      "type": "enum",
+      "label": "Task",
+      "values": [
+        "auto",
+        "classification",
+        "regression"
+      ],
+      "labels": [
+        "Detect from the outcome",
+        "Classification",
+        "Regression"
+      ],
+      "default": "auto"
+    },
+    "num_trees": {
+      "type": "number",
+      "label": "Number of trees",
+      "min": 50,
+      "max": 5000,
+      "step": 50,
+      "default": 500
+    },
+    "mtry": {
+      "type": "number",
+      "label": "Predictors tried per split (0 = default)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0
+    },
+    "min_node_size": {
+      "type": "number",
+      "label": "Minimum node size (0 = default)",
+      "min": 0,
+      "max": 1000,
+      "step": 1,
+      "default": 0
+    },
+    "test_size": {
+      "type": "number",
+      "label": "Test set (% of cases held out)",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "default": 25
+    },
+    "seed": {
+      "type": "number",
+      "label": "Random seed",
+      "min": 1,
+      "max": 999999,
+      "step": 1,
+      "default": 123
+    },
+    "importance": {
+      "type": "bool",
+      "label": "Variable importance",
+      "default": true
+    },
+    "shap": {
+      "type": "bool",
+      "label": "SHAP values (numeric or two-class outcome)",
+      "default": false
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plots",
+      "values": [
+        "performance",
+        "importance"
+      ],
+      "labels": [
+        "Performance (ROC, confusion matrix or observed vs predicted)",
+        "Variable importance"
+      ],
+      "default": [
+        "performance",
+        "importance"
+      ],
+      "multiple": true
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "outcome",
+        "covariates",
+        "factors"
+      ]
+    },
+    {
+      "section": "Model",
+      "items": [
+        "task",
+        "num_trees",
+        "mtry",
+        "min_node_size"
+      ]
+    },
+    {
+      "section": "Validation",
+      "items": [
+        "test_size",
+        "seed"
+      ]
+    },
+    {
+      "section": "Explain",
+      "items": [
+        "importance",
+        "shap"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "any",
+    "design": "prediction"
+  },
+  "example": {
+    "dataset": "pima",
+    "options": {
+      "outcome": [
+        "diabetes"
+      ],
+      "covariates": [
+        "pregnancies",
+        "glucose",
+        "blood_pressure",
+        "skin_fold",
+        "bmi",
+        "pedigree",
+        "age"
+      ],
+      "shap": true
+    }
+  }
+}

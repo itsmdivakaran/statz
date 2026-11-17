@@ -1,0 +1,160 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "ml_nb",
+  "version": "1.0.0",
+  "title": "Naive Bayes",
+  "description": "Fast probabilistic classifier",
+  "menu": [
+    "Machine Learning",
+    "Classification"
+  ],
+  "r": {
+    "file": "ml_nb.R",
+    "fn": "codegen_ml_nb",
+    "packages": [
+      "e1071",
+      "pROC",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "outcome",
+      "label": "Outcome (categorical)",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ]
+    },
+    {
+      "id": "covariates",
+      "label": "Numeric predictors",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "continuous",
+        "ordinal"
+      ]
+    },
+    {
+      "id": "factors",
+      "label": "Categorical predictors",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ]
+    }
+  ],
+  "options": {
+    "laplace": {
+      "type": "number",
+      "label": "Laplace smoothing",
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "default": 0
+    },
+    "test_size": {
+      "type": "number",
+      "label": "Test set (% of cases held out)",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "default": 25
+    },
+    "seed": {
+      "type": "number",
+      "label": "Random seed",
+      "min": 1,
+      "max": 999999,
+      "step": 1,
+      "default": 123
+    },
+    "importance": {
+      "type": "bool",
+      "label": "Variable importance",
+      "default": true
+    },
+    "shap": {
+      "type": "bool",
+      "label": "SHAP values (numeric or two-class outcome)",
+      "default": false
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plots",
+      "values": [
+        "performance",
+        "importance"
+      ],
+      "labels": [
+        "Performance (ROC, confusion matrix or observed vs predicted)",
+        "Variable importance"
+      ],
+      "default": [
+        "performance",
+        "importance"
+      ],
+      "multiple": true
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "outcome",
+        "covariates",
+        "factors"
+      ]
+    },
+    {
+      "section": "Model",
+      "items": [
+        "laplace"
+      ]
+    },
+    {
+      "section": "Validation",
+      "items": [
+        "test_size",
+        "seed"
+      ]
+    },
+    {
+      "section": "Explain",
+      "items": [
+        "importance",
+        "shap"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "any",
+    "design": "prediction"
+  },
+  "example": {
+    "dataset": "iris",
+    "options": {
+      "outcome": [
+        "species"
+      ],
+      "covariates": [
+        "sepal_length",
+        "sepal_width",
+        "petal_length",
+        "petal_width"
+      ]
+    }
+  }
+}

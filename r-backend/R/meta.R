@@ -61,16 +61,14 @@ sn_meta_forest_code <- function(engine, xlab, log_scale, obj = "p_forest") {
     return(sn_gg(engine, "forest_df, aes(term, est, ymin = lower, ymax = upper)",
                  c("geom_pointrange()", sn_ref_line(engine, "h", ref), if (log_scale) "scale_y_log10()", "coord_flip()"), "Forest plot", "", xlab, obj))
   sn_code(
-    "# Study names are drawn inside the panel, left of the smallest lower limit",
-    if (log_scale) "forest_df$label_x <- min(forest_df$lower) / (max(forest_df$upper) / min(forest_df$lower))^0.7"
-    else "forest_df$label_x <- min(forest_df$lower) - 0.7 * (max(forest_df$upper) - min(forest_df$lower))",
+    sn_ylabels_code("forest_df", "term", "min(forest_df$lower)", "max(forest_df$upper)", log = log_scale),
     paste0(obj, " <- ", paste(c(
       "ggnext(forest_df, aes(est, term, ymin = lower, ymax = upper, size = weight))",
       paste0("geom_forest(ref = ", ref, ")"),
-      "geom_text(aes(x = label_x, y = term, label = term), anchor = \"start\")",
+      sn_ylabels_layer("term"),
       if (log_scale) "scale_x_log10()",
       paste0("labs(title = \"Forest plot\", x = ", sn_lit(xlab), ")"),
-      "theme(axis_title_y = FALSE, axis_text_y = FALSE, legend_position = \"none\", base = theme_modern())"), collapse = " +\n  ")))
+      sn_ylabels_theme(legend = FALSE)), collapse = " +\n  ")))
 }
 
 #' Result tables, checks and text for a meta-analysis fitted by sn_meta_code().

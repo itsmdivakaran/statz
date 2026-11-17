@@ -1,0 +1,30 @@
+{
+  "title": "Diabetes in Pima women",
+  "description": "Diabetes status and clinical measurements for 532 women of Pima heritage aged 21 or older. Source: MASS::Pima.tr and Pima.te (Smith et al., 1988).",
+  "variables": {
+    "diabetes": {
+      "label": "Diabetic (WHO criteria)"
+    },
+    "pregnancies": {
+      "label": "Number of pregnancies"
+    },
+    "glucose": {
+      "label": "Plasma glucose (mg/dl)"
+    },
+    "blood_pressure": {
+      "label": "Diastolic blood pressure (mm Hg)"
+    },
+    "skin_fold": {
+      "label": "Triceps skin fold (mm)"
+    },
+    "bmi": {
+      "label": "Body mass index (kg/m²)"
+    },
+    "pedigree": {
+      "label": "Diabetes pedigree function"
+    },
+    "age": {
+      "label": "Age (years)"
+    }
+  }
+}
