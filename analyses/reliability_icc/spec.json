@@ -1,0 +1,91 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "reliability_icc",
+  "version": "1.0.0",
+  "title": "Intraclass Correlation (ICC)",
+  "description": "Agreement between raters on a continuous score",
+  "menu": [
+    "Descriptives",
+    "Reliability"
+  ],
+  "r": {
+    "file": "reliability_icc.R",
+    "fn": "codegen_reliability_icc",
+    "packages": [
+      "psych"
+    ]
+  },
+  "roles": [
+    {
+      "id": "raters",
+      "label": "Raters (one column each)",
+      "min": 2,
+      "max": null,
+      "measure": [
+        "continuous",
+        "ordinal"
+      ]
+    }
+  ],
+  "options": {
+    "focus": {
+      "type": "enum",
+      "label": "Interpret",
+      "values": [
+        "ICC1",
+        "ICC2",
+        "ICC3",
+        "ICC1k",
+        "ICC2k",
+        "ICC3k"
+      ],
+      "labels": [
+        "ICC(1,1): one-way random, single rater",
+        "ICC(2,1): two-way random, single rater, absolute agreement",
+        "ICC(3,1): two-way mixed, single rater, consistency",
+        "ICC(1,k): one-way random, mean of raters",
+        "ICC(2,k): two-way random, mean of raters, absolute agreement",
+        "ICC(3,k): two-way mixed, mean of raters, consistency"
+      ],
+      "default": "ICC2"
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Confidence level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "raters"
+      ]
+    },
+    {
+      "section": "Options",
+      "items": [
+        "focus",
+        "conf_level"
+      ]
+    }
+  ],
+  "guide": {
+    "outcome": "continuous",
+    "design": "agreement"
+  },
+  "example": {
+    "dataset": "shrout_fleiss",
+    "options": {
+      "raters": [
+        "judge1",
+        "judge2",
+        "judge3",
+        "judge4"
+      ]
+    }
+  }
+}

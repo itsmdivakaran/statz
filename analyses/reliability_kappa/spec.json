@@ -1,0 +1,86 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "reliability_kappa",
+  "version": "1.0.0",
+  "title": "Cohen's Kappa",
+  "description": "Agreement between two raters on categories",
+  "menu": [
+    "Descriptives",
+    "Reliability"
+  ],
+  "r": {
+    "file": "reliability_kappa.R",
+    "fn": "codegen_reliability_kappa",
+    "packages": [
+      "psych"
+    ]
+  },
+  "roles": [
+    {
+      "id": "rater1",
+      "label": "Rater 1",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ]
+    },
+    {
+      "id": "rater2",
+      "label": "Rater 2",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ]
+    }
+  ],
+  "options": {
+    "weighted": {
+      "type": "bool",
+      "label": "Weighted kappa (quadratic weights, for ordered categories)",
+      "default": false
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Confidence level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "rater1",
+        "rater2"
+      ]
+    },
+    {
+      "section": "Options",
+      "items": [
+        "weighted",
+        "conf_level"
+      ]
+    }
+  ],
+  "guide": {
+    "outcome": "nominal",
+    "design": "agreement"
+  },
+  "example": {
+    "dataset": "diagnoses",
+    "options": {
+      "rater1": [
+        "rater1"
+      ],
+      "rater2": [
+        "rater2"
+      ]
+    }
+  }
+}
