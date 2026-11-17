@@ -1,0 +1,230 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "meta_binary",
+  "version": "1.0.0",
+  "title": "Meta-Analysis (Binary Outcomes)",
+  "description": "Pool odds ratios, risk ratios or risk differences from event counts",
+  "menu": [
+    "Clinical",
+    "Meta-analysis"
+  ],
+  "r": {
+    "file": "meta_binary.R",
+    "fn": "codegen_meta_binary",
+    "packages": [
+      "metafor",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "study",
+      "label": "Study label (optional)",
+      "min": 0,
+      "max": 1,
+      "measure": []
+    },
+    {
+      "id": "events1",
+      "label": "Events, treatment",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "n1",
+      "label": "Sample size, treatment",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "events2",
+      "label": "Events, control",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "n2",
+      "label": "Sample size, control",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "moderator",
+      "label": "Moderator (optional)",
+      "min": 0,
+      "max": 1,
+      "measure": []
+    }
+  ],
+  "options": {
+    "measure": {
+      "type": "enum",
+      "label": "Effect measure",
+      "values": [
+        "RR",
+        "OR",
+        "RD"
+      ],
+      "labels": [
+        "Risk ratio",
+        "Odds ratio",
+        "Risk difference"
+      ],
+      "default": "RR"
+    },
+    "model": {
+      "type": "enum",
+      "label": "Model",
+      "values": [
+        "random",
+        "fixed"
+      ],
+      "labels": [
+        "Random effects",
+        "Common (fixed) effect"
+      ],
+      "default": "random"
+    },
+    "tau2": {
+      "type": "enum",
+      "label": "Between-study variance (τ²)",
+      "values": [
+        "REML",
+        "DL",
+        "PM"
+      ],
+      "labels": [
+        "REML",
+        "DerSimonian-Laird",
+        "Paule-Mandel"
+      ],
+      "default": "REML"
+    },
+    "knha": {
+      "type": "bool",
+      "label": "Hartung-Knapp adjustment",
+      "default": false
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Confidence level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "prediction": {
+      "type": "bool",
+      "label": "Prediction interval",
+      "default": true
+    },
+    "egger": {
+      "type": "bool",
+      "label": "Egger's test for funnel asymmetry",
+      "default": true
+    },
+    "trimfill": {
+      "type": "bool",
+      "label": "Trim and fill",
+      "default": false
+    },
+    "leave1out": {
+      "type": "bool",
+      "label": "Leave-one-out sensitivity",
+      "default": false
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plots",
+      "values": [
+        "forest",
+        "funnel"
+      ],
+      "labels": [
+        "Forest plot",
+        "Funnel plot"
+      ],
+      "multiple": true,
+      "default": [
+        "forest",
+        "funnel"
+      ]
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "study",
+        "events1",
+        "n1",
+        "events2",
+        "n2",
+        "moderator"
+      ]
+    },
+    {
+      "section": "Model",
+      "items": [
+        "measure",
+        "model",
+        "tau2",
+        "knha",
+        "conf_level",
+        "prediction"
+      ]
+    },
+    {
+      "section": "Bias and sensitivity",
+      "items": [
+        "egger",
+        "trimfill",
+        "leave1out"
+      ],
+      "collapsed": true
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "effect-size",
+    "design": "meta-analysis"
+  },
+  "example": {
+    "dataset": "bcg",
+    "options": {
+      "study": [
+        "study"
+      ],
+      "events1": [
+        "events_vaccine"
+      ],
+      "n1": [
+        "n_vaccine"
+      ],
+      "events2": [
+        "events_control"
+      ],
+      "n2": [
+        "n_control"
+      ]
+    }
+  }
+}
