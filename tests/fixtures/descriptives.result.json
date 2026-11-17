@@ -1,0 +1,154 @@
+{
+  "tables": [
+    {
+      "id": "descriptives",
+      "title": "Descriptive Statistics",
+      "columns": [
+        {
+          "id": "var",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "missing",
+          "label": "Missing",
+          "type": "int"
+        },
+        {
+          "id": "mean",
+          "label": "Mean",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "sd",
+          "label": "SD",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "median",
+          "label": "Median",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "min",
+          "label": "Minimum",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "max",
+          "label": "Maximum",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "var": "mpg",
+          "n": 32,
+          "missing": 0,
+          "mean": 20.090625,
+          "sd": 6.0269480520891,
+          "median": 19.2,
+          "min": 10.4,
+          "max": 33.9
+        },
+        {
+          "var": "hp",
+          "n": 32,
+          "missing": 0,
+          "mean": 146.6875,
+          "sd": 68.5628684893206,
+          "median": 123,
+          "min": 52,
+          "max": 335
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "freq_cyl",
+      "title": "Frequencies: cyl",
+      "columns": [
+        {
+          "id": "level",
+          "label": "Level",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "Count",
+          "type": "int"
+        },
+        {
+          "id": "pct",
+          "label": "%",
+          "type": "number",
+          "digits": 1
+        },
+        {
+          "id": "vpct",
+          "label": "Valid %",
+          "type": "number",
+          "digits": 1
+        },
+        {
+          "id": "cum",
+          "label": "Cumulative %",
+          "type": "number",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "level": "4",
+          "n": 11,
+          "pct": 34.375,
+          "vpct": 34.375,
+          "cum": 34.375
+        },
+        {
+          "level": "6",
+          "n": 7,
+          "pct": 21.875,
+          "vpct": 21.875,
+          "cum": 56.25
+        },
+        {
+          "level": "8",
+          "n": 14,
+          "pct": 43.75,
+          "vpct": 43.75,
+          "cum": 100
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [],
+  "plots": [],
+  "interpretation": null,
+  "notes": [],
+  "module": "descriptives",
+  "module_version": "1.0.0",
+  "title": "Descriptive Statistics",
+  "status": "ok",
+  "code": "library()\n# Descriptive statistics\nd <- data\nd$cyl <- droplevels(factor(d$cyl))\ndesc_stats <- function(x) {\n  v <- x[!is.na(x)]\n  c(n = length(v),\n    missing = sum(is.na(x)),\n    mean = mean(v),\n    sd = sd(v),\n    median = median(v),\n    min = min(v),\n    max = max(v))\n}\ndesc <- sapply(d[c(\"mpg\", \"hp\")], desc_stats)\nfreq <- lapply(d[\"cyl\"], table, useNA = \"ifany\")",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

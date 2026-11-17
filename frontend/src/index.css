@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body { @apply bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+
+@layer components {
+  .btn { @apply inline-flex items-center gap-1 rounded-md border border-slate-300 bg-white px-2.5 py-1 text-sm hover:bg-slate-50 disabled:opacity-40 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800; }
+  .btn-primary { @apply rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700; }
+  .panel-title { @apply text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400; }
+  .apa-table { @apply w-full border-collapse text-sm tabular-nums; }
+  .apa-table thead th { @apply whitespace-nowrap border-b border-t-2 border-slate-800 px-2 py-1 text-left font-medium dark:border-slate-300; }
+  .apa-table tbody td { @apply whitespace-nowrap px-2 py-0.5; }
+  .apa-table tbody tr:last-child td { @apply border-b-2 border-slate-800 dark:border-slate-300; }
+}

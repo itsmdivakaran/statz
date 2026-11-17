@@ -1,0 +1,218 @@
+{
+  "tables": [
+    {
+      "id": "descriptives",
+      "title": "Descriptives",
+      "columns": [
+        {
+          "id": "var",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "mean",
+          "label": "Mean",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "sd",
+          "label": "SD",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "var": "drug1",
+          "n": 10,
+          "mean": 0.75,
+          "sd": 1.78900965775916,
+          "se": 0.565734527455728
+        },
+        {
+          "var": "drug2",
+          "n": 10,
+          "mean": 2.33,
+          "sd": 2.00224873579683,
+          "se": 0.633166644731069
+        },
+        {
+          "var": "Difference",
+          "n": 10,
+          "mean": -1.58,
+          "sd": 1.22999548327987,
+          "se": 0.388958723888395
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "ttest",
+      "title": "Paired Samples T-Test",
+      "columns": [
+        {
+          "id": "pair",
+          "label": "Pair",
+          "type": "text"
+        },
+        {
+          "id": "test",
+          "label": "Test",
+          "type": "text"
+        },
+        {
+          "id": "stat",
+          "label": "Statistic",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "diff",
+          "label": "Difference",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 2
+        },
+        {
+          "id": "es_type",
+          "label": "Effect size",
+          "type": "text"
+        },
+        {
+          "id": "es",
+          "label": "Estimate",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "es_ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "pair": "drug1 − drug2",
+          "test": "Student",
+          "stat": -4.06212768338204,
+          "df": 9,
+          "p": 0.00283289019738427,
+          "diff": -1.58,
+          "ci": [-2.45988576327698, -0.700114236723018],
+          "es_type": "Cohen's dz",
+          "es": -1.28455756259105,
+          "es_ci": [-2.1180165952233, -0.414627662055387]
+        }
+      ],
+      "notes": [
+        "Difference = Measure 1 − Measure 2 (pseudo-median for Wilcoxon)."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "normality",
+      "test": "Shapiro-Wilk",
+      "status": "warn",
+      "message": "Normality is doubtful for Difference. Consider the non-parametric test or check the Q-Q plot.",
+      "table": {
+        "id": "normality",
+        "title": "Test of Normality (Shapiro-Wilk)",
+        "columns": [
+          {
+            "id": "var",
+            "label": "Variable",
+            "type": "text"
+          },
+          {
+            "id": "group",
+            "label": "Group",
+            "type": "text"
+          },
+          {
+            "id": "W",
+            "label": "W",
+            "type": "number",
+            "digits": 3
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "var": "Difference",
+            "group": "All",
+            "W": 0.829871331928795,
+            "p": 0.0333416086303081,
+            "_row": "All"
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot5",
+      "title": "Difference: drug1 − drug2",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot5.svg",
+      "html": "plot5.html",
+      "data_csv": "plot5.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A paired-samples t-test showed that drug1 (M = 0.75, SD = 1.79) was significantly lower than drug2 (M = 2.33, SD = 2.00), t(9) = −4.06, p = .003, mean difference = −1.58, 95% CI [−2.46, −0.70], Cohen's dz = −1.28, a large effect, n = 10 pairs."
+  },
+  "notes": [],
+  "module": "ttest_paired",
+  "module_version": "1.0.0",
+  "title": "Paired Samples T-Test",
+  "status": "ok",
+  "code": "library(effectsize)\nlibrary(ggnext)\n# Paired samples t-test: drug1 vs drug2\nd <- subset(data, !is.na(drug1) & !is.na(drug2))\nd$difference <- d$drug1 - d$drug2\ndesc <- sapply(d[c(\"drug1\", \"drug2\", \"difference\")], function(x)\n  c(n = length(x), mean = mean(x), sd = sd(x), se = sd(x) / sqrt(length(x))))\ntt <- t.test(d$drug1, d$drug2, paired = TRUE,\n  alternative = \"two.sided\", conf.level = 0.95)\nes <- cohens_d(d$difference, ci = 0.95)  # dz\nnormality <- shapiro.test(d$difference)\np <- ggnext(d, aes(difference)) +\n  geom_histogram(bins = 20) +\n  labs(title = \"Difference: drug1 − drug2\", x = \"drug1 − drug2\", y = \"Count\") +\n  theme_classic()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "effectsize": "0.8.6",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "tables": [
+    {
+      "id": "descriptives",
+      "title": "Descriptives",
+      "columns": [
+        {
+          "id": "var",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "mean",
+          "label": "Mean",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "sd",
+          "label": "SD",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "var": "mpg",
+          "n": 32,
+          "mean": 20.090625,
+          "sd": 6.0269480520891,
+          "se": 1.06542395937281
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "ttest",
+      "title": "One Sample T-Test",
+      "columns": [
+        {
+          "id": "var",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "test",
+          "label": "Test",
+          "type": "text"
+        },
+        {
+          "id": "stat",
+          "label": "Statistic",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "diff",
+          "label": "Difference",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 2
+        },
+        {
+          "id": "es_type",
+          "label": "Effect size",
+          "type": "text"
+        },
+        {
+          "id": "es",
+          "label": "Estimate",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "es_ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "var": "mpg",
+          "test": "Student",
+          "stat": 0.0850600356813336,
+          "df": 31,
+          "p": 0.93276064090939,
+          "diff": 0.0906249999999993,
+          "ci": [-2.08232149125376, 2.26357149125376],
+          "es_type": "Cohen's d",
+          "es": 0.0150366320095602,
+          "es_ci": [-0.331580149413003, 0.361411905669672]
+        }
+      ],
+      "notes": [
+        "Test value = 20. Difference = mean − test value (pseudo-median for Wilcoxon)."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "normality",
+      "test": "Shapiro-Wilk",
+      "status": "ok",
+      "message": "No evidence against normality.",
+      "table": {
+        "id": "normality",
+        "title": "Test of Normality (Shapiro-Wilk)",
+        "columns": [
+          {
+            "id": "var",
+            "label": "Variable",
+            "type": "text"
+          },
+          {
+            "id": "group",
+            "label": "Group",
+            "type": "text"
+          },
+          {
+            "id": "W",
+            "label": "W",
+            "type": "number",
+            "digits": 3
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "var": "mpg",
+            "group": "All",
+            "W": 0.947564726479274,
+            "p": 0.122881358539443,
+            "_row": "All"
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot4",
+      "title": "mpg",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot4.svg",
+      "html": "plot4.html",
+      "data_csv": "plot4.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A one-sample t-test showed that the mean of mpg (M = 20.09, SD = 6.03, n = 32) was not significantly different from 20, t(31) = 0.09, p = .933, 95% CI of the difference [−2.08, 2.26], Cohen's d = 0.02, a negligible effect."
+  },
+  "notes": [],
+  "module": "ttest_one",
+  "module_version": "1.0.0",
+  "title": "One Sample T-Test",
+  "status": "ok",
+  "code": "library(effectsize)\nlibrary(ggnext)\n# One sample t-test: mpg vs 20\nd <- subset(data, !is.na(mpg))\ndesc <- c(n = length(d$mpg), mean = mean(d$mpg), sd = sd(d$mpg), se = sd(d$mpg) / sqrt(length(d$mpg)))\ntt <- t.test(d$mpg, mu = 20, alternative = \"two.sided\", conf.level = 0.95)\nes <- cohens_d(d$mpg, mu = 20, ci = 0.95)\nnormality <- shapiro.test(d$mpg)\np <- ggnext(d, aes(mpg)) +\n  geom_histogram(bins = 20) +\n  labs(title = \"mpg\", x = \"Miles per US gallon\", y = \"Count\") +\n  theme_classic()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "effectsize": "0.8.6",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}
