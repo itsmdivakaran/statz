@@ -343,33 +343,33 @@
   ],
   "plots": [
     {
-      "id": "plot37",
+      "id": "plot46",
       "title": "Confusion matrix",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot37.svg",
-      "html": "plot37.html",
-      "data_csv": "plot37.csv"
+      "svg": "plot46.svg",
+      "html": "plot46.html",
+      "data_csv": "plot46.csv"
     },
     {
-      "id": "plot38",
+      "id": "plot47",
       "title": "Variable importance",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot38.svg",
-      "html": "plot38.html",
+      "svg": "plot47.svg",
+      "html": "plot47.html",
       "data_csv": null
     },
     {
-      "id": "plot39",
+      "id": "plot48",
       "title": "Decision tree",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot39.svg",
-      "html": "plot39.html",
+      "svg": "plot48.svg",
+      "html": "plot48.html",
       "data_csv": null
     }
   ],

@@ -320,34 +320,34 @@
   ],
   "plots": [
     {
-      "id": "plot30",
+      "id": "plot39",
       "title": "Confusion matrix",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot30.svg",
-      "html": "plot30.html",
-      "data_csv": "plot30.csv"
+      "svg": "plot39.svg",
+      "html": "plot39.html",
+      "data_csv": "plot39.csv"
     },
     {
-      "id": "plot31",
+      "id": "plot40",
       "title": "Variable importance",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot31.svg",
-      "html": "plot31.html",
+      "svg": "plot40.svg",
+      "html": "plot40.html",
       "data_csv": null
     },
     {
-      "id": "plot32",
+      "id": "plot41",
       "title": "Discriminant scores",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot32.svg",
-      "html": "plot32.html",
-      "data_csv": "plot32.csv"
+      "svg": "plot41.svg",
+      "html": "plot41.html",
+      "data_csv": "plot41.csv"
     }
   ],
   "interpretation": {

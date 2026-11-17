@@ -31,6 +31,9 @@ export interface ModuleSpec {
   layout: { section: string; items: string[]; collapsed?: boolean }[];
   guide?: Record<string, unknown>;
   example?: { dataset: string; options: Record<string, unknown> };
+  author?: string;
+  /** "plugin" for analyses the user installed. */
+  source?: "builtin" | "plugin";
 }
 
 export type Options = Record<string, unknown>;

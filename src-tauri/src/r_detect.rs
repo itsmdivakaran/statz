@@ -26,6 +26,10 @@ pub struct InstallHint {
     pub url: String,
     pub command: Option<String>,
     pub text: String,
+    /// Button text for the download link, naming the right build for this computer.
+    pub download_label: String,
+    /// Plain steps shown on the start screen.
+    pub steps: Vec<String>,
 }
 
 /// Parse "Rscript (R) version 4.4.1 (2024-06-14)" or "R scripting front-end version 4.4.1".
@@ -131,25 +135,70 @@ fn windows_registry_paths() -> Vec<PathBuf> {
 }
 
 pub fn install_hint() -> InstallHint {
+    let back = "Come back to this window: StatNext finds R by itself and finishes the setup.".to_string();
     if cfg!(target_os = "macos") {
+        let (chip, file) = if cfg!(target_arch = "aarch64") {
+            ("Apple silicon (M1 or later)", "R-4.x.x-arm64.pkg")
+        } else {
+            ("Intel", "R-4.x.x-x86_64.pkg")
+        };
         InstallHint {
-            url: "https://cran.r-project.org/bin/macosx/".into(),
+            url: "https://cloud.r-project.org/bin/macosx/".into(),
             command: Some("brew install --cask r".into()),
-            text: "Install R 4.4 or later from CRAN (choose the arm64 build on Apple Silicon) or with Homebrew, then reopen StatNext.".into(),
+            text: format!("StatNext uses R, the free statistics engine. This Mac has an {chip} processor."),
+            download_label: format!("Download R for {chip}"),
+            steps: vec![
+                format!("Click the button below. On the CRAN page, under \"Latest release\", download {file}."),
+                "Open the downloaded file and click through the installer (Continue, Agree, Install).".into(),
+                back,
+            ],
         }
     } else if cfg!(windows) {
         InstallHint {
-            url: "https://cran.r-project.org/bin/windows/base/".into(),
+            // Always redirects to the installer of the current R release.
+            url: "https://cloud.r-project.org/bin/windows/base/release.html".into(),
             command: Some("winget install RProject.R".into()),
-            text: "Install R 4.4 or later from CRAN or with winget, then reopen StatNext.".into(),
+            text: "StatNext uses R, the free statistics engine.".into(),
+            download_label: "Download R for Windows".into(),
+            steps: vec![
+                "Click the button below; the R installer downloads straight away.".into(),
+                "Run the downloaded R-4.x.x-win.exe and keep the default options.".into(),
+                back,
+            ],
         }
     } else {
         InstallHint {
-            url: "https://cran.r-project.org/bin/linux/".into(),
+            url: "https://cloud.r-project.org/bin/linux/".into(),
             command: None,
-            text: "Install R 4.4 or later from CRAN's repository for your distribution (the distro package may be older), then reopen StatNext.".into(),
+            text: "StatNext uses R, the free statistics engine. Your distribution's own package may be older than 4.4.".into(),
+            download_label: "Open CRAN's Linux instructions".into(),
+            steps: vec![
+                "Click the button below and follow the steps for your distribution (Ubuntu, Debian, Fedora…).".into(),
+                "Install R 4.4 or later from CRAN's repository.".into(),
+                back,
+            ],
         }
     }
+}
+
+/// Open a CRAN page in the default browser. Only CRAN links are accepted.
+pub fn open_cran(url: &str) -> std::io::Result<()> {
+    let ok = ["https://cloud.r-project.org/", "https://cran.r-project.org/"].iter().any(|p| url.starts_with(p))
+        && !url.chars().any(|c| c.is_whitespace() || c == '"' || c == '\'' || c == '&' || c == '|');
+    if !ok {
+        return Err(std::io::Error::new(std::io::ErrorKind::InvalidInput, "Only CRAN links can be opened"));
+    }
+    #[cfg(target_os = "macos")]
+    let mut cmd = std::process::Command::new("open");
+    #[cfg(windows)]
+    let mut cmd = {
+        let mut c = std::process::Command::new("rundll32");
+        c.arg("url.dll,FileProtocolHandler");
+        c
+    };
+    #[cfg(all(unix, not(target_os = "macos")))]
+    let mut cmd = std::process::Command::new("xdg-open");
+    cmd.arg(url).spawn().map(|_| ())
 }
 
 pub fn detect() -> RStatus {
@@ -172,6 +221,16 @@ pub fn detect() -> RStatus {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn only_opens_cran_links() {
+        assert!(open_cran("https://example.com/").is_err());
+        assert!(open_cran("https://cloud.r-project.org/ && rm").is_err());
+        assert!(open_cran("file:///etc/passwd").is_err());
+        let h = install_hint();
+        assert!(h.url.starts_with("https://cloud.r-project.org/"));
+        assert_eq!(h.steps.len(), 3);
+    }
 
     #[test]
     fn parses_rscript_versions() {

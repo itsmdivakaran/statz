@@ -296,33 +296,33 @@
   ],
   "plots": [
     {
-      "id": "plot24",
+      "id": "plot33",
       "title": "ROC curve",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot24.svg",
-      "html": "plot24.html",
-      "data_csv": "plot24.csv"
+      "svg": "plot33.svg",
+      "html": "plot33.html",
+      "data_csv": "plot33.csv"
     },
     {
-      "id": "plot25",
+      "id": "plot34",
       "title": "Variable importance",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot25.svg",
-      "html": "plot25.html",
+      "svg": "plot34.svg",
+      "html": "plot34.html",
       "data_csv": null
     },
     {
-      "id": "plot26",
+      "id": "plot35",
       "title": "SHAP values",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot26.svg",
-      "html": "plot26.html",
+      "svg": "plot35.svg",
+      "html": "plot35.html",
       "data_csv": null
     }
   ],

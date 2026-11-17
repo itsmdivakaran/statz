@@ -1,0 +1,26 @@
+{
+  "id": "coef_variation",
+  "version": "1.0.0",
+  "title": "Coefficient of Variation",
+  "description": "Relative spread: standard deviation divided by the mean",
+  "author": "Your name",
+  "menu": ["Plugins", "My analyses"],
+  "r": {
+    "file": "coef_variation.R",
+    "fn": "codegen_coef_variation",
+    "packages": []
+  },
+  "roles": [
+    { "id": "vars", "label": "Variables", "min": 1, "max": null, "measure": ["continuous"] },
+    { "id": "group", "label": "Split by (optional)", "min": 0, "max": 1, "measure": ["nominal", "ordinal"] }
+  ],
+  "options": {
+    "percent": { "type": "bool", "label": "Show as a percentage", "default": true },
+    "digits": { "type": "number", "label": "Decimals", "min": 0, "max": 6, "step": 1, "default": 2 }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["vars", "group"] },
+    { "section": "Options", "items": ["percent", "digits"] }
+  ],
+  "example": { "dataset": "iris", "options": { "vars": ["sepal_length", "petal_length"], "group": ["species"] } }
+}

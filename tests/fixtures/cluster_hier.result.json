@@ -185,24 +185,24 @@
   "assumptions": [],
   "plots": [
     {
-      "id": "plot7",
+      "id": "plot16",
       "title": "Dendrogram",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot7.svg",
-      "html": "plot7.html",
+      "svg": "plot16.svg",
+      "html": "plot16.html",
       "data_csv": null
     },
     {
-      "id": "plot8",
+      "id": "plot17",
       "title": "Cluster plot",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot8.svg",
-      "html": "plot8.html",
-      "data_csv": "plot8.csv"
+      "svg": "plot17.svg",
+      "html": "plot17.html",
+      "data_csv": "plot17.csv"
     }
   ],
   "interpretation": {

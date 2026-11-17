@@ -20,6 +20,8 @@ pub struct WorkerConfig {
     /// Directories holding analysis modules (built-in first, then plugins).
     pub modules: Vec<PathBuf>,
     pub datasets: Option<PathBuf>,
+    /// The user's plugin folder (installed plugins are loaded from here).
+    pub plugins: Option<PathBuf>,
     pub work_dir: PathBuf,
     /// Private R library (prepended to .libPaths() via R_LIBS_USER).
     pub r_lib: Option<PathBuf>,
@@ -39,6 +41,9 @@ impl WorkerConfig {
         ];
         if let Some(d) = &self.datasets {
             a.push(format!("--datasets={}", d.display()));
+        }
+        if let Some(d) = &self.plugins {
+            a.push(format!("--plugins={}", d.display()));
         }
         a
     }

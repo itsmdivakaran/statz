@@ -23,6 +23,7 @@ fn config() -> WorkerConfig {
         rscript,
         modules: vec![root.join("analyses")],
         datasets: Some(root.join("datasets")),
+        plugins: Some(tempfile::tempdir().unwrap().keep()),
         work_dir: tempfile::tempdir().unwrap().keep(),
         r_lib: None,
     }

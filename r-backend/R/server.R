@@ -10,10 +10,12 @@ SN_NOTIFY_PREFIX <- "\x1eSN "
 SN_PROTOCOL_VERSION <- 1L
 
 sn_serve <- function(modules_dirs, datasets_dir = NULL, work_dir = tempfile("statnext-"),
-                     input = file("stdin")) {
+                     input = file("stdin"), plugins_dir = NULL) {
   sess <- sn_session_new(work_dir)
   sess$datasets_dir <- datasets_dir
+  sess$plugin_dir <- plugins_dir
   sn_load_modules(sess, modules_dirs)
+  if (!is.null(plugins_dir)) sn_load_modules(sess, plugins_dir, source = "plugin")
   open(input)
   on.exit(close(input))
   repeat {
@@ -101,6 +103,14 @@ sn_dispatch <- function(sess, method, p) {
     code.run = sn_run_code(sess, p$code, ds),
     session.script = list(script = sn_session_script(sess, p$format %||% "R")),
     report.export = sn_report_export(sess, p$path, p$format %||% "docx", unlist(p$instances)),
+    plugin.list = sn_plugin_list(sess),
+    plugin.check = { chk <- sn_plugin_check(sn_plugin_unpack(p$path))
+                     list(ok = chk$ok, errors = chk$errors, id = chk$spec$id, title = chk$spec$title,
+                          builtin = isTRUE(sess$modules[[chk$spec$id %||% ""]]$source == "builtin")) },
+    plugin.install = sn_plugin_install(sess, p$path),
+    plugin.remove = sn_plugin_remove(sess, p$id),
+    plugin.reload = sn_plugin_reload(sess),
+    plugin.template = sn_plugin_template(p$path, p$id %||% "coef_variation"),
     plot.export = sn_export_plot(sess, p$plot_id, p$format, p$path, p$width %||% 1600L),
     sn_abort(paste0("Unknown method: ", method), SN_ERR$not_found)
   )
@@ -159,6 +169,7 @@ sn_main <- function(args = commandArgs(trailingOnly = TRUE)) {
   sn_serve(
     modules_dirs = strsplit(modules, .Platform$path.sep, fixed = TRUE)[[1]],
     datasets_dir = get("datasets"),
-    work_dir = get("workdir") %||% tempfile("statnext-")
+    work_dir = get("workdir") %||% tempfile("statnext-"),
+    plugins_dir = get("plugins")
   )
 }

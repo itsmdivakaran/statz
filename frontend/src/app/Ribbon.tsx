@@ -1,6 +1,6 @@
 import {
-  Activity, BarChart3, BrainCircuit, ChevronDown, Compass, Database, HeartPulse, LineChart, type LucideIcon, Moon, Network, Search,
-  Sigma, Sparkles, Stethoscope, Sun, TestTubes, TrendingUp,
+  Activity, BrainCircuit, Compass, Database, HeartPulse, LineChart, type LucideIcon, Moon, Network, Puzzle, Scale, Search,
+  Sigma, Stethoscope, Sun, TestTubes, TrendingUp,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useStore } from "../state/store";
@@ -11,17 +11,14 @@ const MENUS: { name: string; label?: string; Icon: LucideIcon }[] = [
   { name: "Data", Icon: Database },
   { name: "Descriptives", Icon: Sigma },
   { name: "Tests", Icon: TestTubes },
+  { name: "Bayesian", Icon: Scale },
   { name: "Regression", Icon: TrendingUp },
   { name: "Multivariate", Icon: Network },
   { name: "Machine Learning", label: "ML", Icon: BrainCircuit },
   { name: "Time Series", Icon: LineChart },
   { name: "Survival", Icon: HeartPulse },
   { name: "Clinical", Icon: Stethoscope },
-];
-const UPCOMING: { name: string; Icon: LucideIcon; phase: string; hint: string }[] = [
-  { name: "Bayesian", Icon: BarChart3, phase: "Phase 4", hint: "Bayesian tests and models" },
-  { name: "Guide", Icon: Compass, phase: "Phase 4", hint: "Which test should I use?" },
-  { name: "Plugins", Icon: Sparkles, phase: "Phase 4", hint: "Add your own analyses" },
+  { name: "Plugins", Icon: Puzzle },
 ];
 
 function useDropdown() {
@@ -40,16 +37,16 @@ function useDropdown() {
 const TAB = "flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-surface2 hover:text-ink aria-expanded:bg-brand/10 aria-expanded:text-brand";
 const POP = "absolute left-0 z-30 mt-1.5 max-h-[calc(100vh-5rem)] w-80 origin-top-left animate-pop overflow-y-auto rounded-xl border border-line bg-surface p-1.5 shadow-pop";
 
-function Menu({ name, label, Icon, items, empty }: { name: string; label?: string; Icon: LucideIcon; items: Command[]; empty?: string }) {
+function Menu({ name, label, Icon, items, empty, alignRight }: { name: string; label?: string; Icon: LucideIcon; items: Command[]; empty?: string; alignRight?: boolean }) {
   const { open, setOpen, ref } = useDropdown();
   let lastGroup: string | undefined;
   return (
     <div ref={ref} className="relative">
       <button className={TAB} aria-expanded={open} aria-haspopup="menu" aria-label={name} title={name} onClick={() => setOpen((o) => !o)}>
-        <Icon size={15} aria-hidden="true" /><span className="hidden xl:inline">{label ?? name}</span>
+        <Icon size={15} aria-hidden="true" /><span className="hidden min-[1380px]:inline">{label ?? name}</span>
       </button>
       {open && (
-        <div role="menu" className={POP}>
+        <div role="menu" className={alignRight ? `${POP} left-auto right-0 origin-top-right` : POP}>
           {items.length === 0 && <p className="px-3 py-4 text-center text-sm text-muted">{empty}</p>}
           {items.map((it) => {
             const header = it.group !== lastGroup ? it.group : null;
@@ -78,34 +75,8 @@ function Menu({ name, label, Icon, items, empty }: { name: string; label?: strin
   );
 }
 
-function MoreMenu() {
-  const { open, setOpen, ref } = useDropdown();
-  return (
-    <div ref={ref} className="relative">
-      <button className={TAB} aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-        <Sparkles size={15} aria-hidden="true" /><span className="hidden xl:inline">More</span><ChevronDown size={13} aria-hidden="true" />
-      </button>
-      {open && (
-        <div className={POP}>
-          <div className="panel-title px-2.5 pb-1 pt-2">On the roadmap</div>
-          {UPCOMING.map((u) => (
-            <div key={u.name} className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 opacity-80">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-surface2 text-muted"><u.Icon size={15} aria-hidden="true" /></span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-sm font-medium">{u.name}</span>
-                <span className="block truncate text-xs text-muted">{u.hint}</span>
-              </span>
-              <span className="chip bg-brand/10 text-brand">{u.phase}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 export function Ribbon({ onSearch }: { onSearch: () => void }) {
-  const { theme, toggleTheme, hello, data } = useStore();
+  const { theme, toggleTheme, hello, data, setModal } = useStore();
   const commands = useCommands();
   const itemsFor = (menu: string) => commands.filter((c) => c.menu === menu);
   const isMac = typeof navigator !== "undefined" && /Mac/.test(navigator.platform);
@@ -114,13 +85,16 @@ export function Ribbon({ onSearch }: { onSearch: () => void }) {
     <header className="flex items-center gap-1 border-b border-line bg-surface px-3 py-1.5">
       <span className="mr-3 shrink-0"><Wordmark /></span>
       <nav className="flex min-w-0 items-center gap-0.5">
-        {MENUS.map((m) => (
-          <Menu key={m.name} name={m.name} label={m.label} Icon={m.Icon} items={itemsFor(m.name)}
+        {MENUS.map((m, i) => (
+          <Menu key={m.name} name={m.name} label={m.label} Icon={m.Icon} items={itemsFor(m.name)} alignRight={i >= MENUS.length - 2}
             empty={data ? "Nothing here yet." : "Open a data file first."} />
         ))}
-        <MoreMenu />
       </nav>
       <div className="ml-auto flex shrink-0 items-center gap-2 pl-2">
+        <button onClick={() => setModal("guide")} title="Which analysis should I use?" aria-label="Analysis guide"
+          className="flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-gradient-to-r from-brand to-accent px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-110">
+          <Compass size={15} aria-hidden="true" /><span className="hidden lg:inline">Guide</span>
+        </button>
         <button onClick={onSearch} aria-label="Search commands" title={`Search analyses (${isMac ? "⌘K" : "Ctrl K"})`}
           className="flex items-center gap-2 whitespace-nowrap rounded-lg border border-line bg-surface2 px-2.5 py-1.5 text-sm text-muted transition-colors hover:border-brand/50 2xl:w-52">
           <Search size={14} aria-hidden="true" /><span className="hidden flex-1 text-left 2xl:inline">Search analyses…</span>

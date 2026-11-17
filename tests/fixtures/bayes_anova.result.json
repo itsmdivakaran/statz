@@ -1,0 +1,240 @@
+{
+  "tables": [
+    {
+      "id": "descriptives",
+      "title": "Group Descriptives",
+      "columns": [
+        {
+          "id": "var",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "group",
+          "label": "Group",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "mean",
+          "label": "Mean",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "sd",
+          "label": "SD",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "var": "len",
+          "group": "OJ",
+          "n": 30,
+          "mean": 20.6633333333333,
+          "sd": 6.60556104972236,
+          "se": 1.20600493063681
+        },
+        {
+          "var": "len",
+          "group": "VC",
+          "n": 30,
+          "mean": 16.9633333333333,
+          "sd": 8.26602866466464,
+          "se": 1.50916345354038
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "models",
+      "title": "Model Comparison",
+      "columns": [
+        {
+          "id": "model",
+          "label": "Model",
+          "type": "text"
+        },
+        {
+          "id": "prior",
+          "label": "P(M)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "post",
+          "label": "P(M|data)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "bfm",
+          "label": "BFₘ",
+          "type": "text"
+        },
+        {
+          "id": "bf10",
+          "label": "BF₁₀ vs null",
+          "type": "text"
+        },
+        {
+          "id": "best",
+          "label": "BF vs best",
+          "type": "text"
+        },
+        {
+          "id": "err",
+          "label": "Error",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "model": "supp + dose + supp:dose",
+          "prior": 0.2,
+          "post": 0.726676780644576,
+          "bfm": "10.6",
+          "bf10": "7.67 × 10¹⁴",
+          "best": "1.00",
+          "err": "1.3%"
+        },
+        {
+          "model": "supp + dose",
+          "prior": 0.2,
+          "post": 0.268599046056162,
+          "bfm": "1.47",
+          "bf10": "2.83 × 10¹⁴",
+          "best": "0.370",
+          "err": "1.5%"
+        },
+        {
+          "model": "dose",
+          "prior": 0.2,
+          "post": 0.00472417329925934,
+          "bfm": "0.0190",
+          "bf10": "4.98 × 10¹²",
+          "best": "0.00650",
+          "err": "< 0.001%"
+        },
+        {
+          "model": "supp",
+          "prior": 0.2,
+          "post": 1.13634589647277e-15,
+          "bfm": "4.55 × 10⁻¹⁵",
+          "bf10": "1.20",
+          "best": "1.56 × 10⁻¹⁵",
+          "err": "0.0093%"
+        },
+        {
+          "model": "Null model",
+          "prior": 0.2,
+          "post": 9.47936990479198e-16,
+          "bfm": "3.79 × 10⁻¹⁵",
+          "bf10": "1.00",
+          "best": "1.30 × 10⁻¹⁵",
+          "err": ""
+        }
+      ],
+      "notes": [
+        "All models have equal prior probability. BFₘ = posterior odds / prior odds of the model."
+      ]
+    },
+    {
+      "id": "inclusion",
+      "title": "Analysis of Effects (model averaged)",
+      "columns": [
+        {
+          "id": "effect",
+          "label": "Effect",
+          "type": "text"
+        },
+        {
+          "id": "prior",
+          "label": "P(incl)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "post",
+          "label": "P(incl|data)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "bf",
+          "label": "BF inclusion",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "effect": "supp",
+          "prior": 0.6,
+          "post": 0.99527582670074,
+          "bf": "140"
+        },
+        {
+          "effect": "dose",
+          "prior": 0.6,
+          "post": 0.999999999999998,
+          "bf": "3.20 × 10¹⁴"
+        },
+        {
+          "effect": "dose:supp",
+          "prior": 0.2,
+          "post": 0.726676780644576,
+          "bf": "10.6"
+        }
+      ],
+      "notes": [
+        "BF inclusion compares all models with the effect against all models without it (bayestestR::bayesfactor_inclusion)."
+      ]
+    }
+  ],
+  "assumptions": [],
+  "plots": [
+    {
+      "id": "plot4",
+      "title": "len by supp",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot4.svg",
+      "html": "plot4.html",
+      "data_csv": "plot4.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A Bayesian ANOVA compared 5 models for len (fixed-effect prior scale r = 0.500).\n\nThe best model is 'supp + dose + supp:dose' with posterior probability 0.727 and BF₁₀ = 7.67 × 10¹⁴ against the null model (extreme evidence for H₁).\n\nModel-averaged inclusion Bayes factors: supp BF = 140; dose BF = 3.20 × 10¹⁴; dose:supp BF = 10.6."
+  },
+  "notes": [],
+  "module": "bayes_anova",
+  "module_version": "1.0.0",
+  "title": "Bayesian ANOVA",
+  "status": "ok",
+  "code": "library(BayesFactor)\nlibrary(bayestestR)\nlibrary(ggnext)\n# Bayesian ANOVA: len by supp, dose\nd <- data[complete.cases(data[, c(\"len\", \"supp\", \"dose\")]), c(\"len\", \"supp\", \"dose\")]\nd$supp <- factor(d$supp)\nd$dose <- factor(d$dose)\ndesc <- aggregate(len ~ supp, data = d, FUN = function(x)\n  c(n = length(x), mean = mean(x), sd = sd(x), se = sd(x) / sqrt(length(x))))\nset.seed(123)\nbf <- anovaBF(len ~ supp * dose, data = d,\n  whichModels = \"withmain\", rscaleFixed = 0.5, progress = FALSE)\nx <- extractBF(bf)\nmodels <- data.frame(model = c(\"Null model\", rownames(x)), bf10 = c(1, x$bf), error = c(NA, x$error))\nmodels$p_post <- models$bf10 / sum(models$bf10)   # P(M|data), all models equally likely a priori\nmodels <- models[order(-models$bf10), ]\ninclusion <- bayesfactor_inclusion(bf)\nd_ci <- do.call(rbind, lapply(split(d$len, d$supp), function(v) {\n  v <- v[!is.na(v)]; m <- mean(v); h <- qt(0.975, length(v) - 1) * sd(v) / sqrt(length(v))\n  data.frame(mean = m, lower = m - h, upper = m + h)\n}))\nd_ci$supp <- factor(rownames(d_ci), levels = rownames(d_ci))\np <- ggnext(d_ci, aes(supp, mean, ymin = lower, ymax = upper)) +\n  geom_pointrange() +\n  labs(title = \"len by supp\", x = \"Supplement\", y = \"Tooth length\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "BayesFactor": "0.9.12.4.7",
+      "bayestestR": "0.13.1",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

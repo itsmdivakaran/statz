@@ -252,23 +252,23 @@
   ],
   "plots": [
     {
-      "id": "plot16",
+      "id": "plot25",
       "title": "Forest plot",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot16.svg",
-      "html": "plot16.html",
+      "svg": "plot25.svg",
+      "html": "plot25.html",
       "data_csv": null
     },
     {
-      "id": "plot17",
+      "id": "plot26",
       "title": "Funnel plot",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot17.svg",
-      "html": "plot17.html",
+      "svg": "plot26.svg",
+      "html": "plot26.html",
       "data_csv": null
     }
   ],

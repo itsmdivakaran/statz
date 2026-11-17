@@ -275,14 +275,14 @@
   "assumptions": [],
   "plots": [
     {
-      "id": "plot6",
+      "id": "plot15",
       "title": "Adverse event incidence",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot6.svg",
-      "html": "plot6.html",
-      "data_csv": "plot6.csv"
+      "svg": "plot15.svg",
+      "html": "plot15.html",
+      "data_csv": "plot15.csv"
     }
   ],
   "interpretation": {

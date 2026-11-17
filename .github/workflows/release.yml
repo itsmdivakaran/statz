@@ -74,7 +74,22 @@ jobs:
           tauriScript: pnpm tauri
           tagName: v__VERSION__
           releaseName: StatNext v__VERSION__
-          releaseBody: "Download the file for your system: .dmg for macOS (aarch64 = Apple Silicon, x64 = Intel), .msi or .exe for Windows, .AppImage or .deb for Linux. R 4.4 or later must be installed. The macOS build is not notarized yet: after the first launch is blocked, open System Settings > Privacy & Security and choose Open Anyway."
+          releaseBody: |
+            ## Install StatNext
+
+            | Your computer | Download |
+            |---|---|
+            | Mac with Apple silicon (M1 or later) | `StatNext_…_aarch64.dmg` |
+            | Mac with Intel processor | `StatNext_…_x64.dmg` |
+            | Windows | `StatNext_…_x64-setup.exe` (or the `.msi`) |
+            | Linux | `.AppImage` (any distribution) or `.deb` (Ubuntu, Debian) |
+
+            1. Download the file for your computer and double-click it. On a Mac, drag StatNext into Applications.
+            2. Open StatNext. If R is not installed yet, StatNext shows a Download R button and continues by itself once R is installed.
+            3. The first launch installs the statistics packages (3 to 10 minutes, needs internet). Later launches start at once.
+
+            **macOS:** this build is not notarized yet. The first time, macOS blocks it: open System Settings › Privacy & Security and click **Open Anyway**.
+            **Windows:** if SmartScreen appears, click **More info › Run anyway**.
           releaseDraft: false
           prerelease: true
           args: ${{ matrix.args }}

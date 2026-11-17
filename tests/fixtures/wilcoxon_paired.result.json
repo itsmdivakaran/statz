@@ -122,13 +122,13 @@
   "assumptions": [],
   "plots": [
     {
-      "id": "plot60",
+      "id": "plot69",
       "title": "drug1 and drug2",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot60.svg",
-      "html": "plot60.html",
+      "svg": "plot69.svg",
+      "html": "plot69.html",
       "data_csv": null
     }
   ],

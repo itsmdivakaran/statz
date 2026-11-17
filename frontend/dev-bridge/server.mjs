@@ -19,7 +19,8 @@ const port = Number(process.env.STATNEXT_BRIDGE_PORT || 5174);
 const r = spawn(
   rscript,
   ["--vanilla", "-e", "statnextr::sn_main()", "--args",
-   `--modules=${path.join(root, "analyses")}`, `--datasets=${path.join(root, "datasets")}`, `--workdir=${workDir}`],
+   `--modules=${path.join(root, "analyses")}`, `--datasets=${path.join(root, "datasets")}`, `--workdir=${workDir}`,
+   `--plugins=${process.env.STATNEXT_PLUGINS || path.join(workDir, "plugins")}`],
   { env: { ...process.env, LC_ALL: process.platform === "darwin" ? "en_US.UTF-8" : "C.UTF-8" } },
 );
 const pending = new Map();

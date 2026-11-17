@@ -1,0 +1,266 @@
+{
+  "tables": [
+    {
+      "id": "models",
+      "title": "Model Comparison",
+      "columns": [
+        {
+          "id": "model",
+          "label": "Model",
+          "type": "text"
+        },
+        {
+          "id": "r2",
+          "label": "R²",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "prior",
+          "label": "P(M)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "post",
+          "label": "P(M|data)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "bfm",
+          "label": "BFₘ",
+          "type": "text"
+        },
+        {
+          "id": "bf10",
+          "label": "BF₁₀ vs null",
+          "type": "text"
+        },
+        {
+          "id": "best",
+          "label": "BF vs best",
+          "type": "text"
+        },
+        {
+          "id": "err",
+          "label": "Error",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "model": "wt + hp",
+          "r2": 0.826785451882791,
+          "prior": 0.125,
+          "post": 0.4364533141071,
+          "bfm": "5.42",
+          "bf10": "7.89 × 10⁸",
+          "best": "1.00",
+          "err": "< 0.001%"
+        },
+        {
+          "model": "wt + qsec",
+          "r2": 0.826416127339551,
+          "prior": 0.125,
+          "post": 0.423898715643004,
+          "bfm": "5.15",
+          "bf10": "7.66 × 10⁸",
+          "best": "0.971",
+          "err": "< 0.001%"
+        },
+        {
+          "model": "wt + hp + qsec",
+          "r2": 0.83476776170583,
+          "prior": 0.125,
+          "post": 0.114325420107526,
+          "bfm": "0.904",
+          "bf10": "2.07 × 10⁸",
+          "best": "0.262",
+          "err": "< 0.001%"
+        },
+        {
+          "model": "wt",
+          "r2": 0.752832793658264,
+          "prior": 0.125,
+          "post": 0.0252712417836557,
+          "bfm": "0.181",
+          "bf10": "4.57 × 10⁷",
+          "best": "0.0579",
+          "err": "0.0091%"
+        },
+        {
+          "model": "hp",
+          "r2": 0.602437341423934,
+          "prior": 0.125,
+          "post": 3.15289211921731e-05,
+          "bfm": "2.21 × 10⁻⁴",
+          "bf10": "5.70 × 10⁴",
+          "best": "7.22 × 10⁻⁵",
+          "err": "0.007%"
+        },
+        {
+          "model": "hp + qsec",
+          "r2": 0.636876874086914,
+          "prior": 0.125,
+          "post": 1.97770047647357e-05,
+          "bfm": "1.38 × 10⁻⁴",
+          "bf10": "3.57 × 10⁴",
+          "best": "4.53 × 10⁻⁵",
+          "err": "< 0.001%"
+        },
+        {
+          "model": "qsec",
+          "r2": 0.175296320261013,
+          "prior": 0.125,
+          "post": 1.87926726472788e-09,
+          "bfm": "1.32 × 10⁻⁸",
+          "bf10": "3.40",
+          "best": "4.31 × 10⁻⁹",
+          "err": "< 0.001%"
+        },
+        {
+          "model": "Null model",
+          "r2": 0,
+          "prior": 0.125,
+          "post": 5.53490127586376e-10,
+          "bfm": "3.87 × 10⁻⁹",
+          "bf10": "1.00",
+          "best": "1.27 × 10⁻⁹",
+          "err": ""
+        }
+      ],
+      "notes": [
+        "All models have equal prior probability. BFₘ = posterior odds / prior odds of the model."
+      ]
+    },
+    {
+      "id": "inclusion",
+      "title": "Analysis of Effects (model averaged)",
+      "columns": [
+        {
+          "id": "effect",
+          "label": "Effect",
+          "type": "text"
+        },
+        {
+          "id": "prior",
+          "label": "P(incl)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "post",
+          "label": "P(incl|data)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "bf",
+          "label": "BF inclusion",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "effect": "wt",
+          "prior": 0.5,
+          "post": 0.999948691641286,
+          "bf": "1.95 × 10⁴"
+        },
+        {
+          "effect": "hp",
+          "prior": 0.5,
+          "post": 0.550830040140583,
+          "bf": "1.23"
+        },
+        {
+          "effect": "qsec",
+          "prior": 0.5,
+          "post": 0.538243914634562,
+          "bf": "1.17"
+        }
+      ],
+      "notes": [
+        "BF inclusion compares all models with the effect against all models without it (bayestestR::bayesfactor_inclusion)."
+      ]
+    },
+    {
+      "id": "posterior",
+      "title": "Posterior Coefficients (wt + hp)",
+      "columns": [
+        {
+          "id": "par",
+          "label": "Parameter",
+          "type": "text"
+        },
+        {
+          "id": "mean",
+          "label": "Mean",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "sd",
+          "label": "SD",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "cri",
+          "label": "95% CrI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "par": "Intercept (mean of outcome)",
+          "mean": 20.0927269902829,
+          "sd": 0.491160914246795,
+          "cri": [19.0999574029116, 21.047984178043],
+          "_row": "mu"
+        },
+        {
+          "par": "wt",
+          "mean": -3.77974558326862,
+          "sd": 0.66053381975987,
+          "cri": [-5.0609149649317, -2.45745218790196],
+          "_row": "wt"
+        },
+        {
+          "par": "hp",
+          "mean": -0.031100720135488,
+          "sd": 0.00934764392418075,
+          "cri": [-0.0494450689311256, -0.013015945529645],
+          "_row": "hp"
+        }
+      ],
+      "notes": [
+        "Summaries of posterior samples (MCMC)."
+      ]
+    }
+  ],
+  "assumptions": [],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A Bayesian linear regression compared 8 models for mpg (JZS prior scale r = 0.354).\n\nThe best model is 'wt + hp' with posterior probability 0.436, R² = 0.827 and BF₁₀ = 7.89 × 10⁸ against the null model.\n\nInclusion Bayes factors: wt BF = 1.95 × 10⁴; hp BF = 1.23; qsec BF = 1.17.\n\nThe posterior coefficients are slopes in the outcome's units per unit of each predictor (posterior means, which are shrunk towards zero)."
+  },
+  "notes": [],
+  "module": "bayes_regression",
+  "module_version": "1.0.0",
+  "title": "Bayesian Linear Regression",
+  "status": "ok",
+  "code": "library(BayesFactor)\nlibrary(bayestestR)\n# Bayesian linear regression: mpg on wt, hp, qsec\nd <- data[complete.cases(data[, c(\"mpg\", \"wt\", \"hp\", \"qsec\")]), c(\"mpg\", \"wt\", \"hp\", \"qsec\")]\nrscale <- sqrt(2) / 4   # JZS prior scale on the standardized coefficients\nbf <- regressionBF(mpg ~ wt + hp + qsec, data = d, rscaleCont = rscale, progress = FALSE)   # every subset of predictors\nx <- extractBF(bf)\nmodels <- data.frame(model = c(\"Null model\", rownames(x)), bf10 = c(1, x$bf), error = c(NA, x$error))\nmodels$p_post <- models$bf10 / sum(models$bf10)   # P(M|data), all models equally likely a priori\nmodels <- models[order(-models$bf10), ]\nmodels$r2 <- sapply(models$model, function(m) if (m == \"Null model\") 0 else\n  summary(lm(paste(\"mpg\", \"~\", m), data = d))$r.squared)\ninclusion <- bayesfactor_inclusion(bf)\n# Posterior coefficients of the best model\nbest <- models$model[1]\nif (best != \"Null model\") {\n  set.seed(123)\n  fit <- lmBF(as.formula(paste(\"mpg\", \"~\", best)), data = d, rscaleCont = rscale)\n  post <- posterior(fit, iterations = 10000, progress = FALSE)\n}",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "BayesFactor": "0.9.12.4.7",
+      "bayestestR": "0.13.1"
+    },
+    "dataset": "data"
+  }
+}

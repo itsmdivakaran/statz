@@ -1,5 +1,5 @@
 import {
-  AreaChart, ArrowRight, BrainCircuit, ClipboardList, Code2, Combine, FileDown, FolderOpen, HeartPulse, LineChart, type LucideIcon, Network,
+  AreaChart, ArrowRight, BrainCircuit, ClipboardList, Code2, Combine, FileDown, Compass, FolderOpen, HeartPulse, LineChart, type LucideIcon, Puzzle, Scale,
   Search, ShieldCheck, Table2, TrendingUp, Users,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -15,7 +15,7 @@ const TOURS: { module: string; area: string; Icon: LucideIcon; tone: string }[] 
   { module: "surv_km", area: "Survival", Icon: HeartPulse, tone: "bg-bad/10 text-bad" },
   { module: "ml_forest", area: "Machine learning", Icon: BrainCircuit, tone: "bg-brand/10 text-brand" },
   { module: "ts_arima", area: "Time series", Icon: LineChart, tone: "bg-accent/10 text-accent" },
-  { module: "pca", area: "Multivariate", Icon: Network, tone: "bg-warn/10 text-warn" },
+  { module: "bayes_ttest_ind", area: "Bayesian", Icon: Scale, tone: "bg-warn/10 text-warn" },
   { module: "roc", area: "Diagnostic accuracy", Icon: AreaChart, tone: "bg-bad/10 text-bad" },
   { module: "meta_binary", area: "Meta-analysis", Icon: Combine, tone: "bg-warn/10 text-warn" },
   { module: "clin_table1", area: "Clinical", Icon: ClipboardList, tone: "bg-ok/10 text-ok" },
@@ -25,12 +25,13 @@ const FEATURES: { Icon: LucideIcon; title: string; text: string }[] = [
   { Icon: ShieldCheck, title: "Assumptions checked", text: "Every analysis reports the checks it relies on." },
   { Icon: Code2, title: "R code for everything", text: "The exact, editable R behind each result." },
   { Icon: FileDown, title: "Word and PDF export", text: "APA tables, plots and interpretation in one file." },
+  { Icon: Puzzle, title: "Plugins", text: "Add your own analyses in the same format." },
 ];
 
 interface Example { name: string; title: string; description: string }
 
 export function Welcome() {
-  const { specs, loadExample, runExample, hello } = useStore();
+  const { specs, loadExample, runExample, hello, setModal } = useStore();
   const [examples, setExamples] = useState<Example[]>([]);
   const [query, setQuery] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
@@ -58,6 +59,7 @@ export function Welcome() {
           <section className="flex flex-wrap gap-2.5">
             <button className="btn-primary" onClick={() => void openDataFile()}><FolderOpen size={16} aria-hidden="true" />Open data file</button>
             <button className="btn px-3.5 py-2" onClick={() => void openProject()}>Open project</button>
+            <button className="btn px-3.5 py-2" onClick={() => setModal("guide")}><Compass size={15} className="text-brand" aria-hidden="true" />Which test should I use?</button>
             <span className="self-center text-xs text-muted">CSV, Excel, SPSS, Stata, SAS and Parquet</span>
           </section>
 
@@ -82,7 +84,7 @@ export function Welcome() {
             </div>
           </section>
 
-          <section className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+          <section className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-cols-4">
             {FEATURES.map((f) => (
               <div key={f.title} className="rounded-xl border border-line bg-surface/60 p-3.5">
                 <f.Icon size={18} className="mb-2 text-accent" aria-hidden="true" />

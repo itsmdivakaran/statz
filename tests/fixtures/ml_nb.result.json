@@ -253,23 +253,23 @@
   ],
   "plots": [
     {
-      "id": "plot33",
+      "id": "plot42",
       "title": "Confusion matrix",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot33.svg",
-      "html": "plot33.html",
-      "data_csv": "plot33.csv"
+      "svg": "plot42.svg",
+      "html": "plot42.html",
+      "data_csv": "plot42.csv"
     },
     {
-      "id": "plot34",
+      "id": "plot43",
       "title": "Variable importance",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot34.svg",
-      "html": "plot34.html",
+      "svg": "plot43.svg",
+      "html": "plot43.html",
       "data_csv": null
     }
   ],
