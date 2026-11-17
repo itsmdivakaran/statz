@@ -14,12 +14,15 @@ export interface RoleSpec {
 export type OptionSpec =
   | { type: "enum"; label: string; values: string[]; labels?: string[]; multiple?: boolean; default: string | string[] }
   | { type: "number"; label: string; min?: number; max?: number; step?: number; default: number }
-  | { type: "bool"; label: string; default: boolean };
+  | { type: "bool"; label: string; default: boolean }
+  | { type: "text"; label: string; placeholder?: string; default: string }
+  | { type: "interactions"; label: string; from: string[]; interact?: string[]; default?: undefined };
 
 export interface ModuleSpec {
   id: string;
   version: string;
   title: string;
+  description?: string;
   menu: string[];
   r: { file: string; fn: string; packages: string[] };
   roles: RoleSpec[];

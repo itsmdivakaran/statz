@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, ChevronDown, ChevronRight, MousePointerClick, SlidersHorizontal, X } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronRight, MousePointerClick, Plus, RotateCcw, SlidersHorizontal, X } from "lucide-react";
 import { MeasureIcon } from "../app/MeasureIcon";
 import { useStore } from "../state/store";
 import type { ModuleSpec, OptionSpec, Options, RoleSpec, VariableMeta } from "../types";
@@ -120,7 +120,7 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
         }
         return <Section key={sec.section} title={sec.section} collapsed={sec.collapsed}>
           {sec.items.map((id) => spec.options[id] && (
-            <OptionControl key={id} id={id} spec={spec.options[id]} value={options[id]} onChange={(v) => onChange({ [id]: v })} />
+            <OptionControl key={id} id={id} spec={spec.options[id]} value={options[id]} options={options} onChange={(v) => onChange({ [id]: v })} />
           ))}
         </Section>;
       })}
@@ -140,7 +140,76 @@ function Section({ title, collapsed, children }: { title: string; collapsed?: bo
   );
 }
 
-function OptionControl({ id, spec, value, onChange }: { id: string; spec: OptionSpec; value: unknown; onChange: (v: unknown) => void }) {
+/** Default interaction terms: every 2- and 3-way combination of the `interact` role variables. Mirrors sn_validate_interactions(). */
+export function defaultInteractions(vars: string[]): string[] {
+  const out: string[] = [];
+  const pick = (start: number, cur: string[], n: number) => {
+    if (cur.length === n) { out.push(cur.join(":")); return; }
+    for (let i = start; i < vars.length; i++) pick(i + 1, [...cur, vars[i]], n);
+  };
+  for (let n = 2; n <= Math.min(vars.length, 3); n++) pick(0, [], n);
+  return out;
+}
+
+function InteractionsControl({ spec, value, options, onChange }: { spec: Extract<OptionSpec, { type: "interactions" }>; value: unknown; options: Options; onChange: (v: unknown) => void }) {
+  const [sel, setSel] = useState<string[]>([]);
+  const roleVars = (ids: string[] = []) => ids.flatMap((r) => (options[r] as string[]) ?? []);
+  const from = roleVars(spec.from);
+  const custom = Array.isArray(value);
+  const terms = (custom ? (value as string[]) : defaultInteractions(roleVars(spec.interact)))
+    .filter((t) => t.split(":").every((v) => from.includes(v)));
+  const picked = sel.filter((v) => from.includes(v));
+  const add = () => {
+    const term = from.filter((v) => picked.includes(v)).join(":");
+    if (!terms.includes(term)) onChange([...terms, term]);
+    setSel([]);
+  };
+  return (
+    <fieldset className="text-sm">
+      <legend className="mb-1 flex w-full items-center text-xs text-muted">
+        {spec.label}
+        {custom && <button className="btn-ghost ml-auto px-1 py-0 text-xs" onClick={() => onChange(undefined)} title="Back to the default terms"><RotateCcw size={11} aria-hidden="true" />Default</button>}
+      </legend>
+      <ul className="mb-2 flex flex-wrap gap-1" aria-label={spec.label}>
+        {terms.length === 0 && <li className="text-xs text-muted">Main effects only.</li>}
+        {terms.map((t) => (
+          <li key={t} className="chip bg-brand/10 text-brand">
+            {t.split(":").join(" × ")}
+            <button aria-label={`Remove ${t}`} className="hover:text-bad" onClick={() => onChange(terms.filter((x) => x !== t))}><X size={11} aria-hidden="true" /></button>
+          </li>
+        ))}
+      </ul>
+      {from.length >= 2 && (
+        <div className="flex flex-wrap items-center gap-1">
+          {from.map((v) => (
+            <button key={v} aria-pressed={picked.includes(v)}
+              className={`rounded-md border px-1.5 py-0.5 text-xs transition-colors ${picked.includes(v) ? "border-brand bg-brand text-white" : "border-line text-muted hover:text-ink"}`}
+              onClick={() => setSel(picked.includes(v) ? picked.filter((x) => x !== v) : [...picked, v])}>{v}</button>
+          ))}
+          <button className="btn px-1.5 py-0.5 text-xs" disabled={picked.length < 2} onClick={add}><Plus size={11} aria-hidden="true" />Add interaction</button>
+        </div>
+      )}
+    </fieldset>
+  );
+}
+
+function TextControl({ id, spec, value, onChange }: { id: string; spec: Extract<OptionSpec, { type: "text" }>; value: unknown; onChange: (v: unknown) => void }) {
+  const [draft, setDraft] = useState<string | null>(null);
+  const cur = draft ?? ((value as string) ?? "");
+  const commit = () => { if (draft !== null && draft !== value) onChange(draft); setDraft(null); };
+  return (
+    <label className="block text-sm">
+      <span className="mb-1 block">{spec.label}</span>
+      <input type="text" name={id} className="field w-full" value={cur} placeholder={spec.placeholder}
+        onChange={(e) => setDraft(e.target.value)} onBlur={commit}
+        onKeyDown={(e) => { if (e.key === "Enter") commit(); }} />
+    </label>
+  );
+}
+
+function OptionControl({ id, spec, value, options, onChange }: { id: string; spec: OptionSpec; value: unknown; options: Options; onChange: (v: unknown) => void }) {
+  if (spec.type === "interactions") return <InteractionsControl spec={spec} value={value} options={options} onChange={onChange} />;
+  if (spec.type === "text") return <TextControl id={id} spec={spec} value={value} onChange={onChange} />;
   if (spec.type === "bool") {
     return (
       <label className="flex items-center gap-2 text-sm">
