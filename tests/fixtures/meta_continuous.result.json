@@ -1,0 +1,295 @@
+{
+  "tables": [
+    {
+      "id": "studies",
+      "title": "Individual Studies",
+      "columns": [
+        {
+          "id": "study",
+          "label": "Study",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "Mean difference",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "weight",
+          "label": "Weight (%)",
+          "type": "number",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "study": "Edinburgh",
+          "est": -20,
+          "ci": [-32.4743698388121, -7.52563016118787],
+          "weight": 11.0377641700485
+        },
+        {
+          "study": "Orpington-Mild",
+          "est": -2,
+          "ci": [-4.82713860777523, 0.827138607775229],
+          "weight": 11.655407659756
+        },
+        {
+          "study": "Orpington-Moderate",
+          "est": -55,
+          "ci": [-62.7656146942015, -47.2343853057985],
+          "weight": 11.4287756022528
+        },
+        {
+          "study": "Orpington-Severe",
+          "est": -71,
+          "ci": [-95.0223329553944, -46.9776670446056],
+          "weight": 9.58723676780063
+        },
+        {
+          "study": "Montreal-Home",
+          "est": -4,
+          "ci": [-12.1539430511406, 4.15394305114062],
+          "weight": 11.402574167694
+        },
+        {
+          "study": "Montreal-Transfer",
+          "est": 1,
+          "ci": [-1.11761517631352, 3.11761517631352],
+          "weight": 11.6709292664141
+        },
+        {
+          "study": "Newcastle",
+          "est": 11,
+          "ci": [-8.06201024458253, 30.0620102445825],
+          "weight": 10.2717125279644
+        },
+        {
+          "study": "Umea",
+          "est": -10,
+          "ci": [-14.9237163702181, -5.0762836297819],
+          "weight": 11.584049961797
+        },
+        {
+          "study": "Uppsala",
+          "est": 7,
+          "ci": [-1.73060180672227, 15.7306018067223],
+          "weight": 11.3615498762725
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "pooled",
+      "title": "Pooled Effect",
+      "columns": [
+        {
+          "id": "model",
+          "label": "Model",
+          "type": "text"
+        },
+        {
+          "id": "k",
+          "label": "k",
+          "type": "int"
+        },
+        {
+          "id": "est",
+          "label": "Mean difference",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "pi",
+          "label": "95% prediction interval",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "model": "Random effects",
+          "k": 9,
+          "est": -15.1060274743905,
+          "se": 8.94655284568962,
+          "ci": [-32.6409488377265, 2.42889388894549],
+          "pi": [-69.3048602133033, 39.0928052645223],
+          "stat": -1.68847462647789,
+          "p": 0.0913201556859915
+        }
+      ],
+      "notes": [
+        "τ² estimated by restricted maximum likelihood."
+      ]
+    },
+    {
+      "id": "heterogeneity",
+      "title": "Heterogeneity",
+      "columns": [
+        {
+          "id": "q",
+          "label": "Q",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "tau2",
+          "label": "τ²",
+          "type": "number",
+          "digits": 4
+        },
+        {
+          "id": "tau",
+          "label": "τ",
+          "type": "number",
+          "digits": 4
+        },
+        {
+          "id": "i2",
+          "label": "I² (%)",
+          "type": "number",
+          "digits": 1
+        },
+        {
+          "id": "h2",
+          "label": "H²",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "q": 238.91581086201,
+          "df": 8,
+          "p": 3.84180928540033e-47,
+          "tau2": 684.646152881847,
+          "tau": 26.1657438816833,
+          "i2": 98.9712743488066,
+          "h2": 97.2076470378569
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "bias",
+      "title": "Small-Study Effects (Publication Bias)",
+      "columns": [
+        {
+          "id": "test",
+          "label": "Method",
+          "type": "text"
+        },
+        {
+          "id": "result",
+          "label": "Result",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "test": "Egger's regression test",
+          "result": "t(7) = −1.60, p = .155"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "k",
+      "test": "Number of studies",
+      "status": "ok",
+      "message": "9 studies were pooled.",
+      "table": null
+    },
+    {
+      "id": "egger",
+      "test": "Funnel plot asymmetry (Egger)",
+      "status": "warn",
+      "message": "With fewer than 10 studies the test has little power; do not read a non-significant result as absence of bias.",
+      "table": null
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot16",
+      "title": "Forest plot",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot16.svg",
+      "html": "plot16.html",
+      "data_csv": null
+    },
+    {
+      "id": "plot17",
+      "title": "Funnel plot",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot17.svg",
+      "html": "plot17.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A random-effects meta-analysis of 9 studies gave a pooled mean difference of −15.11, 95% CI [−32.64, 2.43], z = −1.69, p = .091. Heterogeneity was considerable (I² = 99.0%, Q(8) = 238.92, p < .001). The prediction interval for a new study is [−69.30, 39.09]."
+  },
+  "notes": [],
+  "module": "meta_continuous",
+  "module_version": "1.0.0",
+  "title": "Meta-Analysis (Continuous Outcomes)",
+  "status": "ok",
+  "code": "library(ggnext)\n# Random-effects meta-analysis (mean difference)\nd <- data[complete.cases(data[, c(\"study\", \"n_stroke_unit\", \"mean_stroke_unit\", \"sd_stroke_unit\", \"n_usual\", \"mean_usual\", \"sd_usual\"), drop = FALSE]), , drop = FALSE]\nd$study_label <- make.unique(as.character(d$study))\nes <- metafor::escalc(measure = \"MD\", n1i = n_stroke_unit, m1i = mean_stroke_unit, sd1i = sd_stroke_unit, n2i = n_usual, m2i = mean_usual, sd2i = sd_usual, data = d, slab = study_label)   # yi = effect size, vi = its variance\nmeta <- metafor::rma(yi, vi, data = es, method = \"REML\", test = \"z\", level = 95)\nz <- qnorm(1 - (1 - 0.95) / 2)\nstudies <- data.frame(study = d$study_label, yi = as.numeric(es$yi), se = sqrt(es$vi), weight = as.numeric(weights(meta)))\nstudies$lower <- studies$yi - z * studies$se\nstudies$upper <- studies$yi + z * studies$se\npooled <- predict(meta)   # pooled estimate with confidence and prediction interval\n# Egger's regression test for funnel plot asymmetry\negger <- metafor::regtest(meta, model = \"lm\", predictor = \"sei\")\nforest_df <- data.frame(term = c(studies$study, \"Pooled\"), est = c(studies$yi, pooled$pred),\n                        lower = c(studies$lower, pooled$ci.lb), upper = c(studies$upper, pooled$ci.ub), weight = c(studies$weight, 100))\nforest_df$term <- factor(forest_df$term, levels = rev(forest_df$term))\n# Names are drawn inside the panel, left of the data (ggnext clips long axis labels)\nlabel_pad <- min(0.5, (max(nchar(as.character(forest_df$term))) * 7 + 12) / 500)\nforest_df$label_x <- min(forest_df$lower) - (max(forest_df$upper) - min(forest_df$lower)) * label_pad / (1 - label_pad)\np_forest <- ggnext(forest_df, aes(est, term, ymin = lower, ymax = upper, size = weight)) +\n  geom_forest(ref = 0) +\n  geom_text(aes(x = label_x, y = term, label = term), anchor = \"start\") +\n  labs(title = \"Forest plot\", x = \"Mean difference (95% CI)\") +\n  theme(axis_title_y = FALSE, axis_text_y = FALSE, legend_position = \"none\", base = theme_modern())\nse_max <- max(studies$se) * 1.05\nfunnel_lines <- data.frame(x = pooled$pred, y = 0, xend = pooled$pred + c(-1, 1) * z * se_max, yend = se_max)\np_funnel <- ggnext(studies, aes(yi, se)) +\n  geom_segment(aes(x = x, y = y, xend = xend, yend = yend), data = funnel_lines) +\n  geom_vline(xintercept = pooled$pred, dash = \"4 4\") +\n  geom_point(size = 3) +\n  scale_y_reverse() +\n  labs(title = \"Funnel plot\", x = \"Mean difference\", y = \"Standard error\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "metafor": "4.4.0",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

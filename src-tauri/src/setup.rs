@@ -14,6 +14,8 @@ pub const R_PACKAGES: &[&str] = &[
     "jsonlite", "glue", "effectsize", "car", "rsvg", "readxl", "haven", "S7", "ggnext",
     // Phase 2: models, survival, reliability, report export
     "MASS", "nnet", "survival", "lme4", "lmerTest", "emmeans", "performance", "psych", "zip", "qpdf",
+    // Phase 3: multivariate, diagnostic accuracy, meta-analysis, machine learning, time series
+    "GPArotation", "cluster", "pROC", "metafor", "rpart", "ranger", "gbm", "glmnet", "e1071", "forecast", "tseries",
 ];
 
 /// R script run once by Rscript. Prints "PROGRESS <pct> <message>" lines.

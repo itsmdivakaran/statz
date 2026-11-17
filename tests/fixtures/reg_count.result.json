@@ -209,14 +209,14 @@
   ],
   "plots": [
     {
-      "id": "plot9",
+      "id": "plot42",
       "title": "Residuals vs fitted",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot9.svg",
-      "html": "plot9.html",
-      "data_csv": "plot9.csv"
+      "svg": "plot42.svg",
+      "html": "plot42.html",
+      "data_csv": "plot42.csv"
     }
   ],
   "interpretation": {

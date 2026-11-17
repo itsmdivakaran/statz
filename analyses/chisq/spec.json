@@ -3,26 +3,161 @@
   "id": "chisq",
   "version": "1.0.0",
   "title": "Chi-Square Test of Association",
-  "menu": ["Tests", "Frequencies"],
-  "r": { "file": "chisq.R", "fn": "codegen_chisq", "packages": ["effectsize", "ggnext"] },
+  "description": "Association between two categorical variables",
+  "menu": [
+    "Tests",
+    "Frequencies"
+  ],
+  "r": {
+    "file": "chisq.R",
+    "fn": "codegen_chisq",
+    "packages": [
+      "effectsize",
+      "ggnext"
+    ]
+  },
   "roles": [
-    { "id": "rows", "label": "Rows", "min": 1, "max": 1, "measure": ["nominal", "ordinal"], "levels": { "min": 2 } },
-    { "id": "cols", "label": "Columns", "min": 1, "max": 1, "measure": ["nominal", "ordinal"], "levels": { "min": 2 } }
+    {
+      "id": "rows",
+      "label": "Rows",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "min": 2
+      }
+    },
+    {
+      "id": "cols",
+      "label": "Columns",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "min": 2
+      }
+    }
   ],
   "options": {
-    "test": { "type": "enum", "label": "Tests", "values": ["chisq", "fisher"], "labels": ["Pearson χ²", "Fisher's exact"], "multiple": true, "default": ["chisq"] },
-    "correct": { "type": "bool", "label": "Continuity correction (2×2 only)", "default": false },
-    "cells": { "type": "enum", "label": "Cells", "values": ["expected", "row_pct", "col_pct", "total_pct"], "labels": ["Expected counts", "Row %", "Column %", "Total %"], "multiple": true, "default": ["row_pct"] },
-    "effect_size": { "type": "bool", "label": "Cramér's V", "default": true },
-    "conf_level": { "type": "number", "label": "Confidence level", "min": 0.5, "max": 0.999, "step": 0.01, "default": 0.95 },
-    "plot": { "type": "enum", "label": "Plot", "values": ["none", "bar_dodge"], "labels": ["None", "Clustered bar chart"], "default": "bar_dodge" }
+    "test": {
+      "type": "enum",
+      "label": "Tests",
+      "values": [
+        "chisq",
+        "fisher"
+      ],
+      "labels": [
+        "Pearson χ²",
+        "Fisher's exact"
+      ],
+      "multiple": true,
+      "default": [
+        "chisq"
+      ]
+    },
+    "correct": {
+      "type": "bool",
+      "label": "Continuity correction (2×2 only)",
+      "default": false
+    },
+    "cells": {
+      "type": "enum",
+      "label": "Cells",
+      "values": [
+        "expected",
+        "row_pct",
+        "col_pct",
+        "total_pct"
+      ],
+      "labels": [
+        "Expected counts",
+        "Row %",
+        "Column %",
+        "Total %"
+      ],
+      "multiple": true,
+      "default": [
+        "row_pct"
+      ]
+    },
+    "effect_size": {
+      "type": "bool",
+      "label": "Cramér's V",
+      "default": true
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Confidence level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plot",
+      "values": [
+        "none",
+        "bar_dodge"
+      ],
+      "labels": [
+        "None",
+        "Clustered bar chart"
+      ],
+      "default": "bar_dodge"
+    }
   },
   "layout": [
-    { "section": "Variables", "items": ["rows", "cols"] },
-    { "section": "Tests", "items": ["test", "correct", "effect_size", "conf_level"] },
-    { "section": "Cells", "items": ["cells"] },
-    { "section": "Plots", "items": ["plot"], "collapsed": true }
+    {
+      "section": "Variables",
+      "items": [
+        "rows",
+        "cols"
+      ]
+    },
+    {
+      "section": "Tests",
+      "items": [
+        "test",
+        "correct",
+        "effect_size",
+        "conf_level"
+      ]
+    },
+    {
+      "section": "Cells",
+      "items": [
+        "cells"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    }
   ],
-  "guide": { "outcome": "categorical", "groups": "2+", "design": "independent" },
-  "example": { "dataset": "infert", "options": { "rows": ["spontaneous"], "cols": ["case"] } }
+  "guide": {
+    "outcome": "categorical",
+    "groups": "2+",
+    "design": "independent"
+  },
+  "example": {
+    "dataset": "infert",
+    "options": {
+      "rows": [
+        "spontaneous"
+      ],
+      "cols": [
+        "case"
+      ]
+    }
+  }
 }

@@ -173,14 +173,14 @@
   "assumptions": [],
   "plots": [
     {
-      "id": "plot6",
+      "id": "plot11",
       "title": "Correlation matrix",
       "engine": "ggnext",
       "fallback": false,
       "fallback_reason": null,
-      "svg": "plot6.svg",
-      "html": "plot6.html",
-      "data_csv": "plot6.csv"
+      "svg": "plot11.svg",
+      "html": "plot11.html",
+      "data_csv": "plot11.csv"
     }
   ],
   "interpretation": {

@@ -1,0 +1,231 @@
+{
+  "tables": [
+    {
+      "id": "auc",
+      "title": "Area Under the ROC Curve",
+      "columns": [
+        {
+          "id": "marker",
+          "label": "Marker",
+          "type": "text"
+        },
+        {
+          "id": "auc",
+          "label": "AUC",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "z",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "direction",
+          "label": "Direction",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "marker": "s100b",
+          "auc": 0.731368563685637,
+          "se": 0.0516592920699891,
+          "ci": [0.630118211761623, 0.832618915609651],
+          "z": 4.47874050175085,
+          "p": 7.50847432493533e-06,
+          "direction": "Higher = positive"
+        },
+        {
+          "marker": "ndka",
+          "auc": 0.611957994579946,
+          "se": 0.0564872600627018,
+          "ci": [0.501244999271703, 0.722670989888189],
+          "z": 1.98200433966297,
+          "p": 0.0474787549469454,
+          "direction": "Higher = positive"
+        }
+      ],
+      "notes": [
+        "N = 113 (41 positive: Poor; 72 negative: Good).",
+        "DeLong standard errors and confidence intervals. The z test compares the AUC with 0.5."
+      ]
+    },
+    {
+      "id": "cutoff",
+      "title": "Optimal Cut-off (Youden Index)",
+      "columns": [
+        {
+          "id": "marker",
+          "label": "Marker",
+          "type": "text"
+        },
+        {
+          "id": "threshold",
+          "label": "Cut-off",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "sensitivity",
+          "label": "Sensitivity",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "specificity",
+          "label": "Specificity",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ppv",
+          "label": "PPV",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "npv",
+          "label": "NPV",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "youden",
+          "label": "Youden J",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "marker": "s100b",
+          "threshold": 0.205,
+          "sensitivity": 0.634146341463415,
+          "specificity": 0.805555555555556,
+          "ppv": 0.65,
+          "npv": 0.794520547945205,
+          "youden": 0.43970189701897,
+          "_row": "threshold"
+        },
+        {
+          "marker": "ndka",
+          "threshold": 11.08,
+          "sensitivity": 0.707317073170732,
+          "specificity": 0.513888888888889,
+          "ppv": 0.453125,
+          "npv": 0.755102040816326,
+          "youden": 0.221205962059621,
+          "_row": "threshold1"
+        }
+      ],
+      "notes": [
+        "The cut-off is the midpoint between two neighbouring observed values. It is optimistic when applied to the same sample."
+      ]
+    },
+    {
+      "id": "comparison",
+      "title": "Comparison of AUCs (DeLong)",
+      "columns": [
+        {
+          "id": "marker1",
+          "label": "Marker 1",
+          "type": "text"
+        },
+        {
+          "id": "marker2",
+          "label": "Marker 2",
+          "type": "text"
+        },
+        {
+          "id": "difference",
+          "label": "AUC difference",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "z",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "marker1": "s100b",
+          "marker2": "ndka",
+          "difference": 0.119410569105691,
+          "z": 1.39077002573558,
+          "p": 0.164295175223054
+        }
+      ],
+      "notes": [
+        "Paired test: both markers were measured on the same subjects."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "group_size",
+      "test": "Group sizes",
+      "status": "ok",
+      "message": "Both outcome groups have at least 30 subjects.",
+      "table": null
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot46",
+      "title": "ROC curves",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot46.svg",
+      "html": "plot46.html",
+      "data_csv": "plot46.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "s100b discriminated Poor from Good with an AUC of 0.731, 95% CI [0.630, 0.833], which is acceptable discrimination. The optimal cut-off of 0.205 gave a sensitivity of 63.4% and a specificity of 80.6%. The AUCs of s100b and ndka did not differ significantly, z = 1.39, p = .164."
+  },
+  "notes": [],
+  "module": "roc",
+  "module_version": "1.0.0",
+  "title": "ROC Curve Analysis",
+  "status": "ok",
+  "code": "library(ggnext)\n# ROC analysis of s100b, ndka for outcome\nd <- data[complete.cases(data[, c(\"outcome\", \"s100b\", \"ndka\"), drop = FALSE]), , drop = FALSE]\nd$outcome <- droplevels(factor(d$outcome))\nmarkers <- c(\"s100b\", \"ndka\")\noutcome_levels <- levels(d$outcome)   # negative, positive\nroc_list <- lapply(markers, function(m) pROC::roc(d$outcome, d[[m]], levels = outcome_levels, direction = \"auto\", quiet = TRUE))\nnames(roc_list) <- markers\nauc_tbl <- do.call(rbind, lapply(markers, function(m) {\n  r <- roc_list[[m]]\n  ci <- pROC::ci.auc(r, conf.level = 0.95, method = \"delong\")\n  se <- sqrt(pROC::var(r, method = \"delong\"))\n  data.frame(marker = m, auc = ci[2], se = se, lower = ci[1], upper = ci[3], z = (ci[2] - 0.5) / se,\n             p = 2 * pnorm(abs(ci[2] - 0.5) / se, lower.tail = FALSE), direction = r$direction)\n}))\n# Cut-off that maximises the Youden index (sensitivity + specificity - 1)\nbest <- do.call(rbind, lapply(markers, function(m) {\n  b <- pROC::coords(roc_list[[m]], \"best\", best.method = \"youden\", ret = c(\"threshold\", \"sensitivity\", \"specificity\", \"ppv\", \"npv\"))[1, ]\n  data.frame(marker = m, b, youden = b$sensitivity + b$specificity - 1)\n}))\n# DeLong test for each pair of correlated ROC curves\npairs <- t(combn(markers, 2))\ncomparison <- do.call(rbind, lapply(seq_len(nrow(pairs)), function(i) {\n  rt <- pROC::roc.test(roc_list[[pairs[i, 1]]], roc_list[[pairs[i, 2]]], method = \"delong\", paired = TRUE)\n  data.frame(marker1 = pairs[i, 1], marker2 = pairs[i, 2], difference = unname(rt$estimate[1] - rt$estimate[2]), z = unname(rt$statistic), p = rt$p.value)\n}))\n# Long format; markers where lower values indicate a positive outcome are reversed\nroc_long <- do.call(rbind, lapply(markers, function(m) data.frame(marker = m, truth = as.integer(\nd$outcome == outcome_levels[2]),\n  score = if (roc_list[[m]]$direction == \">\") -d[[m]] else d[[m]])))\np <- ggnext(roc_long, aes(truth = truth, score = score, color = marker)) +\n  geom_roc() +\n  labs(title = \"ROC curves\", x = \"1 − Specificity\", y = \"Sensitivity\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "pROC": "1.18.5",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

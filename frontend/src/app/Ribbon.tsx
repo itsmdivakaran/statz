@@ -1,5 +1,5 @@
 import {
-  Activity, BarChart3, BrainCircuit, ChevronDown, Compass, Database, HeartPulse, type LucideIcon, Moon, Network, Search,
+  Activity, BarChart3, BrainCircuit, ChevronDown, Compass, Database, HeartPulse, LineChart, type LucideIcon, Moon, Network, Search,
   Sigma, Sparkles, Stethoscope, Sun, TestTubes, TrendingUp,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -7,19 +7,21 @@ import { useStore } from "../state/store";
 import { type Command, useCommands } from "./commands";
 import { Wordmark } from "./Logo";
 
-const MENUS: { name: string; Icon: LucideIcon }[] = [
+const MENUS: { name: string; label?: string; Icon: LucideIcon }[] = [
   { name: "Data", Icon: Database },
   { name: "Descriptives", Icon: Sigma },
   { name: "Tests", Icon: TestTubes },
   { name: "Regression", Icon: TrendingUp },
+  { name: "Multivariate", Icon: Network },
+  { name: "Machine Learning", label: "ML", Icon: BrainCircuit },
+  { name: "Time Series", Icon: LineChart },
   { name: "Survival", Icon: HeartPulse },
+  { name: "Clinical", Icon: Stethoscope },
 ];
 const UPCOMING: { name: string; Icon: LucideIcon; phase: string; hint: string }[] = [
-  { name: "ML", Icon: BrainCircuit, phase: "Phase 3", hint: "Trees, forests, boosting, SHAP" },
-  { name: "Clinical", Icon: Stethoscope, phase: "Phase 3", hint: "CDISC, diagnostic accuracy, meta-analysis" },
-  { name: "Multivariate", Icon: Network, phase: "Phase 3", hint: "PCA, factor analysis, clustering" },
   { name: "Bayesian", Icon: BarChart3, phase: "Phase 4", hint: "Bayesian tests and models" },
   { name: "Guide", Icon: Compass, phase: "Phase 4", hint: "Which test should I use?" },
+  { name: "Plugins", Icon: Sparkles, phase: "Phase 4", hint: "Add your own analyses" },
 ];
 
 function useDropdown() {
@@ -35,16 +37,16 @@ function useDropdown() {
   return { open, setOpen, ref };
 }
 
-const TAB = "flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-surface2 hover:text-ink aria-expanded:bg-brand/10 aria-expanded:text-brand";
+const TAB = "flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-sm font-medium text-muted transition-colors hover:bg-surface2 hover:text-ink aria-expanded:bg-brand/10 aria-expanded:text-brand";
 const POP = "absolute left-0 z-30 mt-1.5 max-h-[calc(100vh-5rem)] w-80 origin-top-left animate-pop overflow-y-auto rounded-xl border border-line bg-surface p-1.5 shadow-pop";
 
-function Menu({ name, Icon, items, empty }: { name: string; Icon: LucideIcon; items: Command[]; empty?: string }) {
+function Menu({ name, label, Icon, items, empty }: { name: string; label?: string; Icon: LucideIcon; items: Command[]; empty?: string }) {
   const { open, setOpen, ref } = useDropdown();
   let lastGroup: string | undefined;
   return (
     <div ref={ref} className="relative">
-      <button className={TAB} aria-expanded={open} aria-haspopup="menu" onClick={() => setOpen((o) => !o)}>
-        <Icon size={15} aria-hidden="true" />{name}
+      <button className={TAB} aria-expanded={open} aria-haspopup="menu" aria-label={name} title={name} onClick={() => setOpen((o) => !o)}>
+        <Icon size={15} aria-hidden="true" /><span className="hidden xl:inline">{label ?? name}</span>
       </button>
       {open && (
         <div role="menu" className={POP}>
@@ -81,7 +83,7 @@ function MoreMenu() {
   return (
     <div ref={ref} className="relative">
       <button className={TAB} aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-        <Sparkles size={15} aria-hidden="true" />More<ChevronDown size={13} aria-hidden="true" />
+        <Sparkles size={15} aria-hidden="true" /><span className="hidden xl:inline">More</span><ChevronDown size={13} aria-hidden="true" />
       </button>
       {open && (
         <div className={POP}>
@@ -110,22 +112,22 @@ export function Ribbon({ onSearch }: { onSearch: () => void }) {
 
   return (
     <header className="flex items-center gap-1 border-b border-line bg-surface px-3 py-1.5">
-      <span className="mr-4"><Wordmark /></span>
-      <nav className="flex items-center gap-0.5">
+      <span className="mr-3 shrink-0"><Wordmark /></span>
+      <nav className="flex min-w-0 items-center gap-0.5">
         {MENUS.map((m) => (
-          <Menu key={m.name} name={m.name} Icon={m.Icon} items={itemsFor(m.name)}
+          <Menu key={m.name} name={m.name} label={m.label} Icon={m.Icon} items={itemsFor(m.name)}
             empty={data ? "Nothing here yet." : "Open a data file first."} />
         ))}
         <MoreMenu />
       </nav>
-      <div className="ml-auto flex items-center gap-2">
-        <button onClick={onSearch} aria-label="Search commands"
-          className="flex w-56 items-center gap-2 rounded-lg border border-line bg-surface2 px-2.5 py-1.5 text-sm text-muted transition-colors hover:border-brand/50">
-          <Search size={14} aria-hidden="true" /><span className="flex-1 text-left">Search analyses…</span>
-          <span className="kbd">{isMac ? "⌘K" : "Ctrl K"}</span>
+      <div className="ml-auto flex shrink-0 items-center gap-2 pl-2">
+        <button onClick={onSearch} aria-label="Search commands" title={`Search analyses (${isMac ? "⌘K" : "Ctrl K"})`}
+          className="flex items-center gap-2 whitespace-nowrap rounded-lg border border-line bg-surface2 px-2.5 py-1.5 text-sm text-muted transition-colors hover:border-brand/50 2xl:w-52">
+          <Search size={14} aria-hidden="true" /><span className="hidden flex-1 text-left 2xl:inline">Search analyses…</span>
+          <span className="kbd hidden 2xl:inline">{isMac ? "⌘K" : "Ctrl K"}</span>
         </button>
         {hello && (
-          <span title={hello.rscript} className="chip border border-line bg-surface2 py-1 text-muted">
+          <span title={hello.rscript} className="chip hidden whitespace-nowrap border border-line bg-surface2 py-1 text-muted 2xl:inline-flex">
             <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ok opacity-50" /><span className="relative inline-flex h-2 w-2 rounded-full bg-ok" /></span>
             R {hello.r_version}<span className="text-line">|</span><Activity size={11} aria-hidden="true" />{hello.plot_engine}
           </span>

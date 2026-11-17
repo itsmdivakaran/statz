@@ -1,0 +1,419 @@
+{
+  "tables": [
+    {
+      "id": "summary",
+      "title": "Series Summary",
+      "columns": [
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "start",
+          "label": "Start",
+          "type": "text"
+        },
+        {
+          "id": "end",
+          "label": "End",
+          "type": "text"
+        },
+        {
+          "id": "mean",
+          "label": "Mean",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "sd",
+          "label": "SD",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "min",
+          "label": "Minimum",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "max",
+          "label": "Maximum",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "n": 144,
+          "start": "1949 Jan",
+          "end": "1960 Dec",
+          "mean": 280.298611111111,
+          "sd": 119.966316942943,
+          "min": 104,
+          "max": 622
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "strength",
+      "title": "Trend and Seasonality",
+      "columns": [
+        {
+          "id": "trend",
+          "label": "Trend strength",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "seasonal",
+          "label": "Seasonal strength",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "trend": 0.968406630585273,
+          "seasonal": 0.783406185097941
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "seasonal",
+      "title": "Seasonal Effects",
+      "columns": [
+        {
+          "id": "period",
+          "label": "Period",
+          "type": "text"
+        },
+        {
+          "id": "effect",
+          "label": "Effect",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "period": "Jan",
+          "effect": -25.4977183397736
+        },
+        {
+          "period": "Feb",
+          "effect": -35.2209348015702
+        },
+        {
+          "period": "Mar",
+          "effect": -3.02747801177543
+        },
+        {
+          "period": "Apr",
+          "effect": -8.29905418525078
+        },
+        {
+          "period": "May",
+          "effect": -5.73728881319017
+        },
+        {
+          "period": "Jun",
+          "effect": 32.3366341296942
+        },
+        {
+          "period": "Jul",
+          "effect": 70.243881537013
+        },
+        {
+          "period": "Aug",
+          "effect": 68.0494327275685
+        },
+        {
+          "period": "Sep",
+          "effect": 17.4383260373817
+        },
+        {
+          "period": "Oct",
+          "effect": -21.0634315333585
+        },
+        {
+          "period": "Nov",
+          "effect": -57.4818505136532
+        },
+        {
+          "period": "Dec",
+          "effect": -31.7405155016501
+        }
+      ],
+      "notes": [
+        "Additive effects in the units of the series."
+      ]
+    },
+    {
+      "id": "autocorrelation",
+      "title": "Autocorrelation",
+      "columns": [
+        {
+          "id": "lag",
+          "label": "Lag",
+          "type": "int"
+        },
+        {
+          "id": "acf",
+          "label": "ACF",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "pacf",
+          "label": "PACF",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "lag": 1,
+          "acf": 0.948047340752492,
+          "pacf": 0.948047340752492
+        },
+        {
+          "lag": 2,
+          "acf": 0.87557483512535,
+          "pacf": -0.229421874117177
+        },
+        {
+          "lag": 3,
+          "acf": 0.8066811554965,
+          "pacf": 0.0381477805039912
+        },
+        {
+          "lag": 4,
+          "acf": 0.752625417388308,
+          "pacf": 0.0937854381517408
+        },
+        {
+          "lag": 5,
+          "acf": 0.713769972651965,
+          "pacf": 0.0736066978941604
+        },
+        {
+          "lag": 6,
+          "acf": 0.681733603331004,
+          "pacf": 0.00772760259050097
+        },
+        {
+          "lag": 7,
+          "acf": 0.66290438636845,
+          "pacf": 0.125597130176117
+        },
+        {
+          "lag": 8,
+          "acf": 0.655610484325087,
+          "pacf": 0.0899513431642666
+        },
+        {
+          "lag": 9,
+          "acf": 0.670948327924505,
+          "pacf": 0.232488542208562
+        },
+        {
+          "lag": 10,
+          "acf": 0.702719920909072,
+          "pacf": 0.166051259804356
+        },
+        {
+          "lag": 11,
+          "acf": 0.743240189006933,
+          "pacf": 0.171274419743056
+        },
+        {
+          "lag": 12,
+          "acf": 0.760395042262556,
+          "pacf": -0.135431102278015
+        },
+        {
+          "lag": 13,
+          "acf": 0.712660870403824,
+          "pacf": -0.53969124190712
+        },
+        {
+          "lag": 14,
+          "acf": 0.646342279267753,
+          "pacf": -0.0266101400695228
+        },
+        {
+          "lag": 15,
+          "acf": 0.58592342386345,
+          "pacf": 0.0907649819388233
+        },
+        {
+          "lag": 16,
+          "acf": 0.537955190781562,
+          "pacf": 0.0249555591654981
+        },
+        {
+          "lag": 17,
+          "acf": 0.49974752598518,
+          "pacf": 0.0325155700067836
+        },
+        {
+          "lag": 18,
+          "acf": 0.468734012915087,
+          "pacf": 0.0734326405011253
+        },
+        {
+          "lag": 19,
+          "acf": 0.449870664976662,
+          "pacf": 0.0484421148105518
+        },
+        {
+          "lag": 20,
+          "acf": 0.441628795746046,
+          "pacf": -0.0455416801233586
+        },
+        {
+          "lag": 21,
+          "acf": 0.457223757114159,
+          "pacf": 0.0457529352040316
+        },
+        {
+          "lag": 22,
+          "acf": 0.482482029514439,
+          "pacf": -0.100178880361295
+        },
+        {
+          "lag": 23,
+          "acf": 0.517126988389118,
+          "pacf": 0.0524349435881782
+        },
+        {
+          "lag": 24,
+          "acf": 0.532189830465802,
+          "pacf": 0.0480141274383901
+        }
+      ],
+      "notes": [
+        "Ljung-Box Q(24) = 1606.08, p < .001. Values beyond ±0.163 differ from white noise."
+      ]
+    },
+    {
+      "id": "stationarity",
+      "title": "Stationarity Tests",
+      "columns": [
+        {
+          "id": "test",
+          "label": "Test",
+          "type": "text"
+        },
+        {
+          "id": "h0",
+          "label": "Null hypothesis",
+          "type": "text"
+        },
+        {
+          "id": "stat",
+          "label": "Statistic",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "test": "Augmented Dickey-Fuller",
+          "h0": "Unit root (non-stationary)",
+          "stat": -7.31857134691914,
+          "p": 0.01
+        },
+        {
+          "test": "KPSS",
+          "h0": "Stationary",
+          "stat": 2.73947362096217,
+          "p": 0.01
+        }
+      ],
+      "notes": [
+        "p-values are interpolated from tables and are bounded between .01 and .10."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "stationarity",
+      "test": "Stationarity",
+      "status": "warn",
+      "message": "The series does not look stationary; difference it (ARIMA does this for you) or remove the trend before modelling.",
+      "table": null
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot53",
+      "title": "Time series",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot53.svg",
+      "html": "plot53.html",
+      "data_csv": "plot53.csv"
+    },
+    {
+      "id": "plot54",
+      "title": "Decomposition",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot54.svg",
+      "html": "plot54.html",
+      "data_csv": "plot54.csv"
+    },
+    {
+      "id": "plot55",
+      "title": "Autocorrelation (ACF)",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot55.svg",
+      "html": "plot55.html",
+      "data_csv": null
+    },
+    {
+      "id": "plot56",
+      "title": "Partial autocorrelation (PACF)",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot56.svg",
+      "html": "plot56.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The series passengers has 144 observations from 1949 Jan to 1960 Dec. It shows a strong trend (strength 0.97) and moderate seasonality (strength 0.78). The series is not stationary."
+  },
+  "notes": [],
+  "module": "ts_explore",
+  "module_version": "1.0.0",
+  "title": "Time Series Explorer",
+  "status": "ok",
+  "code": "library(ggnext)\n# Time series: passengers (seasonal period 12)\nd <- data[!is.na(data$passengers), , drop = FALSE]\nd <- d[order(d$date), , drop = FALSE]   # rows in time order\ny <- ts(d$passengers, frequency = 12, start = c(1949, 1))\ndecomp <- stl(y, s.window = \"periodic\")\ncomponents <- as.data.frame(decomp$time.series)\n# Strength of trend and seasonality (0 = none, 1 = dominant)\nstrength <- with(components, c(trend = max(0, 1 - var(remainder, na.rm = TRUE) / var(trend + remainder, na.rm = TRUE)), seasonal = max(0, 1 - var(remainder, na.rm = TRUE) / var(seasonal + remainder, na.rm = TRUE))))\nseasonal_tbl <- data.frame(period = as.integer(cycle(y))[seq_len(frequency(y))], effect = components$seasonal[seq_len(frequency(y))])\nlags <- min(24, length(y) - 2)\nautocorrelation <- data.frame(lag = seq_len(lags), acf = as.numeric(acf(y, lag.max = lags, plot = FALSE)$acf)[-1], pacf = as.numeric(pacf(y, lag.max = lags, plot = FALSE)$acf))\nljung_box <- Box.test(y, lag = lags, type = \"Ljung-Box\")\n# Stationarity: ADF tests H0 = unit root (non-stationary); KPSS tests H0 = stationary\nadf <- suppressWarnings(tseries::adf.test(y))     # warns when p is outside the tabulated range\nkpss <- suppressWarnings(tseries::kpss.test(y))\nseries_df <- data.frame(time = as.numeric(time(y)), value = as.numeric(y))\np_series <- ggnext(series_df, aes(time, value)) +\n  geom_line() +\n  labs(title = \"Time series of passengers\", x = \"Time\", y = \"Passengers (thousands)\") +\n  theme_modern()\nparts <- c(\"Observed\", \"Trend\", \"Seasonal\", \"Remainder\")\ndecomp_df <- data.frame(time = rep(as.numeric(time(y)), 4), value = c(as.numeric(y), components$trend, components$seasonal, components$remainder),\n                        component = factor(rep(parts, each = length(y)), levels = parts))\ndecomp_df <- decomp_df[!is.na(decomp_df$value), ]\np_decomposition <- ggnext(decomp_df, aes(time, value)) +\n  geom_line() +\n  facet_wrap(vars(component), ncol = 1, scales = \"free_y\") +\n  labs(x = \"Time\", y = \"Passengers (thousands)\") +\n  theme_modern()\nacf_df <- with(acf(y, lag.max = lags, plot = FALSE), data.frame(lag = as.numeric(lag) * frequency(y), value = as.numeric(acf)))\nacf_df <- acf_df[acf_df$lag > 0, ]\nacf_df_limit <- qnorm(0.975) / sqrt(length(y))   # limits expected for white noise\np_acf <- ggnext(acf_df, aes(x = lag, y = 0, xend = lag, yend = value)) +\n  geom_segment() +\n  geom_hline(yintercept = acf_df_limit, dash = \"4 4\") +\n  geom_hline(yintercept = -acf_df_limit, dash = \"4 4\") +\n  labs(title = \"Autocorrelation (ACF)\", x = \"Lag\", y = \"Autocorrelation\") +\n  theme_modern()\npacf_df <- with(pacf(y, lag.max = lags, plot = FALSE), data.frame(lag = as.numeric(lag) * frequency(y), value = as.numeric(acf)))\npacf_df_limit <- qnorm(0.975) / sqrt(length(y))   # limits expected for white noise\np_pacf <- ggnext(pacf_df, aes(x = lag, y = 0, xend = lag, yend = value)) +\n  geom_segment() +\n  geom_hline(yintercept = pacf_df_limit, dash = \"4 4\") +\n  geom_hline(yintercept = -pacf_df_limit, dash = \"4 4\") +\n  labs(title = \"Partial autocorrelation (PACF)\", x = \"Lag\", y = \"Partial autocorrelation\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "tseries": "0.10.55",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

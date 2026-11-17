@@ -12,6 +12,11 @@ sn_parse_arm_n <- function(txt) {
 codegen_clin_ae <- function(o, meta, ctx) {
   id <- o$subject; arm <- o$arm; term <- o$term; soc <- o$soc; sev <- o$severity
   n <- sn_parse_arm_n(o$arm_n)
+  if (!is.null(n)) {
+    extra <- setdiff(ctx$values(arm), names(n))
+    if (length(extra)) sn_abort(paste0("These arms are in the data but not in 'Subjects per arm': ", paste(extra, collapse = ", "), "."),
+                                SN_ERR$invalid_options, data = list(option = "arm_n"))
+  }
   e <- ctx$plot_engine
   D <- function(v) sn_ref("ae", v)
   code <- sn_code(
@@ -29,15 +34,15 @@ codegen_clin_ae <- function(o, meta, ctx) {
     paste0("count_subjects <- function(rows) sapply(arms, function(a) length(unique(rows[[", sn_lit(id), "]][rows[[", sn_lit(arm), "]] == a])))"),
     "any_event <- count_subjects(ae)",
     paste0("n_events <- sapply(arms, function(a) sum(", D(arm), " == a))"),
-    paste0("by_term <- t(sapply(split(ae, ", D(term), "), count_subjects))"),
+    paste0("by_term <- do.call(rbind, lapply(split(ae, ", D(term), "), count_subjects))"),
     if (length(soc)) c(
-      paste0("by_soc <- t(sapply(split(ae, ", D(soc), "), count_subjects))"),
+      paste0("by_soc <- do.call(rbind, lapply(split(ae, ", D(soc), "), count_subjects))"),
       paste0("term_soc <- tapply(as.character(", D(soc), "), ", D(term), ", function(s) s[1])")),
     if (length(sev)) c(
       "# Each subject's worst severity",
       paste0("sev_levels <- ", sn_lit(sn_severity_levels(meta, sev, ctx))),
       paste0("worst <- aggregate(match(as.character(", D(sev), "), sev_levels), list(subject = ", D(id), ", arm = ", D(arm), "), max)"),
-      "by_severity <- t(sapply(seq_along(sev_levels), function(i) sapply(arms, function(a) sum(worst$x == i & worst$arm == a))))",
+      "by_severity <- do.call(rbind, lapply(seq_along(sev_levels), function(i) sapply(arms, function(a) sum(worst$x == i & worst$arm == a))))",
       "rownames(by_severity) <- sev_levels"),
     "pct_term <- 100 * sweep(by_term, 2, arm_n, \"/\")",
     if (o$compare) c(
@@ -74,8 +79,6 @@ sn_severity_levels <- function(meta, sev, ctx) {
 assemble_clin_ae <- function(env, o, ctx) {
   arms <- env$arms; n <- env$arm_n
   if (anyNA(n) || any(n <= 0)) sn_abort("Give a positive number of subjects for every arm.", SN_ERR$invalid_options, data = list(option = "arm_n"))
-  seen <- unique(as.character(env$ae[[o$arm]]))
-  if (length(setdiff(seen, arms))) sn_abort(paste0("These arms are in the data but not in 'Subjects per arm': ", paste(setdiff(seen, arms), collapse = ", "), "."), SN_ERR$invalid_options, data = list(option = "arm_n"))
   if (any(env$any_event > n)) sn_abort("An arm has more subjects with events than subjects in 'Subjects per arm'.", SN_ERR$invalid_options, data = list(option = "arm_n"))
   cell <- function(x, a) sprintf("%d (%.1f%%)", as.integer(x), 100 * x / n[[a]])
   ids <- paste0("a", seq_along(arms))

@@ -1,0 +1,374 @@
+{
+  "tables": [
+    {
+      "id": "performance",
+      "title": "Test-Set Performance",
+      "columns": [
+        {
+          "id": "metric",
+          "label": "Metric",
+          "type": "text"
+        },
+        {
+          "id": "value",
+          "label": "Value",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "metric": "Accuracy",
+          "value": 1,
+          "ci": [0.907487238584122, 1]
+        },
+        {
+          "metric": "Cohen's κ",
+          "value": 1,
+          "ci": [null, null]
+        },
+        {
+          "metric": "Balanced accuracy",
+          "value": 1,
+          "ci": [null, null]
+        },
+        {
+          "metric": "No-information rate",
+          "value": 0.368421052631579,
+          "ci": [null, null]
+        },
+        {
+          "metric": "Accuracy on training data",
+          "value": 0.973214285714286,
+          "ci": [null, null]
+        }
+      ],
+      "notes": [
+        "Trained on 112 cases, tested on 38 held-out cases (25%, seed 123).",
+        "The no-information rate is the accuracy of always predicting the largest class."
+      ]
+    },
+    {
+      "id": "confusion",
+      "title": "Confusion Matrix (Test Set)",
+      "columns": [
+        {
+          "id": "name",
+          "label": "",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "Actual setosa",
+          "type": "int"
+        },
+        {
+          "id": "c2",
+          "label": "Actual versicolor",
+          "type": "int"
+        },
+        {
+          "id": "c3",
+          "label": "Actual virginica",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "name": "Predicted setosa",
+          "c1": 11,
+          "c2": 0,
+          "c3": 0
+        },
+        {
+          "name": "Predicted versicolor",
+          "c1": 0,
+          "c2": 13,
+          "c3": 0
+        },
+        {
+          "name": "Predicted virginica",
+          "c1": 0,
+          "c2": 0,
+          "c3": 14
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "by_class",
+      "title": "Performance by Class",
+      "columns": [
+        {
+          "id": "class",
+          "label": "Class",
+          "type": "text"
+        },
+        {
+          "id": "sensitivity",
+          "label": "Sensitivity (recall)",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "specificity",
+          "label": "Specificity",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "precision",
+          "label": "Precision",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "f1",
+          "label": "F1",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "class": "setosa",
+          "sensitivity": 1,
+          "specificity": 1,
+          "precision": 1,
+          "f1": 1,
+          "_row": "setosa"
+        },
+        {
+          "class": "versicolor",
+          "sensitivity": 1,
+          "specificity": 1,
+          "precision": 1,
+          "f1": 1,
+          "_row": "versicolor"
+        },
+        {
+          "class": "virginica",
+          "sensitivity": 1,
+          "specificity": 1,
+          "precision": 1,
+          "f1": 1,
+          "_row": "virginica"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "importance",
+      "title": "Variable Importance",
+      "columns": [
+        {
+          "id": "variable",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "importance",
+          "label": "Importance",
+          "type": "number",
+          "digits": 4
+        }
+      ],
+      "rows": [
+        {
+          "variable": "petal_length",
+          "importance": 0.58421052631579
+        },
+        {
+          "variable": "petal_width",
+          "importance": 0.239473684210526
+        },
+        {
+          "variable": "sepal_length",
+          "importance": 0.0289473684210526
+        },
+        {
+          "variable": "sepal_width",
+          "importance": 0.0105263157894737
+        }
+      ],
+      "notes": [
+        "Permutation importance: loss of test accuracy when the predictor is shuffled."
+      ]
+    },
+    {
+      "id": "discriminants",
+      "title": "Coefficients of Linear Discriminants",
+      "columns": [
+        {
+          "id": "name",
+          "label": "Predictor",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "LD1",
+          "type": "number",
+          "digits": 4
+        },
+        {
+          "id": "c2",
+          "label": "LD2",
+          "type": "number",
+          "digits": 4
+        }
+      ],
+      "rows": [
+        {
+          "name": "sepal_length",
+          "c1": 0.477071402142427,
+          "c2": 0.310613657011302
+        },
+        {
+          "name": "sepal_width",
+          "c1": 1.68038224448542,
+          "c2": -2.12023801178469
+        },
+        {
+          "name": "petal_length",
+          "c1": -2.23521217773882,
+          "c2": 0.772974759424602
+        },
+        {
+          "name": "petal_width",
+          "c1": -2.4605672372748,
+          "c2": -2.77460909296036
+        }
+      ],
+      "notes": [
+        "Proportion of between-group variance: LD1 99.1%, LD2 0.9%."
+      ]
+    },
+    {
+      "id": "group_means",
+      "title": "Group Means (Training Data)",
+      "columns": [
+        {
+          "id": "name",
+          "label": "Group",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "sepal_length",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c2",
+          "label": "sepal_width",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c3",
+          "label": "petal_length",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c4",
+          "label": "petal_width",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "name": "setosa",
+          "c1": 5.06923076923077,
+          "c2": 3.46410256410256,
+          "c3": 1.48974358974359,
+          "c4": 0.248717948717949
+        },
+        {
+          "name": "versicolor",
+          "c1": 5.95135135135135,
+          "c2": 2.75945945945946,
+          "c3": 4.27027027027027,
+          "c4": 1.32972972972973
+        },
+        {
+          "name": "virginica",
+          "c1": 6.48611111111111,
+          "c2": 2.96666666666667,
+          "c3": 5.45555555555556,
+          "c4": 2.01666666666667
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "overfit",
+      "test": "Overfitting",
+      "status": "ok",
+      "message": "Training and test accuracy are close.",
+      "table": null
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot30",
+      "title": "Confusion matrix",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot30.svg",
+      "html": "plot30.html",
+      "data_csv": "plot30.csv"
+    },
+    {
+      "id": "plot31",
+      "title": "Variable importance",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot31.svg",
+      "html": "plot31.html",
+      "data_csv": null
+    },
+    {
+      "id": "plot32",
+      "title": "Discriminant scores",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot32.svg",
+      "html": "plot32.html",
+      "data_csv": "plot32.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "A linear discriminant analysis predicting species from 4 predictors classified 100.0% of 38 held-out cases correctly (95% CI [90.7, 100.0]; κ = 1.00), compared with 36.8% for always predicting the largest class. The most important predictor was petal_length."
+  },
+  "notes": [],
+  "module": "ml_lda",
+  "module_version": "1.0.0",
+  "title": "Linear Discriminant Analysis",
+  "status": "ok",
+  "code": "library(ggnext)\n# Linear discriminant analysis (classification): species ~ sepal_length + sepal_width + petal_length + petal_width\npredictors <- c(\"sepal_length\", \"sepal_width\", \"petal_length\", \"petal_width\")\nd <- data[complete.cases(data[, c(\"species\", predictors)]), c(\"species\", predictors), drop = FALSE]\nd$species <- droplevels(factor(d$species))\nd$species <- droplevels(d$species)\n# Hold out 25% of the cases to test the model\nset.seed(123)\ntest_rows <- sample(nrow(d), round(0.25 * nrow(d)))\ntrain <- d[-test_rows, , drop = FALSE]\ntest <- d[test_rows, , drop = FALSE]\nfit <- MASS::lda(species ~ ., data = train)\npredict_fn <- function(newdata) predict(fit, newdata)$posterior\ndiscriminants <- fit$scaling                      # coefficients of the linear discriminants\ntrace <- fit$svd^2 / sum(fit$svd^2)               # share of between-group variance per discriminant\ngroup_means <- fit$means\n# Performance on the held-out test set\nclasses <- levels(train$species)\nprob <- predict_fn(test)\npred <- factor(colnames(prob)[apply(prob, 1, which.max)], levels = classes)\nconfusion <- table(Predicted = pred, Actual = test$species)\nn_test <- sum(confusion)\naccuracy <- c(sum(diag(confusion)) / n_test, binom.test(sum(diag(confusion)), n_test)$conf.int)\nchance <- sum(rowSums(confusion) * colSums(confusion)) / n_test^2\nkappa <- (accuracy[1] - chance) / (1 - chance)\nno_information_rate <- max(colSums(confusion)) / n_test\nby_class <- data.frame(class = classes, sensitivity = diag(confusion) / colSums(confusion),\n                       specificity = (n_test - rowSums(confusion) - colSums(confusion) + diag(confusion)) / (n_test - colSums(confusion)),\n                       precision = diag(confusion) / rowSums(confusion))\nby_class$f1 <- 2 * by_class$precision * by_class$sensitivity / (by_class$precision + by_class$sensitivity)\ntrain_accuracy <- mean(colnames(prob)[apply(predict_fn(train), 1, which.max)] == train$species)\n# Permutation importance: loss of test accuracy when one predictor is shuffled (mean of 10 shuffles)\nscore <- function(data) mean(colnames(prob)[apply(predict_fn(data), 1, which.max)] == data$species)\nset.seed(123)\nimportance <- sapply(predictors, function(v) mean(replicate(10, {\n  shuffled <- test\n  shuffled[[v]] <- sample(shuffled[[v]])\n  score(test) - score(shuffled)\n})))\nimportance <- sort(importance, decreasing = TRUE)\nscores <- as.data.frame(predict(fit, train)$x)\nscores$group <- train$species\np_scores <- ggnext(scores, aes(LD1, LD2, color = group)) +\n  geom_point(size = 3, alpha = 0.8) +\n  labs(title = \"Discriminant scores (training data)\", x = \"LD1\", y = \"LD2\") +\n  theme_modern()\nimportance_df <- data.frame(variable = names(importance), importance = as.numeric(importance))[seq_len(min(length(importance), 20)), ]\nimportance_df$variable <- factor(importance_df$variable, levels = rev(importance_df$variable))\n# Names are drawn inside the panel, left of the data (ggnext clips long axis labels)\nlabel_pad <- min(0.5, (max(nchar(as.character(importance_df$variable))) * 7 + 12) / 500)\nimportance_df$label_x <- min(0, importance_df$importance) - (max(importance_df$importance) - min(0, importance_df$importance)) * label_pad / (1 - label_pad)\np_importance <- ggnext(importance_df, aes(importance, variable)) +\n  geom_importance() +\n  geom_text(aes(x = label_x, y = variable, label = variable), anchor = \"start\") +\n  labs(title = \"Variable importance\", x = \"Importance\") +\n  theme(axis_title_y = FALSE, axis_text_y = FALSE, base = theme_modern())\nconfusion_df <- data.frame(predicted = pred, actual = test$species)\np_performance <- ggnext(confusion_df, aes(predicted, actual)) +\n  geom_confusion_matrix() +\n  labs(title = \"Confusion matrix (test set)\", x = \"Predicted\", y = \"Actual\") +\n  theme_modern()\np_performance <- p_performance + labs(color = \"Share of actual\")",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "MASS": "7.3.60.0.1",
+      "pROC": "1.18.5",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

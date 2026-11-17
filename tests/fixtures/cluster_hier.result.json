@@ -1,0 +1,228 @@
+{
+  "tables": [
+    {
+      "id": "sizes",
+      "title": "Cluster Sizes",
+      "columns": [
+        {
+          "id": "cluster",
+          "label": "Cluster",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "silhouette",
+          "label": "Mean silhouette",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "cluster": "1",
+          "n": 7,
+          "silhouette": 0.461568964200441
+        },
+        {
+          "cluster": "2",
+          "n": 12,
+          "silhouette": 0.29246719087045
+        },
+        {
+          "cluster": "3",
+          "n": 19,
+          "silhouette": 0.262675836498594
+        },
+        {
+          "cluster": "4",
+          "n": 12,
+          "silhouette": 0.426625498705253
+        }
+      ],
+      "notes": [
+        "N = 50 complete cases. Average silhouette width = 0.337."
+      ]
+    },
+    {
+      "id": "centers",
+      "title": "Cluster Means",
+      "columns": [
+        {
+          "id": "name",
+          "label": "Cluster",
+          "type": "text"
+        },
+        {
+          "id": "c1",
+          "label": "murder",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "c2",
+          "label": "assault",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "c3",
+          "label": "urban_pop",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "c4",
+          "label": "rape",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "name": "Cluster 1",
+          "c1": 14.6714285714286,
+          "c2": 251.285714285714,
+          "c3": 54.2857142857143,
+          "c4": 21.6857142857143
+        },
+        {
+          "name": "Cluster 2",
+          "c1": 10.9666666666667,
+          "c2": 264,
+          "c3": 76.5,
+          "c4": 33.6083333333333
+        },
+        {
+          "name": "Cluster 3",
+          "c1": 6.21052631578947,
+          "c2": 142.052631578947,
+          "c3": 71.2631578947368,
+          "c4": 19.1842105263158
+        },
+        {
+          "name": "Cluster 4",
+          "c1": 3.09166666666667,
+          "c2": 76,
+          "c3": 52.0833333333333,
+          "c4": 11.8333333333333
+        }
+      ],
+      "notes": [
+        "Means are in the original units; clustering used standardized values."
+      ]
+    },
+    {
+      "id": "members",
+      "title": "Cluster Members",
+      "columns": [
+        {
+          "id": "cluster",
+          "label": "Cluster",
+          "type": "text"
+        },
+        {
+          "id": "members",
+          "label": "Members",
+          "type": "text"
+        }
+      ],
+      "rows": [
+        {
+          "cluster": "1",
+          "members": "Alabama, Georgia, Louisiana, Mississippi, North Carolina, South Carolina, Tennessee"
+        },
+        {
+          "cluster": "2",
+          "members": "Alaska, Arizona, California, Colorado, Florida, Illinois, Maryland, Michigan, Nevada, New Mexico, New York, Texas"
+        },
+        {
+          "cluster": "3",
+          "members": "Arkansas, Connecticut, Delaware, Hawaii, Indiana, Kansas, Kentucky, Massachusetts, Missouri, New Jersey, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, Utah, Virginia, Washington, Wyoming"
+        },
+        {
+          "cluster": "4",
+          "members": "Idaho, Iowa, Maine, Minnesota, Montana, Nebraska, New Hampshire, North Dakota, South Dakota, Vermont, West Virginia, Wisconsin"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "fit",
+      "title": "Cluster Solution",
+      "columns": [
+        {
+          "id": "k",
+          "label": "k",
+          "type": "int"
+        },
+        {
+          "id": "ac",
+          "label": "Agglomerative coefficient",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "sil",
+          "label": "Average silhouette",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "k": 4,
+          "ac": 0.934621023538665,
+          "sil": 0.337018718355696
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [],
+  "plots": [
+    {
+      "id": "plot7",
+      "title": "Dendrogram",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot7.svg",
+      "html": "plot7.html",
+      "data_csv": null
+    },
+    {
+      "id": "plot8",
+      "title": "Cluster plot",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot8.svg",
+      "html": "plot8.html",
+      "data_csv": "plot8.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "Hierarchical clustering (Ward linkage, euclidean distance) of 50 cases was cut into 4 clusters of sizes 7, 12, 19, 12. The agglomerative coefficient was 0.93, and the average silhouette width of 0.34 indicates a weak cluster structure."
+  },
+  "notes": [],
+  "module": "cluster_hier",
+  "module_version": "1.0.0",
+  "title": "Hierarchical Clustering",
+  "status": "ok",
+  "code": "library(ggnext)\n# Hierarchical clustering (ward.D2 linkage, euclidean distance), cut into 4 clusters\nvars <- c(\"murder\", \"assault\", \"urban_pop\", \"rape\")\nd <- data[complete.cases(data[, vars, drop = FALSE]), , drop = FALSE]\nx <- scale(d[vars])   # z-scores, so every variable counts equally\nrownames(x) <- make.unique(as.character(d$state))\nhc <- hclust(dist(x, method = \"euclidean\"), method = \"ward.D2\")\ncluster <- factor(cutree(hc, k = 4))\nsizes <- data.frame(cluster = levels(cluster), n = as.vector(table(cluster)))\ncenters <- aggregate(d[vars], list(cluster = cluster), mean)\nsil <- cluster::silhouette(as.integer(cluster), dist(x))\nsilhouette_avg <- mean(sil[, \"sil_width\"])\nsizes$silhouette <- as.vector(tapply(sil[, \"sil_width\"], cluster, mean))\nagglomerative_coef <- cluster::coef.hclust(hc)\n# Dendrogram segments from the merge history\nn <- length(hc$order)\nleaf_x <- match(seq_len(n), hc$order)\nnode_x <- numeric(n - 1)\nsegs <- vector(\"list\", n - 1)\nfor (i in seq_len(n - 1)) {\n  child <- hc$merge[i, ]\n  cx <- ifelse(child < 0, leaf_x[abs(child)], node_x[abs(child)])\n  cy <- ifelse(child < 0, 0, hc$height[abs(child)])\n  node_x[i] <- mean(cx)\n  segs[[i]] <- data.frame(x = c(cx[1], cx[2], cx[1]), xend = c(cx[1], cx[2], cx[2]), y = c(cy[1], cy[2], hc$height[i]), yend = hc$height[i])\n}\ndendro <- do.call(rbind, segs)\ncut_height <- mean(rev(hc$height)[c(3, 4)])   # height that gives 4 clusters\np_dendrogram <- ggnext(dendro, aes(x = x, y = y, xend = xend, yend = yend)) +\n  geom_segment() +\n  geom_hline(yintercept = cut_height, dash = \"4 4\") +\n  labs(title = \"Dendrogram\", x = \"Cases\", y = \"Height\") +\n  theme_modern()\npc <- prcomp(x)\nplot_df <- data.frame(PC1 = pc$x[, 1], PC2 = pc$x[, 2], cluster = cluster)\npc_var <- round(100 * pc$sdev^2 / sum(pc$sdev^2), 1)\np_clusters <- ggnext(plot_df, aes(PC1, PC2, color = cluster)) +\n  geom_point(size = 3, alpha = 0.8) +\n  labs(title = \"Clusters on the first two principal components\") +\n  theme_modern()\np_clusters <- p_clusters + labs(x = paste0(\"PC1 (\", pc_var[1], \"%)\"), y = paste0(\"PC2 (\", pc_var[2], \"%)\"))",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "cluster": "2.1.6",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

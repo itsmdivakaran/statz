@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import { AnalysisDialog } from "../dialogs/AnalysisDialog";
-import { DataPanel } from "../grid/DataGrid";
-import { ResultsPanel } from "../results/ResultsPanel";
 import { cancel } from "../rpc/client";
 import { useStore } from "../state/store";
 import { openDataFile, saveProject } from "./actions";
@@ -9,6 +6,7 @@ import { CommandPalette } from "./CommandPalette";
 import { Ribbon } from "./Ribbon";
 import { TransformDialog } from "../transform/TransformDialog";
 import { Welcome } from "./Welcome";
+import { Workspace } from "./Workspace";
 import { Startup } from "./Startup";
 
 export function App() {
@@ -40,13 +38,7 @@ export function App() {
   return (
     <div className="flex h-full flex-col">
       <Ribbon onSearch={() => setPalette(true)} />
-      {!data ? <main className="min-h-0 flex-1"><Welcome /></main> : (
-        <main className="grid min-h-0 flex-1 grid-cols-[minmax(320px,1fr)_minmax(340px,0.9fr)_minmax(420px,1.3fr)] gap-2.5 p-2.5">
-          <div className="card min-h-0 overflow-hidden"><DataPanel /></div>
-          <div className="card min-h-0 overflow-hidden"><AnalysisDialog /></div>
-          <div className="card min-h-0 overflow-hidden"><ResultsPanel /></div>
-        </main>
-      )}
+      {!data ? <main className="min-h-0 flex-1"><Welcome /></main> : <Workspace />}
       <TransformDialog />
       <CommandPalette open={palette} onClose={() => setPalette(false)} />
     </div>

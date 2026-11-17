@@ -76,7 +76,7 @@ codegen_clin_table1 <- function(o, meta, ctx) {
     blank <- stats::setNames(as.list(rep("", length(gn))), paste0("g", seq_along(gn)))
     mk <- function(label, cells = NULL, p = NA, test = "", s = NA) {
       r <- data.frame(characteristic = label, stringsAsFactors = FALSE)
-      for (i in seq_along(gn)) r[[paste0("g", i)]] <- if (is.null(cells)) "" else unname(cells[[gn[i]]] %||% cells[i])
+      for (i in seq_along(gn)) r[[paste0("g", i)]] <- if (is.null(cells)) "" else as.character(cells[[i]])
       r$p <- p; r$test <- test; r$smd <- s
       r
     }

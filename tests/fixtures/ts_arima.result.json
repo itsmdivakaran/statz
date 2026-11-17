@@ -1,0 +1,422 @@
+{
+  "tables": [
+    {
+      "id": "model",
+      "title": "Model",
+      "columns": [
+        {
+          "id": "model",
+          "label": "Model",
+          "type": "text"
+        },
+        {
+          "id": "sigma2",
+          "label": "σ²",
+          "type": "number",
+          "digits": 5
+        },
+        {
+          "id": "loglik",
+          "label": "Log-likelihood",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "aic",
+          "label": "AIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "aicc",
+          "label": "AICc",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "bic",
+          "label": "BIC",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "model": "ARIMA(0,1,1)(0,1,1)[12]",
+          "sigma2": 0.00133757452140671,
+          "loglik": 223.629691131471,
+          "aic": -441.259382262943,
+          "aicc": -441.050686610769,
+          "bic": -432.922011783608
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "coefficients",
+      "title": "Coefficients",
+      "columns": [
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "estimate",
+          "label": "Estimate",
+          "type": "number",
+          "digits": 4
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 4
+        },
+        {
+          "id": "z",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "term": "ma1",
+          "estimate": -0.3484480438706,
+          "se": 0.0942797811108217,
+          "z": -3.69589364511798,
+          "p": 0.000219114690867316,
+          "_row": "ma1"
+        },
+        {
+          "term": "sma1",
+          "estimate": -0.562260449414638,
+          "se": 0.0774157025907852,
+          "z": -7.26287343004188,
+          "p": 3.78952502806049e-13,
+          "_row": "sma1"
+        }
+      ],
+      "notes": [
+        "The model was fitted to the log series; forecasts are back-transformed."
+      ]
+    },
+    {
+      "id": "accuracy",
+      "title": "Forecast Accuracy",
+      "columns": [
+        {
+          "id": "set",
+          "label": "Data",
+          "type": "text"
+        },
+        {
+          "id": "rmse",
+          "label": "RMSE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "mae",
+          "label": "MAE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "mape",
+          "label": "MAPE (%)",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "mase",
+          "label": "MASE",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "set": "Training",
+          "rmse": 9.00080204747208,
+          "mae": 6.75383769620793,
+          "mape": 2.5874903125302,
+          "mase": 0.221800909563479
+        },
+        {
+          "set": "Hold-out (last 12)",
+          "rmse": 18.5935900971898,
+          "mae": 13.2606537931284,
+          "mape": 2.90447318709954,
+          "mase": 0.435489451334266
+        }
+      ],
+      "notes": [
+        "MASE below 1 means the model beats a naive forecast.",
+        "Hold-out accuracy is the honest measure: those observations were not used to fit the model."
+      ]
+    },
+    {
+      "id": "forecast",
+      "title": "Forecasts",
+      "columns": [
+        {
+          "id": "time",
+          "label": "Time",
+          "type": "text"
+        },
+        {
+          "id": "forecast",
+          "label": "Forecast",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "ci",
+          "label": "95% interval",
+          "type": "ci",
+          "digits": 2
+        },
+        {
+          "id": "actual",
+          "label": "Actual",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "time": "1960 Jan",
+          "forecast": 419.325234071543,
+          "ci": [390.319295148152, 450.486701822963],
+          "actual": 417
+        },
+        {
+          "time": "1960 Feb",
+          "forecast": 398.92086011183,
+          "ci": [366.210620151972, 434.55280615926],
+          "actual": 391
+        },
+        {
+          "time": "1960 Mar",
+          "forecast": 466.579158547005,
+          "ci": [423.246774637042, 514.347950736585],
+          "actual": 419
+        },
+        {
+          "time": "1960 Apr",
+          "forecast": 454.407046665565,
+          "ci": [407.8540711758, 506.273637195884],
+          "actual": 461
+        },
+        {
+          "time": "1960 May",
+          "forecast": 473.263278472947,
+          "ci": [420.695291552193, 532.399899044686],
+          "actual": 472
+        },
+        {
+          "time": "1960 Jun",
+          "forecast": 547.118920910137,
+          "ci": [482.026191251831, 621.001761004903],
+          "actual": 535
+        },
+        {
+          "time": "1960 Jul",
+          "forecast": 622.216608370901,
+          "ci": [543.638530451852, 712.152443298675],
+          "actual": 622
+        },
+        {
+          "time": "1960 Aug",
+          "forecast": 630.150130625199,
+          "ci": [546.264886310371, 726.916917191966],
+          "actual": 606
+        },
+        {
+          "time": "1960 Sep",
+          "forecast": 526.746522716431,
+          "ci": [453.241215844952, 612.172700747426],
+          "actual": 508
+        },
+        {
+          "time": "1960 Oct",
+          "forecast": 462.289817295885,
+          "ci": [394.969101119396, 541.085048348781],
+          "actual": 461
+        },
+        {
+          "time": "1960 Nov",
+          "forecast": 406.627895262885,
+          "ci": [345.06417744706, 479.175341900829],
+          "actual": 390
+        },
+        {
+          "time": "1960 Dec",
+          "forecast": 452.296465798342,
+          "ci": [381.326345801922, 536.475109118042],
+          "actual": 432
+        },
+        {
+          "time": "1961 Jan",
+          "forecast": 469.873867232603,
+          "ci": [389.46324354362, 566.886489978596],
+          "actual": null
+        },
+        {
+          "time": "1961 Feb",
+          "forecast": 447.009795810479,
+          "ci": [366.220605538162, 545.62128544595],
+          "actual": null
+        },
+        {
+          "time": "1961 Mar",
+          "forecast": 522.824136930454,
+          "ci": [423.644619635319, 645.222588669661],
+          "actual": null
+        },
+        {
+          "time": "1961 Apr",
+          "forecast": 509.184706680605,
+          "ci": [408.300284120463, 634.99604482499],
+          "actual": null
+        },
+        {
+          "time": "1961 May",
+          "forecast": 530.314011193812,
+          "ci": [421.018600397445, 667.982246397152],
+          "actual": null
+        },
+        {
+          "time": "1961 Jun",
+          "forecast": 613.072771004078,
+          "ci": [482.0854490877, 779.65062678804],
+          "actual": null
+        },
+        {
+          "time": "1961 Jul",
+          "forecast": 697.223301332988,
+          "ci": [543.234020860494, 894.863563868195],
+          "actual": null
+        },
+        {
+          "time": "1961 Aug",
+          "forecast": 706.113190324897,
+          "ci": [545.299007419017, 914.353099432062],
+          "actual": null
+        },
+        {
+          "time": "1961 Sep",
+          "forecast": 590.244529948482,
+          "ci": [451.924334409224, 770.900300355664],
+          "actual": null
+        },
+        {
+          "time": "1961 Oct",
+          "forecast": 518.017726064179,
+          "ci": [393.339747736299, 682.215225033917],
+          "actual": null
+        },
+        {
+          "time": "1961 Nov",
+          "forecast": 455.64589523183,
+          "ci": [343.198990613412, 604.935292701594],
+          "actual": null
+        },
+        {
+          "time": "1961 Dec",
+          "forecast": 506.81970044294,
+          "ci": [378.760273369119, 678.176215452099],
+          "actual": null
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "residuals",
+      "test": "Residual autocorrelation (Ljung-Box)",
+      "status": "ok",
+      "message": "The residuals look like white noise.",
+      "table": {
+        "id": "ljung_box",
+        "title": "Ljung-Box Test",
+        "columns": [
+          {
+            "id": "stat",
+            "label": "Q",
+            "type": "number",
+            "digits": 2
+          },
+          {
+            "id": "df",
+            "label": "df",
+            "type": "int"
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "stat": 7.1540431465553,
+            "df": 8,
+            "p": 0.520107580599064
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot49",
+      "title": "Forecast",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot49.svg",
+      "html": "plot49.html",
+      "data_csv": "plot49.csv"
+    },
+    {
+      "id": "plot50",
+      "title": "Residual autocorrelation",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot50.svg",
+      "html": "plot50.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "ARIMA(0,1,1)(0,1,1)[12] was fitted to 132 observations of passengers (training MAPE = 2.6%; hold-out MAPE = 2.9%). The forecast for 1961 Dec is 506.8, 95% interval [378.8, 678.2]."
+  },
+  "notes": [],
+  "module": "ts_arima",
+  "module_version": "1.0.0",
+  "title": "ARIMA Forecast",
+  "status": "ok",
+  "code": "library(ggnext)\n# ARIMA forecast of passengers\nd <- data[!is.na(data$passengers), , drop = FALSE]\nd <- d[order(d$date), , drop = FALSE]   # rows in time order\ny <- ts(d$passengers, frequency = 12, start = c(1949, 1))\ny_train <- head(y, length(y) - 12)\ny_test <- tail(y, 12)\nfit <- forecast::auto.arima(y_train, lambda = 0, biasadj = FALSE)   # orders chosen by AICc\ncoefs <- data.frame(term = names(coef(fit)), estimate = unname(coef(fit)), se = sqrt(diag(vcov(fit))))\ncoefs$z <- coefs$estimate / coefs$se\ncoefs$p <- 2 * pnorm(abs(coefs$z), lower.tail = FALSE)\nfc <- forecast::forecast(fit, h = 24, level = 95)\nforecast_tbl <- data.frame(time = as.numeric(time(fc$mean)), forecast = as.numeric(fc$mean), lower = as.numeric(fc$lower), upper = as.numeric(fc$upper))\naccuracy_train <- forecast::accuracy(fit)\n# Accuracy on the last 12 observations, which the model did not see\naccuracy_test <- forecast::accuracy(fc, y_test)\n# Ljung-Box test: are the residuals free of autocorrelation?\nlb_lag <- min(24, 10, length(y_train) %/% 5)\nlb_lag <- max(lb_lag, length(coef(fit)) + 1)\nljung_box <- Box.test(residuals(fit), lag = lb_lag, type = \"Ljung-Box\", fitdf = length(coef(fit)))\nplot_df <- rbind(\n  data.frame(time = as.numeric(time(y)), value = as.numeric(y), lower = NA, upper = NA, part = \"Observed\"),\n  data.frame(time = forecast_tbl$time, value = forecast_tbl$forecast, lower = forecast_tbl$lower, upper = forecast_tbl$upper, part = \"Forecast\"))\np_forecast <- ggnext(plot_df, aes(time, value, ymin = lower, ymax = upper, group = part)) +\n  geom_forecast_band() +\n  labs(title = \"Forecast\", x = \"Time\", y = \"Passengers (thousands)\") +\n  theme_modern()\nresid_acf <- with(acf(residuals(fit), plot = FALSE), data.frame(lag = as.numeric(lag) * frequency(y), value = as.numeric(acf)))\nresid_acf <- resid_acf[resid_acf$lag > 0, ]\nresid_acf_limit <- qnorm(0.975) / sqrt(length(residuals(fit)))   # limits expected for white noise\np_residuals <- ggnext(resid_acf, aes(x = lag, y = 0, xend = lag, yend = value)) +\n  geom_segment() +\n  geom_hline(yintercept = resid_acf_limit, dash = \"4 4\") +\n  geom_hline(yintercept = -resid_acf_limit, dash = \"4 4\") +\n  labs(title = \"Residual autocorrelation\", x = \"Lag\", y = \"Autocorrelation\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "forecast": "8.21.1",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}
