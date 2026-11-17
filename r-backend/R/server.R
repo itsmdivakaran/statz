@@ -17,8 +17,10 @@ sn_serve <- function(modules_dirs, datasets_dir = NULL, work_dir = tempfile("sta
   open(input)
   on.exit(close(input))
   repeat {
-    line <- readLines(input, n = 1L, warn = FALSE)
+    # A cancel (SIGINT) that arrives between requests must not stop the server.
+    line <- tryCatch(readLines(input, n = 1L, warn = FALSE), interrupt = function(e) NA_character_)
     if (length(line) == 0L) break                     # stdin closed: shut down
+    if (is.na(line)) next
     if (!nzchar(trimws(line))) next
     resp <- sn_handle_line(sess, line)
     if (!is.null(resp)) {
@@ -77,7 +79,7 @@ sn_dispatch <- function(sess, method, p) {
       r_version = paste(R.version$major, R.version$minor, sep = "."),
       statnextr = as.character(utils::packageVersion("statnextr")),
       plot_engine = if (requireNamespace("ggnext", quietly = TRUE)) "ggnext" else "ggplot2",
-      modules = names(sess$modules),
+      modules = as.list(names(sess$modules)),
       missing_packages = as.list(sn_missing_packages(sess))
     ),
     system.shutdown = { sess$shutdown <- TRUE; list(ok = TRUE) },
@@ -88,6 +90,8 @@ sn_dispatch <- function(sess, method, p) {
     data.info = sn_data_info(sess, ds),
     data.slice = sn_data_slice(sess, ds, p$offset %||% 0L, p$limit %||% 200L),
     data.patch = sn_data_patch(sess, ds, p$ops),
+    data.save = sn_data_save(sess, p$path),
+    data.load = sn_data_load(sess, p$path),
     analysis.list = lapply(unname(sess$modules), function(m) m$spec),
     analysis.help = list(markdown = sn_module(sess, p$module)$help),
     analysis.run = sn_run_analysis(sess, p$module, p$options %||% list(), ds, p$instance),
