@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "diag_2x2",
+  "version": "1.0.0",
+  "title": "Diagnostic Test Accuracy",
+  "description": "Sensitivity, specificity, predictive values and likelihood ratios",
+  "menu": ["Clinical", "Diagnostic accuracy"],
+  "r": { "file": "diag_2x2.R", "fn": "codegen_diag_2x2", "packages": [] },
+  "roles": [
+    { "id": "test", "label": "Test result (2 values)", "min": 1, "max": 1, "measure": [], "levels": { "exactly": 2 } },
+    { "id": "reference", "label": "Reference standard (2 values)", "min": 1, "max": 1, "measure": [], "levels": { "exactly": 2 } }
+  ],
+  "options": {
+    "test_positive": { "type": "enum", "label": "Positive test is", "values": ["second", "first"], "labels": ["The higher value (e.g. 1 = positive)", "The lower value"], "default": "second" },
+    "ref_positive": { "type": "enum", "label": "Disease present is", "values": ["second", "first"], "labels": ["The higher value (e.g. 1 = disease)", "The lower value"], "default": "second" },
+    "conf_level": { "type": "number", "label": "Confidence level", "min": 0.5, "max": 0.999, "step": 0.01, "default": 0.95 },
+    "prevalence": { "type": "number", "label": "Prevalence for predictive values (%, 0 = as in the sample)", "min": 0, "max": 99.9, "step": 0.1, "default": 0 }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["test", "reference"] },
+    { "section": "Options", "items": ["test_positive", "ref_positive", "conf_level", "prevalence"] }
+  ],
+  "guide": { "outcome": "binary", "design": "diagnostic" },
+  "example": { "dataset": "asah", "options": { "test": ["s100b_high"], "reference": ["outcome"] } }
+}

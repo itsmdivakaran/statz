@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "roc",
+  "version": "1.0.0",
+  "title": "ROC Curve Analysis",
+  "description": "AUC, optimal cut-off and comparison of markers",
+  "menu": ["Clinical", "Diagnostic accuracy"],
+  "r": { "file": "roc.R", "fn": "codegen_roc", "packages": ["pROC", "ggnext"] },
+  "roles": [
+    { "id": "outcome", "label": "Outcome (2 values)", "min": 1, "max": 1, "measure": [], "levels": { "exactly": 2 } },
+    { "id": "markers", "label": "Markers / test scores", "min": 1, "max": null, "measure": ["continuous", "ordinal"] }
+  ],
+  "options": {
+    "event_level": { "type": "enum", "label": "Positive outcome is", "values": ["second", "first"], "labels": ["The higher value (e.g. 1 = disease)", "The lower value"], "default": "second" },
+    "direction": { "type": "enum", "label": "Marker direction", "values": ["auto", "higher", "lower"], "labels": ["Detect automatically", "Higher values indicate a positive outcome", "Lower values indicate a positive outcome"], "default": "auto" },
+    "conf_level": { "type": "number", "label": "Confidence level", "min": 0.5, "max": 0.999, "step": 0.01, "default": 0.95 },
+    "cutoff": { "type": "bool", "label": "Optimal cut-off (Youden index)", "default": true },
+    "coords": { "type": "bool", "label": "Table of all cut-offs", "default": false },
+    "compare": { "type": "bool", "label": "Compare AUCs (DeLong test)", "default": true },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "roc"], "labels": ["None", "ROC curves"], "default": "roc" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["outcome", "markers"] },
+    { "section": "Options", "items": ["event_level", "direction", "conf_level", "cutoff", "coords", "compare"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "binary", "design": "diagnostic" },
+  "example": { "dataset": "asah", "options": { "outcome": ["outcome"], "markers": ["s100b", "ndka"] } }
+}

@@ -1,0 +1,39 @@
+{
+  "title": "Subarachnoid haemorrhage biomarkers",
+  "description": "Clinical outcome and biomarkers for 113 patients with aneurysmal subarachnoid haemorrhage. s100b_high marks S100B of 0.20 µg/l or more. Source: pROC::aSAH (Turck et al., 2010).",
+  "variables": {
+    "outcome": {
+      "label": "Outcome at 6 months"
+    },
+    "s100b": {
+      "label": "S100B (µg/l)"
+    },
+    "ndka": {
+      "label": "NDKA (µg/l)"
+    },
+    "wfns": {
+      "label": "WFNS score",
+      "measure": "ordinal"
+    },
+    "s100b_high": {
+      "label": "S100B ≥ 0.20 µg/l",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 0,
+          "label": "Negative"
+        },
+        {
+          "value": 1,
+          "label": "Positive"
+        }
+      ]
+    },
+    "age": {
+      "label": "Age (years)"
+    },
+    "gender": {
+      "label": "Gender"
+    }
+  }
+}

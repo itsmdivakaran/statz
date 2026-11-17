@@ -1,0 +1,21 @@
+{
+  "title": "Iris flowers",
+  "description": "Sepal and petal measurements (cm) of 150 iris flowers from three species. Source: R datasets::iris (Fisher, 1936; Anderson, 1935).",
+  "variables": {
+    "sepal_length": {
+      "label": "Sepal length (cm)"
+    },
+    "sepal_width": {
+      "label": "Sepal width (cm)"
+    },
+    "petal_length": {
+      "label": "Petal length (cm)"
+    },
+    "petal_width": {
+      "label": "Petal width (cm)"
+    },
+    "species": {
+      "label": "Species"
+    }
+  }
+}

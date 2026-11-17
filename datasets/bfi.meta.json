@@ -1,0 +1,123 @@
+{
+  "title": "Big Five personality items",
+  "description": "25 personality self-report items (6-point scale) from 2800 people; five items each for Agreeableness, Conscientiousness, Extraversion, Neuroticism and Openness. Source: psych::bfi (International Personality Item Pool).",
+  "variables": {
+    "A1": {
+      "label": "Personality item A1",
+      "measure": "ordinal"
+    },
+    "A2": {
+      "label": "Personality item A2",
+      "measure": "ordinal"
+    },
+    "A3": {
+      "label": "Personality item A3",
+      "measure": "ordinal"
+    },
+    "A4": {
+      "label": "Personality item A4",
+      "measure": "ordinal"
+    },
+    "A5": {
+      "label": "Personality item A5",
+      "measure": "ordinal"
+    },
+    "C1": {
+      "label": "Personality item C1",
+      "measure": "ordinal"
+    },
+    "C2": {
+      "label": "Personality item C2",
+      "measure": "ordinal"
+    },
+    "C3": {
+      "label": "Personality item C3",
+      "measure": "ordinal"
+    },
+    "C4": {
+      "label": "Personality item C4",
+      "measure": "ordinal"
+    },
+    "C5": {
+      "label": "Personality item C5",
+      "measure": "ordinal"
+    },
+    "E1": {
+      "label": "Personality item E1",
+      "measure": "ordinal"
+    },
+    "E2": {
+      "label": "Personality item E2",
+      "measure": "ordinal"
+    },
+    "E3": {
+      "label": "Personality item E3",
+      "measure": "ordinal"
+    },
+    "E4": {
+      "label": "Personality item E4",
+      "measure": "ordinal"
+    },
+    "E5": {
+      "label": "Personality item E5",
+      "measure": "ordinal"
+    },
+    "N1": {
+      "label": "Personality item N1",
+      "measure": "ordinal"
+    },
+    "N2": {
+      "label": "Personality item N2",
+      "measure": "ordinal"
+    },
+    "N3": {
+      "label": "Personality item N3",
+      "measure": "ordinal"
+    },
+    "N4": {
+      "label": "Personality item N4",
+      "measure": "ordinal"
+    },
+    "N5": {
+      "label": "Personality item N5",
+      "measure": "ordinal"
+    },
+    "O1": {
+      "label": "Personality item O1",
+      "measure": "ordinal"
+    },
+    "O2": {
+      "label": "Personality item O2",
+      "measure": "ordinal"
+    },
+    "O3": {
+      "label": "Personality item O3",
+      "measure": "ordinal"
+    },
+    "O4": {
+      "label": "Personality item O4",
+      "measure": "ordinal"
+    },
+    "O5": {
+      "label": "Personality item O5",
+      "measure": "ordinal"
+    },
+    "gender": {
+      "label": "Gender",
+      "measure": "nominal",
+      "value_labels": [
+        {
+          "value": 1,
+          "label": "Male"
+        },
+        {
+          "value": 2,
+          "label": "Female"
+        }
+      ]
+    },
+    "age": {
+      "label": "Age (years)"
+    }
+  }
+}

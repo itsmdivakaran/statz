@@ -1,0 +1,27 @@
+{
+  "title": "Stroke unit length of stay",
+  "description": "Length of hospital stay (days) in 9 trials comparing specialist stroke units with usual care. Source: metadat::dat.normand1999 (Normand, 1999).",
+  "variables": {
+    "study": {
+      "label": "Study"
+    },
+    "n_stroke_unit": {
+      "label": "Stroke unit (n)"
+    },
+    "mean_stroke_unit": {
+      "label": "Stroke unit mean stay"
+    },
+    "sd_stroke_unit": {
+      "label": "Stroke unit SD"
+    },
+    "n_usual": {
+      "label": "Usual care (n)"
+    },
+    "mean_usual": {
+      "label": "Usual care mean stay"
+    },
+    "sd_usual": {
+      "label": "Usual care SD"
+    }
+  }
+}

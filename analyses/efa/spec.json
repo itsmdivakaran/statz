@@ -1,0 +1,28 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "efa",
+  "version": "1.0.0",
+  "title": "Exploratory Factor Analysis",
+  "description": "Find the latent factors behind a set of items",
+  "menu": ["Multivariate", "Dimension reduction"],
+  "r": { "file": "efa.R", "fn": "codegen_efa", "packages": ["psych", "GPArotation", "ggnext"] },
+  "roles": [
+    { "id": "vars", "label": "Items", "min": 3, "max": null, "measure": ["continuous", "ordinal"] }
+  ],
+  "options": {
+    "n_factors": { "type": "number", "label": "Number of factors", "min": 1, "max": 30, "step": 1, "default": 2 },
+    "method": { "type": "enum", "label": "Extraction", "values": ["minres", "ml", "pa"], "labels": ["Minimum residual", "Maximum likelihood", "Principal axis"], "default": "minres" },
+    "rotation": { "type": "enum", "label": "Rotation", "values": ["oblimin", "promax", "varimax", "none"], "labels": ["Oblimin (correlated factors)", "Promax (correlated factors)", "Varimax (uncorrelated factors)", "None"], "default": "oblimin" },
+    "cut": { "type": "number", "label": "Hide loadings below", "min": 0, "max": 0.9, "step": 0.05, "default": 0.3 },
+    "sort": { "type": "bool", "label": "Sort items by loading", "default": true },
+    "factorability": { "type": "bool", "label": "KMO and Bartlett's test", "default": true },
+    "plot": { "type": "enum", "label": "Plot", "values": ["none", "scree"], "labels": ["None", "Scree plot"], "default": "scree" }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["vars"] },
+    { "section": "Options", "items": ["n_factors", "method", "rotation", "cut", "sort", "factorability"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "ordinal", "design": "dimension-reduction" },
+  "example": { "dataset": "bfi", "options": { "vars": ["A1", "A2", "A3", "A4", "A5", "C1", "C2", "C3", "C4", "C5", "E1", "E2", "E3", "E4", "E5", "N1", "N2", "N3", "N4", "N5", "O1", "O2", "O3", "O4", "O5"], "n_factors": 5 } }
+}

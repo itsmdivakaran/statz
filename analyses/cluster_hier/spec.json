@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "cluster_hier",
+  "version": "1.0.0",
+  "title": "Hierarchical Clustering",
+  "description": "Build a tree of clusters and cut it into groups",
+  "menu": ["Multivariate", "Clustering"],
+  "r": { "file": "cluster_hier.R", "fn": "codegen_cluster_hier", "packages": ["cluster", "ggnext"] },
+  "roles": [
+    { "id": "vars", "label": "Variables", "min": 2, "max": null, "measure": ["continuous", "ordinal"] },
+    { "id": "label", "label": "Case labels (optional)", "min": 0, "max": 1, "measure": [] }
+  ],
+  "options": {
+    "k": { "type": "number", "label": "Number of clusters", "min": 2, "max": 20, "step": 1, "default": 3 },
+    "linkage": { "type": "enum", "label": "Linkage", "values": ["ward.D2", "complete", "average", "single"], "labels": ["Ward", "Complete", "Average", "Single"], "default": "ward.D2" },
+    "distance": { "type": "enum", "label": "Distance", "values": ["euclidean", "manhattan"], "labels": ["Euclidean", "Manhattan"], "default": "euclidean" },
+    "standardize": { "type": "bool", "label": "Standardize variables", "default": true },
+    "plot": { "type": "enum", "label": "Plots", "values": ["dendrogram", "clusters"], "labels": ["Dendrogram", "Cluster plot"], "multiple": true, "default": ["dendrogram", "clusters"] }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["vars", "label"] },
+    { "section": "Options", "items": ["k", "linkage", "distance", "standardize"] },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "continuous", "design": "clustering" },
+  "example": { "dataset": "usarrests", "options": { "vars": ["murder", "assault", "urban_pop", "rape"], "label": ["state"], "k": 4 } }
+}

@@ -1,0 +1,10 @@
+"study","n_stroke_unit","mean_stroke_unit","sd_stroke_unit","n_usual","mean_usual","sd_usual"
+"Edinburgh",155,55,47,156,75,64
+"Orpington-Mild",31,27,7,32,29,4
+"Orpington-Moderate",75,64,17,71,119,29
+"Orpington-Severe",18,66,20,18,137,48
+"Montreal-Home",8,14,8,13,18,11
+"Montreal-Transfer",57,19,7,52,18,4
+"Newcastle",34,52,45,33,41,34
+"Umea",110,21,16,183,31,27
+"Uppsala",60,30,27,52,23,20
