@@ -190,7 +190,7 @@
   "module_version": "1.0.0",
   "title": "One Sample T-Test",
   "status": "ok",
-  "code": "library(effectsize)\nlibrary(ggnext)\n# One sample t-test: mpg vs 20\nd <- subset(data, !is.na(mpg))\ndesc <- c(n = length(d$mpg), mean = mean(d$mpg), sd = sd(d$mpg), se = sd(d$mpg) / sqrt(length(d$mpg)))\ntt <- t.test(d$mpg, mu = 20, alternative = \"two.sided\", conf.level = 0.95)\nes <- cohens_d(d$mpg, mu = 20, ci = 0.95)\nnormality <- shapiro.test(d$mpg)\np <- ggnext(d, aes(mpg)) +\n  geom_histogram(bins = 20) +\n  labs(title = \"mpg\", x = \"Miles per US gallon\", y = \"Count\") +\n  theme_classic()",
+  "code": "library(effectsize)\nlibrary(ggnext)\n# One sample t-test: mpg vs 20\nd <- subset(data, !is.na(mpg))\ndesc <- c(n = length(d$mpg), mean = mean(d$mpg), sd = sd(d$mpg), se = sd(d$mpg) / sqrt(length(d$mpg)))\ntt <- t.test(d$mpg, mu = 20, alternative = \"two.sided\", conf.level = 0.95)\nes <- cohens_d(d$mpg, mu = 20, ci = 0.95)\nnormality <- shapiro.test(d$mpg)\np <- ggnext(d, aes(mpg)) +\n  geom_histogram(bins = 20) +\n  labs(title = \"mpg\", x = \"Miles per US gallon\", y = \"Count\") +\n  theme_modern()",
   "warnings": [],
   "console": "",
   "meta": {

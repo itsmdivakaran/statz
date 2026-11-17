@@ -33,7 +33,7 @@ sn_plot_code <- function(engine, type, df = "d", x = NULL, y = NULL, fill = NULL
     qq = c(paste0(ctor, "(", df, ", aes(sample = ", X, "))"), "geom_qq()", "geom_qq_line()"),
     sn_abort(paste0("Unknown plot type: ", type), SN_ERR$invalid_options)
   )
-  theme <- "theme_classic()"
+  theme <- sn_plot_theme(engine)
   pre <- if (type == "mean_ci") sn_mean_ci_code(df, x, y) else NULL
   body <- paste(c(layers, labs, theme), collapse = " +\n  ")
   sn_code(pre, paste0(obj, " <- ", body))
@@ -103,3 +103,6 @@ sn_export_plot <- function(sess, plot_id, format = c("svg", "png", "pdf", "html"
   )
   list(path = normalizePath(path, winslash = "/"))
 }
+
+#' Theme call for the engine: ggnext's modern theme, or the closest ggplot2 equivalent.
+sn_plot_theme <- function(engine) if (engine == "ggnext") "theme_modern()" else "theme_minimal()"

@@ -179,7 +179,7 @@
   "module_version": "1.0.0",
   "title": "Chi-Square Test of Association",
   "status": "ok",
-  "code": "library(effectsize)\nlibrary(ggnext)\n# Chi-square test: spontaneous by case\nd <- subset(data, !is.na(spontaneous) & !is.na(case))\nd$spontaneous <- factor(d$spontaneous, levels = c(0, 1, 2), labels = c(\"0\", \"1\", \"2 or more\"))\nd$case <- factor(d$case, levels = c(0, 1), labels = c(\"Control\", \"Case\"))\ntab <- table(spontaneous = d$spontaneous, case = d$case)\nchi <- chisq.test(tab, correct = FALSE)\ncv <- cramers_v(tab, adjust = FALSE, ci = 0.95, alternative = \"two.sided\")\np <- ggnext(d, aes(spontaneous, color = case)) +\n  geom_bar(position = \"dodge\") +\n  labs(title = \"spontaneous by case\", x = \"Prior spontaneous abortions\", y = \"Count\") +\n  theme_classic()",
+  "code": "library(effectsize)\nlibrary(ggnext)\n# Chi-square test: spontaneous by case\nd <- subset(data, !is.na(spontaneous) & !is.na(case))\nd$spontaneous <- factor(d$spontaneous, levels = c(0, 1, 2), labels = c(\"0\", \"1\", \"2 or more\"))\nd$case <- factor(d$case, levels = c(0, 1), labels = c(\"Control\", \"Case\"))\ntab <- table(spontaneous = d$spontaneous, case = d$case)\nchi <- chisq.test(tab, correct = FALSE)\ncv <- cramers_v(tab, adjust = FALSE, ci = 0.95, alternative = \"two.sided\")\np <- ggnext(d, aes(spontaneous, color = case)) +\n  geom_bar(position = \"dodge\") +\n  labs(title = \"spontaneous by case\", x = \"Prior spontaneous abortions\", y = \"Count\") +\n  theme_modern()",
   "warnings": [],
   "console": "",
   "meta": {
