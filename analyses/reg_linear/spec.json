@@ -1,0 +1,30 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "reg_linear",
+  "version": "1.0.0",
+  "title": "Linear Regression",
+  "description": "Continuous outcome, with diagnostics",
+  "menu": ["Regression", "Linear models"],
+  "r": { "file": "reg_linear.R", "fn": "codegen_reg_linear", "packages": ["car", "ggnext"] },
+  "roles": [
+    { "id": "dv", "label": "Dependent variable", "min": 1, "max": 1, "measure": ["continuous"] },
+    { "id": "covariates", "label": "Covariates (continuous)", "min": 0, "max": null, "measure": ["continuous", "ordinal"] },
+    { "id": "factors", "label": "Factors (categorical)", "min": 0, "max": null, "measure": ["nominal", "ordinal"], "levels": { "min": 2 } }
+  ],
+  "options": {
+    "interactions": { "type": "interactions", "label": "Interactions", "from": ["covariates", "factors"] },
+    "conf_level": { "type": "number", "label": "Confidence level", "min": 0.5, "max": 0.999, "step": 0.01, "default": 0.95 },
+    "std_beta": { "type": "bool", "label": "Standardized coefficients (β)", "default": true },
+    "anova": { "type": "bool", "label": "ANOVA table of terms (Type II)", "default": false },
+    "diagnostics": { "type": "enum", "label": "Assumption checks", "values": ["vif", "normality", "bp", "dw", "cook"], "labels": ["Multicollinearity (VIF)", "Normality of residuals (Shapiro-Wilk)", "Constant variance (Breusch-Pagan)", "Independence (Durbin-Watson)", "Influential cases (Cook's distance)"], "multiple": true, "default": ["vif", "normality", "bp", "cook"] },
+    "plot": { "type": "enum", "label": "Plots", "values": ["residuals", "qq", "coef"], "labels": ["Residuals vs fitted", "Q-Q plot of residuals", "Coefficient plot"], "multiple": true, "default": ["residuals", "qq"] }
+  },
+  "layout": [
+    { "section": "Variables", "items": ["dv", "covariates", "factors"] },
+    { "section": "Model", "items": ["interactions", "conf_level", "std_beta", "anova"] },
+    { "section": "Assumption checks", "items": ["diagnostics"], "collapsed": true },
+    { "section": "Plots", "items": ["plot"], "collapsed": true }
+  ],
+  "guide": { "outcome": "continuous", "design": "regression" },
+  "example": { "dataset": "mtcars", "options": { "dv": ["mpg"], "covariates": ["wt", "hp"], "factors": ["am"] } }
+}

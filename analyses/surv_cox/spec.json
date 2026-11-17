@@ -1,0 +1,191 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "surv_cox",
+  "version": "1.0.0",
+  "title": "Cox Regression",
+  "description": "Proportional hazards model, hazard ratios",
+  "menu": [
+    "Survival",
+    "Survival analysis"
+  ],
+  "r": {
+    "file": "surv_cox.R",
+    "fn": "codegen_surv_cox",
+    "packages": [
+      "survival",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "time",
+      "label": "Time",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "event",
+      "label": "Event status (2 values)",
+      "min": 1,
+      "max": 1,
+      "measure": [],
+      "levels": {
+        "exactly": 2
+      }
+    },
+    {
+      "id": "covariates",
+      "label": "Covariates (continuous)",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "continuous",
+        "ordinal"
+      ]
+    },
+    {
+      "id": "factors",
+      "label": "Factors (categorical)",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "min": 2
+      }
+    }
+  ],
+  "options": {
+    "event_level": {
+      "type": "enum",
+      "label": "Event is coded by",
+      "values": [
+        "second",
+        "first"
+      ],
+      "labels": [
+        "The higher value (e.g. 1 = event)",
+        "The lower value"
+      ],
+      "default": "second"
+    },
+    "interactions": {
+      "type": "interactions",
+      "label": "Interactions",
+      "from": [
+        "covariates",
+        "factors"
+      ]
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Confidence level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "ties": {
+      "type": "enum",
+      "label": "Handling of ties",
+      "values": [
+        "efron",
+        "breslow"
+      ],
+      "labels": [
+        "Efron",
+        "Breslow"
+      ],
+      "default": "efron"
+    },
+    "diagnostics": {
+      "type": "enum",
+      "label": "Assumption checks",
+      "values": [
+        "ph"
+      ],
+      "labels": [
+        "Proportional hazards (Schoenfeld residuals)"
+      ],
+      "multiple": true,
+      "default": [
+        "ph"
+      ]
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plots",
+      "values": [
+        "forest"
+      ],
+      "labels": [
+        "Hazard ratio forest plot"
+      ],
+      "multiple": true,
+      "default": [
+        "forest"
+      ]
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "time",
+        "event",
+        "covariates",
+        "factors"
+      ]
+    },
+    {
+      "section": "Model",
+      "items": [
+        "event_level",
+        "interactions",
+        "conf_level",
+        "ties"
+      ]
+    },
+    {
+      "section": "Assumption checks",
+      "items": [
+        "diagnostics"
+      ],
+      "collapsed": true
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "time-to-event",
+    "design": "regression"
+  },
+  "example": {
+    "dataset": "lung",
+    "options": {
+      "time": [
+        "time"
+      ],
+      "event": [
+        "status"
+      ],
+      "covariates": [
+        "age",
+        "ph_ecog"
+      ],
+      "factors": [
+        "sex"
+      ]
+    }
+  }
+}

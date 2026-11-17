@@ -11,7 +11,7 @@ codegen_anova_factorial <- function(o, meta, ctx) {
     sn_libs(c("car", if (need_emm) "emmeans", if (length(o$plot)) ctx$plot_engine)),
     "",
     paste0("# ", if (length(cov)) "ANCOVA" else "ANOVA", ": ", dv, " by ", paste(c(fac, cov), collapse = ", ")),
-    sn_prep_code("d", ctx$data, c(dv, fac, cov), meta),
+    sn_prep_code("d", ctx$data, c(dv, fac, cov), meta, factors = fac),
     paste0("fit <- lm(", sn_formula(sn_name(dv), terms), ", data = d", contr, ")"),
     paste0("anova_table <- as.data.frame(Anova(fit, type = ", o$ss_type, "))"),
     "anova_table <- anova_table[rownames(anova_table) != \"(Intercept)\", ]",

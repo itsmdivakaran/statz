@@ -1,13 +1,12 @@
 # Helpers shared by model-based modules (ANOVA family, regression, mixed, survival) ----
 
-#' Code: complete cases on `vars`, then labelled factors for every nominal/ordinal variable.
+#' Code: complete cases on `vars`, then labelled factors for the variables in `factors`.
 #' @param ordered variables to turn into ordered factors.
-sn_prep_code <- function(df, data, vars, meta, ordered = character(), numeric_factors = character()) {
+sn_prep_code <- function(df, data, vars, meta, factors = character(), ordered = character()) {
   vars <- unique(vars)
-  cat_vars <- Filter(function(v) meta$variables[[v]]$measure %in% c("nominal", "ordinal") || v %in% numeric_factors, vars)
   sn_code(
     paste0(df, " <- ", data, "[complete.cases(", data, "[, ", sn_lit(vars), ", drop = FALSE]), , drop = FALSE]"),
-    vapply(cat_vars, function(v) sn_factor_code(df, v, meta), ""),
+    vapply(intersect(vars, factors), function(v) sn_factor_code(df, v, meta), ""),
     vapply(intersect(ordered, vars), function(v) paste0(sn_ref(df, v), " <- factor(", sn_ref(df, v), ", ordered = TRUE)"), "")
   )
 }
@@ -116,3 +115,78 @@ sn_plots <- function(env, ctx, ids) {
 }
 
 sn_pct <- function(conf_level) paste0(round(100 * conf_level), "% CI")
+
+#' Abort unless at least one predictor is assigned to one of `roles`.
+sn_need_predictors <- function(o, roles = c("covariates", "factors")) {
+  if (!length(unlist(o[roles]))) sn_abort("Add at least one predictor.", SN_ERR$invalid_options,
+                                          data = list(role = roles[1], reason = "missing"))
+}
+
+#' Code: data frame for a coefficient forest plot from a matrix whose columns `ci` hold the CI.
+sn_coef_df_code <- function(coefs = "coefs", rows = "-1", ci = c(5, 6), exp = FALSE) {
+  f <- function(x) if (exp) paste0("exp(", x, ")") else x
+  sn_code(
+    paste0("coef_df <- data.frame(term = rownames(", coefs, "), est = ", f(paste0(coefs, "[, 1]")), ", lower = ", f(paste0(coefs, "[, ", ci[1], "]")),
+           ", upper = ", f(paste0(coefs, "[, ", ci[2], "]")), ")", if (nzchar(rows)) paste0("[", rows, ", ]")),
+    "coef_df$term <- factor(coef_df$term, levels = rev(coef_df$term))")
+}
+
+#' Coefficient table for models whose `coefs` matrix is cbind(coef(summary(fit)), CI).
+sn_tbl_coefs <- function(coefs, o, stat = "z", exp_label = NULL, title = "Coefficients", id = "coefficients", notes = character()) {
+  rows <- sn_coef_rows(coefs[, 1:4, drop = FALSE], coefs[, 5:6, drop = FALSE], exp = !is.null(exp_label))
+  if (!is.null(exp_label)) {
+    int <- rows$term == "(Intercept)"
+    rows$exp[int] <- NA
+    rows$exp_ci[int] <- list(c(NA_real_, NA_real_))
+  }
+  sn_table(id, title, sn_coef_cols(rows, stat = stat, exp_label = exp_label, pct = sn_pct(o$conf_level)), rows, notes = notes)
+}
+
+#' VIF check from car::vif() output (vector, or GVIF matrix when factors are present).
+sn_chk_vif <- function(v) {
+  if (is.null(v)) return(NULL)
+  if (is.matrix(v)) rows <- data.frame(term = rownames(v), vif = v[, ncol(v)]^2, row.names = NULL)
+  else rows <- data.frame(term = names(v), vif = unname(v))
+  bad <- rows$vif > 5
+  sn_check("vif", "Multicollinearity (VIF)", if (any(bad)) "warn" else "ok",
+    if (any(bad)) paste0("High collinearity for ", paste(rows$term[bad], collapse = ", "), " (VIF above 5).") else "No variance inflation factor exceeds 5.",
+    sn_table("vif", "Variance Inflation Factors", list(sn_col("term", "Term", "text"), sn_col("vif", "VIF")), rows,
+             notes = if (is.matrix(v)) "For factors, the value is GVIF^(1/(2·df)) squared, comparable to a VIF."))
+}
+
+#' Likelihood-ratio rows: chi-square, df, p.
+sn_lrt <- function(chi, df) list(chi = chi, df = df, p = stats::pchisq(chi, df, lower.tail = FALSE))
+
+# Mixed models -------------------------------------------------------------------
+
+#' "(1 + x | g)" random-effects term.
+sn_random_term <- function(cluster, slopes = character()) {
+  paste0("(", paste(c("1", sn_name(slopes)), collapse = " + "), " | ", sn_name(cluster), ")")
+}
+
+#' Random-effects table from as.data.frame(VarCorr(fit)).
+sn_tbl_random <- function(vc) {
+  is_cov <- !is.na(vc$var2)
+  rows <- data.frame(group = vc$grp, term = ifelse(is.na(vc$var1), "", ifelse(is_cov, paste0(vc$var1, " ~ ", vc$var2), vc$var1)),
+                     var = ifelse(is_cov, NA, vc$vcov), sd = ifelse(is_cov, NA, vc$sdcor), cor = ifelse(is_cov, vc$sdcor, NA))
+  cols <- list(sn_col("group", "Group", "text"), sn_col("term", "Term", "text"), sn_col("var", "Variance", digits = 3), sn_col("sd", "SD", digits = 3))
+  if (any(is_cov)) cols <- c(cols, list(sn_col("cor", "Correlation", digits = 3))) else rows$cor <- NULL
+  sn_table("random", "Random Effects", cols, rows)
+}
+
+#' Name for the derived 0/1 event column that does not clash with a used variable.
+sn_event_name <- function(vars) if ("event" %in% vars) "event_01" else "event"
+
+#' Code that defines the 0/1 event column `name` from a two-valued status variable.
+sn_event_code <- function(df, event, level, name = "event") {
+  sn_code(
+    paste0("# Event = the ", if (level == "first") "lower" else "higher", " of the two values of ", event),
+    paste0("status_values <- sort(unique(", sn_ref(df, event), "))"),
+    paste0(df, "$", name, " <- as.integer(", sn_ref(df, event), " == status_values[", if (level == "first") 1 else 2, "])"))
+}
+
+#' Fit-statistics table with one column per statistic.
+sn_tbl_wide <- function(id, title, cols, values) {
+  keep <- !vapply(values, function(v) is.null(v) || is.na(v), TRUE)
+  sn_table(id, title, cols[keep], as.data.frame(values[keep], check.names = FALSE))
+}

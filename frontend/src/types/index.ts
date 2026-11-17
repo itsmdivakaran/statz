@@ -16,6 +16,7 @@ export type OptionSpec =
   | { type: "number"; label: string; min?: number; max?: number; step?: number; default: number }
   | { type: "bool"; label: string; default: boolean }
   | { type: "text"; label: string; placeholder?: string; default: string }
+  | { type: "subset"; label: string; from: string[]; default?: undefined }
   | { type: "interactions"; label: string; from: string[]; interact?: string[]; default?: undefined };
 
 export interface ModuleSpec {

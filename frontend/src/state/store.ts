@@ -59,6 +59,7 @@ export function defaultOptions(spec: ModuleSpec): Options {
   for (const r of spec.roles) o[r.id] = [];
   for (const [k, v] of Object.entries(spec.options)) {
     if (v.type === "interactions") continue; // unset = backend default
+    if (v.type === "subset") { o[k] = []; continue; }
     o[k] = Array.isArray(v.default) ? [...v.default] : v.default;
   }
   return o;

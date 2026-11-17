@@ -1,0 +1,155 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "surv_km",
+  "version": "1.0.0",
+  "title": "Kaplan-Meier Survival",
+  "description": "Survival curves, median survival, log-rank test",
+  "menu": [
+    "Survival",
+    "Survival analysis"
+  ],
+  "r": {
+    "file": "surv_km.R",
+    "fn": "codegen_surv_km",
+    "packages": [
+      "survival",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "time",
+      "label": "Time",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "event",
+      "label": "Event status (2 values)",
+      "min": 1,
+      "max": 1,
+      "measure": [],
+      "levels": {
+        "exactly": 2
+      }
+    },
+    {
+      "id": "group",
+      "label": "Compare groups",
+      "min": 0,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "min": 2
+      }
+    }
+  ],
+  "options": {
+    "event_level": {
+      "type": "enum",
+      "label": "Event is coded by",
+      "values": [
+        "second",
+        "first"
+      ],
+      "labels": [
+        "The higher value (e.g. 1 = event)",
+        "The lower value"
+      ],
+      "default": "second"
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Confidence level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "times": {
+      "type": "text",
+      "label": "Survival at times",
+      "default": "",
+      "placeholder": "e.g. 365, 730"
+    },
+    "logrank": {
+      "type": "bool",
+      "label": "Log-rank test",
+      "default": true
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plot",
+      "values": [
+        "none",
+        "km"
+      ],
+      "labels": [
+        "None",
+        "Kaplan-Meier curves"
+      ],
+      "default": "km"
+    },
+    "conf_band": {
+      "type": "bool",
+      "label": "Confidence bands",
+      "default": true
+    },
+    "risk_table": {
+      "type": "bool",
+      "label": "Number-at-risk table",
+      "default": false
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "time",
+        "event",
+        "group"
+      ]
+    },
+    {
+      "section": "Options",
+      "items": [
+        "event_level",
+        "conf_level",
+        "times",
+        "logrank"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot",
+        "conf_band",
+        "risk_table"
+      ]
+    }
+  ],
+  "guide": {
+    "outcome": "time-to-event",
+    "design": "survival"
+  },
+  "example": {
+    "dataset": "lung",
+    "options": {
+      "time": [
+        "time"
+      ],
+      "event": [
+        "status"
+      ],
+      "group": [
+        "sex"
+      ]
+    }
+  }
+}

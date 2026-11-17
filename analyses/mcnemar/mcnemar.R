@@ -4,7 +4,7 @@ codegen_mcnemar <- function(o, meta, ctx) {
   x <- o$x; y <- o$y
   code <- sn_code(
     paste0("# McNemar test: ", x, " vs ", y),
-    sn_prep_code("d", ctx$data, c(x, y), meta),
+    sn_prep_code("d", ctx$data, c(x, y), meta, factors = c(x, y)),
     paste0("lv <- union(levels(", sn_ref("d", x), "), levels(", sn_ref("d", y), "))"),
     paste0("tab <- table(factor(", sn_ref("d", x), ", levels = lv), factor(", sn_ref("d", y), ", levels = lv), dnn = ", sn_lit(c(x, y)), ")"),
     paste0("mcnemar <- mcnemar.test(tab, correct = ", sn_lit(o$correct), ")"),

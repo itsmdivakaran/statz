@@ -96,6 +96,17 @@
           },
           {
             "type": "object",
+            "description": "A subset of the variables assigned to the `from` roles, for example the predictors that get a random slope.",
+            "required": ["type", "label", "from"],
+            "additionalProperties": false,
+            "properties": {
+              "type": { "const": "subset" },
+              "label": { "type": "string" },
+              "from": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+            }
+          },
+          {
+            "type": "object",
             "description": "Interaction terms such as \"a:b\" among the variables in the `from` roles. Main effects are always in the model. When unset, every interaction among the `interact` roles is included.",
             "required": ["type", "label", "from"],
             "additionalProperties": false,

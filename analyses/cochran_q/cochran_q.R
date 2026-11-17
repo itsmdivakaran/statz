@@ -5,7 +5,7 @@ codegen_cochran_q <- function(o, meta, ctx) {
   code <- sn_code(
     paste0("# Cochran's Q: ", paste(v, collapse = ", ")),
     paste0("vars <- ", sn_lit(v)),
-    sn_prep_code("d", ctx$data, v, meta),
+    sn_prep_code("d", ctx$data, v, meta, factors = v),
     "# 1 = second category of each variable, 0 = first",
     "x <- sapply(d[vars], function(v) as.integer(v) - 1L)",
     "k <- ncol(x); col_tot <- colSums(x); row_tot <- rowSums(x); N <- sum(x)",

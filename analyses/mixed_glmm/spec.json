@@ -1,0 +1,145 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "mixed_glmm",
+  "version": "1.0.0",
+  "title": "Generalized Linear Mixed Model",
+  "description": "Binary or count outcome with clustered or repeated data",
+  "menu": [
+    "Regression",
+    "Mixed models"
+  ],
+  "r": {
+    "file": "mixed_glmm.R",
+    "fn": "codegen_mixed_glmm",
+    "packages": [
+      "lme4"
+    ]
+  },
+  "roles": [
+    {
+      "id": "dv",
+      "label": "Dependent variable (binary or count)",
+      "min": 1,
+      "max": 1,
+      "measure": []
+    },
+    {
+      "id": "covariates",
+      "label": "Covariates (continuous)",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "continuous",
+        "ordinal"
+      ]
+    },
+    {
+      "id": "factors",
+      "label": "Factors (categorical)",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "min": 2
+      }
+    },
+    {
+      "id": "cluster",
+      "label": "Grouping variable (random intercept)",
+      "min": 1,
+      "max": 1,
+      "measure": [],
+      "levels": {
+        "min": 2
+      }
+    }
+  ],
+  "options": {
+    "family": {
+      "type": "enum",
+      "label": "Outcome type",
+      "values": [
+        "binomial",
+        "poisson"
+      ],
+      "labels": [
+        "Binary (logistic)",
+        "Count (Poisson)"
+      ],
+      "default": "binomial"
+    },
+    "interactions": {
+      "type": "interactions",
+      "label": "Interactions",
+      "from": [
+        "covariates",
+        "factors"
+      ]
+    },
+    "random_slopes": {
+      "type": "subset",
+      "label": "Random slopes for",
+      "from": [
+        "covariates",
+        "factors"
+      ]
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Confidence level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "dv",
+        "covariates",
+        "factors",
+        "cluster"
+      ]
+    },
+    {
+      "section": "Fixed effects",
+      "items": [
+        "family",
+        "interactions",
+        "conf_level"
+      ]
+    },
+    {
+      "section": "Random effects",
+      "items": [
+        "random_slopes"
+      ]
+    }
+  ],
+  "guide": {
+    "outcome": "binary",
+    "design": "clustered"
+  },
+  "example": {
+    "dataset": "bacteria",
+    "options": {
+      "dv": [
+        "present"
+      ],
+      "covariates": [
+        "week"
+      ],
+      "factors": [
+        "treatment"
+      ],
+      "cluster": [
+        "id"
+      ]
+    }
+  }
+}

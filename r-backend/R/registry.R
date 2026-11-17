@@ -86,6 +86,8 @@ sn_validate <- function(spec, options, meta, data) {
       val <- isTRUE(as.logical(val))
     } else if (o$type == "text") {
       val <- paste(as.character(unlist(val) %||% ""), collapse = "")
+    } else if (o$type == "subset") {
+      val <- intersect(as.character(unlist(val)), unlist(out[unlist(o$from)], use.names = FALSE))
     } else if (o$type == "interactions") {
       val <- sn_validate_interactions(o, options[[id]], out)
     }

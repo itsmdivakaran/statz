@@ -1,0 +1,113 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "reg_multinomial",
+  "version": "1.0.0",
+  "title": "Multinomial Regression",
+  "description": "Unordered outcome with three or more categories",
+  "menu": [
+    "Regression",
+    "Generalized linear models"
+  ],
+  "r": {
+    "file": "reg_multinomial.R",
+    "fn": "codegen_reg_multinomial",
+    "packages": [
+      "nnet"
+    ]
+  },
+  "roles": [
+    {
+      "id": "dv",
+      "label": "Dependent variable (3+ categories)",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "min": 3
+      }
+    },
+    {
+      "id": "covariates",
+      "label": "Covariates (continuous)",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "continuous",
+        "ordinal"
+      ]
+    },
+    {
+      "id": "factors",
+      "label": "Factors (categorical)",
+      "min": 0,
+      "max": null,
+      "measure": [
+        "nominal",
+        "ordinal"
+      ],
+      "levels": {
+        "min": 2
+      }
+    }
+  ],
+  "options": {
+    "interactions": {
+      "type": "interactions",
+      "label": "Interactions",
+      "from": [
+        "covariates",
+        "factors"
+      ]
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Confidence level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "classification": {
+      "type": "bool",
+      "label": "Classification accuracy",
+      "default": true
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "dv",
+        "covariates",
+        "factors"
+      ]
+    },
+    {
+      "section": "Model",
+      "items": [
+        "interactions",
+        "conf_level",
+        "classification"
+      ]
+    }
+  ],
+  "guide": {
+    "outcome": "nominal",
+    "design": "regression"
+  },
+  "example": {
+    "dataset": "housing",
+    "options": {
+      "dv": [
+        "satisfaction"
+      ],
+      "factors": [
+        "influence",
+        "contact"
+      ]
+    }
+  }
+}
