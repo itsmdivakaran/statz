@@ -5,9 +5,24 @@ Point-and-click statistics desktop app. Every result is computed by a local R an
 - **Shell:** Tauri 2 (Rust) · React 18 + TypeScript + Tailwind
 - **Engine:** local R ≥ 4.4 (`r-backend/`, package `statnextr`) over JSON-RPC on stdio
 - **Plots:** ggnext (SVG + interactive HTML), ggplot2 fallback flagged in the UI
-- **Platforms:** macOS first; Windows and Linux builds from the same tree
+- **Platforms:** Windows 10/11, macOS (Apple silicon and Intel), Linux, all built from the same tree
 
 ![Independent t-test](docs/screenshots/main.png)
+
+## Download and install
+
+Latest: [v0.4.2](https://github.com/itsmdivakaran/statz/releases/tag/v0.4.2). Install [R 4.4 or later](https://cloud.r-project.org/) first (or let StatNext's setup screen take you there).
+
+| Computer | Installer |
+|---|---|
+| Windows 10/11 (64-bit) | [StatNext_0.4.2_x64-setup.exe](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_x64-setup.exe) (or [.msi](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_x64_en-US.msi)) |
+| Mac, Apple silicon | [StatNext_0.4.2_aarch64.dmg](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_aarch64.dmg) |
+| Mac, Intel | [StatNext_0.4.2_x64.dmg](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_x64.dmg) |
+| Linux | [.AppImage](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_amd64.AppImage) or [.deb](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_amd64.deb) |
+
+**Windows:** double-click the `setup.exe`. If SmartScreen says "Windows protected your PC", click **More info › Run anyway** (the installer is not code-signed yet). StatNext appears in the Start menu. On first launch it finds R (from the registry or `Program Files\R`) and installs its R packages into its own library, which takes 3 to 10 minutes and needs internet.
+
+**macOS:** open the `.dmg` and drag StatNext into Applications. The build is not notarized yet, so the first time open System Settings › Privacy & Security and click **Open Anyway**.
 
 ## What is in it (Phases 1–4)
 
@@ -83,6 +98,8 @@ STATNEXT_TEST_R=1 cargo test --manifest-path src-tauri/Cargo.toml
 Rscript scripts/make-fixtures.R   # regenerate tests/fixtures after changing a module
 Rscript scripts/option-sweep.R    # run every option value of every analysis (about 10 minutes)
 ```
+
+On Windows, run the commands above in Git Bash (PowerShell reads `R` as its own command; use `R.exe CMD INSTALL r-backend` there). Building the desktop app needs the Visual Studio C++ build tools and WebView2 (preinstalled on Windows 10/11). CI runs the R tests and the desktop worker tests against real R on Windows for every push.
 
 Installers: run the "Release installers" workflow (or push a `v*` tag); `.github/workflows/release.yml` builds `.dmg`, Windows `setup.exe` and `.msi`, `.AppImage`, `.deb` (unsigned until Apple signing secrets are set).
 
