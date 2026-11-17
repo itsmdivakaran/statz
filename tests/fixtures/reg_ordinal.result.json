@@ -1,0 +1,290 @@
+{
+  "tables": [
+    {
+      "id": "fit",
+      "title": "Model Fit",
+      "columns": [
+        {
+          "id": "chi",
+          "label": "χ² (LR)",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "mcf",
+          "label": "McFadden R²",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "aic",
+          "label": "AIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "chi": 169.728327111593,
+          "df": 6,
+          "p": 5.13587978929104e-34,
+          "mcf": 0.0465152149458296,
+          "aic": 3495.14929947261,
+          "n": 1681
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "coefficients",
+      "title": "Coefficients",
+      "columns": [
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "B",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "exp",
+          "label": "Odds ratio",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "exp_ci",
+          "label": "Odds ratio 95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "term": "influenceLow",
+          "est": -1.28882746182312,
+          "se": 0.127155987127804,
+          "stat": -10.1357984860573,
+          "p": 3.83229648453896e-24,
+          "ci": [-1.53804861701226, -1.03960630663399],
+          "exp": 0.275593737893321,
+          "exp_ci": [0.214799849497247, 0.353593862117608]
+        },
+        {
+          "term": "influenceMedium",
+          "est": -0.72243776173253,
+          "se": 0.124270254149956,
+          "stat": -5.81344076805997,
+          "p": 6.12016336581393e-09,
+          "ci": [-0.966002984216084, -0.478872539248977],
+          "exp": 0.485567115069634,
+          "exp_ci": [0.380601271169587, 0.619481439230379]
+        },
+        {
+          "term": "typeAtrium",
+          "est": 0.2061487302156,
+          "se": 0.138036120653479,
+          "stat": 1.49344047948948,
+          "p": 0.135321923587248,
+          "ci": [-0.0643970948308448, 0.476694555262045],
+          "exp": 1.22893597031536,
+          "exp_ci": [0.937632596538654, 1.6107413764307]
+        },
+        {
+          "term": "typeTerrace",
+          "est": -0.518637818705781,
+          "se": 0.133426948372666,
+          "stat": -3.88705448960137,
+          "p": 0.000101467983203984,
+          "ci": [-0.780149832083292, -0.257125805328271],
+          "exp": 0.595330944567901,
+          "exp_ci": [0.458337332522827, 0.773270926043227]
+        },
+        {
+          "term": "typeTower",
+          "est": 0.572375604084863,
+          "se": 0.119237950756027,
+          "stat": 4.8002804514479,
+          "p": 1.58443589470507e-06,
+          "ci": [0.33867351501269, 0.806077693157035],
+          "exp": 1.77247274742063,
+          "exp_ci": [1.40308518417689, 2.23910827067272]
+        },
+        {
+          "term": "contactLow",
+          "est": -0.360293262368888,
+          "se": 0.0955357595410281,
+          "stat": -3.77129217478152,
+          "p": 0.000162404383944689,
+          "ci": [-0.547539910304982, -0.173046614432794],
+          "exp": 0.697471753857063,
+          "exp_ci": [0.578370905958129, 0.841098406605648]
+        }
+      ],
+      "notes": [
+        "Odds of a higher category of satisfaction (Low < Medium < High). Wald confidence intervals."
+      ]
+    },
+    {
+      "id": "thresholds",
+      "title": "Thresholds",
+      "columns": [
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "Estimate",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "term": "Low|Medium",
+          "est": -1.57286365415168,
+          "se": 0.125698140271379,
+          "stat": -12.5130224739675,
+          "p": 6.33663957572168e-36,
+          "ci": [-1.81922748200725, -1.32649982629611]
+        },
+        {
+          "term": "Medium|High",
+          "est": -0.386031721571233,
+          "se": 0.119888450535573,
+          "stat": -3.21992418658119,
+          "p": 0.00128224502196664,
+          "ci": [-0.621008766783267, -0.151054676359199]
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "parallel",
+      "test": "Proportional odds",
+      "status": "ok",
+      "message": "No evidence against proportional odds.",
+      "table": {
+        "id": "parallel",
+        "title": "Proportional odds",
+        "columns": [
+          {
+            "id": "stat",
+            "label": "χ²",
+            "type": "number",
+            "digits": 3
+          },
+          {
+            "id": "df",
+            "label": "df",
+            "type": "number",
+            "digits": 2
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "stat": 9.06543313120528,
+            "df": 6,
+            "p": 0.16993146258208
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The model fit significantly better than the null model, χ²(6) = 169.73, p < .001. Significant predictors (odds ratio): influenceLow (0.28), influenceMedium (0.49), typeTerrace (0.60), typeTower (1.77), contactLow (0.70)."
+  },
+  "notes": [],
+  "module": "reg_ordinal",
+  "module_version": "1.0.0",
+  "title": "Ordinal Regression",
+  "status": "ok",
+  "code": "library(MASS)\nlibrary(nnet)\n# Ordinal regression: satisfaction on influence, type, contact\nd <- data[complete.cases(data[, c(\"satisfaction\", \"influence\", \"type\", \"contact\"), drop = FALSE]), , drop = FALSE]\nd$satisfaction <- factor(d$satisfaction, levels = c(1, 2, 3), labels = c(\"Low\", \"Medium\", \"High\"))\nd$influence <- droplevels(factor(d$influence))\nd$type <- droplevels(factor(d$type))\nd$contact <- droplevels(factor(d$contact))\nd$satisfaction <- factor(d$satisfaction, ordered = TRUE)\nfit <- polr(satisfaction ~ influence + type + contact, data = d, Hess = TRUE)\nct <- coef(summary(fit))\ncoefs <- cbind(ct, p = 2 * pnorm(abs(ct[, 3]), lower.tail = FALSE),\n  lower = ct[, 1] - qnorm(1 - (1 - 0.95) / 2) * ct[, 2], upper = ct[, 1] + qnorm(1 - (1 - 0.95) / 2) * ct[, 2])\nnull <- polr(satisfaction ~ 1, data = d)\nlr_chi <- deviance(null) - deviance(fit); lr_df <- length(coef(fit))\nr2_mcfadden <- 1 - deviance(fit) / deviance(null)\n# Proportional odds check: likelihood-ratio test against a multinomial model\nmulti <- multinom(satisfaction ~ influence + type + contact, data = d, trace = FALSE)\npo_chi <- deviance(fit) - deviance(multi); po_df <- multi$edf - fit$edf\npo_p <- pchisq(po_chi, po_df, lower.tail = FALSE)",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "MASS": "7.3.60.0.1",
+      "nnet": "7.3.19"
+    },
+    "dataset": "data"
+  }
+}

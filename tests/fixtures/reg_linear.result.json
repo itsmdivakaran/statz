@@ -1,0 +1,356 @@
+{
+  "tables": [
+    {
+      "id": "fit",
+      "title": "Model Fit",
+      "columns": [
+        {
+          "id": "r2",
+          "label": "R²",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "adj",
+          "label": "Adjusted R²",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "rmse",
+          "label": "Residual SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "F",
+          "label": "F",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df1",
+          "label": "df1",
+          "type": "int"
+        },
+        {
+          "id": "df2",
+          "label": "df2",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "aic",
+          "label": "AIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "r2": 0.839890305067833,
+          "adj": 0.822735694896529,
+          "rmse": 2.5375119399427,
+          "F": 48.960034456091,
+          "df1": 3,
+          "df2": 28,
+          "p": 2.90787154929717e-11,
+          "aic": 156.134840745305,
+          "n": 32
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "coefficients",
+      "title": "Coefficients",
+      "columns": [
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "B",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "beta",
+          "label": "β",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "t",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "term": "(Intercept)",
+          "est": 34.0028751229141,
+          "se": 2.64265933699003,
+          "beta": null,
+          "stat": 12.8669157794826,
+          "p": 2.82403019658318e-13,
+          "ci": [28.5896328636918, 39.4161173821363]
+        },
+        {
+          "term": "wt",
+          "est": -2.87857541380719,
+          "se": 0.904970538030578,
+          "beta": -0.467328325133065,
+          "stat": -3.18084986509243,
+          "p": 0.00357403107947374,
+          "ci": [-4.73232352702331, -1.02482730059107]
+        },
+        {
+          "term": "hp",
+          "est": -0.0374787259533821,
+          "se": 0.00960542215740335,
+          "beta": -0.426359898323383,
+          "stat": -3.90183016833836,
+          "p": 0.000546402265808785,
+          "ci": [-0.0571545413005654, -0.0178029106061988]
+        },
+        {
+          "term": "amManual",
+          "est": 2.08371013032329,
+          "se": 1.37642015230494,
+          "beta": 0.34573222007464,
+          "stat": 1.51386197509091,
+          "p": 0.141268236736532,
+          "ci": [-0.735758739769055, 4.90317900041564]
+        }
+      ],
+      "notes": [
+        "Factor terms compare each level with the first (reference) level."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "vif",
+      "test": "Multicollinearity (VIF)",
+      "status": "ok",
+      "message": "No variance inflation factor exceeds 5.",
+      "table": {
+        "id": "vif",
+        "title": "Variance Inflation Factors",
+        "columns": [
+          {
+            "id": "term",
+            "label": "Term",
+            "type": "text"
+          },
+          {
+            "id": "vif",
+            "label": "VIF",
+            "type": "number",
+            "digits": 2
+          }
+        ],
+        "rows": [
+          {
+            "term": "wt",
+            "vif": 3.77483756888811
+          },
+          {
+            "term": "hp",
+            "vif": 2.08812444062907
+          },
+          {
+            "term": "am",
+            "vif": 2.27108208336145
+          }
+        ],
+        "notes": []
+      }
+    },
+    {
+      "id": "normality",
+      "test": "Normality of residuals (Shapiro-Wilk)",
+      "status": "ok",
+      "message": "No evidence against normal residuals.",
+      "table": {
+        "id": "normality",
+        "title": "Normality of residuals (Shapiro-Wilk)",
+        "columns": [
+          {
+            "id": "stat",
+            "label": "W",
+            "type": "number",
+            "digits": 3
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "stat": 0.945295947842425,
+            "p": 0.105898727339424
+          }
+        ],
+        "notes": []
+      }
+    },
+    {
+      "id": "bp",
+      "test": "Constant variance (Breusch-Pagan)",
+      "status": "ok",
+      "message": "No evidence of heteroscedasticity.",
+      "table": {
+        "id": "bp",
+        "title": "Constant variance (Breusch-Pagan)",
+        "columns": [
+          {
+            "id": "stat",
+            "label": "χ²",
+            "type": "number",
+            "digits": 3
+          },
+          {
+            "id": "df",
+            "label": "df",
+            "type": "number",
+            "digits": 2
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "stat": 2.29990370942948,
+            "df": 1,
+            "p": 0.12938201942514
+          }
+        ],
+        "notes": []
+      }
+    },
+    {
+      "id": "cook",
+      "test": "Influential cases (Cook's distance)",
+      "status": "ok",
+      "message": "4 case(s) exceed 4/n = 0.125; the largest Cook's distance is 0.334.",
+      "table": {
+        "id": "cook",
+        "title": "Largest Cook's Distances",
+        "columns": [
+          {
+            "id": "case",
+            "label": "Row",
+            "type": "text"
+          },
+          {
+            "id": "d",
+            "label": "Cook's D",
+            "type": "number",
+            "digits": 3
+          }
+        ],
+        "rows": [
+          {
+            "case": "17",
+            "d": 0.333916908306439
+          },
+          {
+            "case": "20",
+            "d": 0.158551310701936
+          },
+          {
+            "case": "18",
+            "d": 0.143499884859088
+          },
+          {
+            "case": "31",
+            "d": 0.141093090161824
+          },
+          {
+            "case": "28",
+            "d": 0.0734140478408163
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot10",
+      "title": "Residuals vs fitted",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot10.svg",
+      "html": "plot10.html",
+      "data_csv": "plot10.csv"
+    },
+    {
+      "id": "plot11",
+      "title": "Q-Q plot of residuals",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot11.svg",
+      "html": "plot11.html",
+      "data_csv": null
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The model explained 84.0% of the variance in mpg (adjusted R² = 0.82), F(3, 28) = 48.96, p < .001. Significant predictors: wt, hp."
+  },
+  "notes": [],
+  "module": "reg_linear",
+  "module_version": "1.0.0",
+  "title": "Linear Regression",
+  "status": "ok",
+  "code": "library(car)\nlibrary(ggnext)\n# Linear regression: mpg on wt, hp, am\nd <- data[complete.cases(data[, c(\"mpg\", \"wt\", \"hp\", \"am\"), drop = FALSE]), , drop = FALSE]\nd$am <- factor(d$am, levels = c(0, 1), labels = c(\"Automatic\", \"Manual\"))\nfit <- lm(mpg ~ wt + hp + am, data = d)\ncoefs <- cbind(coef(summary(fit)), confint(fit, level = 0.95))\n# Standardized coefficients: refit with the outcome and continuous predictors scaled\nd_std <- d; num <- c(\"mpg\", \"wt\", \"hp\")\nd_std[num] <- lapply(d_std[num], function(v) as.numeric(scale(v)))\nstd_beta <- coef(update(fit, data = d_std))\nfit_summary <- summary(fit)\nvif_values <- vif(fit)\nnormality <- shapiro.test(residuals(fit))\nbp <- ncvTest(fit)\ncooks <- cooks.distance(fit)\nresid_df <- data.frame(fitted = fitted(fit), resid = residuals(fit))\np_resid <- ggnext(resid_df, aes(fitted, resid)) +\n  geom_residual() +\n  labs(title = \"Residuals vs fitted\", x = \"Fitted values\", y = \"Residuals\") +\n  theme_modern()\np_qq <- ggnext(resid_df, aes(sample = resid)) +\n  geom_qq() +\n  geom_qq_line() +\n  labs(title = \"Normal Q-Q plot of residuals\", x = \"Theoretical quantiles\", y = \"Sample quantiles\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "car": "3.1.2",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

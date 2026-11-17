@@ -154,6 +154,7 @@ sn_data_slice <- function(sess, id = "data", offset = 0L, limit = 200L) {
 sn_data_patch <- function(sess, id = "data", ops) {
   ds <- sn_dataset(sess, id)
   code <- character()
+  touched <- character(); labels <- list(); structural <- FALSE; title <- "Edit data"
   for (op in ops) {
     switch(op$op,
       set_cell = {
@@ -179,20 +180,111 @@ sn_data_patch <- function(sess, id = "data", ops) {
           code <- c(code, paste0(ref, "[", ref, " %in% ", sn_lit(unlist(op$value)), "] <- NA"))
         }
       },
+      compute = {
+        name <- sn_new_name(op$name)
+        code <- c(code, paste0(sn_ref(id, name), " <- with(", id, ", ", sn_expr(op$expr), ")"))
+        touched <- c(touched, name); structural <- TRUE; title <- paste("Compute", name)
+        if (nzchar(op$label %||% "")) labels[[name]] <- op$label
+      },
+      recode = {
+        src <- op$column
+        if (is.null(ds$meta$variables[[src]])) sn_abort(paste0("Unknown variable: ", src), SN_ERR$invalid_params)
+        into <- if (nzchar(op$into %||% "")) sn_new_name(op$into) else src
+        rules <- Filter(function(r) length(unlist(r$from)) > 0, op$rules)
+        if (!length(rules)) sn_abort("Add at least one recode rule.", SN_ERR$invalid_params)
+        code <- c(code,
+          paste0("old <- as.character(", sn_ref(id, src), ")"),
+          paste0("new <- ", if (identical(op$unmatched, "missing")) "rep(NA_character_, length(old))" else "old"),
+          vapply(rules, function(r) paste0("new[old %in% ", sn_lit(as.character(unlist(r$from))), "] <- ",
+                                           if (is.null(r$to) || !nzchar(r$to)) "NA" else sn_lit(as.character(r$to))), ""),
+          paste0(sn_ref(id, into), " <- type.convert(new, as.is = TRUE)"))
+        touched <- c(touched, into); structural <- TRUE; title <- paste("Recode", src)
+        if (nzchar(op$label %||% "")) labels[[into]] <- op$label
+      },
+      filter = {
+        code <- c(code, paste0(id, " <- ", id, "[which(with(", id, ", ", sn_expr(op$expr), ")), , drop = FALSE]"),
+                  paste0("rownames(", id, ") <- NULL"))
+        structural <- TRUE; title <- "Filter rows"
+      },
       sn_abort(paste0("Unknown edit: ", op$op), SN_ERR$invalid_params)
     )
   }
   if (length(code)) {
     env <- new.env(parent = globalenv())
     assign(id, ds$data, envir = env)
-    eval(parse(text = code), envir = env)
-    ds$data <- get(id, envir = env)
-    sn_log(sess, "edit", "Edit data", paste(code, collapse = "\n"))
+    tryCatch(eval(parse(text = code), envir = env), error = function(e) {
+      if (inherits(e, "sn_error")) stop(e)
+      sn_abort(paste0("R could not run this: ", conditionMessage(e)), SN_ERR$invalid_params)
+    })
+    new <- get(id, envir = env)
+    if (structural) {
+      if (!nrow(new)) sn_abort("No rows match this filter.", SN_ERR$invalid_params)
+      bad <- touched[!vapply(new[touched], is.atomic, TRUE)]
+      if (length(bad)) sn_abort("The expression must give one value per row.", SN_ERR$invalid_params)
+      # Snapshot for undo (see sn_data_undo); keep the last 10.
+      snap <- c(sess$snapshots[[id]], list(list(data = sess$datasets[[id]]$data, meta = sess$datasets[[id]]$meta, log = length(sess$log))))
+      sess$snapshots[[id]] <- utils::tail(snap, 10L)
+    }
+    ds$data <- new
+    sn_log(sess, "edit", title, paste(code, collapse = "\n"))
+  }
+  # New and recoded variables get fresh metadata; labels are kept.
+  if (length(touched)) {
+    inf <- sn_infer_meta(ds$data[unique(touched)])$variables
+    for (v in names(inf)) {
+      m <- inf[[v]]
+      m$label <- labels[[v]] %||% ds$meta$variables[[v]]$label %||% ""
+      ds$meta$variables[[v]] <- m
+    }
   }
   # Keep meta order in sync with columns.
   ds$meta$variables <- ds$meta$variables[names(ds$data)]
   sess$datasets[[id]] <- ds
   sn_data_info(sess, id)
+}
+
+#' Undo the last compute, recode or filter (and any cell edits made after it).
+sn_data_undo <- function(sess, id = "data") {
+  snaps <- sess$snapshots[[id]]
+  if (!length(snaps)) sn_abort("Nothing to undo.", SN_ERR$invalid_params)
+  last <- snaps[[length(snaps)]]
+  ds <- sn_dataset(sess, id)
+  ds$data <- last$data; ds$meta <- last$meta
+  sess$datasets[[id]] <- ds
+  sess$log <- sess$log[seq_len(last$log)]
+  sess$snapshots[[id]] <- snaps[-length(snaps)]
+  sn_data_info(sess, id)
+}
+
+#' Distinct values of a variable with counts, for the recode dialog.
+sn_data_values <- function(sess, id = "data", column, limit = 200L) {
+  ds <- sn_dataset(sess, id)
+  if (is.null(ds$meta$variables[[column]])) sn_abort(paste0("Unknown variable: ", column), SN_ERR$invalid_params)
+  x <- ds$data[[column]]
+  tb <- table(as.character(x))
+  vals <- names(tb)
+  if (is.numeric(x)) vals <- vals[order(as.numeric(vals))]
+  vl <- ds$meta$variables[[column]]$value_labels
+  lab <- stats::setNames(vapply(vl, function(l) as.character(l$label), ""), vapply(vl, function(l) as.character(l$value), ""))
+  keep <- utils::head(vals, limit)
+  list(column = column, distinct = length(vals), missing = sum(is.na(x)), numeric = is.numeric(x),
+       values = lapply(keep, function(v) list(value = v, n = as.integer(tb[[v]]), label = if (v %in% names(lab)) lab[[v]])))
+}
+
+sn_new_name <- function(name) {
+  name <- trimws(name %||% "")
+  if (!nzchar(name) || make.names(name) != name)
+    sn_abort("Variable names must start with a letter and use only letters, digits, '.' and '_'.", SN_ERR$invalid_params)
+  name
+}
+
+#' A single R expression typed by the user, checked to parse.
+sn_expr <- function(expr) {
+  expr <- trimws(expr %||% "")
+  ok <- tryCatch(length(parse(text = expr, keep.source = FALSE)) == 1L, error = function(e) FALSE)
+  if (!ok) sn_abort("This is not a complete R expression.", SN_ERR$invalid_params,
+                    hint = "Examples: weight / height^2, log(income), age >= 18 & group == \"A\"")
+  expr
 }
 
 sn_coerce <- function(value, like) {

@@ -1,0 +1,147 @@
+{
+  "tables": [
+    {
+      "id": "icc",
+      "title": "Intraclass Correlations",
+      "columns": [
+        {
+          "id": "type",
+          "label": "Type",
+          "type": "text"
+        },
+        {
+          "id": "model",
+          "label": "Model",
+          "type": "text"
+        },
+        {
+          "id": "icc",
+          "label": "ICC",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "F",
+          "label": "F",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df1",
+          "label": "df1",
+          "type": "int"
+        },
+        {
+          "id": "df2",
+          "label": "df2",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "type": "ICC(1,1)",
+          "model": "One-way random, single rater",
+          "icc": 0.165741768405476,
+          "ci": [-0.132932324874751, 0.722560062328121],
+          "F": 1.79467849223947,
+          "df1": 5,
+          "df2": 18,
+          "p": 0.16476880834464
+        },
+        {
+          "type": "ICC(2,1)",
+          "model": "Two-way random, single rater, absolute agreement",
+          "icc": 0.289763779527559,
+          "ci": [0.018786513374712, 0.761084369648953],
+          "F": 11.0272479564033,
+          "df1": 5,
+          "df2": 15,
+          "p": 0.000134566516484337
+        },
+        {
+          "type": "ICC(3,1)",
+          "model": "Two-way mixed, single rater, consistency",
+          "icc": 0.714840714840715,
+          "ci": [0.342464765033925, 0.94585825995536],
+          "F": 11.0272479564033,
+          "df1": 5,
+          "df2": 15,
+          "p": 0.000134566516484337
+        },
+        {
+          "type": "ICC(1,k)",
+          "model": "One-way random, mean of raters",
+          "icc": 0.442797133679269,
+          "ci": [-0.884442155238119, 0.912415420340776],
+          "F": 1.79467849223947,
+          "df1": 5,
+          "df2": 18,
+          "p": 0.16476880834464
+        },
+        {
+          "type": "ICC(2,k)",
+          "model": "Two-way random, mean of raters, absolute agreement",
+          "icc": 0.620050547598989,
+          "ci": [0.0711368153025035, 0.927232040167722],
+          "F": 11.0272479564033,
+          "df1": 5,
+          "df2": 15,
+          "p": 0.000134566516484337
+        },
+        {
+          "type": "ICC(3,k)",
+          "model": "Two-way mixed, mean of raters, consistency",
+          "icc": 0.909315542377069,
+          "ci": [0.675674713816305, 0.985891678169062],
+          "F": 11.0272479564033,
+          "df1": 5,
+          "df2": 15,
+          "p": 0.000134566516484337
+        }
+      ],
+      "notes": [
+        "6 subjects rated by 4 raters."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "n",
+      "test": "Number of subjects",
+      "status": "warn",
+      "message": "Only 6 subjects; the confidence interval is wide. At least 30 subjects are recommended.",
+      "table": null
+    }
+  ],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "Reliability was poor, ICC(2,1) = 0.29, 95% CI [0.02, 0.76] (two-way random, single rater, absolute agreement; Koo & Li, 2016 thresholds)."
+  },
+  "notes": [],
+  "module": "reliability_icc",
+  "module_version": "1.0.0",
+  "title": "Intraclass Correlation (ICC)",
+  "status": "ok",
+  "code": "library(psych)\n# Intraclass correlations: 4 raters, one row per rated subject\nratings <- data[complete.cases(data[, c(\"judge1\", \"judge2\", \"judge3\", \"judge4\")]), c(\"judge1\", \"judge2\", \"judge3\", \"judge4\")]\nicc <- ICC(ratings, alpha = 0.05, lmer = FALSE)\nicc_results <- icc$results",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "psych": "2.4.1"
+    },
+    "dataset": "data"
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "tables": [
+    {
+      "id": "summary",
+      "title": "Survival Summary",
+      "columns": [
+        {
+          "id": "group",
+          "label": "sex",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "events",
+          "label": "Events",
+          "type": "int"
+        },
+        {
+          "id": "censored",
+          "label": "Censored",
+          "type": "int"
+        },
+        {
+          "id": "median",
+          "label": "Median survival",
+          "type": "number",
+          "digits": 1
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "group": "Male",
+          "n": 138,
+          "events": 112,
+          "censored": 26,
+          "median": 270,
+          "ci": [212, 310]
+        },
+        {
+          "group": "Female",
+          "n": 90,
+          "events": 53,
+          "censored": 37,
+          "median": 426,
+          "ci": [348, 550]
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "logrank",
+      "title": "Log-Rank Test",
+      "columns": [
+        {
+          "id": "chi",
+          "label": "χ²",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "chi": 10.3267419548856,
+          "df": 1,
+          "p": 0.00131116452035549
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "events",
+      "test": "Number of events",
+      "status": "ok",
+      "message": "Each group has at least 5 events.",
+      "table": null
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot14",
+      "title": "Kaplan-Meier survival",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot14.svg",
+      "html": "plot14.html",
+      "data_csv": "plot14.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "165 of 228 cases had the event. Median survival for Male was 270.0; Median survival for Female was 426.0. Survival differed between groups, log-rank χ²(1) = 10.33, p = .001."
+  },
+  "notes": [],
+  "module": "surv_km",
+  "module_version": "1.0.0",
+  "title": "Kaplan-Meier Survival",
+  "status": "ok",
+  "code": "library(survival)\nlibrary(ggnext)\n# Kaplan-Meier survival: time by sex\nd <- data[complete.cases(data[, c(\"time\", \"status\", \"sex\"), drop = FALSE]), , drop = FALSE]\nd$sex <- factor(d$sex, levels = c(1, 2), labels = c(\"Male\", \"Female\"))\n# Event = the higher of the two values of status\nstatus_values <- sort(unique(d$status))\nd$event <- as.integer(d$status == status_values[2])\nkm <- survfit(Surv(time, event) ~ sex, data = d, conf.int = 0.95)\nkm_summary <- summary(km)$table\nlogrank <- survdiff(Surv(time, event) ~ sex, data = d)\nlogrank_p <- pchisq(logrank$chisq, length(logrank$n) - 1, lower.tail = FALSE)\np_km <- ggnext(d, aes(time = time, status = event, color = sex)) +\n  geom_km(conf_int = TRUE) +\n  labs(title = \"Kaplan-Meier survival\", x = \"Survival time (days)\", y = \"Survival probability\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "survival": "3.5.8",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "tables": [
+    {
+      "id": "fit",
+      "title": "Model Fit",
+      "columns": [
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "events",
+          "label": "Events",
+          "type": "int"
+        },
+        {
+          "id": "chi",
+          "label": "χ² (LR)",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "c",
+          "label": "Concordance",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "c_se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "aic",
+          "label": "AIC",
+          "type": "number",
+          "digits": 2
+        }
+      ],
+      "rows": [
+        {
+          "n": 227,
+          "events": 164,
+          "chi": 30.5006687731554,
+          "df": 3,
+          "p": 1.0828176991993e-06,
+          "c": 0.637135493000455,
+          "c_se": 0.0250679738530796,
+          "aic": 1464.46024274973
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "coefficients",
+      "title": "Coefficients",
+      "columns": [
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "B",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "exp",
+          "label": "Hazard ratio",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "exp_ci",
+          "label": "Hazard ratio 95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "term": "age",
+          "est": 0.0110667645600735,
+          "se": 0.00926741101370053,
+          "stat": 1.19415924724962,
+          "p": 0.232415680999612,
+          "ci": [-0.00709702725670939, 0.0292305563768564],
+          "exp": 1.01112822772252,
+          "exp_ci": [0.99292809716985, 1.02966196224215]
+        },
+        {
+          "term": "ph_ecog",
+          "est": 0.463728475370428,
+          "se": 0.113577266161997,
+          "stat": 4.08293394480024,
+          "p": 4.44706665185678e-05,
+          "ci": [0.241121124230395, 0.686335826510461],
+          "exp": 1.58999119005428,
+          "exp_ci": [1.2726751777743, 1.98642358128759]
+        },
+        {
+          "term": "sexFemale",
+          "est": -0.55261239570363,
+          "se": 0.167739053787264,
+          "stat": -3.29447664826156,
+          "p": 0.000986051372138472,
+          "ci": [-0.881374899927494, -0.223849891479767],
+          "exp": 0.575444556190492,
+          "exp_ci": [0.414213018549173, 0.799435127387147]
+        }
+      ],
+      "notes": [
+        "Hazard ratios above 1 mean a higher event rate.",
+        "Factor terms compare each level with the first (reference) level."
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "epv",
+      "test": "Events per coefficient",
+      "status": "ok",
+      "message": "54.7 events per estimated coefficient.",
+      "table": null
+    },
+    {
+      "id": "ph",
+      "test": "Proportional hazards (Schoenfeld residuals)",
+      "status": "ok",
+      "message": "No evidence against proportional hazards.",
+      "table": {
+        "id": "ph",
+        "title": "Proportional Hazards Test",
+        "columns": [
+          {
+            "id": "term",
+            "label": "Term",
+            "type": "text"
+          },
+          {
+            "id": "chi",
+            "label": "χ²",
+            "type": "number",
+            "digits": 2
+          },
+          {
+            "id": "df",
+            "label": "df",
+            "type": "number",
+            "digits": 2
+          },
+          {
+            "id": "p",
+            "label": "p",
+            "type": "pvalue"
+          }
+        ],
+        "rows": [
+          {
+            "term": "age",
+            "chi": 0.187987673652291,
+            "df": 1,
+            "p": 0.66459676311637
+          },
+          {
+            "term": "ph_ecog",
+            "chi": 2.05424877405441,
+            "df": 1,
+            "p": 0.1517820989081
+          },
+          {
+            "term": "sex",
+            "chi": 2.30543722740498,
+            "df": 1,
+            "p": 0.128921998810964
+          },
+          {
+            "term": "GLOBAL",
+            "chi": 4.46365758875862,
+            "df": 3,
+            "p": 0.215554945341795
+          }
+        ],
+        "notes": []
+      }
+    }
+  ],
+  "plots": [
+    {
+      "id": "plot13",
+      "title": "Hazard ratios",
+      "engine": "ggnext",
+      "fallback": false,
+      "fallback_reason": null,
+      "svg": "plot13.svg",
+      "html": "plot13.html",
+      "data_csv": "plot13.csv"
+    }
+  ],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The Cox model was fitted to 227 cases with 164 events, likelihood-ratio χ²(3) = 30.50, p < .001; concordance = 0.64. Significant predictors: ph_ecog (HR = 1.59), sexFemale (HR = 0.58)."
+  },
+  "notes": [],
+  "module": "surv_cox",
+  "module_version": "1.0.0",
+  "title": "Cox Regression",
+  "status": "ok",
+  "code": "library(survival)\nlibrary(ggnext)\n# Cox regression: time on age, ph_ecog, sex\nd <- data[complete.cases(data[, c(\"time\", \"status\", \"age\", \"ph_ecog\", \"sex\"), drop = FALSE]), , drop = FALSE]\nd$sex <- factor(d$sex, levels = c(1, 2), labels = c(\"Male\", \"Female\"))\n# Event = the higher of the two values of status\nstatus_values <- sort(unique(d$status))\nd$event <- as.integer(d$status == status_values[2])\nfit <- coxph(Surv(time, event) ~ age + ph_ecog + sex, data = d, ties = \"efron\")\nfit_summary <- summary(fit)\ncoefs <- cbind(coef(fit_summary)[, c(\"coef\", \"se(coef)\", \"z\", \"Pr(>|z|)\"), drop = FALSE], confint(fit, level = 0.95))\nph <- cox.zph(fit)\n# Hazard ratios with confidence limits\ncoef_df <- data.frame(term = rownames(coefs), est = exp(coefs[, 1]), lower = exp(coefs[, 5]), upper = exp(coefs[, 6]))\ncoef_df$term <- factor(coef_df$term, levels = rev(coef_df$term))\np_coef <- ggnext(coef_df, aes(est, term, ymin = lower, ymax = upper)) +\n  geom_forest(ref = 1) +\n  labs(title = \"Hazard ratios\", x = \"Hazard ratio (95% CI)\") +\n  theme_modern()",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "survival": "3.5.8",
+      "ggnext": "0.1.0"
+    },
+    "dataset": "data"
+  }
+}

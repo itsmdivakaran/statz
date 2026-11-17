@@ -24,5 +24,15 @@ Suggests:
     readxl,
     haven,
     arrow,
+    MASS,
+    nnet,
+    survival,
+    lme4,
+    lmerTest,
+    emmeans,
+    performance,
+    psych,
+    zip,
+    qpdf,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

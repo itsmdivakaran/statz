@@ -1,0 +1,148 @@
+{
+  "tables": [
+    {
+      "id": "props",
+      "title": "Proportions",
+      "columns": [
+        {
+          "id": "var",
+          "label": "Variable",
+          "type": "text"
+        },
+        {
+          "id": "level",
+          "label": "Category counted",
+          "type": "text"
+        },
+        {
+          "id": "count",
+          "label": "Count",
+          "type": "int"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "prop",
+          "label": "Proportion",
+          "type": "number",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "var": "drug_a",
+          "level": "Response",
+          "count": 10,
+          "n": 12,
+          "prop": 0.833333333333333
+        },
+        {
+          "var": "drug_b",
+          "level": "Response",
+          "count": 5,
+          "n": 12,
+          "prop": 0.416666666666667
+        },
+        {
+          "var": "drug_c",
+          "level": "Response",
+          "count": 3,
+          "n": 12,
+          "prop": 0.25
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "cochran",
+      "title": "Cochran's Q Test",
+      "columns": [
+        {
+          "id": "stat",
+          "label": "Q",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "stat": 9.75,
+          "df": 2,
+          "p": 0.00763509421885996
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "posthoc",
+      "title": "Pairwise McNemar Tests (Holm)",
+      "columns": [
+        {
+          "id": "comparison",
+          "label": "Comparison",
+          "type": "text"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "p_adj",
+          "label": "p (adjusted)",
+          "type": "pvalue"
+        }
+      ],
+      "rows": [
+        {
+          "comparison": "drug_a − drug_b",
+          "p": 0.0736382701203028,
+          "p_adj": 0.147276540240606
+        },
+        {
+          "comparison": "drug_a − drug_c",
+          "p": 0.0233422020128909,
+          "p_adj": 0.0700266060386726
+        },
+        {
+          "comparison": "drug_b − drug_c",
+          "p": 0.617075077451974,
+          "p_adj": 0.617075077451974
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "Cochran's Q test showed a significant difference in proportions across the 3 measurements, Q(2) = 9.75, p = .008."
+  },
+  "notes": [],
+  "module": "cochran_q",
+  "module_version": "1.0.0",
+  "title": "Cochran's Q Test",
+  "status": "ok",
+  "code": "# Cochran's Q: drug_a, drug_b, drug_c\nvars <- c(\"drug_a\", \"drug_b\", \"drug_c\")\nd <- data[complete.cases(data[, c(\"drug_a\", \"drug_b\", \"drug_c\"), drop = FALSE]), , drop = FALSE]\nd$drug_a <- factor(d$drug_a, levels = c(0, 1), labels = c(\"No response\", \"Response\"))\nd$drug_b <- factor(d$drug_b, levels = c(0, 1), labels = c(\"No response\", \"Response\"))\nd$drug_c <- factor(d$drug_c, levels = c(0, 1), labels = c(\"No response\", \"Response\"))\n# 1 = second category of each variable, 0 = first\nx <- sapply(d[vars], function(v) as.integer(v) - 1L)\nk <- ncol(x); col_tot <- colSums(x); row_tot <- rowSums(x); N <- sum(x)\nq <- (k - 1) * (k * sum(col_tot^2) - N^2) / (k * N - sum(row_tot^2))\ncochran <- list(statistic = q, df = k - 1, p.value = pchisq(q, k - 1, lower.tail = FALSE))\npair_idx <- t(combn(vars, 2))\npair_p <- apply(pair_idx, 1, function(p) mcnemar.test(table(factor(x[, p[1]], 0:1), factor(x[, p[2]], 0:1)))$p.value)\nposthoc <- data.frame(var1 = pair_idx[, 1], var2 = pair_idx[, 2], p = pair_p, p_adj = p.adjust(pair_p, \"holm\"))",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {},
+    "dataset": "data"
+  }
+}

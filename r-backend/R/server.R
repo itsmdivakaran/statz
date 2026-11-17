@@ -78,7 +78,7 @@ sn_dispatch <- function(sess, method, p) {
       protocol = SN_PROTOCOL_VERSION,
       r_version = paste(R.version$major, R.version$minor, sep = "."),
       statnextr = as.character(utils::packageVersion("statnextr")),
-      plot_engine = if (requireNamespace("ggnext", quietly = TRUE)) "ggnext" else "ggplot2",
+      plot_engine = sn_plot_engine(),
       modules = as.list(names(sess$modules)),
       missing_packages = as.list(sn_missing_packages(sess))
     ),
@@ -90,6 +90,8 @@ sn_dispatch <- function(sess, method, p) {
     data.info = sn_data_info(sess, ds),
     data.slice = sn_data_slice(sess, ds, p$offset %||% 0L, p$limit %||% 200L),
     data.patch = sn_data_patch(sess, ds, p$ops),
+    data.undo = sn_data_undo(sess, ds),
+    data.values = sn_data_values(sess, ds, p$column),
     data.save = sn_data_save(sess, p$path),
     data.load = sn_data_load(sess, p$path),
     analysis.list = lapply(unname(sess$modules), function(m) m$spec),
@@ -98,6 +100,7 @@ sn_dispatch <- function(sess, method, p) {
     analysis.remove = { sess$analyses[[p$instance]] <- NULL; list(ok = TRUE) },
     code.run = sn_run_code(sess, p$code, ds),
     session.script = list(script = sn_session_script(sess, p$format %||% "R")),
+    report.export = sn_report_export(sess, p$path, p$format %||% "docx", unlist(p$instances)),
     plot.export = sn_export_plot(sess, p$plot_id, p$format, p$path, p$width %||% 1600L),
     sn_abort(paste0("Unknown method: ", method), SN_ERR$not_found)
   )
@@ -116,7 +119,7 @@ sn_list_examples <- function(dir) {
 # Packages ---------------------------------------------------------------------
 
 sn_required_packages <- function(sess) {
-  unique(c("jsonlite", "glue", "rsvg", "ggnext", "readxl", "haven",
+  unique(c("jsonlite", "glue", "rsvg", "ggnext", "readxl", "haven", "zip", "qpdf",
            unlist(lapply(sess$modules, function(m) m$spec$r$packages))))
 }
 

@@ -7,6 +7,7 @@ import { useStore } from "../state/store";
 import { openDataFile, saveProject } from "./actions";
 import { CommandPalette } from "./CommandPalette";
 import { Ribbon } from "./Ribbon";
+import { TransformDialog } from "../transform/TransformDialog";
 import { Welcome } from "./Welcome";
 import { Startup } from "./Startup";
 
@@ -46,6 +47,7 @@ export function App() {
           <div className="card min-h-0 overflow-hidden"><ResultsPanel /></div>
         </main>
       )}
+      <TransformDialog />
       <CommandPalette open={palette} onClose={() => setPalette(false)} />
     </div>
   );

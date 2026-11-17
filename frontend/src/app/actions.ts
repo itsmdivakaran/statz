@@ -60,3 +60,15 @@ export async function exportPlot(plotId: string, format: "svg" | "png" | "pdf" |
   const path = await save({ defaultPath: `${plotId}.${format}`, filters: [{ name: format.toUpperCase(), extensions: [format] }] });
   if (path) await call("plot.export", { plot_id: plotId, format, path, width: 2400 });
 }
+
+/** Tables, plots and interpretation of every analysis as an APA-style Word, PDF or HTML document. */
+export async function exportReport(format: "docx" | "pdf" | "html") {
+  const instances = useStore.getState().analyses.filter((a) => a.result).map((a) => a.instance);
+  if (!instances.length) return alert("Run an analysis first; there are no results to export yet.");
+  if (!isTauri) return alert("Exporting results needs the desktop app.");
+  const { save } = await dialog();
+  const path = await save({ defaultPath: `results.${format}`, filters: [{ name: format === "docx" ? "Word document" : format.toUpperCase(), extensions: [format] }] });
+  if (!path) return;
+  try { await call("report.export", { path, format, instances }); }
+  catch (e) { alert((e as Error).message); }
+}

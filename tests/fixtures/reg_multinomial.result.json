@@ -1,0 +1,274 @@
+{
+  "tables": [
+    {
+      "id": "fit",
+      "title": "Model Fit",
+      "columns": [
+        {
+          "id": "chi",
+          "label": "χ² (LR)",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "df",
+          "label": "df",
+          "type": "int"
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "mcf",
+          "label": "McFadden R²",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "aic",
+          "label": "AIC",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        }
+      ],
+      "rows": [
+        {
+          "chi": 116.566832553673,
+          "df": 6,
+          "p": 8.56631277655199e-23,
+          "mcf": 0.0319459419196058,
+          "aic": 3548.31078849195,
+          "n": 1681
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "coefficients",
+      "title": "Coefficients",
+      "columns": [
+        {
+          "id": "outcome",
+          "label": "satisfaction",
+          "type": "text"
+        },
+        {
+          "id": "term",
+          "label": "Term",
+          "type": "text"
+        },
+        {
+          "id": "est",
+          "label": "B",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "se",
+          "label": "SE",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "stat",
+          "label": "z",
+          "type": "number",
+          "digits": 2
+        },
+        {
+          "id": "p",
+          "label": "p",
+          "type": "pvalue"
+        },
+        {
+          "id": "ci",
+          "label": "95% CI",
+          "type": "ci",
+          "digits": 3
+        },
+        {
+          "id": "exp",
+          "label": "Relative risk ratio",
+          "type": "number",
+          "digits": 3
+        },
+        {
+          "id": "exp_ci",
+          "label": "RRR 95% CI",
+          "type": "ci",
+          "digits": 3
+        }
+      ],
+      "rows": [
+        {
+          "outcome": "Medium",
+          "term": "(Intercept)",
+          "est": 0.264157818894473,
+          "se": 0.170482440542643,
+          "stat": 1.54947229787222,
+          "p": 0.121268225821621,
+          "ci": [-0.0699816245655978, 0.598297262354545],
+          "exp": null,
+          "exp_ci": [null, null]
+        },
+        {
+          "outcome": "Medium",
+          "term": "influenceLow",
+          "est": -0.651706155775369,
+          "se": 0.184768438279731,
+          "stat": -3.52715085889677,
+          "p": 0.000420057353222169,
+          "ci": [-1.01384564028335, -0.289566671267385],
+          "exp": 0.521155844741196,
+          "exp_ci": [0.362821014150659, 0.748587881944258]
+        },
+        {
+          "outcome": "Medium",
+          "term": "influenceMedium",
+          "est": -0.212115707385284,
+          "se": 0.185884690623397,
+          "stat": -1.14111445474028,
+          "p": 0.253822296829697,
+          "ci": [-0.576443006284514, 0.152211591513945],
+          "exp": 0.808871099791638,
+          "exp_ci": [0.561893467714175, 1.16440658892114]
+        },
+        {
+          "outcome": "Medium",
+          "term": "contactLow",
+          "est": -0.312456251412174,
+          "se": 0.129802525840118,
+          "stat": -2.40716618871529,
+          "p": 0.0160768520756029,
+          "ci": [-0.566864527161135, -0.0580479756632135],
+          "exp": 0.731647636797383,
+          "exp_ci": [0.56730141115397, 0.943604676290694]
+        },
+        {
+          "outcome": "High",
+          "term": "(Intercept)",
+          "est": 1.25569802984403,
+          "se": 0.146493921367365,
+          "stat": 8.57167326892077,
+          "p": 1.01992115357194e-17,
+          "ci": [0.968575220009947, 1.5428208396781],
+          "exp": null,
+          "exp_ci": [null, null]
+        },
+        {
+          "outcome": "High",
+          "term": "influenceLow",
+          "est": -1.59796586288511,
+          "se": 0.163994330402842,
+          "stat": -9.74403114400237,
+          "p": 1.95636065008776e-22,
+          "ci": [-1.91938884414344, -1.27654288162678],
+          "exp": 0.202307621173641,
+          "exp_ci": [0.146696589219139, 0.279000171734038]
+        },
+        {
+          "outcome": "High",
+          "term": "influenceMedium",
+          "est": -0.850244020418963,
+          "se": 0.161141530349814,
+          "stat": -5.27638044998835,
+          "p": 1.31760401115002e-07,
+          "ci": [-1.16607561631827, -0.53441242451966],
+          "exp": 0.427310646702344,
+          "exp_ci": [0.311587333302184, 0.586013516178756]
+        },
+        {
+          "outcome": "High",
+          "term": "contactLow",
+          "est": -0.360704456476045,
+          "se": 0.12026651950032,
+          "stat": -2.99920923940169,
+          "p": 0.00270681344504548,
+          "ci": [-0.596422503242656, -0.124986409709433],
+          "exp": 0.697185016538356,
+          "exp_ci": [0.550778524112535, 0.882508896055423]
+        }
+      ],
+      "notes": [
+        "Each category of satisfaction is compared with the reference category Low. Wald confidence intervals."
+      ]
+    },
+    {
+      "id": "classification",
+      "title": "Classification Accuracy",
+      "columns": [
+        {
+          "id": "obs",
+          "label": "Observed",
+          "type": "text"
+        },
+        {
+          "id": "n",
+          "label": "N",
+          "type": "int"
+        },
+        {
+          "id": "pc",
+          "label": "% correct",
+          "type": "number",
+          "digits": 1
+        }
+      ],
+      "rows": [
+        {
+          "obs": "Low",
+          "n": 567,
+          "pc": 49.7354497354497,
+          "_row": "Low"
+        },
+        {
+          "obs": "Medium",
+          "n": 446,
+          "pc": 0,
+          "_row": "Medium"
+        },
+        {
+          "obs": "High",
+          "n": 668,
+          "pc": 73.8023952095808,
+          "_row": "High"
+        },
+        {
+          "obs": "Overall",
+          "n": 1681,
+          "pc": 46.103509815586,
+          "_row": ""
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "assumptions": [],
+  "plots": [],
+  "interpretation": {
+    "auto_generated": true,
+    "text": "The model fit significantly better than the null model, χ²(6) = 116.57, p < .001, McFadden R² = 0.03."
+  },
+  "notes": [],
+  "module": "reg_multinomial",
+  "module_version": "1.0.0",
+  "title": "Multinomial Regression",
+  "status": "ok",
+  "code": "library(nnet)\n# Multinomial regression: satisfaction on influence, contact\nd <- data[complete.cases(data[, c(\"satisfaction\", \"influence\", \"contact\"), drop = FALSE]), , drop = FALSE]\nd$satisfaction <- factor(d$satisfaction, levels = c(1, 2, 3), labels = c(\"Low\", \"Medium\", \"High\"))\nd$influence <- droplevels(factor(d$influence))\nd$contact <- droplevels(factor(d$contact))\nfit <- multinom(satisfaction ~ influence + contact, data = d, trace = FALSE)\ns <- summary(fit)\n# One row per outcome category (vs the first) and term\ncoefs <- do.call(rbind, lapply(rownames(s$coefficients), function(lv) {\n  b <- s$coefficients[lv, ]; se <- s$standard.errors[lv, ]\n  data.frame(outcome = lv, term = names(b), estimate = b, se = se, z = b / se, p = 2 * pnorm(abs(b / se), lower.tail = FALSE),\n             lower = b - qnorm(1 - (1 - 0.95) / 2) * se, upper = b + qnorm(1 - (1 - 0.95) / 2) * se, row.names = NULL)\n}))\nnull <- multinom(satisfaction ~ 1, data = d, trace = FALSE)\nlr_chi <- deviance(null) - deviance(fit); lr_df <- fit$edf - null$edf\nr2_mcfadden <- 1 - deviance(fit) / deviance(null)\nclass_table <- table(Observed = d$satisfaction, Predicted = predict(fit))",
+  "warnings": [],
+  "console": "",
+  "meta": {
+    "r_version": "4.3.3",
+    "packages": {
+      "nnet": "7.3.19"
+    },
+    "dataset": "data"
+  }
+}
