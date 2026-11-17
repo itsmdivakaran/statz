@@ -48,7 +48,7 @@ codegen_descriptives <- function(o, meta, ctx) {
       if (type == "box_jitter" && is.null(sp)) return(sn_code(
         paste0("p_", i, " <- ", ctx$plot_engine, "(d, aes(x = \"\", y = ", sn_name(v), ")) +\n  geom_boxplot() +\n  ",
                "geom_jitter(width = 0.1, alpha = 0.6) +\n  labs(title = ", sn_lit(v), ", x = NULL, y = ",
-               sn_lit(sn_label(meta, v)), ") +\n  theme_classic()")))
+               sn_lit(sn_label(meta, v)), ") +\n  ", sn_plot_theme(ctx$plot_engine))))
       if (type == "box_jitter") return(sn_plot_code(ctx$plot_engine, type, "d", x = sp, y = v, obj = paste0("p_", i),
                                                     xlab = sn_label(meta, sp), ylab = sn_label(meta, v)))
       sn_plot_code(ctx$plot_engine, type, "d", x = v, obj = paste0("p_", i), title = v, xlab = sn_label(meta, v))

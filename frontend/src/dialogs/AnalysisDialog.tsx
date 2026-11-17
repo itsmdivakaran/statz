@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { MEASURE_ICON } from "../grid/DataGrid";
+import { ArrowRight, ChevronDown, ChevronRight, MousePointerClick, SlidersHorizontal, X } from "lucide-react";
+import { MeasureIcon } from "../app/MeasureIcon";
 import { useStore } from "../state/store";
 import type { ModuleSpec, OptionSpec, Options, RoleSpec, VariableMeta } from "../types";
 
@@ -12,15 +13,21 @@ export function AnalysisDialog() {
   const { analyses, selected, specs, data, setOptions } = useStore();
   const a = analyses.find((x) => x.instance === selected);
   if (!a || !data) {
-    return <div className="p-4 text-sm text-slate-500">Choose an analysis from the menu above.</div>;
+    return (
+      <div className="flex h-full flex-col items-center justify-center gap-2 p-6 text-center">
+        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand"><MousePointerClick size={20} aria-hidden="true" /></span>
+        <p className="text-sm font-medium">Choose an analysis</p>
+        <p className="max-w-56 text-xs text-muted">Pick one from the menu above, or press Ctrl/⌘ K to search.</p>
+      </div>
+    );
   }
   const spec = specs[a.module];
   return (
     <div className="flex h-full flex-col overflow-hidden" data-testid="analysis-dialog">
-      <div className="border-b border-slate-200 px-3 py-2 dark:border-slate-800">
-        <h2 className="font-semibold">{spec.title}</h2>
+      <div className="border-b border-line px-3 py-2.5">
+        <h2 className="flex items-center gap-2 font-semibold"><SlidersHorizontal size={15} className="text-brand" aria-hidden="true" />{spec.title}</h2>
         {a.error && a.error.code === -32003 && (
-          <p role="alert" className="mt-1 text-xs text-amber-700 dark:text-amber-400">{a.error.message}</p>
+          <p role="alert" className="mt-1 text-xs text-warn">{a.error.message}</p>
         )}
       </div>
       <div className="flex-1 overflow-auto p-3">
@@ -71,12 +78,12 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
             <div key={sec.section} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-3">
               <div>
                 <div className="panel-title mb-1">Variables</div>
-                <ul className="h-64 overflow-auto rounded border border-slate-200 text-sm dark:border-slate-800" aria-label="Available variables">
+                <ul className="h-64 overflow-auto rounded-lg border border-line bg-surface2/50 p-1 text-sm" aria-label="Available variables">
                   {free.map((v) => (
                     <li key={v.name} data-var={v.name} draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", v.name)}
                       onClick={() => setPicked(v.name)} title={v.label || v.name}
-                      className={`cursor-grab truncate px-2 py-0.5 ${picked === v.name ? "bg-blue-100 dark:bg-blue-900/40" : "hover:bg-slate-50 dark:hover:bg-slate-900"}`}>
-                      <span className="mr-1 text-xs text-slate-400">{MEASURE_ICON[v.measure]}</span>{v.name}
+                      className={`flex cursor-grab items-center gap-1.5 truncate rounded-md px-2 py-1 ${picked === v.name ? "bg-brand/15 text-brand" : "hover:bg-surface2"}`}>
+                      <MeasureIcon measure={v.measure} />{v.name}
                     </li>
                   ))}
                 </ul>
@@ -88,19 +95,19 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
                   return (
                     <div key={role.id}>
                       <div className="mb-1 flex items-center gap-2">
-                        <button className="btn px-1.5 py-0" disabled={!ok} aria-label={`Add to ${role.label}`}
-                          onClick={() => picked && addTo(role, picked)}>→</button>
+                        <button className={`flex h-6 w-6 items-center justify-center rounded-md border transition-colors disabled:opacity-40 ${ok ? "border-brand bg-brand text-white" : "border-line bg-surface text-muted"}`} disabled={!ok} aria-label={`Add to ${role.label}`}
+                          onClick={() => picked && addTo(role, picked)}><ArrowRight size={13} aria-hidden="true" /></button>
                         <span className="panel-title">{role.label}</span>
-                        {role.measure.length > 0 && <span className="text-[11px] text-slate-400">{role.measure.map((m) => MEASURE_ICON[m]).join(" ")}</span>}
+                        {role.measure.length > 0 && <span className="ml-auto flex gap-1 opacity-70">{role.measure.map((m) => <MeasureIcon key={m} measure={m} />)}</span>}
                       </div>
                       <ul data-role={role.id} aria-label={role.label}
                         onDragOver={(e) => e.preventDefault()}
                         onDrop={(e) => { e.preventDefault(); addTo(role, e.dataTransfer.getData("text/plain")); }}
-                        className={`min-h-9 rounded border border-dashed p-1 text-sm ${errorRole === role.id ? "border-amber-500" : "border-slate-300 dark:border-slate-700"} ${role.max === 1 ? "" : "min-h-16"}`}>
+                        className={`min-h-9 rounded-lg border border-dashed p-1 text-sm transition-colors ${errorRole === role.id ? "border-warn bg-warn/5" : ok ? "border-brand/60 bg-brand/5" : "border-line"} ${role.max === 1 ? "" : "min-h-16"}`}>
                         {cur.map((name) => (
-                          <li key={name} className="flex items-center justify-between rounded px-1 hover:bg-slate-50 dark:hover:bg-slate-900">
-                            <span><span className="mr-1 text-xs text-slate-400">{MEASURE_ICON[byName[name]?.measure]}</span>{name}</span>
-                            <button className="text-xs text-slate-400 hover:text-red-500" aria-label={`Remove ${name}`} onClick={() => removeFrom(role, name)}>✕</button>
+                          <li key={name} className="flex items-center justify-between rounded-md bg-surface px-2 py-1 shadow-card">
+                            <span className="flex items-center gap-1.5"><MeasureIcon measure={byName[name]?.measure} />{name}</span>
+                            <button className="text-muted hover:text-bad" aria-label={`Remove ${name}`} onClick={() => removeFrom(role, name)}><X size={13} aria-hidden="true" /></button>
                           </li>
                         ))}
                       </ul>
@@ -124,11 +131,11 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
 function Section({ title, collapsed, children }: { title: string; collapsed?: boolean; children: React.ReactNode }) {
   const [open, setOpen] = useState(!collapsed);
   return (
-    <div className="rounded border border-slate-200 dark:border-slate-800">
-      <button className="flex w-full items-center justify-between px-2 py-1.5 text-sm font-medium" onClick={() => setOpen(!open)} aria-expanded={open}>
-        {title}<span className="text-slate-400">{open ? "▾" : "▸"}</span>
+    <div className="rounded-lg border border-line">
+      <button className="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-sm font-semibold hover:bg-surface2" onClick={() => setOpen(!open)} aria-expanded={open}>
+        {title}<span className="text-muted">{open ? <ChevronDown size={15} aria-hidden="true" /> : <ChevronRight size={15} aria-hidden="true" />}</span>
       </button>
-      {open && <div className="space-y-2 border-t border-slate-200 p-2 dark:border-slate-800">{children}</div>}
+      {open && <div className="space-y-2.5 border-t border-line p-2.5">{children}</div>}
     </div>
   );
 }
@@ -145,7 +152,7 @@ function OptionControl({ id, spec, value, onChange }: { id: string; spec: Option
     return (
       <label className="flex items-center justify-between gap-2 text-sm">
         {spec.label}
-        <input type="number" className="w-24 rounded border border-slate-300 bg-transparent px-1 dark:border-slate-700"
+        <input type="number" className="field w-24"
           value={value as number} min={spec.min} max={spec.max} step={spec.step ?? "any"}
           onChange={(e) => e.target.value !== "" && onChange(Number(e.target.value))} />
       </label>
@@ -156,7 +163,7 @@ function OptionControl({ id, spec, value, onChange }: { id: string; spec: Option
     const cur = (value as string[]) ?? [];
     return (
       <fieldset className="text-sm">
-        <legend className="mb-1 text-xs text-slate-500">{spec.label}</legend>
+        <legend className="mb-1 text-xs text-muted">{spec.label}</legend>
         {spec.values.map((v, i) => (
           <label key={v} className="mr-3 inline-flex items-center gap-1">
             <input type="checkbox" checked={cur.includes(v)}
@@ -170,7 +177,7 @@ function OptionControl({ id, spec, value, onChange }: { id: string; spec: Option
   return (
     <label className="flex items-center justify-between gap-2 text-sm">
       {spec.label}
-      <select className="rounded border border-slate-300 bg-transparent px-1 dark:border-slate-700" value={value as string}
+      <select className="field" value={value as string}
         onChange={(e) => onChange(e.target.value)} name={id}>
         {spec.values.map((v, i) => <option key={v} value={v}>{labels[i]}</option>)}
       </select>

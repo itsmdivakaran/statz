@@ -204,7 +204,7 @@
   "module_version": "1.0.0",
   "title": "Paired Samples T-Test",
   "status": "ok",
-  "code": "library(effectsize)\nlibrary(ggnext)\n# Paired samples t-test: drug1 vs drug2\nd <- subset(data, !is.na(drug1) & !is.na(drug2))\nd$difference <- d$drug1 - d$drug2\ndesc <- sapply(d[c(\"drug1\", \"drug2\", \"difference\")], function(x)\n  c(n = length(x), mean = mean(x), sd = sd(x), se = sd(x) / sqrt(length(x))))\ntt <- t.test(d$drug1, d$drug2, paired = TRUE,\n  alternative = \"two.sided\", conf.level = 0.95)\nes <- cohens_d(d$difference, ci = 0.95)  # dz\nnormality <- shapiro.test(d$difference)\np <- ggnext(d, aes(difference)) +\n  geom_histogram(bins = 20) +\n  labs(title = \"Difference: drug1 − drug2\", x = \"drug1 − drug2\", y = \"Count\") +\n  theme_classic()",
+  "code": "library(effectsize)\nlibrary(ggnext)\n# Paired samples t-test: drug1 vs drug2\nd <- subset(data, !is.na(drug1) & !is.na(drug2))\nd$difference <- d$drug1 - d$drug2\ndesc <- sapply(d[c(\"drug1\", \"drug2\", \"difference\")], function(x)\n  c(n = length(x), mean = mean(x), sd = sd(x), se = sd(x) / sqrt(length(x))))\ntt <- t.test(d$drug1, d$drug2, paired = TRUE,\n  alternative = \"two.sided\", conf.level = 0.95)\nes <- cohens_d(d$difference, ci = 0.95)  # dz\nnormality <- shapiro.test(d$difference)\np <- ggnext(d, aes(difference)) +\n  geom_histogram(bins = 20) +\n  labs(title = \"Difference: drug1 − drug2\", x = \"drug1 − drug2\", y = \"Count\") +\n  theme_modern()",
   "warnings": [],
   "console": "",
   "meta": {

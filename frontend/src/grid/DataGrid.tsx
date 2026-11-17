@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { call } from "../rpc/client";
 import { useStore } from "../state/store";
 import type { DataSlice, VariableMeta } from "../types";
+import { MeasureIcon } from "../app/MeasureIcon";
 import { VariableView } from "./VariableView";
 
 const PAGE = 200;
@@ -10,7 +11,6 @@ const ROW_H = 26;
 const COL_W = 110;
 type Page = DataSlice["columns"];
 
-export const MEASURE_ICON: Record<string, string> = { continuous: "◆", nominal: "●", ordinal: "▲", date: "▣" };
 
 function display(v: unknown, meta: VariableMeta): string {
   if (v === null || v === undefined) return "";
@@ -24,17 +24,18 @@ export function DataPanel() {
   const data = useStore((s) => s.data);
   return (
     <section className="flex h-full min-w-0 flex-col">
-      <div className="flex items-center gap-2 border-b border-slate-200 px-2 py-1 dark:border-slate-800">
-        {(["data", "vars"] as const).map((t) => (
-          <button key={t} onClick={() => setTab(t)}
-            className={`rounded px-2 py-0.5 text-sm ${tab === t ? "bg-slate-200 dark:bg-slate-800" : "text-slate-500"}`}>
-            {t === "data" ? "Data" : "Variables"}
-          </button>
-        ))}
-        {data && <span className="ml-auto truncate text-xs text-slate-500">{data.source} · {data.nrow} × {data.ncol}</span>}
+      <div className="flex items-center gap-2 border-b border-line px-2.5 py-2">
+        <div className="seg" role="tablist">
+          {(["data", "vars"] as const).map((t) => (
+            <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}>
+              {t === "data" ? "Data" : "Variables"}
+            </button>
+          ))}
+        </div>
+        {data && <span className="chip ml-auto truncate bg-surface2 text-muted">{data.source} · {data.nrow} × {data.ncol}</span>}
       </div>
       {!data ? (
-        <p className="p-4 text-sm text-slate-500">Open a data file or pick an example from the Data menu.</p>
+        <p className="p-4 text-sm text-muted">Open a data file or pick an example from the Data menu.</p>
       ) : tab === "data" ? <DataGrid /> : <VariableView />}
     </section>
   );
@@ -76,28 +77,28 @@ function DataGrid() {
 
   return (
     <div ref={parent} className="relative flex-1 overflow-auto text-sm" data-testid="data-grid">
-      <div style={{ width }} className="sticky top-0 z-10 flex border-b border-slate-300 bg-slate-50 dark:border-slate-700 dark:bg-slate-900">
+      <div style={{ width }} className="sticky top-0 z-10 flex border-b border-line bg-surface2 text-[12.5px]">
         <div className="w-14 shrink-0" />
         {vars.map((v) => (
           <div key={v.name} style={{ width: COL_W }} title={v.label || v.name}
-            className="shrink-0 truncate border-l border-slate-200 px-2 py-1 font-medium dark:border-slate-800">
-            <span className="mr-1 text-xs text-slate-400">{MEASURE_ICON[v.measure]}</span>{v.name}
+            className="flex shrink-0 items-center gap-1.5 truncate border-l border-line px-2 py-1.5 font-semibold">
+            <MeasureIcon measure={v.measure} /><span className="truncate">{v.name}</span>
           </div>
         ))}
       </div>
       <div style={{ height: rows.getTotalSize(), width, position: "relative" }}>
         {items.map((it) => (
-          <div key={it.key} className="absolute left-0 flex" style={{ top: it.start, height: ROW_H }}>
-            <div className="w-14 shrink-0 px-2 text-right text-xs leading-[26px] text-slate-400">{it.index + 1}</div>
+          <div key={it.key} className="absolute left-0 flex hover:bg-brand/5" style={{ top: it.start, height: ROW_H }}>
+            <div className="w-14 shrink-0 px-2 text-right font-mono text-[11px] leading-[26px] text-muted/70">{it.index + 1}</div>
             {vars.map((v) => {
               const isEdit = editing?.row === it.index && editing.col === v.name;
               const val = cell(it.index, v.name);
               return (
                 <div key={v.name} style={{ width: COL_W }}
-                  className={`shrink-0 truncate border-l border-t border-slate-100 px-2 leading-[26px] dark:border-slate-900 ${v.measure === "continuous" ? "text-right tabular-nums" : ""}`}
+                  className={`shrink-0 truncate border-l border-t border-line/60 px-2 leading-[26px] ${v.measure === "continuous" ? "text-right tabular-nums" : ""}`}
                   onDoubleClick={() => setEditing({ row: it.index, col: v.name, value: val === null || val === undefined ? "" : String(val) })}>
                   {isEdit ? (
-                    <input autoFocus className="w-full bg-blue-50 outline-none dark:bg-slate-800" value={editing.value}
+                    <input autoFocus className="w-full rounded bg-brand/10 outline-none ring-2 ring-brand/40" value={editing.value}
                       onChange={(e) => setEditing({ ...editing, value: e.target.value })}
                       onBlur={() => void commit()}
                       onKeyDown={(e) => { if (e.key === "Enter") void commit(); if (e.key === "Escape") setEditing(null); }} />

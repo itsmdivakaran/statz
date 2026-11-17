@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useStore } from "../state/store";
+import { MeasureIcon } from "../app/MeasureIcon";
 import type { Measure, ValueLabel } from "../types";
 
 const MEASURES: Measure[] = ["continuous", "nominal", "ordinal", "date"];
@@ -33,21 +34,21 @@ export function VariableView() {
         void setMeta(name, f, value);
         setDraft(({ [key]: _, ...rest }) => rest);
       },
-      className: "w-full bg-transparent px-1 outline-none focus:bg-blue-50 dark:focus:bg-slate-800",
+      className: "w-full bg-transparent px-1 outline-none focus:bg-brand/10",
     };
   };
   return (
     <div className="flex-1 overflow-auto">
       <table className="w-full text-sm">
-        <thead className="sticky top-0 bg-slate-50 text-left text-xs text-slate-500 dark:bg-slate-900">
-          <tr>{["Name", "Label", "Type", "Measure", "Value labels", "Missing codes"].map((h) => <th key={h} className="px-2 py-1 font-medium">{h}</th>)}</tr>
+        <thead className="sticky top-0 bg-surface2 text-left text-[11px] uppercase tracking-wider text-muted">
+          <tr>{["Name", "Label", "Type", "Measure", "Value labels", "Missing codes"].map((h) => <th key={h} className="px-2 py-1.5 font-semibold">{h}</th>)}</tr>
         </thead>
         <tbody>
           {data.variables.map((v) => (
-            <tr key={v.name} className="border-t border-slate-100 dark:border-slate-900">
-              <td className="px-2 py-1 font-medium">{v.name}</td>
+            <tr key={v.name} className="border-t border-line">
+              <td className="px-2 py-1.5 font-medium"><span className="flex items-center gap-1.5"><MeasureIcon measure={v.measure} />{v.name}</span></td>
               <td><input aria-label={`${v.name} label`} {...field(v.name, "label", v.label)} /></td>
-              <td className="px-2 text-slate-500">{v.type}</td>
+              <td className="px-2 text-muted">{v.type}</td>
               <td>
                 <select aria-label={`${v.name} measure`} value={v.measure} className="bg-transparent"
                   onChange={(e) => void setMeta(v.name, "measure", e.target.value)}>
