@@ -56,6 +56,11 @@ w(pm, "pima", "Diabetes in Pima women", "Diabetes status and clinical measuremen
   lab(diabetes = "Diabetic (WHO criteria)", pregnancies = "Number of pregnancies", glucose = "Plasma glucose (mg/dl)", blood_pressure = "Diastolic blood pressure (mm Hg)",
       skin_fold = "Triceps skin fold (mm)", bmi = "Body mass index (kg/m²)", pedigree = "Diabetes pedigree function", age = "Age (years)"))
 
+ap <- data.frame(year = as.integer(floor(time(AirPassengers))), month = as.integer(cycle(AirPassengers)), passengers = as.numeric(AirPassengers))
+ap$date <- sprintf("%d-%02d-01", ap$year, ap$month)
+w(ap[, c("date", "year", "month", "passengers")], "airpassengers", "Airline passengers 1949-1960", "Monthly totals of international airline passengers in thousands, January 1949 to December 1960. Source: R datasets::AirPassengers (Box & Jenkins, 1976).",
+  lab(date = "Month", year = "Year", month = "Month of year", passengers = "Passengers (thousands)"))
+
 # Simulated CDISC ADaM-style data: subject-level (ADSL) and adverse events (ADAE).
 set.seed(20261117)
 N <- 254

@@ -1,0 +1,237 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "ts_ets",
+  "version": "1.0.0",
+  "title": "Exponential Smoothing",
+  "description": "ETS and Holt-Winters forecasts",
+  "menu": [
+    "Time Series",
+    "Forecasting"
+  ],
+  "r": {
+    "file": "ts_ets.R",
+    "fn": "codegen_ts_ets",
+    "packages": [
+      "forecast",
+      "ggnext"
+    ]
+  },
+  "roles": [
+    {
+      "id": "series",
+      "label": "Series (values in time order)",
+      "min": 1,
+      "max": 1,
+      "measure": [
+        "continuous"
+      ]
+    },
+    {
+      "id": "time",
+      "label": "Time variable (optional, sorts the rows)",
+      "min": 0,
+      "max": 1,
+      "measure": []
+    }
+  ],
+  "options": {
+    "frequency": {
+      "type": "enum",
+      "label": "Seasonal period",
+      "values": [
+        "12",
+        "4",
+        "1",
+        "7",
+        "52"
+      ],
+      "labels": [
+        "Monthly (12)",
+        "Quarterly (4)",
+        "None / yearly (1)",
+        "Daily, weekly cycle (7)",
+        "Weekly (52)"
+      ],
+      "default": "12"
+    },
+    "start_year": {
+      "type": "number",
+      "label": "Start year",
+      "min": 1,
+      "max": 3000,
+      "step": 1,
+      "default": 1
+    },
+    "start_period": {
+      "type": "number",
+      "label": "Start period (month or quarter)",
+      "min": 1,
+      "max": 52,
+      "step": 1,
+      "default": 1
+    },
+    "error": {
+      "type": "enum",
+      "label": "Error",
+      "values": [
+        "Z",
+        "A",
+        "M"
+      ],
+      "labels": [
+        "Automatic",
+        "Additive",
+        "Multiplicative"
+      ],
+      "default": "Z"
+    },
+    "trend": {
+      "type": "enum",
+      "label": "Trend",
+      "values": [
+        "Z",
+        "N",
+        "A"
+      ],
+      "labels": [
+        "Automatic",
+        "None",
+        "Additive"
+      ],
+      "default": "Z"
+    },
+    "season": {
+      "type": "enum",
+      "label": "Seasonality",
+      "values": [
+        "Z",
+        "N",
+        "A",
+        "M"
+      ],
+      "labels": [
+        "Automatic",
+        "None",
+        "Additive",
+        "Multiplicative"
+      ],
+      "default": "Z"
+    },
+    "damped": {
+      "type": "enum",
+      "label": "Damped trend",
+      "values": [
+        "auto",
+        "yes",
+        "no"
+      ],
+      "labels": [
+        "Automatic",
+        "Yes",
+        "No"
+      ],
+      "default": "auto"
+    },
+    "horizon": {
+      "type": "number",
+      "label": "Periods to forecast",
+      "min": 1,
+      "max": 240,
+      "step": 1,
+      "default": 12
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Prediction interval level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "holdout": {
+      "type": "number",
+      "label": "Hold out the last periods to test (0 = none)",
+      "min": 0,
+      "max": 120,
+      "step": 1,
+      "default": 0
+    },
+    "plot": {
+      "type": "enum",
+      "label": "Plots",
+      "values": [
+        "forecast",
+        "residuals"
+      ],
+      "labels": [
+        "Forecast",
+        "Residual autocorrelation"
+      ],
+      "default": [
+        "forecast",
+        "residuals"
+      ],
+      "multiple": true
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "series",
+        "time"
+      ]
+    },
+    {
+      "section": "Time axis",
+      "items": [
+        "frequency",
+        "start_year",
+        "start_period"
+      ]
+    },
+    {
+      "section": "Model",
+      "items": [
+        "error",
+        "trend",
+        "season",
+        "damped"
+      ]
+    },
+    {
+      "section": "Forecast",
+      "items": [
+        "horizon",
+        "conf_level",
+        "holdout"
+      ]
+    },
+    {
+      "section": "Plots",
+      "items": [
+        "plot"
+      ],
+      "collapsed": true
+    }
+  ],
+  "guide": {
+    "outcome": "continuous",
+    "design": "time-series"
+  },
+  "example": {
+    "dataset": "airpassengers",
+    "options": {
+      "series": [
+        "passengers"
+      ],
+      "time": [
+        "date"
+      ],
+      "frequency": "12",
+      "start_year": 1949,
+      "start_period": 1,
+      "holdout": 12
+    }
+  }
+}
