@@ -10,6 +10,9 @@ sn_ml_setup <- function(o, meta, ctx, tasks = c("classification", "regression"))
   if (task == "auto") task <- if (identical(meta$variables[[y]]$measure, "continuous")) "regression" else "classification"
   if (!task %in% tasks) sn_abort(paste0("This method needs a ", if (tasks[1] == "classification") "categorical" else "numeric", " outcome."),
                                  SN_ERR$invalid_options, data = list(role = "outcome", variable = y, reason = "measure"))
+  if (task == "regression" && !(meta$variables[[y]]$type %in% c("integer", "double")))
+    sn_abort(paste0("Regression needs a numeric outcome, and '", y, "' is not numeric. Choose classification or a numeric outcome."),
+             SN_ERR$invalid_options, data = list(role = "outcome", variable = y, reason = "measure"))
   k <- if (task == "classification") ctx$n_distinct(y) else NA
   if (task == "classification" && (k < 2 || k > 30))
     sn_abort(paste0("'", y, "' has ", k, " distinct values; a classification outcome needs between 2 and 30 classes."),

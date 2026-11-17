@@ -68,6 +68,7 @@ STATNEXT_ROOT=$PWD Rscript -e 'testthat::test_dir("r-backend/tests/testthat")'
 cd frontend && pnpm typecheck && pnpm test && pnpm e2e --trace off
 STATNEXT_TEST_R=1 cargo test --manifest-path src-tauri/Cargo.toml
 Rscript scripts/make-fixtures.R   # regenerate tests/fixtures after changing a module
+Rscript scripts/option-sweep.R    # run every option value of every analysis (about 10 minutes)
 ```
 
 Installers: run the "Release installers" workflow (or push a `v*` tag); `.github/workflows/release.yml` builds `.dmg`, Windows `setup.exe` and `.msi`, `.AppImage`, `.deb` (unsigned until Apple signing secrets are set).

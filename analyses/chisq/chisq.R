@@ -51,7 +51,7 @@ assemble_chisq <- function(env, o, ctx) {
     df = unname(env$chi$parameter), p = env$chi$p.value)
   if (!is.null(env$fisher)) tests$f <- data.frame(test = paste0("Fisher's exact",
     if (any(dim(tab) > 2)) " (simulated p)" else ""), stat = NA_real_, df = NA_real_, p = env$fisher$p.value)
-  tables$tests <- sn_table("tests", "Tests of Association", list(
+  if (length(tests)) tables$tests <- sn_table("tests", "Tests of Association", list(
     sn_col("test", "Test", "text"), sn_col("stat", "Value"), sn_col("df", "df", "int"), sn_col("p", "p", "pvalue")),
     do.call(rbind, unname(tests)))
   cv <- sn_get(env, "cv")

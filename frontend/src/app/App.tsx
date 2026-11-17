@@ -10,6 +10,7 @@ import { PluginManager } from "../plugins/PluginManager";
 import { Welcome } from "./Welcome";
 import { Workspace } from "./Workspace";
 import { Startup } from "./Startup";
+import { StatusBar } from "./StatusBar";
 
 export function App() {
   const { status, init, theme, undo, redo, selected, runNow, data } = useStore();
@@ -41,6 +42,7 @@ export function App() {
     <div className="flex h-full flex-col">
       <Ribbon onSearch={() => setPalette(true)} />
       {!data ? <main className="min-h-0 flex-1"><Welcome /></main> : <Workspace />}
+      <StatusBar />
       <TransformDialog />
       <GuideDialog />
       <PluginManager />

@@ -50,7 +50,7 @@ export function TransformDialog() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/30 pt-[10vh] backdrop-blur-[2px]" onMouseDown={closeTransform}>
-      <div role="dialog" aria-label={title} className="flex max-h-[80vh] w-[36rem] max-w-[94vw] animate-pop flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-pop" onMouseDown={(e) => e.stopPropagation()}>
+      <div role="dialog" aria-label={title} className="flex max-h-[80vh] w-[36rem] max-w-[94vw] animate-pop flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-pop" onMouseDown={(e) => e.stopPropagation()}>
         <header className="flex items-center gap-2.5 border-b border-line px-4 py-3">
           <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand/10 text-brand"><Icon size={15} aria-hidden="true" /></span>
           <h2 className="text-[15px] font-semibold tracking-tight">{title}</h2>
