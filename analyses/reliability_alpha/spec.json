@@ -1,0 +1,84 @@
+{
+  "$schema": "../../schemas/module.schema.json",
+  "id": "reliability_alpha",
+  "version": "1.0.0",
+  "title": "Scale Reliability (Cronbach's α)",
+  "description": "Internal consistency of a set of items",
+  "menu": [
+    "Descriptives",
+    "Reliability"
+  ],
+  "r": {
+    "file": "reliability_alpha.R",
+    "fn": "codegen_reliability_alpha",
+    "packages": []
+  },
+  "roles": [
+    {
+      "id": "items",
+      "label": "Items",
+      "min": 2,
+      "max": null,
+      "measure": [
+        "continuous",
+        "ordinal"
+      ]
+    }
+  ],
+  "options": {
+    "reverse": {
+      "type": "subset",
+      "label": "Reverse-scored items",
+      "from": [
+        "items"
+      ]
+    },
+    "conf_level": {
+      "type": "number",
+      "label": "Confidence level",
+      "min": 0.5,
+      "max": 0.999,
+      "step": 0.01,
+      "default": 0.95
+    },
+    "item_stats": {
+      "type": "bool",
+      "label": "Item statistics (item-rest correlation, α if item dropped)",
+      "default": true
+    }
+  },
+  "layout": [
+    {
+      "section": "Variables",
+      "items": [
+        "items"
+      ]
+    },
+    {
+      "section": "Options",
+      "items": [
+        "reverse",
+        "conf_level",
+        "item_stats"
+      ]
+    }
+  ],
+  "guide": {
+    "outcome": "scale",
+    "design": "reliability"
+  },
+  "example": {
+    "dataset": "attitude",
+    "options": {
+      "items": [
+        "rating",
+        "complaints",
+        "privileges",
+        "learning",
+        "raises",
+        "critical",
+        "advance"
+      ]
+    }
+  }
+}
