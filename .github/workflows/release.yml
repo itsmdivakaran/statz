@@ -1,6 +1,6 @@
 name: Release installers
 
-# Builds .dmg (Apple Silicon + Intel), .msi, .AppImage and .deb on a version tag, or when run by hand.
+# Builds .dmg (Apple Silicon + Intel, one after the other on one Mac runner), .msi, .AppImage and .deb on a version tag, or when run by hand.
 # The release is tagged v<version from tauri.conf.json>.
 # Builds are unsigned until signing secrets are added; the macOS steps pick them up
 # automatically (APPLE_CERTIFICATE, APPLE_CERTIFICATE_PASSWORD, APPLE_SIGNING_IDENTITY,
@@ -18,8 +18,6 @@ jobs:
         include:
           - os: macos-latest
             args: --target aarch64-apple-darwin
-          - os: macos-latest
-            args: --target x86_64-apple-darwin
           - os: windows-latest
             args: ""
           - os: ubuntu-22.04
@@ -93,3 +91,15 @@ jobs:
           releaseDraft: false
           prerelease: true
           args: ${{ matrix.args }}
+      # Intel Mac build on the same runner: a second macOS job often waits for a runner until it is cancelled.
+      - if: runner.os == 'macOS'
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tauriScript: pnpm tauri
+          tagName: v__VERSION__
+          releaseName: StatNext v__VERSION__
+          releaseDraft: false
+          prerelease: true
+          args: --target x86_64-apple-darwin
