@@ -113,6 +113,11 @@ On first launch the app installs missing R packages into a private library from 
 
 `site/` is the static website (landing page, downloads, user guide). The "Website" workflow (`.github/workflows/pages.yml`) publishes it to GitHub Pages on every push to `site/`. Download buttons read the newest release from the GitHub API, so they need no update per release.
 
+## Credits
+
+- **Author:** Mahesh Divakaran ([ORCID 0000-0002-3488-0857](https://orcid.org/0000-0002-3488-0857))
+- **Contributors:** Prof. Dr. Jayadevan Sreedharan ([ORCID 0000-0001-5350-2408](https://orcid.org/0000-0001-5350-2408)), Dr. Rasin R S ([ORCID 0000-0002-8393-5869](https://orcid.org/0000-0002-8393-5869))
+
 ## Cite
 
 See [CITATION.cff](CITATION.cff) (GitHub shows it as **Cite this repository**). Releases are archived on Zenodo.

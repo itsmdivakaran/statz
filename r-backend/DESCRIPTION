@@ -1,8 +1,13 @@
 Package: statnextr
 Title: R Backend for the StatNext Desktop Statistics App
 Version: 0.5.1
-Authors@R: person("Mahesh", "Divakaran", email = "itsmdivakaran@users.noreply.github.com",
-    role = c("aut", "cre"))
+Authors@R: c(
+    person("Mahesh", "Divakaran", email = "itsmdivakaran@users.noreply.github.com",
+      role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3488-0857")),
+    person("Jayadevan", "Sreedharan", role = "ctb",
+      comment = c(ORCID = "0000-0001-5350-2408")),
+    person("Rasin", "R S", role = "ctb",
+      comment = c(ORCID = "0000-0002-8393-5869")))
 Description: JSON-RPC server, analysis module registry, code generation runner,
     data import and result formatting used by the StatNext desktop application.
     Every analysis is generated as plain R code, evaluated, and returned with that
