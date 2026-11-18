@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User guide · StatNext</title>
+<meta name="description" content="How to install StatNext, open data, run analyses, read results, export reports and R code, and set up the optional AI assistant.">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="tri"></div>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="assets/logo.svg" alt=""><span>Stat<span class="grad">Next</span></span></a>
+    <nav>
+      <a class="hide-sm" href="./#features">Features</a>
+      <a href="guide.html">User guide</a>
+      <a class="hide-sm" href="https://github.com/itsmdivakaran/statz">GitHub</a>
+      <a class="btn btn-primary btn-sm" href="./#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap docs">
+  <aside>
+    <b>Get started</b>
+    <a href="#install">Install</a>
+    <a href="#first-launch">First launch</a>
+    <a href="#tour">The workspace</a>
+    <b>Work</b>
+    <a href="#data">Open and prepare data</a>
+    <a href="#run">Run an analysis</a>
+    <a href="#results">Read the results</a>
+    <a href="#rcode">R code</a>
+    <a href="#export">Export and save</a>
+    <b>Extras</b>
+    <a href="#which-test">Which test?</a>
+    <a href="#ai">AI assistant</a>
+    <a href="#plugins">Plugins</a>
+    <a href="#shortcuts">Keyboard shortcuts</a>
+    <b>Help</b>
+    <a href="#troubleshooting">Troubleshooting</a>
+    <a href="#cite">Cite StatNext</a>
+  </aside>
+
+  <article>
+    <h1>User guide</h1>
+    <p class="muted">Everything you need to go from installing StatNext to a finished report. Current version: <span data-version>latest</span>.</p>
+
+    <h2 id="install">Install</h2>
+    <ol>
+      <li><b>Install R 4.4 or later</b> from <a href="https://cloud.r-project.org/">cloud.r-project.org</a>. StatNext uses your own R to compute every result. If R is missing, StatNext's setup screen links to the right download for your computer.</li>
+      <li><b>Download StatNext</b> for your system from the <a href="./#download">download section</a>.</li>
+      <li><b>Install it.</b>
+        <ul>
+          <li><b>Windows:</b> double-click the <code>setup.exe</code>. If SmartScreen says “Windows protected your PC”, click <b>More info › Run anyway</b> (the installer is not code-signed yet). StatNext then appears in the Start menu.</li>
+          <li><b>macOS:</b> open the <code>.dmg</code> and drag StatNext into Applications. The app is not notarized yet, so the first time it is blocked: open <b>System Settings › Privacy &amp; Security</b>, scroll down and click <b>Open Anyway</b>.</li>
+          <li><b>Linux:</b> make the AppImage executable (<code>chmod +x StatNext_*.AppImage</code>) and run it, or install the <code>.deb</code> with <code>sudo apt install ./StatNext_*.deb</code>.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2 id="first-launch">First launch</h2>
+    <p>StatNext looks for R automatically (on Windows from the registry or <code>Program Files\R</code>). It then installs the R packages it needs into its own private library, so your personal R library is never touched. This takes 3 to 10 minutes and needs an internet connection; later launches start in seconds.</p>
+    <p>Packages come from a date-pinned snapshot, so everybody using the same StatNext version gets the same package versions and the same results.</p>
+
+    <h2 id="tour">The workspace</h2>
+    <img src="assets/img/workspace-light.webp" alt="StatNext workspace" loading="lazy">
+    <table>
+      <tr><th>Area</th><th>What it does</th></tr>
+      <tr><td>Toolbar</td><td>Open, Save, Undo, Redo, search (<kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>K</kbd>) and the <b>Which test?</b> guide.</td></tr>
+      <tr><td>Ribbon</td><td>Analysis menus: Data, Descriptives, Tests, Bayesian, Regression, Multivariate, ML, Time Series, Survival, Clinical, Plugins.</td></tr>
+      <tr><td>Data pane</td><td>Spreadsheet <b>Grid</b> and <b>Variables</b> view (labels, measure level, value labels, missing codes).</td></tr>
+      <tr><td>Analysis pane</td><td>Variable list, role boxes and the options for the chosen analysis.</td></tr>
+      <tr><td>Output pane</td><td>Results as numbered cards, with tabs for Output, R Code, Assumptions and Interpretation, and the Export menu.</td></tr>
+      <tr><td>Status bar</td><td>R version, plot engine, package status and progress.</td></tr>
+    </table>
+    <p>Drag the dividers to resize panes; use the <b>–</b> and <b>⤢</b> buttons in a pane header to minimize or maximize it. The moon icon switches between light and dark themes.</p>
+
+    <h2 id="data">Open and prepare data</h2>
+    <p>Click <b>Open</b> (<kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>O</kbd>) to load CSV/TSV, Excel, SPSS (<code>.sav</code>), Stata, SAS or Parquet. New to StatNext? The start page has 28 example datasets and one-click worked examples.</p>
+    <h3>Variables</h3>
+    <p>In the <b>Variables</b> tab set each variable's label, measure (nominal, ordinal, scale), value labels and missing-value codes. The measure decides which role boxes a variable can go into.</p>
+    <h3>Compute, recode, filter</h3>
+    <p>The <b>Data</b> menu creates new variables from formulas, recodes values into groups and filters rows. Every change can be undone with <kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>Z</kbd> and appears in the R code.</p>
+
+    <h2 id="run">Run an analysis</h2>
+    <ol>
+      <li>Pick an analysis from the ribbon, or search for it with <kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>K</kbd>.</li>
+      <li>Drag variables from the list into the role boxes (for example <i>Dependent variables</i> and <i>Grouping variable</i>), or double-click a variable to send it to the next free box.</li>
+      <li>Set options in the sections below: tests, effect sizes, assumption checks, plots.</li>
+    </ol>
+    <p>Results update as you change options. Press <kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>.</kbd> to cancel a long run.</p>
+    <img src="assets/img/drag-drop.webp" alt="Dragging a variable into a role box" loading="lazy">
+
+    <h2 id="results">Read the results</h2>
+    <ul>
+      <li><b>Plain-language summary</b> at the top of each test and model, written by easystats <code>report()</code> on your computer. Turn it off in Settings if you prefer.</li>
+      <li><b>APA-style tables</b> with effect sizes and confidence intervals. Use <b>Copy</b> on any table to paste it into Word or Excel.</li>
+      <li><b>Assumptions</b> tab: normality, equal variances and other checks with a short verdict.</li>
+      <li><b>Plots</b> open as static images; click <b>Interactive</b> for zoom and hover. Save any plot as SVG, PNG or PDF. Plots are drawn with ggnext; if ggnext can't draw a plot, StatNext uses ggplot2 and marks it “ggplot2 fallback”.</li>
+    </ul>
+
+    <h2 id="rcode">R code</h2>
+    <p>The <b>R Code</b> tab of each result shows the exact script that produced it. You can edit it and press <kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>Enter</kbd> to run it again. The code is plain R that runs in RStudio or any R console with the same data.</p>
+    <img src="assets/img/code.webp" alt="R code tab" loading="lazy">
+
+    <h2 id="export">Export and save</h2>
+    <ul>
+      <li><b>Export</b> (Output pane) saves all results as Word (<code>.docx</code>), PDF or HTML.</li>
+      <li>Export the whole session's code as <code>.R</code>, R Markdown (<code>.Rmd</code>) or Quarto (<code>.qmd</code>).</li>
+      <li><b>Save</b> (<kbd>Ctrl</kbd>/<kbd>⌘</kbd> <kbd>S</kbd>) writes a <code>.statnext</code> project: your data, variable settings and analyses in one file you can reopen or share.</li>
+    </ul>
+
+    <h2 id="which-test">Which test should I use?</h2>
+    <p>Click <b>Which test?</b> in the toolbar. Answer a few plain questions about your goal and your variables, or pick the variables and let StatNext work it out. The guide recommends an analysis, lists alternatives (including a Bayesian option) and opens it ready to run.</p>
+    <img src="assets/img/guide.webp" alt="Which test guide" loading="lazy">
+
+    <h2 id="ai">AI assistant (optional)</h2>
+    <p>The assistant is <b>off by default</b> and StatNext works fully without it.</p>
+    <ol>
+      <li>Click the <b>Settings</b> icon (sliders, top right) and choose a provider: Anthropic Claude, OpenAI, Google Gemini, any OpenAI-compatible server, or Ollama running on your own computer.</li>
+      <li>Paste your API key. It is stored in your system keychain, not in a file.</li>
+      <li>Click <b>Ask AI</b> in the toolbar, or <b>Explain</b> on any result.</li>
+    </ol>
+    <p><b>What is sent:</b> result tables, summaries and your question. Your data rows are never sent. Each attachment is shown before you send it, so you can remove anything. AI can be wrong, so check its answers against the results.</p>
+
+    <h2 id="plugins">Plugins</h2>
+    <p>Each analysis in StatNext is a folder with a <code>spec.json</code> (options and layout), an R file (the code it generates) and a <code>help.md</code>. You can add your own the same way: <b>Plugins › Manage plugins</b> installs a plugin from a folder or <code>.zip</code>, and <b>Create a starter plugin</b> writes a working example to copy.</p>
+
+    <h2 id="shortcuts">Keyboard shortcuts</h2>
+    <table>
+      <tr><th>Action</th><th>Windows / Linux</th><th>macOS</th></tr>
+      <tr><td>Search analyses and actions</td><td><kbd>Ctrl</kbd> <kbd>K</kbd></td><td><kbd>⌘</kbd> <kbd>K</kbd></td></tr>
+      <tr><td>Open data</td><td><kbd>Ctrl</kbd> <kbd>O</kbd></td><td><kbd>⌘</kbd> <kbd>O</kbd></td></tr>
+      <tr><td>Save project</td><td><kbd>Ctrl</kbd> <kbd>S</kbd></td><td><kbd>⌘</kbd> <kbd>S</kbd></td></tr>
+      <tr><td>Undo / redo</td><td><kbd>Ctrl</kbd> <kbd>Z</kbd> / <kbd>Ctrl</kbd> <kbd>Y</kbd></td><td><kbd>⌘</kbd> <kbd>Z</kbd> / <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>Z</kbd></td></tr>
+      <tr><td>Run selected analysis</td><td><kbd>Ctrl</kbd> <kbd>Enter</kbd></td><td><kbd>⌘</kbd> <kbd>Enter</kbd></td></tr>
+      <tr><td>Cancel a running analysis</td><td><kbd>Ctrl</kbd> <kbd>.</kbd></td><td><kbd>⌘</kbd> <kbd>.</kbd></td></tr>
+    </table>
+
+    <h2 id="troubleshooting">Troubleshooting</h2>
+    <h3>“R not found”</h3>
+    <p>Install R 4.4 or later from <a href="https://cloud.r-project.org/">cloud.r-project.org</a>, then restart StatNext.  The setup screen has a <b>Download R</b> button for your system and a retry button.</p>
+    <h3>Package installation fails or is slow</h3>
+    <p>The first launch needs internet. Behind a company proxy or firewall, try a home network once; the packages stay installed afterwards. The status bar shows how many R packages are missing.</p>
+    <h3>macOS says the app “is damaged” or “can't be opened”</h3>
+    <p>This is Gatekeeper blocking an app that is not notarized. Use <b>System Settings › Privacy &amp; Security › Open Anyway</b>. If that button doesn't appear, right-click StatNext in Applications and choose <b>Open</b>.</p>
+    <h3>Still stuck?</h3>
+    <p><a href="https://github.com/itsmdivakaran/statz/issues">Open an issue on GitHub</a> with your operating system, R version (shown in the status bar) and what you clicked.</p>
+
+    <h2 id="cite">Cite StatNext</h2>
+    <p>If StatNext helped your research, please cite it. GitHub's <b>Cite this repository</b> button on the <a href="https://github.com/itsmdivakaran/statz">repository page</a> gives APA and BibTeX. Each release is archived on Zenodo with its own DOI.</p>
+    <pre class="r">Divakaran, M. (2026). StatNext: point-and-click statistics with reproducible R code
+  (Version <span data-version>latest</span>) [Computer software]. https://github.com/itsmdivakaran/statz</pre>
+    <p class="muted">Please also cite R and the R packages behind the analyses you used; the R code of each result lists them.</p>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>© <span data-year>2026</span> Mahesh Divakaran · StatNext is free software under the <a href="https://github.com/itsmdivakaran/statz/blob/dev/LICENSE">GNU GPL v3</a></span>
+    <nav>
+      <a href="./">Home</a>
+      <a href="./#download">Download</a>
+      <a href="https://github.com/itsmdivakaran/statz">Source</a>
+      <a href="https://github.com/itsmdivakaran/statz/issues">Report a problem</a>
+    </nav>
+  </div>
+</footer>
+<script src="assets/app.js" defer></script>
+</body>
+</html>

@@ -2,6 +2,8 @@
 
 Point-and-click statistics desktop app. Every result is computed by a local R and comes with the exact R code that produced it.
 
+Website and user guide: <https://itsmdivakaran.github.io/statz/>
+
 - **Shell:** Tauri 2 (Rust) · React 18 + TypeScript + Tailwind
 - **Engine:** local R ≥ 4.4 (`r-backend/`, package `statnextr`) over JSON-RPC on stdio
 - **Plots:** ggnext (SVG + interactive HTML), ggplot2 fallback flagged in the UI
@@ -106,3 +108,15 @@ On Windows, run the commands above in Git Bash (PowerShell reads `R` as its own 
 Installers: run the "Release installers" workflow (or push a `v*` tag); `.github/workflows/release.yml` builds `.dmg`, Windows `setup.exe` and `.msi`, `.AppImage`, `.deb` (unsigned until Apple signing secrets are set).
 
 On first launch the app installs missing R packages into a private library from a date-pinned Posit Package Manager snapshot, so results are reproducible across machines.
+
+## Website
+
+`site/` is the static website (landing page, downloads, user guide). The "Website" workflow (`.github/workflows/pages.yml`) publishes it to GitHub Pages on every push to `site/`. Download buttons read the newest release from the GitHub API, so they need no update per release.
+
+## Cite
+
+See [CITATION.cff](CITATION.cff) (GitHub shows it as **Cite this repository**). Releases are archived on Zenodo.
+
+## License
+
+GPL-3.0-or-later. See [LICENSE](LICENSE).

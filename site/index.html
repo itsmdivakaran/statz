@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StatNext · Point-and-click statistics, powered by R</title>
+<meta name="description" content="StatNext is a free desktop statistics app for Windows, macOS and Linux. Point and click to run analyses; every result comes with the exact R code that produced it.">
+<meta property="og:title" content="StatNext · Point-and-click statistics, powered by R">
+<meta property="og:description" content="Free desktop statistics app. Every result comes with the exact R code that produced it.">
+<meta property="og:image" content="assets/img/workspace-light.webp">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/><path d="M19 3v4M21 5h-4"/></symbol>
+    <symbol id="i-move" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="11" rx="2"/><path d="M2 19h20"/></symbol>
+    <symbol id="i-term" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></symbol>
+  </defs>
+</svg>
+
+<div class="tri"></div>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="assets/logo.svg" alt=""><span>Stat<span class="grad">Next</span></span></a>
+    <nav>
+      <a class="hide-sm" href="#features">Features</a>
+      <a class="hide-sm" href="#screenshots">Screenshots</a>
+      <a href="guide.html">User guide</a>
+      <a class="hide-sm" href="https://github.com/itsmdivakaran/statz">GitHub</a>
+      <a class="btn btn-primary btn-sm" href="#download">Download</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <span class="pill">Free and open source · <span data-version>latest</span></span>
+    <h1>Point-and-click statistics,<br><span class="grad">with the R code behind every result</span></h1>
+    <p class="lead">StatNext is a desktop statistics app for Windows, macOS and Linux. Pick an analysis, drop in your variables, and get publication-ready tables and plots, all computed by R on your own computer.</p>
+    <div class="cta">
+      <a id="hero-dl" class="btn btn-primary" href="#download"><svg><use href="#i-download"/></svg><span>Download StatNext</span></a>
+      <a class="btn btn-ghost" href="guide.html"><svg><use href="#i-book"/></svg>Read the guide</a>
+    </div>
+    <p class="sub">Windows 10/11 · macOS (Apple silicon and Intel) · Linux · needs R 4.4 or later</p>
+    <div class="shot">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <picture>
+        <source srcset="assets/img/workspace-dark.webp" media="(prefers-color-scheme: dark)">
+        <img src="assets/img/workspace-light.webp" width="1600" height="1000" alt="StatNext workspace: data grid, independent samples t-test options and results with a box plot">
+      </picture>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="eyebrow">Why StatNext</div>
+    <h2>Easy as a menu, honest as a script</h2>
+    <p class="section-lead">The comfort of SPSS-style menus, the transparency of R. Nothing is hidden: every number on screen can be reproduced from the code StatNext gives you.</p>
+    <div class="grid">
+      <div class="card"><div class="ico c-brand"><svg><use href="#i-pointer"/></svg></div><h3>Point-and-click analyses</h3><p>More than 55 analyses in a labelled ribbon: t-tests, ANOVA, regression, mixed models, survival, multivariate, machine learning, time series, meta-analysis and Bayesian tests.</p></div>
+      <div class="card"><div class="ico c-accent"><svg><use href="#i-code"/></svg></div><h3>R code for every result</h3><p>Each result has an R Code tab with the exact script that produced it. Edit and re-run it, or export the whole session as <code>.R</code>, <code>.Rmd</code> or <code>.qmd</code>.</p></div>
+      <div class="card"><div class="ico c-pink"><svg><use href="#i-chart"/></svg></div><h3>ggnext plots</h3><p>Clean, publication-ready plots from the ggnext R package, as static images or an interactive view, and saved as SVG, PNG or PDF.</p></div>
+      <div class="card"><div class="ico c-brand"><svg><use href="#i-book"/></svg></div><h3>Plain-language summaries</h3><p>easystats <code>report()</code> writes a readable sentence under each test and model, worked out offline on your computer.</p></div>
+      <div class="card"><div class="ico c-pink"><svg><use href="#i-spark"/></svg></div><h3>Optional AI assistant</h3><p>Off by default. Bring your own key for Claude, OpenAI, Gemini, a compatible server or local Ollama. Only result tables are sent, never your data rows.</p></div>
+      <div class="card"><div class="ico c-accent"><svg><use href="#i-move"/></svg></div><h3>Drag and drop</h3><p>Drag variables from the list into role boxes, or double-click them. Open CSV, Excel, SPSS, Stata, SAS and Parquet files.</p></div>
+      <div class="card"><div class="ico c-brand"><svg><use href="#i-compass"/></svg></div><h3>“Which test should I use?”</h3><p>Answer a few plain questions, or pick your variables, and the guide suggests the analysis and opens it ready to run.</p></div>
+      <div class="card"><div class="ico c-accent"><svg><use href="#i-file"/></svg></div><h3>Reports to Word, PDF, HTML</h3><p>APA-style tables, assumption checks and interpretation. Export all results in one click.</p></div>
+      <div class="card"><div class="ico c-pink"><svg><use href="#i-shield"/></svg></div><h3>Private by design</h3><p>Your data stays on your computer. Analyses run in your own R installation with no account or cloud service.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <div class="eyebrow">Reproducible</div>
+        <h2>Click, then keep the code</h2>
+        <p class="section-lead" style="margin-bottom:0">StatNext writes ordinary R. Copy it into RStudio, put it in a paper's supplement, or hand it to a reviewer. The results will match.</p>
+        <ul>
+          <li>Editable and re-runnable inside the app</li>
+          <li>Whole session as an R script, R Markdown or Quarto file</li>
+          <li>Projects saved as a single <code>.statnext</code> file</li>
+        </ul>
+      </div>
+      <pre class="r"><span class="c"># Independent samples t-test: mpg by am</span>
+<span class="k">library</span>(effectsize)
+<span class="k">library</span>(ggnext)
+
+d &lt;- <span class="f">subset</span>(data, !<span class="f">is.na</span>(mpg) &amp; !<span class="f">is.na</span>(am))
+d$am &lt;- <span class="f">factor</span>(d$am, labels = <span class="f">c</span>(<span class="s">"Automatic"</span>, <span class="s">"Manual"</span>))
+
+fit &lt;- <span class="f">t.test</span>(mpg ~ am, data = d, var.equal = <span class="k">FALSE</span>)
+es  &lt;- <span class="f">cohens_d</span>(mpg ~ am, data = d, pooled_sd = <span class="k">FALSE</span>)
+report::<span class="f">report</span>(fit)</pre>
+    </div>
+
+    <div class="split rev">
+      <div>
+        <div class="eyebrow">Understand your results</div>
+        <h2>Plain language, and an assistant if you want one</h2>
+        <p class="section-lead" style="margin-bottom:0">Every test gets a written summary you can paste into a report. Turn on the AI assistant to ask follow-up questions or press <b>Explain</b> on any result.</p>
+        <ul>
+          <li>Your own API key, stored in the system keychain</li>
+          <li>Review exactly what is sent before each message</li>
+          <li>Works fully offline with Ollama</li>
+        </ul>
+      </div>
+      <div class="frame"><img src="assets/img/ai-chat.webp" width="1600" height="960" alt="AI assistant panel explaining a t-test result" data-zoom loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<section id="analyses">
+  <div class="wrap">
+    <div class="eyebrow">What's inside</div>
+    <h2>From descriptives to machine learning</h2>
+    <p class="section-lead">Every analysis is a small, readable module. Add your own as a plugin in the same format.</p>
+    <div class="areas">
+      <div class="area"><b>Descriptives</b><span>Descriptives, frequencies, normality, Cronbach's α, ICC, kappa</span></div>
+      <div class="area"><b>T-tests and ANOVA</b><span>One-sample, paired, independent; one-way, factorial, ANCOVA, repeated measures</span></div>
+      <div class="area"><b>Non-parametric</b><span>Mann-Whitney, Wilcoxon, Kruskal-Wallis, Friedman, sign test</span></div>
+      <div class="area"><b>Frequencies</b><span>Chi-square, Fisher, goodness of fit, binomial, McNemar, Cochran's Q</span></div>
+      <div class="area"><b>Regression</b><span>Correlation; linear, logistic, ordinal, multinomial, count; mixed models</span></div>
+      <div class="area"><b>Survival</b><span>Kaplan-Meier with log-rank, Cox regression with PH check</span></div>
+      <div class="area"><b>Multivariate</b><span>PCA, exploratory factor analysis, k-means and hierarchical clustering</span></div>
+      <div class="area"><b>Machine learning</b><span>Trees, random forest, boosting, elastic net, SVM; ROC, SHAP</span></div>
+      <div class="area"><b>Time series</b><span>Decomposition, ACF/PACF, ARIMA and ETS forecasting</span></div>
+      <div class="area"><b>Clinical</b><span>Diagnostic accuracy, ROC, meta-analysis, Table 1, adverse events</span></div>
+      <div class="area"><b>Bayesian</b><span>T-tests, ANOVA, correlation, contingency, regression, binomial</span></div>
+      <div class="area"><b>Data</b><span>Compute, recode and filter with undo; variable labels and missing codes</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="screenshots" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">Screenshots</div>
+    <h2>A clean workspace, light or dark</h2>
+    <p class="section-lead">Data, options and results side by side. Resize, maximize or minimize any pane.</p>
+    <div class="gallery">
+      <figure><img src="assets/img/welcome-light.webp" alt="Start page with worked examples and example datasets" data-zoom loading="lazy"><figcaption>Start page with one-click worked examples</figcaption></figure>
+      <figure><img src="assets/img/drag-drop.webp" alt="Dragging a variable into a role box" data-zoom loading="lazy"><figcaption>Drag variables into place</figcaption></figure>
+      <figure><img src="assets/img/workspace-dark.webp" alt="Dark theme workspace" data-zoom loading="lazy"><figcaption>Dark theme</figcaption></figure>
+      <figure><img src="assets/img/survival.webp" alt="Kaplan-Meier survival curves" data-zoom loading="lazy"><figcaption>Kaplan-Meier with log-rank test</figcaption></figure>
+      <figure><img src="assets/img/guide.webp" alt="Which test should I use guide" data-zoom loading="lazy"><figcaption>“Which test should I use?” guide</figcaption></figure>
+      <figure><img src="assets/img/ai-settings.webp" alt="AI assistant settings" data-zoom loading="lazy"><figcaption>AI settings: your provider, your key</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap">
+    <div class="eyebrow">Download</div>
+    <h2>Get StatNext <span data-version></span></h2>
+    <p class="section-lead">Free for everyone. Install <a href="https://cloud.r-project.org/">R 4.4 or later</a> first; on first launch StatNext installs the R packages it needs (3 to 10 minutes, needs internet).</p>
+    <div class="dl">
+      <div class="card" data-os="win">
+        <div class="os"><svg><use href="#i-monitor"/></svg>Windows 10/11</div>
+        <small>64-bit installer. If SmartScreen appears, click <b>More info › Run anyway</b>.</small>
+        <div class="links">
+          <a class="btn btn-primary" data-asset="win-exe" href="https://github.com/itsmdivakaran/statz/releases"><svg><use href="#i-download"/></svg>Setup (.exe)</a>
+          <a class="btn btn-ghost btn-sm" data-asset="win-msi" href="https://github.com/itsmdivakaran/statz/releases">MSI installer</a>
+        </div>
+      </div>
+      <div class="card" data-os="mac">
+        <div class="os"><svg><use href="#i-laptop"/></svg>macOS</div>
+        <small>Drag to Applications. First time: System Settings › Privacy &amp; Security › <b>Open Anyway</b>.</small>
+        <div class="links">
+          <a class="btn btn-primary" data-asset="mac-arm" href="https://github.com/itsmdivakaran/statz/releases"><svg><use href="#i-download"/></svg>Apple silicon (M1–M4)</a>
+          <a class="btn btn-ghost btn-sm" data-asset="mac-intel" href="https://github.com/itsmdivakaran/statz/releases">Intel Mac</a>
+        </div>
+      </div>
+      <div class="card" data-os="linux">
+        <div class="os"><svg><use href="#i-term"/></svg>Linux</div>
+        <small>AppImage runs on most distributions; .deb for Debian and Ubuntu.</small>
+        <div class="links">
+          <a class="btn btn-primary" data-asset="linux-appimage" href="https://github.com/itsmdivakaran/statz/releases"><svg><use href="#i-download"/></svg>AppImage</a>
+          <a class="btn btn-ghost btn-sm" data-asset="linux-deb" href="https://github.com/itsmdivakaran/statz/releases">.deb package</a>
+        </div>
+      </div>
+    </div>
+    <div class="note"><b>Not sure which Mac you have?</b> Apple menu › About This Mac: “Chip: Apple M…” means Apple silicon, “Processor: Intel” means Intel. Release notes and older versions are on <a data-release-link href="https://github.com/itsmdivakaran/statz/releases">GitHub Releases</a>.</div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span data-year>2026</span> Mahesh Divakaran · StatNext is free software under the <a href="https://github.com/itsmdivakaran/statz/blob/dev/LICENSE">GNU GPL v3</a></span>
+    <nav>
+      <a href="guide.html">User guide</a>
+      <a href="guide.html#cite">Cite</a>
+      <a href="https://github.com/itsmdivakaran/statz">Source</a>
+      <a href="https://github.com/itsmdivakaran/statz/issues">Report a problem</a>
+    </nav>
+  </div>
+</footer>
+<dialog class="lb"><img alt=""></dialog>
+<script src="assets/app.js" defer></script>
+</body>
+</html>

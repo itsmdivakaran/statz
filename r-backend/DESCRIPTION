@@ -7,7 +7,7 @@ Description: JSON-RPC server, analysis module registry, code generation runner,
     data import and result formatting used by the StatNext desktop application.
     Every analysis is generated as plain R code, evaluated, and returned with that
     code so results are fully reproducible outside the app.
-License: MIT + file LICENSE
+License: GPL (>= 3)
 Encoding: UTF-8
 Depends: R (>= 4.4.0)
 Imports:

@@ -1,0 +1,15 @@
+{
+  "title": "StatNext: point-and-click statistics with reproducible R code",
+  "description": "<p>StatNext is a free desktop statistics application for Windows, macOS and Linux. Analyses are chosen from menus and computed by a local R installation; every result is returned together with the plain R code that produced it, so analyses can be reproduced outside the application. Plots are drawn with the ggnext R package and results include plain-language summaries from easystats.</p>",
+  "upload_type": "software",
+  "creators": [
+    { "name": "Divakaran, Mahesh" }
+  ],
+  "license": "GPL-3.0-or-later",
+  "access_right": "open",
+  "keywords": ["statistics", "R", "reproducibility", "desktop application", "data analysis", "biostatistics"],
+  "related_identifiers": [
+    { "identifier": "https://github.com/itsmdivakaran/statz", "relation": "isSupplementTo", "scheme": "url" },
+    { "identifier": "https://itsmdivakaran.github.io/statz/", "relation": "isDocumentedBy", "scheme": "url" }
+  ]
+}

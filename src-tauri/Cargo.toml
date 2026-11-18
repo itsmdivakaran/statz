@@ -3,7 +3,7 @@ name = "statnext"
 version = "0.5.1"
 description = "StatNext: point-and-click statistics with an R backend"
 authors = ["Mahesh Divakaran"]
-license = "MIT"
+license = "GPL-3.0-or-later"
 edition = "2021"
 rust-version = "1.77"
 
