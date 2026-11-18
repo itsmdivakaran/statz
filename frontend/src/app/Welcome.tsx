@@ -12,12 +12,12 @@ import { Logo } from "./Logo";
 const TOURS: { module: string; area: string; Icon: LucideIcon; tone: string }[] = [
   { module: "ttest_ind", area: "Tests", Icon: Users, tone: "bg-brand/10 text-brand" },
   { module: "reg_logistic", area: "Regression", Icon: TrendingUp, tone: "bg-accent/10 text-accent" },
-  { module: "surv_km", area: "Survival", Icon: HeartPulse, tone: "bg-bad/10 text-bad" },
-  { module: "ml_forest", area: "Machine learning", Icon: BrainCircuit, tone: "bg-brand/10 text-brand" },
+  { module: "surv_km", area: "Survival", Icon: HeartPulse, tone: "bg-pink/10 text-pink" },
+  { module: "ml_forest", area: "Machine learning", Icon: BrainCircuit, tone: "bg-pink/10 text-pink" },
   { module: "ts_arima", area: "Time series", Icon: LineChart, tone: "bg-accent/10 text-accent" },
   { module: "bayes_ttest_ind", area: "Bayesian", Icon: Scale, tone: "bg-warn/10 text-warn" },
-  { module: "roc", area: "Diagnostic accuracy", Icon: AreaChart, tone: "bg-bad/10 text-bad" },
-  { module: "meta_binary", area: "Meta-analysis", Icon: Combine, tone: "bg-warn/10 text-warn" },
+  { module: "roc", area: "Diagnostic accuracy", Icon: AreaChart, tone: "bg-pink/10 text-pink" },
+  { module: "meta_binary", area: "Meta-analysis", Icon: Combine, tone: "bg-brand/10 text-brand" },
   { module: "clin_table1", area: "Clinical", Icon: ClipboardList, tone: "bg-ok/10 text-ok" },
 ];
 
@@ -65,7 +65,7 @@ export function Welcome() {
           <section aria-label="Get started" className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {ACTIONS.map((x) => (
               <button key={x.label} onClick={x.run} aria-label={x.label}
-                className={`group flex items-start gap-3 rounded-lg border p-3.5 text-left transition ${x.primary ? "border-brand bg-brand text-white shadow-sm hover:brightness-110" : "border-line bg-surface shadow-card hover:border-brand/50"}`}>
+                className={`group flex items-start gap-3 rounded-lg border p-3.5 text-left transition ${x.primary ? "border-transparent bg-gradient-to-br from-brand to-accent text-white shadow-sm hover:brightness-110" : "border-line bg-surface shadow-card hover:border-brand/50"}`}>
                 <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md ${x.primary ? "bg-white/15" : "bg-brand/10 text-brand"}`}><x.Icon size={17} aria-hidden="true" /></span>
                 <span className="min-w-0">
                   <span className="block text-[13.5px] font-semibold">{x.label}</span>

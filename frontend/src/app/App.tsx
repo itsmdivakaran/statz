@@ -40,6 +40,7 @@ export function App() {
   if (status !== "ready") return <Startup />;
   return (
     <div className="flex h-full flex-col">
+      <div className="tri-strip h-[3px] shrink-0" aria-hidden="true" />
       <Ribbon onSearch={() => setPalette(true)} />
       {!data ? <main className="min-h-0 flex-1"><Welcome /></main> : <Workspace />}
       <StatusBar />

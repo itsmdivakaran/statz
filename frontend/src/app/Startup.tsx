@@ -64,7 +64,7 @@ export function Startup() {
               {status === "setup" && setup && (
                 <div className="mt-2 space-y-1.5">
                   <div className="h-2 overflow-hidden rounded-full bg-surface2">
-                    <div className="h-full rounded-full bg-gradient-to-r from-brand to-accent transition-all" style={{ width: `${Math.max(3, setup.pct)}%` }} />
+                    <div className="h-full rounded-full bg-gradient-to-r from-brand via-accent to-pink transition-all" style={{ width: `${Math.max(3, setup.pct)}%` }} />
                   </div>
                   <div className="flex justify-between text-xs text-muted"><span>{setup.message}</span><span>{setup.pct}% · {elapsed}</span></div>
                   <p className="text-xs text-muted">This needs an internet connection and usually takes 3 to 10 minutes. Keep StatNext open; next time it starts at once.</p>

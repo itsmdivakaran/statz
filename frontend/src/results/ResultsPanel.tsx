@@ -65,7 +65,7 @@ export function ResultsPanel() {
       <div className="flex-1 space-y-3 overflow-auto bg-canvas/60 p-3">
         {analyses.length === 0 && (
           <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent"><FlaskConical size={20} aria-hidden="true" /></span>
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-pink/10 text-pink"><FlaskConical size={20} aria-hidden="true" /></span>
             <p className="text-sm font-medium">No results yet</p>
             <p className="max-w-60 text-xs text-muted">Results update live as you assign variables and change options.</p>
           </div>
@@ -111,7 +111,7 @@ function AnalysisBody({ a, tab }: { a: Analysis; tab: Tab }) {
     <p className="text-sm text-muted">No assumption checks selected.</p>;
   if (tab === "interpretation") return r.interpretation ? (
     <div className="space-y-2.5 text-sm leading-relaxed">
-      <p className="chip bg-accent/10 text-accent"><Sparkles size={11} aria-hidden="true" />Auto-generated · check before use</p>
+      <p className="chip bg-pink/10 text-pink"><Sparkles size={11} aria-hidden="true" />Auto-generated · check before use</p>
       {r.interpretation.text.split("\n\n").map((p, i) => <p key={i}>{p}</p>)}
     </div>) : <p className="text-sm text-muted">No interpretation for this analysis.</p>;
   return (

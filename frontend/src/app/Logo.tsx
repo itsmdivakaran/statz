@@ -4,9 +4,9 @@ export function Logo({ size = 28 }: { size?: number }) {
     <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
       <defs>
         <linearGradient id="sn-g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#7C6CFF" />
-          <stop offset="0.55" stopColor="#5548E8" />
-          <stop offset="1" stopColor="#0EA5A0" />
+          <stop offset="0" stopColor="#10B981" />
+          <stop offset="0.55" stopColor="#2563EB" />
+          <stop offset="1" stopColor="#EC4899" />
         </linearGradient>
       </defs>
       <rect width="64" height="64" rx="15" fill="url(#sn-g)" />
@@ -21,7 +21,7 @@ export function Wordmark() {
   return (
     <span className="flex items-center gap-2">
       <Logo size={26} />
-      <span className="text-[15px] font-bold tracking-tight">Stat<span className="text-brand">Next</span></span>
+      <span className="text-[15px] font-bold tracking-tight">Stat<span className="bg-gradient-to-r from-accent to-pink bg-clip-text text-transparent">Next</span></span>
     </span>
   );
 }

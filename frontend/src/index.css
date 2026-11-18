@@ -6,29 +6,31 @@
 
 /* Design tokens (RGB triplets so Tailwind opacity modifiers work). */
 :root {
-  --canvas: 241 243 247;
+  --canvas: 240 244 245;
   --surface: 255 255 255;
   --surface-2: 246 247 250;
   --line: 223 227 234;
   --ink: 22 27 38;
   --muted: 100 109 128;
-  --brand: 79 70 229;
-  --accent: 13 148 136;
-  --ok: 22 163 106;
+  --brand: 5 150 105;
+  --accent: 37 99 235;
+  --pink: 219 39 119;
+  --ok: 22 163 74;
   --warn: 202 128 4;
-  --bad: 220 53 69;
+  --bad: 220 38 38;
   color-scheme: light;
 }
 .dark {
-  --canvas: 11 13 19;
-  --surface: 19 22 31;
-  --surface-2: 26 30 42;
-  --line: 40 46 62;
+  --canvas: 9 14 17;
+  --surface: 16 22 27;
+  --surface-2: 23 31 38;
+  --line: 37 48 57;
   --ink: 233 236 245;
   --muted: 140 149 173;
-  --brand: 139 133 255;
-  --accent: 45 212 191;
-  --ok: 52 211 153;
+  --brand: 52 211 153;
+  --accent: 96 165 250;
+  --pink: 244 114 182;
+  --ok: 74 222 128;
   --warn: 251 191 36;
   --bad: 248 113 113;
   color-scheme: dark;
@@ -43,13 +45,14 @@ input[type="checkbox"] { accent-color: rgb(var(--brand)); }
 @layer components {
   .card { @apply rounded-xl border border-line bg-surface shadow-card; }
   .btn { @apply inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface px-2.5 py-1 text-sm font-medium transition-colors hover:bg-surface2 disabled:opacity-40; }
-  .btn-primary { @apply inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-110; }
+  .btn-primary { @apply inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-brand to-accent px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-110; }
   .btn-ghost { @apply inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm text-muted transition-colors hover:bg-surface2 hover:text-ink; }
   .field { @apply rounded-lg border border-line bg-surface px-2 py-1 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20; }
   .pane-btn { @apply flex h-6 w-6 items-center justify-center rounded text-muted transition-colors hover:bg-surface2 hover:text-ink; }
   .pane-header { @apply flex h-10 shrink-0 items-center gap-2 border-b border-line bg-surface px-3; }
   .pane-title { @apply flex shrink-0 items-center gap-1.5 text-[13px] font-semibold tracking-tight; }
   .tool-btn { @apply flex h-8 items-center gap-1.5 rounded-md px-2 text-[13px] font-medium text-ink/80 transition-colors hover:bg-surface2 hover:text-ink disabled:pointer-events-none disabled:opacity-35; }
+  .tri-strip { background: linear-gradient(90deg, rgb(var(--brand)), rgb(var(--accent)) 55%, rgb(var(--pink))); }
   .vsep { @apply mx-1 h-5 w-px shrink-0 bg-line; }
   .panel-title { @apply text-[11px] font-semibold uppercase tracking-wider text-muted; }
   .seg { @apply inline-flex rounded-lg bg-canvas p-0.5; }

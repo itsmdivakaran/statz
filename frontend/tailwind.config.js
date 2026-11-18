@@ -7,7 +7,7 @@ export default {
     extend: {
       colors: {
         canvas: v("canvas"), surface: v("surface"), surface2: v("surface-2"), line: v("line"),
-        ink: v("ink"), muted: v("muted"), brand: v("brand"), accent: v("accent"),
+        ink: v("ink"), muted: v("muted"), brand: v("brand"), accent: v("accent"), pink: v("pink"),
         ok: v("ok"), warn: v("warn"), bad: v("bad"),
       },
       fontFamily: {
