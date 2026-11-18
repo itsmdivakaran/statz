@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "StatNext",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "identifier": "app.statnext.desktop",
   "build": {
     "frontendDist": "../frontend/dist",

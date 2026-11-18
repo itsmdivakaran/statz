@@ -11,20 +11,20 @@ Point-and-click statistics desktop app. Every result is computed by a local R an
 
 ## Download and install
 
-Latest: [v0.4.2](https://github.com/itsmdivakaran/statz/releases/tag/v0.4.2). Install [R 4.4 or later](https://cloud.r-project.org/) first (or let StatNext's setup screen take you there).
+Latest: [v0.5.0](https://github.com/itsmdivakaran/statz/releases/tag/v0.5.0). Install [R 4.4 or later](https://cloud.r-project.org/) first (or let StatNext's setup screen take you there).
 
 | Computer | Installer |
 |---|---|
-| Windows 10/11 (64-bit) | [StatNext_0.4.2_x64-setup.exe](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_x64-setup.exe) (or [.msi](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_x64_en-US.msi)) |
-| Mac, Apple silicon | [StatNext_0.4.2_aarch64.dmg](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_aarch64.dmg) |
-| Mac, Intel | [StatNext_0.4.2_x64.dmg](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_x64.dmg) |
-| Linux | [.AppImage](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_amd64.AppImage) or [.deb](https://github.com/itsmdivakaran/statz/releases/download/v0.4.2/StatNext_0.4.2_amd64.deb) |
+| Windows 10/11 (64-bit) | [StatNext_0.5.0_x64-setup.exe](https://github.com/itsmdivakaran/statz/releases/download/v0.5.0/StatNext_0.5.0_x64-setup.exe) (or [.msi](https://github.com/itsmdivakaran/statz/releases/download/v0.5.0/StatNext_0.5.0_x64_en-US.msi)) |
+| Mac, Apple silicon | [StatNext_0.5.0_aarch64.dmg](https://github.com/itsmdivakaran/statz/releases/download/v0.5.0/StatNext_0.5.0_aarch64.dmg) |
+| Mac, Intel | [StatNext_0.5.0_x64.dmg](https://github.com/itsmdivakaran/statz/releases/download/v0.5.0/StatNext_0.5.0_x64.dmg) |
+| Linux | [.AppImage](https://github.com/itsmdivakaran/statz/releases/download/v0.5.0/StatNext_0.5.0_amd64.AppImage) or [.deb](https://github.com/itsmdivakaran/statz/releases/download/v0.5.0/StatNext_0.5.0_amd64.deb) |
 
 **Windows:** double-click the `setup.exe`. If SmartScreen says "Windows protected your PC", click **More info › Run anyway** (the installer is not code-signed yet). StatNext appears in the Start menu. On first launch it finds R (from the registry or `Program Files\R`) and installs its R packages into its own library, which takes 3 to 10 minutes and needs internet.
 
 **macOS:** open the `.dmg` and drag StatNext into Applications. The build is not notarized yet, so the first time open System Settings › Privacy & Security and click **Open Anyway**.
 
-## What is in it (Phases 1–4)
+## What is in it
 
 | Area | Contents |
 |---|---|
@@ -42,7 +42,9 @@ Latest: [v0.4.2](https://github.com/itsmdivakaran/statz/releases/tag/v0.4.2). In
 | Bayesian | T-tests (one-sample, paired, independent), ANOVA (incl. repeated measures), correlation, contingency tables, linear regression, binomial test; Bayes factors with evidence labels, posterior estimates, prior/posterior, robustness and sequential plots (BayesFactor) |
 | Guide | "Which analysis should I use?": a few plain questions (or your own variables) pick the test, with alternatives and a Bayesian option, and open it ready to run |
 | Plugins | Add analyses in the same format as the built-in ones (spec.json + R file + help.md): install from a folder or .zip, update, remove, starter plugin to copy |
-| Workspace | Toolbar (open, save, undo, redo, search), labelled ribbon of analysis menus, resizable data / analysis / output panes that can each be maximized or minimized, status bar; start page with one-click worked examples and 28 example datasets |
+| Workspace | Green, blue and pink theme (light and dark); drag and drop variables between the list and role boxes (or double-click); toolbar (open, save, undo, redo, search), labelled ribbon of analysis menus, resizable data / analysis / output panes that can each be maximized or minimized, status bar; start page with one-click worked examples and 28 example datasets |
+| Interpretation | Plain-language summary under each test and model from easystats `report()` (offline, included in the R code and exports; can be turned off in Settings) |
+| AI assistant (optional, off by default) | Bring your own key: Anthropic Claude, OpenAI, Google Gemini, any OpenAI-compatible server, or Ollama on your own computer. Chat panel plus an Explain button on each result. Keys are kept in the system keychain; only result tables, summaries and your questions are sent, never data rows, and each attachment can be reviewed before sending |
 | Output | APA tables, assumption checks, auto interpretation, plots (SVG/PNG/PDF/HTML/CSV); all results to Word (.docx), PDF or HTML |
 | R code | Per analysis, editable and re-runnable; whole session exports as `.R`, `.Rmd` or `.qmd` |
 | Projects | `.statnext` = zip of manifest, UI state and `data.rds` |

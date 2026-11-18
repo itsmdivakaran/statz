@@ -18,6 +18,8 @@ pub const R_PACKAGES: &[&str] = &[
     "GPArotation", "cluster", "pROC", "metafor", "rpart", "ranger", "gbm", "glmnet", "e1071", "forecast", "tseries",
     // Phase 4: Bayesian
     "BayesFactor", "bayestestR",
+    // v0.5: plain-language summaries (easystats)
+    "report", "parameters",
 ];
 
 /// A path as R should see it: forward slashes, and without the Windows `\\?\` verbatim

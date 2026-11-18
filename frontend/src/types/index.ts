@@ -97,6 +97,8 @@ export interface AnalysisResult {
   assumptions: Check[];
   plots: Plot[];
   interpretation: { auto_generated: true; text: string } | null;
+  /** Plain-language summaries from easystats report(), one per model/test object. */
+  summary?: { object: string; text: string }[];
   notes: string[];
   warnings: string[];
   code: string;

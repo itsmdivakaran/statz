@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useAi } from "../ai/store";
 import { call, cancel, onEvent, RpcError, startBackend, ERR } from "../rpc/client";
 import type { AnalysisResult, DataInfo, Hello, ModuleSpec, Options } from "../types";
 
@@ -291,7 +292,7 @@ export const useStore = create<State>((set, get) => {
       inflight = instance;
       patchAnalysis(instance, { running: true });
       try {
-        const result = await call<AnalysisResult>("analysis.run", { module: a.module, options: a.options, instance });
+        const result = await call<AnalysisResult>("analysis.run", { module: a.module, options: a.options, instance, summaries: useAi.getState().summaries });
         if (latestRun.get(instance) !== token) return; // superseded; the newer run reports
         patchAnalysis(instance, { result, error: undefined, running: false });
       } catch (e) {

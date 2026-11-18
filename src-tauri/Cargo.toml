@@ -1,6 +1,6 @@
 [package]
 name = "statnext"
-version = "0.4.2"
+version = "0.5.0"
 description = "StatNext: point-and-click statistics with an R backend"
 authors = ["Mahesh Divakaran"]
 license = "MIT"
@@ -24,6 +24,8 @@ thiserror = "2"
 log = "0.4"
 zip = { version = "2", default-features = false, features = ["deflate"] }
 which = "7"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+keyring = { version = "3", features = ["apple-native", "windows-native", "sync-secret-service", "crypto-rust", "vendored"] }
 
 [target.'cfg(unix)'.dependencies]
 libc = "0.2"

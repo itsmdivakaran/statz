@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronDown, ChevronRight, MousePointerClick, Plus, RotateCcw, SlidersHorizontal, X } from "lucide-react";
 import { MeasureIcon } from "../app/MeasureIcon";
 import { PaneHeader } from "../app/Pane";
 import { useStore } from "../state/store";
 import type { ModuleSpec, OptionSpec, Options, RoleSpec, VariableMeta } from "../types";
+
+const FREE = "__free";
+interface Drag { name: string; from: string; x: number; y: number; over: string | null }
 
 /** Can `v` go into `role`? Mirrors the R-side check in sn_validate(). */
 export function accepts(role: RoleSpec, v: VariableMeta): boolean {
@@ -75,6 +78,57 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
   const removeFrom = (role: RoleSpec, name: string) =>
     onChange({ [role.id]: ((options[role.id] as string[]) ?? []).filter((x) => x !== name) });
 
+  // Pointer-based drag and drop (HTML5 drag events are swallowed by the desktop
+  // webview's file-drop handler): variables move between the list and role boxes.
+  const [drag, setDrag] = useState<Drag | null>(null);
+  const start = useRef<{ name: string; from: string; x: number; y: number } | null>(null);
+  const dropAt = (x: number, y: number) => (document.elementFromPoint(x, y)?.closest("[data-drop]") as HTMLElement | null)?.dataset.drop ?? null;
+  const canDrop = (target: string | null, name: string, from: string) => {
+    if (!target || target === from) return false;
+    if (target === FREE) return true;
+    const role = spec.roles.find((r) => r.id === target);
+    return !!role && !!byName[name] && accepts(role, byName[name]);
+  };
+  const onPointerDown = (name: string, from: string) => (e: React.PointerEvent) => {
+    if (e.button !== 0 || (e.target as HTMLElement).closest("button")) return;
+    start.current = { name, from, x: e.clientX, y: e.clientY };
+  };
+  useEffect(() => {
+    const move = (e: PointerEvent) => {
+      const st = start.current;
+      if (!st) return;
+      if (!drag && Math.hypot(e.clientX - st.x, e.clientY - st.y) < 4) return;
+      const over = dropAt(e.clientX, e.clientY);
+      setDrag({ name: st.name, from: st.from, x: e.clientX, y: e.clientY, over: canDrop(over, st.name, st.from) ? over : null });
+    };
+    const up = (e: PointerEvent) => {
+      const st = start.current;
+      start.current = null;
+      if (!st || !drag) return;
+      const target = dropAt(e.clientX, e.clientY);
+      setDrag(null);
+      if (!canDrop(target, st.name, st.from)) return;
+      if (target === FREE) {
+        const role = spec.roles.find((r) => r.id === st.from);
+        if (role) removeFrom(role, st.name);
+      } else {
+        const role = spec.roles.find((r) => r.id === target);
+        if (role) addTo(role, st.name);
+      }
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    return () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); };
+  });
+  const dragOk = (target: string) => !!drag && canDrop(target, drag.name, drag.from);
+  /** Double-click: send a variable to the first role that takes it and has room. */
+  const quickAdd = (name: string) => {
+    const v = byName[name];
+    const role = spec.roles.find((r) => accepts(r, v) && (r.max !== 1 || !((options[r.id] as string[]) ?? []).length))
+      ?? spec.roles.find((r) => accepts(r, v));
+    if (role) addTo(role, name);
+  };
+
   return (
     <div className="space-y-4">
       {spec.layout.map((sec) => {
@@ -84,11 +138,11 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
             <div key={sec.section} className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-3">
               <div>
                 <div className="mb-1 flex h-6 items-center text-[12px] font-semibold text-ink/80">Variables</div>
-                <ul className="h-64 overflow-auto rounded-lg border border-line bg-surface p-1 text-[13px]" aria-label="Available variables">
+                <ul data-drop={FREE} className={`h-64 overflow-auto rounded-lg border bg-surface p-1 text-[13px] transition-colors ${drag?.over === FREE ? "border-accent bg-accent/5" : dragOk(FREE) ? "border-accent/50" : "border-line"}`} aria-label="Available variables">
                   {free.map((v) => (
-                    <li key={v.name} data-var={v.name} draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", v.name)}
-                      onClick={() => setPicked(v.name)} title={v.label || v.name}
-                      className={`flex cursor-grab items-center gap-1.5 truncate rounded-md px-2 py-1 ${picked === v.name ? "bg-brand/15 text-brand" : "hover:bg-surface2"}`}>
+                    <li key={v.name} data-var={v.name} onPointerDown={onPointerDown(v.name, FREE)} onDoubleClick={() => quickAdd(v.name)}
+                      onClick={() => setPicked(v.name)} title={`${v.label || v.name} · drag to a box or double-click to add`}
+                      className={`flex cursor-grab touch-none select-none items-center gap-1.5 truncate rounded-md px-2 py-1 ${drag?.name === v.name ? "opacity-40" : ""} ${picked === v.name ? "bg-brand/15 text-brand" : "hover:bg-surface2"}`}>
                       <MeasureIcon measure={v.measure} />{v.name}
                     </li>
                   ))}
@@ -106,12 +160,12 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
                         <span className="min-w-0 text-[12px] font-semibold leading-tight text-ink/80">{role.label}</span>
                         {role.measure.length > 0 && <span className="ml-auto flex gap-1 opacity-70">{role.measure.map((m) => <MeasureIcon key={m} measure={m} />)}</span>}
                       </div>
-                      <ul data-role={role.id} aria-label={role.label}
-                        onDragOver={(e) => e.preventDefault()}
-                        onDrop={(e) => { e.preventDefault(); addTo(role, e.dataTransfer.getData("text/plain")); }}
-                        className={`min-h-9 rounded-lg border border-dashed p-1 text-sm transition-colors ${errorRole === role.id ? "border-warn bg-warn/5" : ok ? "border-brand/60 bg-brand/5" : "border-line"} ${role.max === 1 ? "" : "min-h-16"}`}>
+                      <ul data-role={role.id} data-drop={role.id} aria-label={role.label}
+                        className={`min-h-9 rounded-lg border border-dashed p-1 text-sm transition-colors ${drag?.over === role.id ? "border-solid border-brand bg-brand/10" : dragOk(role.id) ? "border-brand/60 bg-brand/5" : errorRole === role.id ? "border-warn bg-warn/5" : ok ? "border-brand/60 bg-brand/5" : "border-line"} ${role.max === 1 ? "" : "min-h-16"}`}>
+                        {cur.length === 0 && !drag && <li className="px-2 py-1 text-xs text-muted/70">Drag variables here</li>}
                         {cur.map((name) => (
-                          <li key={name} className="flex items-center justify-between rounded-md bg-surface px-2 py-1 shadow-card">
+                          <li key={name} onPointerDown={onPointerDown(name, role.id)} title="Drag to another box or back to the list"
+                            className={`flex cursor-grab touch-none select-none items-center justify-between rounded-md bg-surface px-2 py-1 shadow-card ${drag?.name === name ? "opacity-40" : ""}`}>
                             <span className="flex items-center gap-1.5"><MeasureIcon measure={byName[name]?.measure} />{name}</span>
                             <button className="text-muted hover:text-bad" aria-label={`Remove ${name}`} onClick={() => removeFrom(role, name)}><X size={13} aria-hidden="true" /></button>
                           </li>
@@ -130,6 +184,12 @@ export function Dialog({ spec, options, vars, errorRole, onChange }: DialogProps
           ))}
         </Section>;
       })}
+      {drag && (
+        <div className="pointer-events-none fixed z-[60] flex items-center gap-1.5 rounded-md border border-brand/50 bg-surface px-2 py-1 text-[13px] shadow-pop"
+          style={{ left: drag.x + 10, top: drag.y + 8 }} aria-hidden="true">
+          <MeasureIcon measure={byName[drag.name]?.measure} />{drag.name}
+        </div>
+      )}
     </div>
   );
 }

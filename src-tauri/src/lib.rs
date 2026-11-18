@@ -1,6 +1,7 @@
 //! StatNext desktop shell: finds R, sets up the private R library, supervises the
 //! R worker and exposes it to the frontend as Tauri commands.
 
+pub mod ai;
 pub mod project;
 pub mod r_bridge;
 pub mod r_detect;
@@ -138,7 +139,11 @@ pub fn run() {
             rpc_cancel,
             project_save,
             project_load,
-            open_cran
+            open_cran,
+            ai::ai_key_set,
+            ai::ai_key_status,
+            ai::ai_key_delete,
+            ai::ai_post
         ])
         .build(tauri::generate_context!())
         .expect("error while building StatNext")

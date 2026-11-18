@@ -194,7 +194,12 @@ pub fn install_hint() -> InstallHint {
 
 /// Open a CRAN page in the default browser. Only CRAN links are accepted.
 pub fn open_cran(url: &str) -> std::io::Result<()> {
-    let ok = ["https://cloud.r-project.org/", "https://cran.r-project.org/"].iter().any(|p| url.starts_with(p))
+    let ok = [
+        "https://cloud.r-project.org/", "https://cran.r-project.org/",
+        // AI provider key pages linked from Settings
+        "https://console.anthropic.com/", "https://platform.openai.com/", "https://aistudio.google.com/",
+    ]
+    .iter().any(|p| url.starts_with(p))
         && !url.chars().any(|c| c.is_whitespace() || c == '"' || c == '\'' || c == '&' || c == '|');
     if !ok {
         return Err(std::io::Error::new(std::io::ErrorKind::InvalidInput, "Only CRAN links can be opened"));

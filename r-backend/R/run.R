@@ -2,7 +2,7 @@
 # codegen -> eval exactly that code -> assemble result. The code returned to the
 # UI is the code that ran.
 
-sn_run_analysis <- function(sess, module, options, dataset = "data", instance = NULL) {
+sn_run_analysis <- function(sess, module, options, dataset = "data", instance = NULL, summaries = TRUE) {
   mod <- sn_module(sess, module)
   ds <- sn_dataset(sess, dataset)
   pkgs <- unlist(mod$spec$r$packages)
@@ -17,19 +17,57 @@ sn_run_analysis <- function(sess, module, options, dataset = "data", instance = 
   gen <- mod$codegen(o, ds$meta, ctx)
   ev <- sn_eval(gen$code, stats::setNames(list(ds$data), dataset))
   res <- gen$assemble(ev$env, o, ctx)
+  sm <- if (isTRUE(summaries)) sn_summaries(gen$code, ev$env)
+  code <- if (length(sm$code)) paste0(gen$code, "\n\n", sm$code) else gen$code
+  res$summary <- sm$items %||% list()
   res$module <- mod$spec$id
   res$module_version <- mod$spec$version
   res$title <- mod$spec$title
   res$status <- if (length(ev$warnings)) "warn" else "ok"
-  res$code <- gen$code
+  res$code <- code
   res$warnings <- as.list(ev$warnings)
   res$console <- ev$console
   res$meta <- list(r_version = paste(R.version$major, R.version$minor, sep = "."),
                    packages = sn_pkg_versions(pkgs), dataset = dataset)
   if (!is.null(instance))
-    sess$analyses[[instance]] <- list(title = mod$spec$title, code = gen$code,
-                                      result = res[c("tables", "assumptions", "plots", "interpretation")])
+    sess$analyses[[instance]] <- list(title = mod$spec$title, code = code,
+                                      result = res[c("tables", "assumptions", "plots", "interpretation", "summary")])
   res
+}
+
+# Plain-language summaries (easystats report) ------------------------------------
+# Model and test objects the generated code created get report::report() lines
+# appended to the code; only lines that ran are kept, so the code still matches.
+
+SN_REPORTABLE <- c("htest", "lm", "glm", "merMod", "BFBayesFactor")
+SN_MAX_SUMMARIES <- 6L
+
+sn_summaries <- function(code, env) {
+  if (!requireNamespace("report", quietly = TRUE)) return(NULL)
+  m <- regmatches(code, gregexpr("(?m)^[A-Za-z.][A-Za-z0-9._]* <- ", code, perl = TRUE))[[1]]
+  objs <- unique(sub(" <- $", "", m))
+  objs <- Filter(function(nm) exists(nm, envir = env, inherits = FALSE) &&
+                   inherits(get(nm, envir = env), SN_REPORTABLE), objs)
+  objs <- utils::head(objs, SN_MAX_SUMMARIES)
+  if (!length(objs)) return(NULL)
+  if (!"package:report" %in% search()) suppressPackageStartupMessages(library(report))
+  items <- list(); lines <- character()
+  for (nm in objs) {
+    out <- paste0("report_", nm)
+    line <- paste0(out, " <- report(", nm, ")")
+    ok <- tryCatch({
+      suppressWarnings(suppressMessages(utils::capture.output(eval(parse(text = line)[[1]], envir = env))))
+      TRUE
+    }, error = function(e) FALSE)
+    if (!ok) next
+    text <- trimws(paste(as.character(get(out, envir = env)), collapse = "\n"))
+    if (!nzchar(text)) next
+    lines <- c(lines, line, out)
+    items[[length(items) + 1L]] <- list(object = nm, text = text)
+  }
+  if (!length(items)) return(NULL)
+  list(code = paste(c("# Plain-language summary (easystats)", "library(report)", lines), collapse = "\n"),
+       items = items)
 }
 
 #' Context handed to codegen/assemble: dataset name and plot rendering.

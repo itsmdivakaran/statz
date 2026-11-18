@@ -1,7 +1,8 @@
 import {
   BrainCircuit, Compass, Database, FolderOpen, HeartPulse, LineChart, type LucideIcon, Moon, Network, Puzzle, Redo2, Save, Scale, Search,
-  Sigma, Stethoscope, Sun, TestTubes, TrendingUp, Undo2,
+  Settings2, Sigma, Sparkles, Stethoscope, Sun, TestTubes, TrendingUp, Undo2,
 } from "lucide-react";
+import { useAi } from "../ai/store";
 import { useEffect, useRef, useState } from "react";
 import { useStore } from "../state/store";
 import { openDataFile, saveProject } from "./actions";
@@ -85,6 +86,7 @@ function Menu({ name, label, Icon, items, empty, alignRight }: { name: string; l
 /** Top of the window: a toolbar (file actions, search, guide) above the analysis ribbon. */
 export function Ribbon({ onSearch }: { onSearch: () => void }) {
   const { theme, toggleTheme, data, setModal, undo, redo, undoStack, redoStack } = useStore();
+  const ai = useAi();
   const commands = useCommands();
   const itemsFor = (menu: string) => commands.filter((c) => c.menu === menu);
   const isMac = typeof navigator !== "undefined" && /Mac/.test(navigator.platform);
@@ -112,7 +114,12 @@ export function Ribbon({ onSearch }: { onSearch: () => void }) {
           className="flex h-8 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-brand/30 bg-brand/[0.07] px-2.5 text-[13px] font-semibold text-brand transition-colors hover:bg-brand/15">
           <Compass size={15} aria-hidden="true" /><span className="hidden md:inline">Which test?</span>
         </button>
-        <button className="tool-btn ml-1 px-1.5" onClick={toggleTheme} aria-label="Toggle theme" title="Toggle theme">
+        <button onClick={() => ai.setChatOpen(!ai.chatOpen)} title="Ask the AI assistant" aria-label="AI assistant" aria-pressed={ai.chatOpen}
+          className="ml-1.5 flex h-8 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-pink/30 bg-pink/[0.07] px-2.5 text-[13px] font-semibold text-pink transition-colors hover:bg-pink/15 aria-pressed:bg-pink/15">
+          <Sparkles size={15} aria-hidden="true" /><span className="hidden md:inline">Ask AI</span>
+        </button>
+        <button className="tool-btn ml-1 px-1.5" onClick={() => ai.setSettingsOpen(true)} aria-label="Settings" title="Settings"><Settings2 size={16} aria-hidden="true" /></button>
+        <button className="tool-btn px-1.5" onClick={toggleTheme} aria-label="Toggle theme" title="Toggle theme">
           {theme === "dark" ? <Sun size={16} aria-hidden="true" /> : <Moon size={16} aria-hidden="true" />}
         </button>
       </div>

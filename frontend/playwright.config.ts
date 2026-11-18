@@ -8,7 +8,7 @@ export default defineConfig({
   workers: 1,
   use: { baseURL: "http://localhost:5173", trace: "off" },
   webServer: [
-    { command: "node dev-bridge/server.mjs", port: 5174, reuseExistingServer: true, timeout: 60_000 },
+    { command: "node dev-bridge/server.mjs", port: 5174, reuseExistingServer: true, timeout: 60_000, env: { STATNEXT_AI_MOCK: "1" } },
     { command: "pnpm dev", port: 5173, reuseExistingServer: true, timeout: 60_000 },
   ],
 });

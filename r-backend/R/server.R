@@ -98,7 +98,7 @@ sn_dispatch <- function(sess, method, p) {
     data.load = sn_data_load(sess, p$path),
     analysis.list = lapply(unname(sess$modules), function(m) m$spec),
     analysis.help = list(markdown = sn_module(sess, p$module)$help),
-    analysis.run = sn_run_analysis(sess, p$module, p$options %||% list(), ds, p$instance),
+    analysis.run = sn_run_analysis(sess, p$module, p$options %||% list(), ds, p$instance, !isFALSE(p$summaries)),
     analysis.remove = { sess$analyses[[p$instance]] <- NULL; list(ok = TRUE) },
     code.run = sn_run_code(sess, p$code, ds),
     session.script = list(script = sn_session_script(sess, p$format %||% "R")),

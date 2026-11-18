@@ -42,6 +42,7 @@ sn_report_blocks <- function(sess, instances = NULL) {
     add(list(type = "heading", text = a$title))
     for (t in r$tables) add(sn_report_table(t, n <- n + 1L))
     for (p in r$plots) if (file.exists(p$svg)) add(list(type = "image", number = fig <- fig + 1L, title = p$title, svg = p$svg))
+    for (sm in r$summary) add(list(type = "para", text = sm$text))
     if (!is.null(r$interpretation$text)) add(list(type = "para", text = r$interpretation$text))
     for (c in r$assumptions) if (!is.null(c$message)) add(list(type = "para", text = paste0(c$test, ": ", c$message), small = TRUE))
   }

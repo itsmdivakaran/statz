@@ -38,8 +38,47 @@ r.on("exit", (code) => { console.error(`R exited (${code})`); process.exit(1); }
 
 const types = { ".svg": "image/svg+xml", ".html": "text/html", ".csv": "text/csv", ".png": "image/png", ".pdf": "application/pdf" };
 
+// AI assistant commands, same contract as src-tauri/src/ai.rs. Keys stay in this
+// process's memory (dev only). STATNEXT_AI_MOCK=1 answers without any network call.
+const aiKeys = new Map();
+const aiHeaders = (provider, key) => !key ? {} : provider === "anthropic" ? { "x-api-key": key, "anthropic-version": "2023-06-01" }
+  : provider === "gemini" ? { "x-goog-api-key": key } : { authorization: `Bearer ${key}` };
+const aiMock = (body) => {
+  const text = "**What this shows (mock reply).** Cars with manual transmissions averaged about 7 mpg more than automatics, and the difference is statistically significant (Welch t(18.3) = −3.77, p = .001) with a large effect (Cohen's d ≈ −1.48).\n\n**Caveat.** This is an observational comparison of 32 cars, so weight and engine size may explain part of the gap.";
+  return body.contents ? { candidates: [{ content: { parts: [{ text }] } }] }
+    : body.system !== undefined ? { content: [{ type: "text", text }], stop_reason: "end_turn" }
+    : { choices: [{ message: { content: text } }] };
+};
+async function aiCommand(cmd, a) {
+  switch (cmd) {
+    case "ai_key_set": aiKeys.set(a.provider, String(a.key).trim()); return null;
+    case "ai_key_status": return aiKeys.has(a.provider);
+    case "ai_key_delete": aiKeys.delete(a.provider); return null;
+    case "ai_post": {
+      if (process.env.STATNEXT_AI_MOCK === "1") return aiMock(a.body);
+      const r = await fetch(a.url, { method: "POST", headers: { "content-type": "application/json", ...aiHeaders(a.provider, aiKeys.get(a.provider)) }, body: JSON.stringify(a.body) });
+      const text = await r.text();
+      let json; try { json = JSON.parse(text); } catch { json = text; }
+      if (!r.ok) throw { code: -32001, message: `The AI service returned ${r.status}`, data: { status: r.status, body: json } };
+      return json;
+    }
+    default: throw { code: -32601, message: `Unknown command ${cmd}` };
+  }
+}
+
 http.createServer((req, res) => {
   const url = new URL(req.url, "http://localhost");
+  if (req.method === "POST" && url.pathname === "/ai") {
+    let body = "";
+    req.on("data", (c) => (body += c));
+    req.on("end", async () => {
+      const { cmd, args } = JSON.parse(body || "{}");
+      res.writeHead(200, { "content-type": "application/json" });
+      try { res.end(JSON.stringify({ result: await aiCommand(cmd, args ?? {}) })); }
+      catch (e) { res.end(JSON.stringify({ error: e.code ? e : { code: -32001, message: String(e?.message ?? e) } })); }
+    });
+    return;
+  }
   if (req.method === "POST" && url.pathname === "/rpc") {
     let body = "";
     req.on("data", (c) => (body += c));

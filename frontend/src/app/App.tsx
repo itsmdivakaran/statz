@@ -6,6 +6,8 @@ import { CommandPalette } from "./CommandPalette";
 import { Ribbon } from "./Ribbon";
 import { TransformDialog } from "../transform/TransformDialog";
 import { GuideDialog } from "../guide/GuideDialog";
+import { AiSettings } from "../ai/AiSettings";
+import { ChatPanel } from "../ai/ChatPanel";
 import { PluginManager } from "../plugins/PluginManager";
 import { Welcome } from "./Welcome";
 import { Workspace } from "./Workspace";
@@ -42,10 +44,14 @@ export function App() {
     <div className="flex h-full flex-col">
       <div className="tri-strip h-[3px] shrink-0" aria-hidden="true" />
       <Ribbon onSearch={() => setPalette(true)} />
-      {!data ? <main className="min-h-0 flex-1"><Welcome /></main> : <Workspace />}
+      <div className="flex min-h-0 flex-1">
+        <div className="flex min-w-0 flex-1 flex-col">{!data ? <main className="min-h-0 flex-1"><Welcome /></main> : <Workspace />}</div>
+        <ChatPanel />
+      </div>
       <StatusBar />
       <TransformDialog />
       <GuideDialog />
+      <AiSettings />
       <PluginManager />
       <CommandPalette open={palette} onClose={() => setPalette(false)} />
     </div>

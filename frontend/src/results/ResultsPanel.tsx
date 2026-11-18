@@ -1,9 +1,11 @@
-import { AlertTriangle, CheckCircle2, ChevronDown, ClipboardCopy, FileDown, FileText, FlaskConical, Loader2, Play, RotateCcw, Sparkles, Trash2 } from "lucide-react";
+import { AlertTriangle, BookOpenText, CheckCircle2, ChevronDown, ClipboardCopy, FileDown, FileText, FlaskConical, Loader2, MessageSquareText, Play, RotateCcw, Sparkles, Trash2 } from "lucide-react";
+import { resultContext } from "../ai/context";
+import { useAi } from "../ai/store";
 import { useEffect, useRef, useState } from "react";
 import { exportPlot, exportReport } from "../app/actions";
 import { call, fileUrl } from "../rpc/client";
 import { type Analysis, useStore } from "../state/store";
-import type { Check, Plot, Table } from "../types";
+import type { AnalysisResult, Check, Plot, Table } from "../types";
 import { fmtCell, tableToTsv } from "./format";
 import { PaneHeader } from "../app/Pane";
 
@@ -52,6 +54,9 @@ function ExportMenu({ disabled }: { disabled: boolean }) {
 export function ResultsPanel() {
   const { analyses, selected, select, removeAnalysis, specs } = useStore();
   const [tab, setTab] = useState<Tab>("output");
+  const ai = useAi();
+  const explain = (r: AnalysisResult, n: number) =>
+    ai.attach({ title: `Result ${n}: ${r.title}`, text: resultContext(r, specs[r.module]?.menu) }, "Explain these results in plain language. What should I report?");
   return (
     <section className="flex h-full min-w-0 flex-col">
       <PaneHeader id="results" Icon={FlaskConical} title="Results" compact>
@@ -81,7 +86,13 @@ export function ResultsPanel() {
               </div>
               {a.running && <span className="chip bg-brand/10 text-brand" role="status"><Loader2 size={11} className="animate-spin" aria-hidden="true" />Running…</span>}
               {a.result?.status === "warn" && <span className="chip bg-warn/15 text-warn"><AlertTriangle size={11} aria-hidden="true" />Warnings</span>}
-              <button className="btn-ghost ml-auto px-1.5 hover:text-bad" aria-label="Remove analysis" title="Remove analysis"
+              {ai.aiEnabled && a.result && (
+                <button className="ml-auto flex items-center gap-1 rounded-md border border-pink/30 bg-pink/[0.07] px-2 py-0.5 text-xs font-medium text-pink transition-colors hover:bg-pink/15"
+                  title="Explain this result with AI (you can review what is sent)" onClick={(e) => { e.stopPropagation(); explain(a.result!, i + 1); }}>
+                  <MessageSquareText size={12} aria-hidden="true" />Explain
+                </button>
+              )}
+              <button className={`btn-ghost px-1.5 hover:text-bad ${ai.aiEnabled && a.result ? "" : "ml-auto"}`} aria-label="Remove analysis" title="Remove analysis"
                 onClick={(e) => { e.stopPropagation(); removeAnalysis(a.instance); }}><Trash2 size={14} aria-hidden="true" /></button>
             </header>
             <div className={`p-4 ${a.running ? "opacity-50 transition-opacity" : ""}`}>
@@ -109,19 +120,41 @@ function AnalysisBody({ a, tab }: { a: Analysis; tab: Tab }) {
   if (tab === "code") return <CodeView code={r.code} />;
   if (tab === "assumptions") return r.assumptions.length ? <>{r.assumptions.map((c) => <CheckView key={c.id} c={c} />)}</> :
     <p className="text-sm text-muted">No assumption checks selected.</p>;
-  if (tab === "interpretation") return r.interpretation ? (
-    <div className="space-y-2.5 text-sm leading-relaxed">
-      <p className="chip bg-pink/10 text-pink"><Sparkles size={11} aria-hidden="true" />Auto-generated · check before use</p>
-      {r.interpretation.text.split("\n\n").map((p, i) => <p key={i}>{p}</p>)}
+  if (tab === "interpretation") return r.interpretation || r.summary?.length ? (
+    <div className="space-y-3 text-sm leading-relaxed">
+      <SummaryView r={r} />
+      {r.interpretation && <>
+        <p className="chip bg-pink/10 text-pink"><Sparkles size={11} aria-hidden="true" />Auto-generated · check before use</p>
+        {r.interpretation.text.split("\n\n").map((p, i) => <p key={i}>{p}</p>)}
+      </>}
     </div>) : <p className="text-sm text-muted">No interpretation for this analysis.</p>;
   return (
     <div className="space-y-4">
+      <SummaryView r={r} />
       {r.tables.map((t) => <TableView key={t.id} t={t} />)}
       {r.plots.map((p) => <PlotView key={p.id} p={p} />)}
       {r.warnings.length > 0 && (
         <ul className="list-disc pl-5 text-xs text-warn">{r.warnings.map((w) => <li key={w}>{w}</li>)}</ul>
       )}
     </div>
+  );
+}
+
+/** easystats report() text: one paragraph per model or test object. */
+function SummaryView({ r }: { r: AnalysisResult }) {
+  if (!r.summary?.length) return null;
+  const copy = () => void navigator.clipboard?.writeText(r.summary!.map((s) => s.text).join("\n\n"));
+  return (
+    <section aria-label="Plain-language summary" className="rounded-lg border border-line border-l-[3px] border-l-brand bg-gradient-to-r from-brand/[0.06] to-transparent px-3.5 py-2.5">
+      <div className="mb-1 flex items-center gap-2 text-[12px] font-semibold text-brand">
+        <BookOpenText size={13} aria-hidden="true" />Plain-language summary
+        <span className="font-normal text-muted">· easystats report()</span>
+        <button className="btn-ghost ml-auto px-1.5 py-0.5 text-xs font-normal" onClick={copy} title="Copy summary"><ClipboardCopy size={12} aria-hidden="true" />Copy</button>
+      </div>
+      <div className="space-y-1.5 text-[13px] leading-relaxed">
+        {r.summary.map((s) => s.text.split(/\n{2,}/).map((p, i) => <p key={`${s.object}-${i}`} className="whitespace-pre-line">{p}</p>))}
+      </div>
+    </section>
   );
 }
 

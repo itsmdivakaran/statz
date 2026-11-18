@@ -45,7 +45,7 @@ input[type="checkbox"] { accent-color: rgb(var(--brand)); }
 @layer components {
   .card { @apply rounded-xl border border-line bg-surface shadow-card; }
   .btn { @apply inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface px-2.5 py-1 text-sm font-medium transition-colors hover:bg-surface2 disabled:opacity-40; }
-  .btn-primary { @apply inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-brand to-accent px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-110; }
+  .btn-primary { @apply inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-brand to-accent px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:brightness-110 disabled:pointer-events-none disabled:opacity-40; }
   .btn-ghost { @apply inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm text-muted transition-colors hover:bg-surface2 hover:text-ink; }
   .field { @apply rounded-lg border border-line bg-surface px-2 py-1 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20; }
   .pane-btn { @apply flex h-6 w-6 items-center justify-center rounded text-muted transition-colors hover:bg-surface2 hover:text-ink; }
