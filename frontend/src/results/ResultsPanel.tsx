@@ -193,7 +193,7 @@ function CheckView({ c }: { c: Check }) {
 
 function PlotView({ p }: { p: Plot }) {
   const [src, setSrc] = useState<{ svg: string; html: string | null } | null>(null);
-  const [interactive, setInteractive] = useState(true);
+  const [interactive, setInteractive] = useState(false);
   useEffect(() => {
     void Promise.all([fileUrl(p.svg), p.html ? fileUrl(p.html) : Promise.resolve(null)]).then(([svg, html]) => setSrc({ svg, html }));
   }, [p.svg, p.html]);
