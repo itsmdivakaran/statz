@@ -11,3 +11,6 @@ r-backend/tests/testthat/_snaps/
 frontend/test-results/
 frontend/playwright-report/
 src-tauri/gen/
+
+# Personal notes
+HANDBOOK.md
