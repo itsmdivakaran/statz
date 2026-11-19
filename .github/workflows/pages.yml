@@ -2,7 +2,7 @@ name: Website
 
 on:
   push:
-    branches: [dev, main]
+    branches: [dev]
     paths: ["site/**", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
