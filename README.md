@@ -13,14 +13,14 @@ Website and user guide: <https://itsmdivakaran.github.io/statz/>
 
 ## Download and install
 
-Latest: [v0.5.2](https://github.com/itsmdivakaran/statz/releases/tag/v0.5.2). Install [R 4.4 or later](https://cloud.r-project.org/) first (or let StatNext's setup screen take you there).
+Latest: [v0.5.3](https://github.com/itsmdivakaran/statz/releases/tag/v0.5.3). Install [R 4.4 or later](https://cloud.r-project.org/) first (or let StatNext's setup screen take you there).
 
 | Computer | Installer |
 |---|---|
-| Windows 10/11 (64-bit) | [StatNext_0.5.2_x64-setup.exe](https://github.com/itsmdivakaran/statz/releases/download/v0.5.2/StatNext_0.5.2_x64-setup.exe) (or [.msi](https://github.com/itsmdivakaran/statz/releases/download/v0.5.2/StatNext_0.5.2_x64_en-US.msi)) |
-| Mac, Apple silicon | [StatNext_0.5.2_aarch64.dmg](https://github.com/itsmdivakaran/statz/releases/download/v0.5.2/StatNext_0.5.2_aarch64.dmg) |
-| Mac, Intel | [StatNext_0.5.2_x64.dmg](https://github.com/itsmdivakaran/statz/releases/download/v0.5.2/StatNext_0.5.2_x64.dmg) |
-| Linux | [.AppImage](https://github.com/itsmdivakaran/statz/releases/download/v0.5.2/StatNext_0.5.2_amd64.AppImage) or [.deb](https://github.com/itsmdivakaran/statz/releases/download/v0.5.2/StatNext_0.5.2_amd64.deb) |
+| Windows 10/11 (64-bit) | [StatNext_0.5.3_x64-setup.exe](https://github.com/itsmdivakaran/statz/releases/download/v0.5.3/StatNext_0.5.3_x64-setup.exe) (or [.msi](https://github.com/itsmdivakaran/statz/releases/download/v0.5.3/StatNext_0.5.3_x64_en-US.msi)) |
+| Mac, Apple silicon | [StatNext_0.5.3_aarch64.dmg](https://github.com/itsmdivakaran/statz/releases/download/v0.5.3/StatNext_0.5.3_aarch64.dmg) |
+| Mac, Intel | [StatNext_0.5.3_x64.dmg](https://github.com/itsmdivakaran/statz/releases/download/v0.5.3/StatNext_0.5.3_x64.dmg) |
+| Linux | [.AppImage](https://github.com/itsmdivakaran/statz/releases/download/v0.5.3/StatNext_0.5.3_amd64.AppImage) or [.deb](https://github.com/itsmdivakaran/statz/releases/download/v0.5.3/StatNext_0.5.3_amd64.deb) |
 
 **Windows:** double-click the `setup.exe`. If SmartScreen says "Windows protected your PC", click **More info › Run anyway** (the installer is not code-signed yet). StatNext appears in the Start menu. On first launch it finds R (from the registry or `Program Files\R`) and installs its R packages into its own library, which takes 3 to 10 minutes and needs internet.
 

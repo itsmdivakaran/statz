@@ -28,7 +28,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+        run: |
+          # fall back from the Azure apt mirror when it is unreachable
+          echo "http://archive.ubuntu.com/ubuntu/	priority:1" | sudo tee /etc/apt/apt-mirrors.txt >/dev/null
+          sudo apt-get -o Acquire::Retries=5 update
+          sudo apt-get -o Acquire::Retries=5 install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
       - uses: pnpm/action-setup@v4
         with:
           version: 10
@@ -89,7 +93,7 @@ jobs:
             **macOS:** this build is not notarized yet. The first time, macOS blocks it: open System Settings › Privacy & Security and click **Open Anyway**.
             **Windows:** if SmartScreen appears, click **More info › Run anyway**.
           releaseDraft: false
-          prerelease: true
+          prerelease: false
           args: ${{ matrix.args }}
       # Intel Mac build on the same runner: a second macOS job often waits for a runner until it is cancelled.
       - if: runner.os == 'macOS'
@@ -101,5 +105,5 @@ jobs:
           tagName: v__VERSION__
           releaseName: StatNext v__VERSION__
           releaseDraft: false
-          prerelease: true
+          prerelease: false
           args: --target x86_64-apple-darwin
