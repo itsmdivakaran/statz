@@ -1,0 +1,381 @@
+# Traits and Generics
+
+Traits are how Rust does polymorphism. Generics give you static dispatch (zero runtime cost). Trait objects (`dyn Trait`) give you dynamic dispatch (one vtable lookup). Traits are not Java/C# interfaces in the way that matters most: there is no runtime cost by default.
+
+## Methods and Constructors: Inherent `impl`
+
+Before traits: a type's own methods live in an `impl` block with no trait name. Methods take `self` in one of its forms; functions without a `self` are *associated functions*, called with `Type::name(...)`, and the conventional constructor is one of them.
+
+```rust
+pub struct Account { id: u64, balance: i64 }
+
+impl Account {
+    pub fn new(id: u64) -> Self {             // associated function: Account::new(1)
+        Self { id, balance: 0 }
+    }
+    pub fn deposit(&mut self, amount: i64) {  // method: account.deposit(5)
+        self.balance += amount;
+    }
+    pub fn balance(&self) -> i64 { self.balance }
+}
+```
+
+The Book is explicit that "`new` isn't a special name and isn't built into the language" - it is convention, so add other constructors freely (`with_capacity`, `from_file`). Rust has no constructor overloading; when a type has many optional settings, use a builder or `Default` plus struct-update syntax (`Config { verbose: true, ..Default::default() }`).
+
+## Defining and Implementing a Trait
+
+```rust
+trait Greet {
+    fn hello(&self) -> String;
+
+    // Default method body - implementors can override
+    fn loud_hello(&self) -> String {
+        self.hello().to_uppercase()
+    }
+}
+
+struct Cat;
+
+impl Greet for Cat {
+    fn hello(&self) -> String {
+        "meow".into()
+    }
+}
+```
+
+## Three Ways to Use a Trait in a Function
+
+```rust
+// 1. Generic with a trait bound (monomorphized, static dispatch)
+fn greet1<T: Greet>(x: T) {
+    println!("{}", x.hello());
+}
+
+// 2. impl Trait sugar (same as above, less verbose, only one type per call site)
+fn greet2(x: impl Greet) {
+    println!("{}", x.hello());
+}
+
+// 3. Trait object (dynamic dispatch, one vtable lookup per call)
+fn greet3(x: &dyn Greet) {
+    println!("{}", x.hello());
+}
+```
+
+| Form | Dispatch | Code size | When to use |
+|---|---|---|---|
+| `<T: Trait>` | Static (monomorphized) | Larger (one copy per type) | The default for library code |
+| `impl Trait` | Static (monomorphized) | Larger | Same as above; cleaner for one trait bound |
+| `&dyn Trait` / `Box<dyn Trait>` | Dynamic (vtable) | Smaller, one copy | Heterogeneous collections, plugin-like APIs, when you need to store mixed types |
+
+### `impl Trait` in return position
+
+As a *return* type, `impl Trait` means something different: the function picks one concrete type and hides its name. That is how you return an iterator chain or a closure, whose real types you cannot write:
+
+```rust
+fn evens(xs: &[i32]) -> impl Iterator<Item = i32> {
+    xs.iter().copied().filter(|n| n % 2 == 0)
+}
+
+fn make_adder(n: i32) -> impl Fn(i32) -> i32 {
+    move |x| x + n
+}
+```
+
+It is still exactly one type: returning a `Vec` iterator from one branch and a `HashSet` iterator from another does not compile - that is a job for `Box<dyn Iterator>`. Edition 2024 changed what the hidden type may borrow: "all in-scope generic parameters, including lifetime parameters, are implicitly captured", which is why `evens` needs no `+ '_`. When that over-captures (the returned value does not actually borrow the input, but callers cannot drop the input while holding it), narrow it with a precise capture list: `-> impl Iterator<Item = usize> + use<>`.
+
+### When you actually need `dyn Trait`
+
+```rust
+// Cannot use generics: Vec needs a single concrete type
+let animals: Vec<Box<dyn Greet>> = vec![
+    Box::new(Cat),
+    Box::new(Dog),
+];
+
+for a in &animals {
+    println!("{}", a.hello());
+}
+```
+
+If your collection is homogeneous (all the same type), use a generic. If it is heterogeneous, you need `dyn`.
+
+### Dyn compatibility (object safety)
+
+Not every trait can be used as `dyn Trait`. A trait must be *dyn compatible* - the rule was called *object safety* before Rust 1.83, and the compiler's `E0038` error and current docs now say "dyn compatible." Common reasons a trait is not dyn compatible:
+- A method returns `Self` (e.g., `Clone`).
+- A method is generic (`fn f<T>(&self, x: T)`).
+- A method has no `&self`/`&mut self`/`self` receiver.
+
+If you hit this, either redesign the trait or use a generic instead.
+
+## Trait Bounds and `where` Clauses
+
+```rust
+fn print_all<T>(xs: &[T]) where T: std::fmt::Display {
+    for x in xs {
+        println!("{x}");
+    }
+}
+
+// Multiple bounds with +
+fn print_and_clone<T: std::fmt::Display + Clone>(x: &T) {
+    println!("{x}");
+    let _y = x.clone();
+}
+```
+
+Use `where` when bounds get long; it improves readability:
+
+```rust
+fn complex<T, U>(t: T, u: U) -> Vec<T>
+where
+    T: Clone + std::fmt::Debug,
+    U: IntoIterator<Item = T>,
+{
+    u.into_iter().collect()
+}
+```
+
+## Common Derive Macros
+
+`#[derive(...)]` auto-implements traits when the implementation is mechanical. The ones you will use constantly:
+
+```rust
+#[derive(
+    Debug,         // {:?} formatting
+    Clone,         // .clone() (deep copy)
+    Copy,          // implicit-copy semantics (must also derive Clone; only for plain-data types)
+    PartialEq, Eq, // == and !=
+    Hash,          // for HashMap/HashSet keys
+    PartialOrd, Ord, // < <= > >=
+    Default,       // T::default()
+)]
+pub struct User {
+    pub id: u64,
+    pub email: String,
+}
+
+// With serde:
+#[derive(serde::Serialize, serde::Deserialize)]
+pub struct Payload { /* ... */ }
+
+// With thiserror:
+#[derive(thiserror::Error, Debug)]
+pub enum MyError { /* ... */ }
+```
+
+Default these on every public struct unless you have a reason not to: `Debug`, `Clone`. Add `PartialEq` and `Eq` if you compare instances. Add `Hash` if you use them as map/set keys. `Copy` only for small types of POD shape (no allocations, no `Drop`).
+
+## `From`, `Into`, `TryFrom`, `TryInto`
+
+These four traits are how Rust handles type conversions. Implement `From` and you get `Into` for free.
+
+```rust
+struct UserId(u64);
+
+impl From<u64> for UserId {
+    fn from(n: u64) -> Self { UserId(n) }
+}
+
+let id: UserId = 42.into();         // uses From above
+let id = UserId::from(42);          // same thing
+
+// Fallible version
+impl TryFrom<&str> for UserId {
+    type Error = std::num::ParseIntError;
+    fn try_from(s: &str) -> Result<Self, Self::Error> {
+        Ok(UserId(s.parse()?))
+    }
+}
+
+let id: UserId = "42".try_into()?;
+```
+
+This is also how `?` converts error types: `?` calls `.into()` on the inner error, which uses your `From` impls.
+
+## `Display` and `Debug`
+
+Two ways to format a value as a string. They have different audiences.
+
+```rust
+use std::fmt;
+
+struct Money { cents: i64 }
+
+// Debug: developer-facing, "{:?}" or "{:#?}", usually #[derive(Debug)]
+impl fmt::Debug for Money {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Money({})", self.cents)
+    }
+}
+
+// Display: user-facing, "{}", explicit impl
+impl fmt::Display for Money {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "${}.{:02}", self.cents / 100, self.cents.abs() % 100)
+    }
+}
+```
+
+Derive `Debug` always. Implement `Display` when there is a single, obvious string representation users should see.
+
+## Blanket Implementations
+
+A trait can be `impl`'d for any type satisfying some bound. The standard library does this constantly:
+
+```rust
+// In std: impl<T: Display> ToString for T { ... }
+// So every Display type automatically gets .to_string()
+
+let s: String = 42.to_string();       // works because i32: Display
+```
+
+Blanket impls are how `Into` exists for free when you write `From`, how iterator combinators work for any `Iterator`, etc.
+
+## The Orphan Rule
+
+You can `impl YourTrait for SomeoneElsesType`, or `impl SomeoneElsesTrait for YourType`, but not both foreign. This is the orphan rule. It exists so that two crates cannot independently implement the same foreign trait for the same foreign type and conflict at link time.
+
+Workaround when you need to implement a foreign trait for a foreign type: wrap the foreign type in your own newtype.
+
+```rust
+struct MyVec(Vec<i32>);
+
+impl std::fmt::Display for MyVec {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "MyVec({:?})", self.0)
+    }
+}
+```
+
+The newtype pattern is also how you add type safety to primitives:
+
+```rust
+struct UserId(u64);
+struct OrderId(u64);
+
+fn lookup(id: UserId) { /* ... */ }
+// lookup(OrderId(5))   // compile error - good
+```
+
+## Iterator Trait
+
+`Iterator` is the most-used trait in Rust. It has one required method (`next`) and dozens of provided combinators (`map`, `filter`, `collect`, etc.).
+
+```rust
+let total: i32 = (1..=10)
+    .filter(|n| n % 2 == 0)
+    .map(|n| n * n)
+    .sum();
+```
+
+You implement `Iterator` for your own types when they are sequences:
+
+```rust
+struct Counter { n: u32 }
+
+impl Iterator for Counter {
+    type Item = u32;
+    fn next(&mut self) -> Option<Self::Item> {
+        self.n += 1;
+        if self.n <= 5 { Some(self.n) } else { None }
+    }
+}
+```
+
+The adapters that replace most hand-written index loops:
+
+```rust
+let v = vec![3, 1, 4, 1, 5];
+for (i, x) in v.iter().enumerate() {}            // instead of for i in 0..v.len()
+let pairs: Vec<_> = v.iter().zip(&v[1..]).collect(); // walk two sequences together
+let has_big = v.iter().any(|&x| x > 4);           // also: all
+let first_one = v.iter().position(|&x| x == 1);   // Option<usize>; find gives the item
+let total = v.iter().fold(0, |acc, x| acc + x);   // general reduce
+for x in v.iter().rev() {}                        // backwards
+```
+
+**Sorting.** `v.sort()` needs `Ord`; `sort_by_key(|u| u.age)` sorts by a derived key, and `sort_unstable` is faster when equal elements may swap. Floats are not `Ord` - `NaN` makes `partial_cmp` return `None` - so `vec_of_f64.sort()` fails with "the trait `Ord` is not implemented for `f64`". Use `v.sort_by(|a, b| a.total_cmp(b))`, which gives every float, including `NaN`, a fixed place.
+
+`for x in collection` desugars to `let mut iter = collection.into_iter(); while let Some(x) = iter.next()`. Three iter methods you must distinguish:
+
+| Method | Yields | When |
+|---|---|---|
+| `iter()` | `&T` | Read-only iteration |
+| `iter_mut()` | `&mut T` | Modify in place |
+| `into_iter()` | `T` (consumes the collection) | Move items out |
+
+## Closures and the `Fn` Traits
+
+A closure is an anonymous function that can capture its environment. You write them constantly - every `.map(|x| ...)` is one - and they are ordinary values with ordinary trait bounds. There are three traits, and which one a closure implements is decided by what it *does* with what it captured, not by how you wrote it:
+
+| Bound | The closure... | Callable |
+|---|---|---|
+| `Fn` | only reads its captures | many times, from a `&self` |
+| `FnMut` | mutates its captures | many times, needs `&mut` access |
+| `FnOnce` | consumes its captures (moves something out) | exactly once |
+
+They nest: every `Fn` is also an `FnMut` and an `FnOnce`. So take the loosest bound your function actually needs - `FnOnce` for something you call one time, `Fn` when you will call it repeatedly from shared state.
+
+```rust
+fn call_twice(f: impl Fn(i32) -> i32) -> i32 { f(1) + f(2) }
+fn consume(f: impl FnOnce() -> String) -> String { f() }
+
+let factor = 3;
+call_twice(|x| x * factor);          // Fn: only reads `factor`
+
+let mut log = Vec::new();
+let mut record = |x| log.push(x);    // FnMut: mutates `log`
+record(1);
+
+let owned = String::from("hi");
+consume(move || owned);              // FnOnce: moves `owned` out
+```
+
+`move` forces the closure to take ownership of everything it captures rather than borrowing. You need it whenever the closure outlives the current scope - `thread::spawn`, `tokio::spawn`, anything stored in a struct - which is why those signatures also demand `'static`. Note `move` and `FnOnce` are unrelated: a `move` closure that only reads its captures is still `Fn`.
+
+When a trait has one method and no state, a closure is usually the better abstraction than the trait - see the anti-patterns below.
+
+## Common Standard Library Traits to Know
+
+| Trait | What it represents |
+|---|---|
+| `Clone` | `.clone()` deep copy |
+| `Copy` | Implicit bitwise copy on assignment (must also be `Clone`) |
+| `Debug` | `{:?}` formatting |
+| `Display` | `{}` formatting (user-facing) |
+| `Default` | `T::default()` |
+| `From<T>` / `Into<T>` | Conversion between types |
+| `PartialEq` / `Eq` | `==` |
+| `PartialOrd` / `Ord` | `<`, `<=`, `>`, `>=` |
+| `Hash` | Map/set keys |
+| `Iterator` | Sequence with `.next()` |
+| `IntoIterator` | "Can be turned into an iterator" - powers `for` loops |
+| `Drop` | Custom cleanup when value goes out of scope |
+| `Deref` / `DerefMut` | Custom `*` and method-call autoderef (for smart-pointer-like types only) |
+| `AsRef<T>` / `AsMut<T>` | Cheap reference-to-reference conversion (e.g., `Path: AsRef<OsStr>`) |
+| `Borrow<T>` | Like `AsRef`, with stricter equality/hash guarantees (used by `HashMap::get`) |
+
+## Generics: Type, Lifetime, and Const
+
+```rust
+fn count<T>(xs: &[T]) -> usize { xs.len() }                    // type generic
+fn first<'a>(xs: &'a [i32]) -> &'a i32 { &xs[0] }              // lifetime generic
+fn sum<const N: usize>(xs: [i32; N]) -> i32 { xs.iter().sum() } // const generic
+```
+
+You will mostly write type generics. Lifetime generics show up when you store references in structs or return references that depend on inputs. Const generics let you parameterize over compile-time values like array sizes; useful for fixed-size buffers and SIMD.
+
+## When to Reach For Generics vs Trait Objects
+
+- **Library code, performance-sensitive paths**: generics. Static dispatch, inlining, no heap allocation.
+- **Heterogeneous collections, plugin systems, runtime-determined behavior**: trait objects (`Box<dyn Trait>`).
+- **You think you need generics but only have one or two implementors**: just use a concrete type or an enum.
+
+## Anti-Patterns
+
+- **Single-method traits that should be closures.** If a trait has one method and no state, `Fn(...)` or `FnMut(...)` or `FnOnce(...)` may be the better abstraction.
+- **`Deref` for inheritance simulation.** `Deref` is for smart-pointer-like wrappers (`Box`, `Rc`, `MutexGuard`) where the wrapper "is-a" pointer to the inner type. It is not a way to "extend" a struct.
+- **Excessive generic parameters.** Two or three type parameters is normal. Five or more usually means a design that is too abstract.
+- **Trait + always one impl.** A trait with one implementor is just an interface for nothing. Inline it until you have a second use case.
