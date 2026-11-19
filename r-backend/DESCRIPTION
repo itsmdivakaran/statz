@@ -1,6 +1,6 @@
 Package: statnextr
 Title: R Backend for the StatNext Desktop Statistics App
-Version: 0.5.1
+Version: 0.5.2
 Authors@R: c(
     person("Mahesh", "Divakaran", email = "itsmdivakaran@users.noreply.github.com",
       role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3488-0857")),

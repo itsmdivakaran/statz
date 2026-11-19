@@ -26,8 +26,8 @@ authors:
   - given-names: Prasanth
     family-names: "V P"
     orcid: "https://orcid.org/0009-0005-8660-0035"
-version: 0.5.1
-date-released: 2026-11-18
+version: 0.5.2
+date-released: 2026-11-19
 license: GPL-3.0-or-later
 repository-code: "https://github.com/itsmdivakaran/statz"
 url: "https://itsmdivakaran.github.io/statz/"
