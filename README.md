@@ -115,7 +115,7 @@ On first launch the app installs missing R packages into a private library from 
 
 ## Credits
 
-Authors: Mahesh Divakaran ([ORCID](https://orcid.org/0000-0002-3488-0857)), Prof. Dr. Jayadevan Sreedharan ([ORCID](https://orcid.org/0000-0001-5350-2408)), Dr. Rasin R S ([ORCID](https://orcid.org/0000-0002-8393-5869)), Rakesh Podhuval, Dr. Rahul T, Prashanth V P.
+Authors: Mahesh Divakaran ([ORCID](https://orcid.org/0000-0002-3488-0857)), Prof. Dr. Jayadevan Sreedharan ([ORCID](https://orcid.org/0000-0001-5350-2408)), Dr. Rasin R S ([ORCID](https://orcid.org/0000-0002-8393-5869)), Rakesh Podhuval, Dr. Rahul Thekkedath ([ORCID](https://orcid.org/0000-0003-0757-8473)), Prasanth V P ([ORCID](https://orcid.org/0009-0005-8660-0035)).
 
 ## Cite
 

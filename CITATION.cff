@@ -21,9 +21,11 @@ authors:
   - given-names: Rakesh
     family-names: "Podhuval"
   - given-names: Rahul
-    family-names: "T"
-  - given-names: Prashanth
+    family-names: "Thekkedath"
+    orcid: "https://orcid.org/0000-0003-0757-8473"
+  - given-names: Prasanth
     family-names: "V P"
+    orcid: "https://orcid.org/0009-0005-8660-0035"
 version: 0.5.1
 date-released: 2026-11-18
 license: GPL-3.0-or-later

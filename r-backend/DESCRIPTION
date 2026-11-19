@@ -9,8 +9,10 @@ Authors@R: c(
     person("Rasin", "R S", role = "aut",
       comment = c(ORCID = "0000-0002-8393-5869")),
     person("Rakesh", "Podhuval", role = "aut"),
-    person("Rahul", "T", role = "aut"),
-    person("Prashanth", "V P", role = "aut"))
+    person("Rahul", "Thekkedath", role = "aut",
+      comment = c(ORCID = "0000-0003-0757-8473")),
+    person("Prasanth", "V P", role = "aut",
+      comment = c(ORCID = "0009-0005-8660-0035")))
 Description: JSON-RPC server, analysis module registry, code generation runner,
     data import and result formatting used by the StatNext desktop application.
     Every analysis is generated as plain R code, evaluated, and returned with that
