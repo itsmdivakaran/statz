@@ -6,18 +6,23 @@
     {
       "name": "Divakaran, Mahesh",
       "orcid": "0000-0002-3488-0857"
-    }
-  ],
-  "contributors": [
+    },
     {
       "name": "Sreedharan, Jayadevan",
-      "orcid": "0000-0001-5350-2408",
-      "type": "ProjectMember"
+      "orcid": "0000-0001-5350-2408"
     },
     {
       "name": "R S, Rasin",
-      "orcid": "0000-0002-8393-5869",
-      "type": "ProjectMember"
+      "orcid": "0000-0002-8393-5869"
+    },
+    {
+      "name": "Podhuval, Rakesh"
+    },
+    {
+      "name": "T, Rahul"
+    },
+    {
+      "name": "V P, Prashanth"
     }
   ],
   "license": "GPL-3.0-or-later",

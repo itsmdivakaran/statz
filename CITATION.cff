@@ -10,8 +10,20 @@ abstract: >-
   package and results include plain-language summaries from easystats.
 authors:
   - given-names: Mahesh
-    family-names: Divakaran
+    family-names: "Divakaran"
     orcid: "https://orcid.org/0000-0002-3488-0857"
+  - given-names: Jayadevan
+    family-names: "Sreedharan"
+    orcid: "https://orcid.org/0000-0001-5350-2408"
+  - given-names: Rasin
+    family-names: "R S"
+    orcid: "https://orcid.org/0000-0002-8393-5869"
+  - given-names: Rakesh
+    family-names: "Podhuval"
+  - given-names: Rahul
+    family-names: "T"
+  - given-names: Prashanth
+    family-names: "V P"
 version: 0.5.1
 date-released: 2026-11-18
 license: GPL-3.0-or-later
